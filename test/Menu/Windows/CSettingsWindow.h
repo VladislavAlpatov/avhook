@@ -22,8 +22,8 @@ private:
 		BoxEspSetting& boxEspSettings, CLabelEspSettings& labelEspSettings,
 		BarEspSettings& barEspSettings, CRadarSettings& radarSettings);
 
-	inline void DrawMiscConfiguration(MiscSettings& miscSettings);
-	inline void DrawMenuConfiguration(SAllSettings* pAllSettings);
+	inline void DrawMisceleniusConfiguration(MiscSettings& miscSettings);
+	inline void DrawMenuAndCfgConfiguration(SAllSettings* pAllSettings);
 	bool IsPathEndWith(const char* path, const char* end)
 	{
 		if (strlen(path) <= strlen(end))

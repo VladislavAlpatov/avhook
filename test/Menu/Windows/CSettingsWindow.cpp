@@ -129,10 +129,10 @@ void CSettingsWindow::Render()
 				m_pAllSettings->m_RadarSettings);
 			break;
 		case TAB::Misc:
-			DrawMiscConfiguration(m_pAllSettings->m_MsicSettings);
+			DrawMisceleniusConfiguration(m_pAllSettings->m_MsicSettings);
 			break;
 		case TAB::Menu:
-			DrawMenuConfiguration(m_pAllSettings);
+			DrawMenuAndCfgConfiguration(m_pAllSettings);
 			break;
 
 		}
@@ -148,9 +148,9 @@ void CSettingsWindow::DrawVisualsConfiguration(SnapLinesSettings& snapLinesSetti
 {
 	ImGui::SetWindowSize(ImVec2(555, 500));
 
-	POLY_MARKER
+	POLY_MARKER;
 
-		ImGui::Image(m_pTexureEspIcon, ImVec2(16, 16));
+	ImGui::Image(m_pTexureEspIcon, ImVec2(16, 16));
 	ImGui::SameLine();
 	ImGui::Text(xorstr("Extra Sensory Perception"));
 
@@ -171,9 +171,9 @@ void CSettingsWindow::DrawVisualsConfiguration(SnapLinesSettings& snapLinesSetti
 		ImGui::EndChild();
 	}
 
-	POLY_MARKER
+	POLY_MARKER;
 
-		ImGui::SameLine();
+	ImGui::SameLine();
 	ImGui::BeginChild(xorstr("###Boxes"), ImVec2(170, 145), true);
 	{
 		ImGui::Text(xorstr("Box ESP"));
@@ -225,10 +225,6 @@ void CSettingsWindow::DrawVisualsConfiguration(SnapLinesSettings& snapLinesSetti
 		ImGui::SameLine();
 		ImGui::Checkbox(xorstr("Health bar"), &barEspSettings.m_bDrawHealthBar);
 
-#ifndef _DEBUG
-		Marker::PolyMarker();
-#endif // DEBUG
-
 		ImGui::ColorEdit4(xorstr("###ArmorBarColor"), (float*)&barEspSettings.m_ArmorColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
 		ImGui::Checkbox(xorstr("Armor bar"), &barEspSettings.m_bDrawArmorBar);
@@ -250,217 +246,7 @@ void CSettingsWindow::DrawVisualsConfiguration(SnapLinesSettings& snapLinesSetti
 		ImGui::EndChild();
 	}
 }
-
-void CSettingsWindow::DrawMiscConfiguration(MiscSettings& miscSettings)
+void DrawMisceleniusConfiguration(MiscSettings& miscSettings)
 {
 
-	ImGui::Image(m_pTexureMiscIcon, ImVec2(16, 16));
-	ImGui::SameLine();
-	ImGui::Text(xorstr("Miscellaneous settings"));
-
-	ImGui::BeginChild(xorstr("###Killsound"), ImVec2(160, 100), true, m_iImGuiStyle);
-	{
-		ImGui::Text(xorstr("Killsound"));
-		ImGui::Checkbox(xorstr("Active###AK"), &miscSettings.m_bKillSound);
-		DrawInputTextWithTextOnBackGround(xorstr("###KillsoundPath"), xorstr("<File Path>"), miscSettings.killSoundPath, 100);
-
-		if (miscSettings.killSoundPath[0] == NULL)
-		{
-			ImGui::Text(xorstr("Killsound: Default"));
-		}
-		else
-		{
-			std::ifstream f(miscSettings.killSoundPath);
-
-			if (f.good() and IsPathEndWith(miscSettings.killSoundPath, xorstr(".wav")))
-				ImGui::TextColored(ImColor(0, 255, 0), xorstr("Killsound: Custom"));
-			else
-				ImGui::TextColored(ImColor(255, 0, 0), xorstr("Killsound: Invalid"));
-		}
-
-		ImGui::EndChild();
-	}
-
-	ImGui::Checkbox(xorstr("Bunny hop"), &GlobalVars::settings.m_BunnyHopSettings.m_bActive);
-	DrawToolTip(xorstr("Provide an automatic bunny hop.\n\nNote: Use to gain more speed than 250 hu/s."));
-
-	if (GlobalVars::client->pLocalPlayer)
-		ImGui::SliderInt(xorstr("FOV"), &GlobalVars::client->pLocalPlayer->m_iDefaultFOV, 1, 120);
-}
-void CSettingsWindow::DrawMenuConfiguration(SAllSettings* pAllSettings)
-{
-	ImGui::SetWindowSize(ImVec2(555, 450));
-	
-	ImGui::Text(xorstr("Menu configuration"));
-	ImGui::BeginChild(xorstr("###FeatureCfg"), ImVec2(180, 80), true, m_iImGuiStyle);
-	{
-		ImGui::Text(xorstr("Feature Config Section"));
-
-		DrawInputTextWithTextOnBackGround(xorstr("###Fname"), xorstr("<Config name>"), pAllSettings->m_sName, 32);
-		if (ImGui::Button(xorstr("Import###fi")))
-		{
-			Config cfg;
-			auto succes = Config::LoadConfigFile(pAllSettings->m_sName, &cfg);
-			if (succes)
-			{
-				strcpy_s<32>(pAllSettings->m_sName, cfg.m_sName);
-				*pAllSettings = cfg.m_Settings;
-			}
-		}
-		ImGui::SameLine();
-		if (ImGui::Button(xorstr("Export###fb")))
-		{
-			Config cfgOnSave = Config(pAllSettings->m_sName, pAllSettings);
-			cfgOnSave.DumpConfigFile(pAllSettings->m_sName);
-		}
-		ImGui::EndChild();
-	}
-	ImGui::BeginChild(xorstr("###VisualCfg"), ImVec2(180, 80), true, m_iImGuiStyle);
-	{
-		ImGui::Text(xorstr("Menu Config Section"));
-
-		DrawInputTextWithTextOnBackGround(xorstr("###Vaname"), xorstr("<Config name>"), m_pMenuCfgName, 32);
-
-
-		if (ImGui::Button(xorstr("Import###fin")))
-		{
-			std::ifstream file(std::string(m_pMenuCfgName) + xorstr(".avmcfg"), std::ios::binary);
-			file.read((char*)ImGui::GetStyle().Colors, 52 * sizeof(ImVec4));
-			file.close();
-		}
-		ImGui::SameLine();
-		if (ImGui::Button(xorstr("Export###fex")))
-		{
-			std::ofstream file(std::string(m_pMenuCfgName) + xorstr(".avmcfg"), std::ios::binary);
-			file.write((const char*)ImGui::GetStyle().Colors, 52 * sizeof(ImVec4));
-			file.close();
-		}
-		ImGui::EndChild();
-	}
-	ImGui::BeginChild(xorstr("###MiscCfg"), ImVec2(180, 112), true, m_iImGuiStyle);
-	{
-		ImGui::Text(xorstr("Misc Settings"));
-
-		ImGui::Checkbox(xorstr("Snow"), &m_pAllSettings->m_MsicSettings.m_bSnowFlakes);
-		DrawToolTip(xorstr("Draw snowflakes while menu is opened."));
-
-		ImGui::Checkbox(xorstr("Wallpaper"), &m_pAllSettings->m_MsicSettings.m_bWallPaper);
-
-		ImGui::Checkbox(xorstr("Local Time"), &m_pAllSettings->m_MsicSettings.m_bShowTime);
-		DrawToolTip(xorstr("Show local time."));
-
-		ImGui::EndChild();
-	}
-	ImGui::SameLine();
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 84 * 2);
-	ImGui::BeginChild(xorstr("###MenuColors"), ImVec2(170, 360), true, m_iImGuiStyle);
-	{
-		ImGui::Text(xorstr("UI Colors"));
-		auto guiColorTheme = ImGui::GetStyle().Colors;
-		ImGui::ColorEdit4(xorstr("###1"), (float*)&guiColorTheme[ImGuiCol_Text], ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Text"));
-
-		ImGui::ColorEdit4(xorstr("###2"), (float*)&guiColorTheme[ImGuiCol_TextDisabled], ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Text (Invactive)"));
-
-		ImGui::ColorEdit4(xorstr("###3"), (float*)&guiColorTheme[ImGuiCol_WindowBg], ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Background"));
-
-		ImGui::ColorEdit4(xorstr("###4"), (float*)&guiColorTheme[ImGuiCol_ChildBg], ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Background child"));
-
-		ImGui::ColorEdit4(xorstr("###5"), (float*)&guiColorTheme[ImGuiCol_PopupBg], ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Background popup"));
-
-		ImGui::ColorEdit4(xorstr("###6"), (float*)&guiColorTheme[ImGuiCol_Border], ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Border"));
-
-		ImGui::ColorEdit4(xorstr("###7"), (float*)&guiColorTheme[ImGuiCol_BorderShadow], ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Border (Shadow)"));
-
-		ImGui::ColorEdit4(xorstr("###8"), (float*)&guiColorTheme[ImGuiCol_FrameBg], ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Frame"));
-
-		ImGui::ColorEdit4(xorstr("###9"), (float*)&guiColorTheme[ImGuiCol_FrameBgHovered], ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Frame (hovered)"));
-
-		ImGui::ColorEdit4(xorstr("###10"), (float*)(&guiColorTheme[ImGuiCol_FrameBgActive]), ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Frame (active)"));
-
-		ImGui::ColorEdit4(xorstr("###Header"), (float*)(&guiColorTheme[ImGuiCol_Header]), ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Header"));
-
-		ImGui::ColorEdit4(xorstr("###HeaderActive"), (float*)(&guiColorTheme[ImGuiCol_HeaderActive]), ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Header (Active)"));
-
-		ImGui::ColorEdit4(xorstr("###HeaderActiveHovered"), (float*)(&guiColorTheme[ImGuiCol_HeaderHovered]), ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Header (Hovered)"));
-
-
-		ImGui::EndChild();
-	}
-	ImGui::SameLine();
-	ImGui::BeginChild(xorstr("###MenuColors2"), ImVec2(170, 360), true, m_iImGuiStyle);
-	{
-		ImGui::Text(xorstr("UI Colors 2"));
-		auto guiColorTheme = ImGui::GetStyle().Colors;
-		ImGui::ColorEdit4(xorstr("###11"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_CheckMark]), ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Check mark"));
-
-		ImGui::ColorEdit4(xorstr("###12"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_Button]), ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Button"));
-
-		ImGui::ColorEdit4(xorstr("###13"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_ButtonHovered]), ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Button (Hovered)"));
-
-		ImGui::ColorEdit4(xorstr("###18"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_ButtonActive]), ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Button (Active)"));
-
-		POLY_MARKER;
-
-		ImGui::ColorEdit4(xorstr("###14"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_TextSelectedBg]), ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Text (Selected)"));
-
-		POLY_MARKER;
-
-		ImGui::ColorEdit4(xorstr("###19"), reinterpret_cast<float*>(&m_pAllSettings->m_ChromaSettings.m_KillGlowColor), ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Kill glow (chroma)"));
-
-		ImGui::ColorEdit4(xorstr("##21"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_SliderGrab]), ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Slider grab"));
-
-		ImGui::ColorEdit4(xorstr("##22"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_SliderGrabActive]), ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Slider grab (Active)"));
-
-		ImGui::ColorEdit4(xorstr("##Scroll"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_ScrollbarGrab]), ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Scroll bar"));
-
-		ImGui::ColorEdit4(xorstr("##ScrollActive"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_ScrollbarGrabActive]), ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Slider grab (Active)"));
-
-		ImGui::EndChild();
-	}
 }

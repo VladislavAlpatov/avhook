@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Dev|Win32">
+      <Configuration>Release Dev</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Dev|x64">
+      <Configuration>Release Dev</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{4a765eba-2518-4183-931f-18afa9613d70}</ProjectGuid>
+    <RootNamespace>test</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>avhook</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;$(LibraryPath)</LibraryPath>
+    <TargetName>avhook</TargetName>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
+    <EnableMicrosoftCodeAnalysis>false</EnableMicrosoftCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;$(LibraryPath)</LibraryPath>
+    <TargetName>avhook</TargetName>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
+    <EnableMicrosoftCodeAnalysis>false</EnableMicrosoftCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(IncludePath)</IncludePath>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(IncludePath)</IncludePath>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|Win32'" Label="Vcpkg">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <DisableSpecificWarnings>6011;4201;4408;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessToFile>false</PreprocessToFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d9.lib;winmm.lib;D3dx9.lib;Ws2_32.lib;winmm.lib;D3dx9.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;NDEBUG;_CONSOLE;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <DisableSpecificWarnings>6011;4201;4408;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessToFile>false</PreprocessToFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalDependencies>d3d9.lib;winmm.lib;D3dx9.lib;Ws2_32.lib;D3dx9.lib;Shell32.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;NDEBUG;_CONSOLE;DEV_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <DisableSpecificWarnings>6011;4201;4408;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessToFile>false</PreprocessToFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d9.lib;winmm.lib;D3dx9.lib;Ws2_32.lib;D3dx9.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d9.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d9.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d9.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="DirctX\CustomDirectX9Device.h" />
+    <ClInclude Include="DirctX\DX9ColorFix.h" />
+    <ClInclude Include="Globals\GlobalVars.h" />
+    <ClInclude Include="Hacks\AimBot.h" />
+    <ClInclude Include="Hacks\bhop.h" />
+    <ClInclude Include="Hacks\Esp\CBarsEsp.h" />
+    <ClInclude Include="Hacks\Esp\CBaseEsp.h" />
+    <ClInclude Include="Hacks\Esp\CBoxEsp.h" />
+    <ClInclude Include="Hacks\Esp\CLabelEsp.h" />
+    <ClInclude Include="Hacks\Esp\CSnapLinesEsp.h" />
+    <ClInclude Include="Hacks\hack.h" />
+    <ClInclude Include="Hacks\Hooks\Hooks.h" />
+    <ClInclude Include="Hacks\TriggerBot.h" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\imgui_impl_dx9.h" />
+    <ClInclude Include="imgui\imgui_impl_win32.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\misc\freetype\imgui_freetype.h" />
+    <ClInclude Include="imgui\misc\freetype\imstb_rectpack.h" />
+    <ClInclude Include="Menu\IBaseDrawObject.h" />
+    <ClInclude Include="Menu\COverlay.h" />
+    <ClInclude Include="Menu\Overlays\CBindListenerOverlay.h" />
+    <ClInclude Include="Menu\Routines\BindListener.h" />
+    <ClInclude Include="Menu\Settings.h" />
+    <ClInclude Include="Menu\SnowFlakes\SnowFlake.h" />
+    <ClInclude Include="Menu\Windows\CAboutWindow.h" />
+    <ClInclude Include="Menu\Windows\CBaseWindow.h" />
+    <ClInclude Include="Menu\Windows\CNetWorkWindow.h" />
+    <ClInclude Include="Menu\Windows\CRadarWindow.h" />
+    <ClInclude Include="Menu\Windows\CSkynetWindow.h" />
+    <ClInclude Include="Menu\Windows\CSettingsWindow.h" />
+    <ClInclude Include="Menu\Windows\CStartWindow.h" />
+    <ClInclude Include="Menu\Windows\CTaskBarWindow.h" />
+    <ClInclude Include="RawData\RAVhookLogo.h" />
+    <ClInclude Include="RazerSDK\CRazer.h" />
+    <ClInclude Include="RazerSDK\CRazerExceptions.h" />
+    <ClInclude Include="RazerSDK\RzChromaSDK.h" />
+    <ClInclude Include="RazerSDK\RzChromaSDKDefines.h" />
+    <ClInclude Include="RazerSDK\RzChromaSDKTypes.h" />
+    <ClInclude Include="RazerSDK\RzErrors.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="SDK\AbstractInterface.h" />
+    <ClInclude Include="SDK\CBaseEntity.h" />
+    <ClInclude Include="SDK\ClientBase.h" />
+    <ClInclude Include="SDK\CLocalPlayer.h" />
+    <ClInclude Include="SDK\IEngineTrace.h" />
+    <ClInclude Include="SDK\CUserCMD.h" />
+    <ClInclude Include="SDK\EngineBase.h" />
+    <ClInclude Include="SDK\IBaseClientDLL.h" />
+    <ClInclude Include="SDK\IClientEntityList.h" />
+    <ClInclude Include="SDK\IInput.h" />
+    <ClInclude Include="SDK\IVEngineClient013\IVEngineClient013.h" />
+    <ClInclude Include="SDK\SDK.h" />
+    <ClInclude Include="Server\Server.h" />
+    <ClInclude Include="Threads\Threads.h" />
+    <ClInclude Include="Utils\CFGloader\CFGloader.h" />
+    <ClInclude Include="Utils\Marker.h" />
+    <ClInclude Include="Utils\memory.h" />
+    <ClInclude Include="Utils\offsets.h" />
+    <ClInclude Include="Utils\GetInterface.h" />
+    <ClInclude Include="Utils\Vec3.h" />
+    <ClInclude Include="Utils\VMThook.h" />
+    <ClInclude Include="Utils\xorstr.h" />
+    <ClInclude Include="Web\CAVhookServerApi.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DirctX\CustomDirectX9Device.cpp" />
+    <ClCompile Include="DirctX\DX9ColorFix.cpp" />
+    <ClCompile Include="Globals\GlobalVars.cpp" />
+    <ClCompile Include="Hacks\AimBot.cpp" />
+    <ClCompile Include="Hacks\bhop.cpp" />
+    <ClCompile Include="Hacks\Esp\CBarsEsp.cpp" />
+    <ClCompile Include="Hacks\Esp\CBaseEsp.cpp" />
+    <ClCompile Include="Hacks\Esp\CBoxEsp.cpp" />
+    <ClCompile Include="Hacks\Esp\CLabelEsp.cpp" />
+    <ClCompile Include="Hacks\Esp\CSnapLinesEsp.cpp" />
+    <ClCompile Include="Hacks\hack.cpp" />
+    <ClCompile Include="Hacks\Hooks\Hooks.cpp" />
+    <ClCompile Include="Hacks\TriggerBot.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_impl_dx9.cpp" />
+    <ClCompile Include="imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="imgui\imgui_tables.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="imgui\misc\freetype\imgui_freetype.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu\COverlay.cpp" />
+    <ClCompile Include="Menu\Overlays\CBindListenerOverlay.cpp" />
+    <ClCompile Include="Menu\Routines\BindListener.cpp" />
+    <ClCompile Include="Menu\Settings.cpp" />
+    <ClCompile Include="Menu\SnowFlakes\SnowFlake.cpp" />
+    <ClCompile Include="Menu\Windows\CAboutWindow.cpp" />
+    <ClCompile Include="Menu\Windows\CBaseWindow.cpp" />
+    <ClCompile Include="Menu\Windows\CNetWorkWindow.cpp" />
+    <ClCompile Include="Menu\Windows\CRadarWindow.cpp" />
+    <ClCompile Include="Menu\Windows\CSkynetWindow.cpp" />
+    <ClCompile Include="Menu\Windows\CSettingsWindow.cpp" />
+    <ClCompile Include="Menu\Windows\CStartWindow.cpp" />
+    <ClCompile Include="Menu\Windows\CTaskBarWindow.cpp" />
+    <ClCompile Include="RazerSDK\CRazer.cpp" />
+    <ClCompile Include="SDK\CBaseEntity.cpp" />
+    <ClCompile Include="SDK\ClientBase.cpp" />
+    <ClCompile Include="SDK\CLocalPlayer.cpp" />
+    <ClCompile Include="SDK\IVEngineClient013\IVEngineClient013.cpp" />
+    <ClCompile Include="Server\Server.cpp" />
+    <ClCompile Include="Threads\Threads.cpp" />
+    <ClCompile Include="Utils\CFGloader\CFGloader .cpp" />
+    <ClCompile Include="Utils\VMThook.cpp" />
+    <ClCompile Include="Web\CAVhookServerApi.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="test.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\about.bmp" />
+    <Image Include="images\aimbot_icon.bmp" />
+    <Image Include="images\auto_color.bmp" />
+    <Image Include="images\ct-icon.bmp" />
+    <Image Include="images\default avatar.bmp" />
+    <Image Include="images\esp_icon.bmp" />
+    <Image Include="images\misc_icon.bmp" />
+    <Image Include="images\player_list.bmp" />
+    <Image Include="images\profile_icon.bmp" />
+    <Image Include="images\radar_icon.bmp" />
+    <Image Include="images\settings.bmp" />
+    <Image Include="images\t-icon.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\sound1.bin" />
+    <None Include="images\wave3.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="sound\killsound.wav" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

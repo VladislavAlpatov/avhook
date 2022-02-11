@@ -1,0 +1,91 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian (Russia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP1             BITMAP                  "images\\about.bmp"
+
+IDB_BITMAP3             BITMAP                  "images\\ct-icon.bmp"
+
+IDB_BITMAP4             BITMAP                  "images\\player_list.bmp"
+
+IDB_BITMAP5             BITMAP                  "images\\settings.bmp"
+
+IDB_BITMAP6             BITMAP                  "images\\t-icon.bmp"
+
+IDB_BITMAP7             BITMAP                  "images\\radar_icon.bmp"
+
+IDB_BITMAP8             BITMAP                  "images\\auto_color.bmp"
+
+IDB_BITMAP9             BITMAP                  "images\\aimbot_icon.bmp"
+
+IDB_BITMAP10            BITMAP                  "images\\esp_icon.bmp"
+
+IDB_BITMAP11            BITMAP                  "images\\misc_icon.bmp"
+
+IDB_BITMAP12            BITMAP                  "images\\default avatar.bmp"
+
+IDB_BITMAP13            BITMAP                  "images\\profile_icon.bmp"
+
+#endif    // Russian (Russia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

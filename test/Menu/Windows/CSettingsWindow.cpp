@@ -87,12 +87,6 @@ void CSettingsWindow::Render()
 {
 	ImGui::Begin(xorstr("###Settings"), NULL, m_iImGuiStyle);
 	{
-#ifdef DEV_BUILD
-		DrawIconAndTittle(xorstr("AVhook developer build"));
-#else
-		DrawIconAndTittle(xorstr("AVhook"));
-#endif // BUILD_DEV
-
 		DrawCloseWindowButton();
 		ImGui::SetWindowSize(ImVec2(555, 252));
 

@@ -106,9 +106,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Render\Menu\Windows\Player list">
-      <UniqueIdentifier>{cd6414a2-57c2-4d85-aa1f-510a1449a51b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Render\Menu\Windows\NetWork">
       <UniqueIdentifier>{176db0c6-4464-400e-a0f0-f9e2083cb860}</UniqueIdentifier>
     </Filter>
@@ -266,9 +263,6 @@
     </ClInclude>
     <ClInclude Include="Menu\Windows\CBaseWindow.h">
       <Filter>Render\Menu\Windows\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu\Windows\CSkynetWindow.h">
-      <Filter>Render\Menu\Windows\Player list</Filter>
     </ClInclude>
     <ClInclude Include="Menu\Windows\CSettingsWindow.h">
       <Filter>Render\Menu\Windows\Settings</Filter>
@@ -433,9 +427,6 @@
     </ClCompile>
     <ClCompile Include="Menu\Windows\CSettingsWindow.cpp">
       <Filter>Render\Menu\Windows\Settings</Filter>
-    </ClCompile>
-    <ClCompile Include="Menu\Windows\CSkynetWindow.cpp">
-      <Filter>Render\Menu\Windows\Player list</Filter>
     </ClCompile>
     <ClCompile Include="Menu\COverlay.cpp">
       <Filter>Render\Menu</Filter>

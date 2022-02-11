@@ -16,15 +16,10 @@ private:
 	char m_pMenuCfgName[32] = {};
 	bool* m_pShowKeyBinderDialog;
 
-	inline void DrawAimbotConfiguration(AimBotSettings& aimBotSettings);
-	inline void DrawTriggerBotConfiguration(TriggerBotSettings& triggerBotSettings);
-	inline void DrawVisualsConfiguration(SnapLinesSettings& snapLinesSettings,
-		BoxEspSetting& boxEspSettings, CLabelEspSettings& labelEspSettings,
-		BarEspSettings& barEspSettings, CRadarSettings& radarSettings);
-
-	inline void DrawMisceleniusConfiguration(MiscSettings& miscSettings);
-	inline void DrawMenuAndCfgConfiguration(SAllSettings* pAllSettings);
-	bool IsPathEndWith(const char* path, const char* end);
+	inline void DrawAimbotChild();
+	inline void DrawEspChild();
+	inline void DrawMiscChild();
+	inline void DrawCfgChild();
 
 	PDIRECT3DTEXTURE9 m_pTexureAimBotIcon        = nullptr;
 	PDIRECT3DTEXTURE9 m_pTexureEspIcon           = nullptr;

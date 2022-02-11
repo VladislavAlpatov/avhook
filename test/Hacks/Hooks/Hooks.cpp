@@ -111,13 +111,13 @@ int  __fastcall hooks::hOnkill(void* pThis, void* edx)
 	if (GlobalVars::bChromaSupport)
 		std::thread(KillKeyBoardEffect).detach();
 
-	if (GlobalVars::settings.m_MsicSettings.m_bKillSound and GlobalVars::settings.m_MsicSettings.killSoundPath[0] == NULL)
+	if (GlobalVars::settings.m_MiscSettings.m_bKillSound and GlobalVars::settings.m_MiscSettings.killSoundPath[0] == NULL)
 	{
 		//PlaySound(MAKEINTRESOURCE(IDR_WAVE3), GlobalVars::hModule, SND_RESOURCE | SND_ASYNC);
 	}
-	else if (GlobalVars::settings.m_MsicSettings.m_bKillSound)
+	else if (GlobalVars::settings.m_MiscSettings.m_bKillSound)
 	{
-		PlaySound(GlobalVars::settings.m_MsicSettings.killSoundPath, GlobalVars::hModule, SND_ASYNC);
+		PlaySound(GlobalVars::settings.m_MiscSettings.killSoundPath, GlobalVars::hModule, SND_ASYNC);
 	}
 
 	typedef int(__fastcall* tOnkill)(void*, void* edx);

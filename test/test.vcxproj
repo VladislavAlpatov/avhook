@@ -291,7 +291,6 @@
     <ClInclude Include="Menu\Windows\CBaseWindow.h" />
     <ClInclude Include="Menu\Windows\CNetWorkWindow.h" />
     <ClInclude Include="Menu\Windows\CRadarWindow.h" />
-    <ClInclude Include="Menu\Windows\CSkynetWindow.h" />
     <ClInclude Include="Menu\Windows\CSettingsWindow.h" />
     <ClInclude Include="Menu\Windows\CStartWindow.h" />
     <ClInclude Include="Menu\Windows\CTaskBarWindow.h" />
@@ -358,7 +357,6 @@
     <ClCompile Include="Menu\Windows\CBaseWindow.cpp" />
     <ClCompile Include="Menu\Windows\CNetWorkWindow.cpp" />
     <ClCompile Include="Menu\Windows\CRadarWindow.cpp" />
-    <ClCompile Include="Menu\Windows\CSkynetWindow.cpp" />
     <ClCompile Include="Menu\Windows\CSettingsWindow.cpp" />
     <ClCompile Include="Menu\Windows\CStartWindow.cpp" />
     <ClCompile Include="Menu\Windows\CTaskBarWindow.cpp" />

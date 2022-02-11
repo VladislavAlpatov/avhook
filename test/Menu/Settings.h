@@ -283,7 +283,7 @@ struct SAllSettings
 	AimBotSettings        m_AimBotSettings;
 	SnapLinesSettings     m_SnapLinesSettings;
 	BoxEspSetting	      m_BoxEspSettings;
-	MiscSettings          m_MsicSettings;
+	MiscSettings          m_MiscSettings;
 	TriggerBotSettings    m_TriggerBotSettings;
 	CRadarSettings        m_RadarSettings;
 	CLabelEspSettings     m_LabelEspSettings;

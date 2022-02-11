@@ -52,7 +52,7 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, SAllSettings* pSe
 	m_vecWindows.push_back(new CSettingsWindow(m_pDevice, hModule, pSettings, &m_bShowKeyBindDialog));
 	m_vecWindows.push_back(new CNetWorkWindow(m_pDevice, hModule));
 	m_vecWindows.push_back(new CStartWindow(m_pDevice, hModule, m_vecWindows[0], m_vecWindows[2], m_vecWindows[1]));
-	m_vecWindows.push_back(new CTaskBarWindow(pDevice, hModule, m_vecWindows[3], &pSettings->m_MsicSettings));
+	m_vecWindows.push_back(new CTaskBarWindow(pDevice, hModule, m_vecWindows[3], &pSettings->m_MiscSettings));
 
 	m_vecEspPayload = {
 		new CBoxEsp(&GlobalVars::settings.m_BoxEspSettings), 
@@ -119,7 +119,7 @@ void COverlay::Render()
 		drawList->AddText(ImVec2(), ImColor(255, 255, 255), xorstr("DEVELOPER BUILD"));
 #endif // DEV_BUILD
 
-		if (m_pAllSettings->m_MsicSettings.m_bSnowFlakes)
+		if (m_pAllSettings->m_MiscSettings.m_bSnowFlakes)
 		{
 
 			for (auto& snowflake : m_vecSnow)

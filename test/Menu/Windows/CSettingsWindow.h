@@ -24,17 +24,7 @@ private:
 
 	inline void DrawMisceleniusConfiguration(MiscSettings& miscSettings);
 	inline void DrawMenuAndCfgConfiguration(SAllSettings* pAllSettings);
-	bool IsPathEndWith(const char* path, const char* end)
-	{
-		if (strlen(path) <= strlen(end))
-			return false;
-
-		// if end is same
-		if (strcmp(&path[strlen(path) - strlen(end)], end) == 0)
-			return true;
-
-		return false;
-	}
+	bool IsPathEndWith(const char* path, const char* end);
 
 	PDIRECT3DTEXTURE9 m_pTexureAimBotIcon        = nullptr;
 	PDIRECT3DTEXTURE9 m_pTexureEspIcon           = nullptr;

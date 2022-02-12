@@ -69,9 +69,6 @@
     <Filter Include="Hacking features\Hooks">
       <UniqueIdentifier>{04183bc4-a564-4a9c-8441-331f8473968a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Threads">
-      <UniqueIdentifier>{7c0f8439-7711-4dbf-883f-c30a9f29f700}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Server">
       <UniqueIdentifier>{6a26257e-1efe-495c-aa6c-fbf7f66b8132}</UniqueIdentifier>
     </Filter>
@@ -243,9 +240,6 @@
     <ClInclude Include="Hacks\Hooks\Hooks.h">
       <Filter>Hacking features\Hooks</Filter>
     </ClInclude>
-    <ClInclude Include="Threads\Threads.h">
-      <Filter>Core\Threads</Filter>
-    </ClInclude>
     <ClInclude Include="Server\Server.h">
       <Filter>Server</Filter>
     </ClInclude>
@@ -365,9 +359,6 @@
     <ClCompile Include="DirctX\DX9ColorFix.cpp">
       <Filter>Render\DirectX\DX9ColorFix</Filter>
     </ClCompile>
-    <ClCompile Include="Menu\Settings.cpp">
-      <Filter>Render\Menu\Settings</Filter>
-    </ClCompile>
     <ClCompile Include="Hacks\AimBot.cpp">
       <Filter>Hacking features\AimBot</Filter>
     </ClCompile>
@@ -406,9 +397,6 @@
     </ClCompile>
     <ClCompile Include="Hacks\Hooks\Hooks.cpp">
       <Filter>Hacking features\Hooks</Filter>
-    </ClCompile>
-    <ClCompile Include="Threads\Threads.cpp">
-      <Filter>Core\Threads</Filter>
     </ClCompile>
     <ClCompile Include="Server\Server.cpp">
       <Filter>Server</Filter>

@@ -1,5 +1,7 @@
 #pragma once
-#include "../SDK/SDK.h"
+#include "../SDK/IVEngineClient013/IVEngineClient013.h"
+#include "../SDK/IEngineTrace.h"
+#include "../SDK/ClientBase.h"
 #include "../Menu/Settings.h"
 #include "../Utils/xorstr.h"
 

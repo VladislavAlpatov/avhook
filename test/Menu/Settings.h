@@ -42,10 +42,20 @@ protected:
 
 		return jsn;
 	}
+	ImColor ImportImColorFromJson(const json& jsn)
+	{
+		return ImColor(
+			jsn[xorstr("R")].get<float>(), 
+			jsn[xorstr("G")].get<float>(),
+			jsn[xorstr("B")].get<float>(), 
+			jsn[xorstr("A")].get<float>()
+		);
+	}
 };
 class AimBotSettings : public CBaseSettings
 {
 public:
+	AimBotSettings() {};
 	bool			   m_bAutoShot	   = false;
 	bool			   silent		   = false;
 	bool			   m_bIsWorking	   = false;
@@ -75,10 +85,23 @@ public:
 		jsn[xorstr("PriorityType")]   = m_iPriorityType;
 		return jsn;
 	};
+	AimBotSettings(const json& jsn)
+	{
+		m_bActive         = jsn[xorstr("Active")].get<bool>();
+		m_bOnKey          = jsn[xorstr("OnKey")].get<int>();
+		m_iBindKey        = jsn[xorstr("BindKey")].get<int>();
+		m_bAutoShot       = jsn[xorstr("AutoShot")].get<bool>();
+		silent            = jsn[xorstr("Silent")].get<bool>();
+		m_fFov            = jsn[xorstr("Fov")].get<float>();
+		m_fSmooth         = jsn[xorstr("Smooth")].get<float>();
+		m_iSelectedHitBox = jsn[xorstr("SelectedHitBox")].get<int>();
+		m_iPriorityType   = jsn[xorstr("PriorityType")].get<int>();
+	}
 };
 class SnapLinesSettings : public CBaseSettings
 {
 public:
+	SnapLinesSettings() {};
 	int m_iSelectedBone = 0;
 	ImColor		m_Color = ImColor(255, 0, 0, 255);
 	int			m_iDrawMode = 0;
@@ -96,10 +119,20 @@ public:
 
 		return jsn;
 	};
+
+	SnapLinesSettings(const json& jsn)
+	{
+		m_bActive = jsn[xorstr("Active")].get<bool>();
+		m_iSelectedBone = jsn[xorstr("SelectedBone")].get<int>();
+		m_Color = ImportImColorFromJson(jsn[xorstr("Color")]);
+		m_iDrawMode = jsn[xorstr("DrawMode")].get<int>();
+		m_iThickness = jsn[xorstr("Thickness")].get<int>();
+	}
 };
 class BoxEspSetting : public CBaseSettings
 {
 public:
+	BoxEspSetting() {};
 	ImColor		m_Color      = ImColor(255, 0, 0, 255);
 	int			m_iDrawMode  = 0;
 	int			m_iThickness = 1;
@@ -115,10 +148,20 @@ public:
 
 		return jsn;
 	};
+
+	BoxEspSetting(const json& jsn)
+	{
+		m_bActive = jsn[xorstr("Active")].get<bool>();
+
+		m_Color = ImportImColorFromJson(jsn[xorstr("Color")]);
+		m_iDrawMode = jsn[xorstr("DrawMode")].get<int>();
+		m_iThickness = jsn[xorstr("Thickness")].get<int>();
+	}
 };
 class MiscSettings : public CBaseSettings
 {
 public:
+	MiscSettings() {};
 	bool m_bWallPaper  = false;
 	bool m_bShowTime   = false;
 	bool m_bKillSound  = false;
@@ -141,6 +184,7 @@ public:
 class TriggerBotSettings : public CBaseSettings
 {
 public:
+	TriggerBotSettings() {}
 	bool m_bRageMode   = false;
 	int  m_iDelay  = 0;
 
@@ -183,6 +227,7 @@ public:
 class CRadarSettings : public CBaseSettings
 {
 public:
+	CRadarSettings() {}
 	bool m_bDrawBorders = false;
 	ImColor	m_ActiveFeatureColor   = ImColor(255, 0, 0);
 	ImColor m_InactiveFeatureColor = ImColor(255, 255, 255);
@@ -249,6 +294,7 @@ public:
 class ChromaSettings
 {
 public:
+	ChromaSettings() {}
 	bool    m_bKillGlow     = false;
 	ImColor m_KillGlowColor = ImColor(255, 0, 0);
 

@@ -103,6 +103,8 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;$(LibraryPath)</LibraryPath>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -110,8 +112,8 @@
     <LibraryPath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;$(LibraryPath)</LibraryPath>
     <TargetName>avhook</TargetName>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
-    <EnableMicrosoftCodeAnalysis>false</EnableMicrosoftCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <EnableMicrosoftCodeAnalysis>true</EnableMicrosoftCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -119,8 +121,8 @@
     <LibraryPath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;$(LibraryPath)</LibraryPath>
     <TargetName>avhook</TargetName>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
-    <EnableMicrosoftCodeAnalysis>false</EnableMicrosoftCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <EnableMicrosoftCodeAnalysis>true</EnableMicrosoftCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -315,7 +317,6 @@
     <ClInclude Include="SDK\IVEngineClient013\IVEngineClient013.h" />
     <ClInclude Include="SDK\SDK.h" />
     <ClInclude Include="Server\Server.h" />
-    <ClInclude Include="Threads\Threads.h" />
     <ClInclude Include="Utils\CFGloader\CFGloader.h" />
     <ClInclude Include="Utils\Marker.h" />
     <ClInclude Include="Utils\memory.h" />
@@ -351,13 +352,16 @@
     <ClCompile Include="Menu\COverlay.cpp" />
     <ClCompile Include="Menu\Overlays\CBindListenerOverlay.cpp" />
     <ClCompile Include="Menu\Routines\BindListener.cpp" />
-    <ClCompile Include="Menu\Settings.cpp" />
     <ClCompile Include="Menu\SnowFlakes\SnowFlake.cpp" />
     <ClCompile Include="Menu\Windows\CAboutWindow.cpp" />
     <ClCompile Include="Menu\Windows\CBaseWindow.cpp" />
     <ClCompile Include="Menu\Windows\CNetWorkWindow.cpp" />
     <ClCompile Include="Menu\Windows\CRadarWindow.cpp" />
-    <ClCompile Include="Menu\Windows\CSettingsWindow.cpp" />
+    <ClCompile Include="Menu\Windows\CSettingsWindow.cpp">
+      <DiagnosticsFormat Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Column</DiagnosticsFormat>
+      <DiagnosticsFormat Condition="'$(Configuration)|$(Platform)'=='Release Dev|Win32'">Column</DiagnosticsFormat>
+      <DiagnosticsFormat Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Column</DiagnosticsFormat>
+    </ClCompile>
     <ClCompile Include="Menu\Windows\CStartWindow.cpp" />
     <ClCompile Include="Menu\Windows\CTaskBarWindow.cpp" />
     <ClCompile Include="RazerSDK\CRazer.cpp" />
@@ -366,7 +370,6 @@
     <ClCompile Include="SDK\CLocalPlayer.cpp" />
     <ClCompile Include="SDK\IVEngineClient013\IVEngineClient013.cpp" />
     <ClCompile Include="Server\Server.cpp" />
-    <ClCompile Include="Threads\Threads.cpp" />
     <ClCompile Include="Utils\CFGloader\CFGloader .cpp" />
     <ClCompile Include="Utils\VMThook.cpp" />
     <ClCompile Include="Web\CAVhookServerApi.cpp" />

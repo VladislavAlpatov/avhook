@@ -8,6 +8,8 @@
 #include "Mmsystem.h"
 #include "RazerSDK/CRazer.h"
 #include "nlohmann/json.hpp"
+
+
 DWORD WINAPI InitCheat(HMODULE hModule)
 {
 	POLY_MARKER

@@ -179,6 +179,13 @@ public:
 
 		return jsn;
 	};
+	MiscSettings(const json& jsn)
+	{
+		m_bWallPaper  = jsn[xorstr("WallPaper")].get<bool>();
+		m_bShowTime   = jsn[xorstr("ShowTime")].get<bool>();
+		m_bKillSound  = jsn[xorstr("KillSound")].get<bool>();
+		m_bSnowFlakes = jsn[xorstr("SnowFlakes")].get<bool>();
+	}
 };
 
 class TriggerBotSettings : public CBaseSettings
@@ -198,6 +205,12 @@ public:
 
 		return jsn;
 	};
+	TriggerBotSettings(const json& jsn)
+	{
+		m_bActive   = jsn[xorstr("Active")].get<bool>();
+		m_bRageMode = jsn[xorstr("RageMode")].get<bool>();
+		m_iDelay    = jsn[xorstr("iDelay")].get<int>();
+	}
 };
 class BarEspSettings : public CBaseSettings
 {
@@ -223,6 +236,14 @@ public:
 
 		return jsn;
 	};
+	BarEspSettings(const json& jsn)
+	{
+		m_bActive        = jsn[xorstr("Active")].get<bool>();
+		m_bDrawHealthBar = jsn[xorstr("DrawHealthBar")].get<bool>();
+		m_bDrawArmorBar  = jsn[xorstr("DrawArmorBar")].get<bool>();
+		m_iThickness     = jsn[xorstr("Thickness")].get<int>();
+		m_ArmorColor     = ImportImColorFromJson(jsn[xorstr("ArmorColor")].get<json>());
+	}
 };
 class CRadarSettings : public CBaseSettings
 {
@@ -288,7 +309,19 @@ public:
 
 		return jsn;
 	};
+	CLabelEspSettings(const json& jsn)
+	{
+		m_bDrawDistance   = jsn[xorstr("DrawDistance")].get<bool>();
+		m_bDrawHealth     = jsn[xorstr("DrawHealth")].get<bool>();
+		m_bDrawArmor      = jsn[xorstr("DrawArmor")].get<bool>();
+		m_bDrawVisibility = jsn[xorstr("DrawVisibility")].get<bool>();
+		m_bDrawAimbot     = jsn[xorstr("DrawAimbot")].get<bool>();
 
+		m_NameLabelColor       = ImportImColorFromJson(jsn[xorstr("NameLabelColor")].get<json>());
+		m_DistanceLabelColor   = ImportImColorFromJson(jsn[xorstr("DistanceLabelColor")].get<json>());
+		m_ArmorLabelColor      = ImportImColorFromJson(jsn[xorstr("ArmorLabelColor")].get<json>());
+		m_VisibilityLabelColor = ImportImColorFromJson(jsn[xorstr("VisibilityLabelColor")].get<json>());
+	}
 	//void Restore() override {};
 };
 class ChromaSettings
@@ -319,6 +352,10 @@ public:
 
 		return jsn;
 	};
+	CBunnyHopSettings(const json& jsn)
+	{
+		m_bActive = jsn[xorstr("Active")].get<bool>();
+	}
 private:
 
 };

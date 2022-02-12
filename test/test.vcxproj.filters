@@ -333,6 +333,9 @@
     <ClInclude Include="Hacks\Esp\CBarsEsp.h">
       <Filter>Hacking features\ESP\Bars</Filter>
     </ClInclude>
+    <ClInclude Include="Menu\Windows\SettingsWindowBackends\SettingsWindowChildFunctions.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_draw.cpp">

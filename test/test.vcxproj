@@ -296,6 +296,7 @@
     <ClInclude Include="Menu\Windows\CSettingsWindow.h" />
     <ClInclude Include="Menu\Windows\CStartWindow.h" />
     <ClInclude Include="Menu\Windows\CTaskBarWindow.h" />
+    <ClInclude Include="Menu\Windows\SettingsWindowBackends\SettingsWindowChildFunctions.h" />
     <ClInclude Include="RawData\RAVhookLogo.h" />
     <ClInclude Include="RazerSDK\CRazer.h" />
     <ClInclude Include="RazerSDK\CRazerExceptions.h" />

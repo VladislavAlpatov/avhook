@@ -461,6 +461,9 @@
     <ClCompile Include="Hacks\Esp\CBarsEsp.cpp">
       <Filter>Hacking features\ESP\Bars</Filter>
     </ClCompile>
+    <ClCompile Include="Menu\Settings.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="test.rc">

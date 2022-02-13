@@ -4,7 +4,6 @@ CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, SA
 {
 	m_pAllSettings          = pAllSetting;
 	m_pShowKeyBinderDialog = pShowKeyBinderDialog;
-
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP5),  &m_pTextureIcon);
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP9),  &m_pTexureAimBotIcon);
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP10), &m_pTexureEspIcon);

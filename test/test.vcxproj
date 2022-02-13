@@ -353,6 +353,7 @@
     <ClCompile Include="Menu\COverlay.cpp" />
     <ClCompile Include="Menu\Overlays\CBindListenerOverlay.cpp" />
     <ClCompile Include="Menu\Routines\BindListener.cpp" />
+    <ClCompile Include="Menu\Settings.cpp" />
     <ClCompile Include="Menu\SnowFlakes\SnowFlake.cpp" />
     <ClCompile Include="Menu\Windows\CAboutWindow.cpp" />
     <ClCompile Include="Menu\Windows\CBaseWindow.cpp" />

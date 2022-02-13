@@ -66,7 +66,7 @@ void CSettingsWindow::Render()
 		default:
 			break;
 		}
-
+		KeepWindowInSreenArea();
 		ImGui::End();
 	}
 }
@@ -244,6 +244,7 @@ void CSettingsWindow::DrawCfgChild()
 		{
 			CConfigLoader cfg(m_pAllSettings->m_sName, &GlobalVars::settings);
 			cfg.LoadConfigFile(m_pAllSettings->m_sName);
+
 		}
 		ImGui::SameLine();
 		if (ImGui::Button(xorstr("Export###fb")))

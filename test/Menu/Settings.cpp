@@ -180,6 +180,7 @@ json CLabelEspSettings::ToJson()
 	jsn[xorstr("DrawDistance")] = m_bDrawDistance;
 	jsn[xorstr("DrawHealth")] = m_bDrawHealth;
 	jsn[xorstr("DrawArmor")] = m_bDrawArmor;
+	jsn[xorstr("DrawName")] = m_bDrawName;
 	jsn[xorstr("DrawVisibility")] = m_bDrawVisibility;
 	jsn[xorstr("DrawAimbot")] = m_bDrawAimbot;
 
@@ -190,8 +191,9 @@ json CLabelEspSettings::ToJson()
 
 	return jsn;
 };
-CLabelEspSettings::CLabelEspSettings(const json& jsn)
+CLabelEspSettings::CLabelEspSettings(const json& jsn) : CLabelEspSettings::CLabelEspSettings()
 {
+	m_bDrawName = jsn[xorstr("DrawName")].get<bool>();
 	m_bDrawDistance = jsn[xorstr("DrawDistance")].get<bool>();
 	m_bDrawHealth = jsn[xorstr("DrawHealth")].get<bool>();
 	m_bDrawArmor = jsn[xorstr("DrawArmor")].get<bool>();
@@ -212,7 +214,7 @@ json CBunnyHopSettings::ToJson()
 
 	return jsn;
 };
-CBunnyHopSettings::CBunnyHopSettings(const json& jsn)
+CBunnyHopSettings::CBunnyHopSettings(const json& jsn) : CBunnyHopSettings::CBunnyHopSettings()
 {
 	m_bActive = jsn[xorstr("Active")].get<bool>();
 }

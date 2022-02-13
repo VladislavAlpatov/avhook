@@ -163,7 +163,7 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, CUserCmd* pUserCmd)
 		new CAimBot(&GlobalVars::settings.m_AimBotSettings, pUserCmd)
 	};
 
-	for (int i = 0; IM_ARRAYSIZE(features); ++i)
+	for (int i = 0; i < IM_ARRAYSIZE(features); ++i)
 	{
 		features[i]->Work();
 		delete features[i];

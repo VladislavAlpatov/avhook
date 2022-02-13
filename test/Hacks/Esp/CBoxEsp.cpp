@@ -5,7 +5,7 @@ void CBoxEsp::InternalRenderAt(CBaseEntity* pEntity)
 {
     POLY_MARKER;
 
-    auto pSettings = GetSettings<BoxEspSetting>();
+    auto pSettings = GetSettings<BoxEspSettings>();
 
     if (!pSettings->m_bActive)
         return;

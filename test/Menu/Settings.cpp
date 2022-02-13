@@ -81,7 +81,7 @@ SnapLinesSettings::SnapLinesSettings(const json& jsn)
 	m_iDrawMode = jsn[xorstr("DrawMode")].get<int>();
 	m_iThickness = jsn[xorstr("Thickness")].get<int>();
 }
-json BoxEspSetting::ToJson()
+json BoxEspSettings::ToJson()
 {
 	json jsn;
 
@@ -92,7 +92,7 @@ json BoxEspSetting::ToJson()
 
 	return jsn;
 };
-BoxEspSetting::BoxEspSetting(const json& jsn)
+BoxEspSettings::BoxEspSettings(const json& jsn)
 {
 	m_bActive     = jsn[xorstr("Active")].get<bool>();
 
@@ -230,4 +230,13 @@ json SAllSettings::ToJson()
 	jsn[xorstr("BunnyHop")] = m_AimBotSettings.ToJson();
 
 	return jsn;
+}
+CRadarSettings::CRadarSettings(const json& jsn)
+{
+	m_bActive              = jsn[xorstr("Active")].get<bool>();
+	m_ActiveFeatureColor   = ImportImColorFromJson(jsn[xorstr("ActiveFeatureColor")].get<json>());
+	m_InactiveFeatureColor = ImportImColorFromJson(jsn[xorstr("InactiveFeatureColor")].get<json>());
+	m_BackGroundColor      = ImportImColorFromJson(jsn[xorstr("BackGroundColor")].get<json>());
+	m_CrossColor           = ImportImColorFromJson(jsn[xorstr("CrossColor")].get<json>());
+	m_CyrcleBorderColor	   = ImportImColorFromJson(jsn[xorstr("CyrcleBorderColor")].get<json>());
 }

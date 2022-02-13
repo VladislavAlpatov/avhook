@@ -147,7 +147,7 @@ void COverlay::Render()
 		CBindListenerOverlay(m_pFontEsp).Show();
 	}
 
-	POLY_MARKER
+	POLY_MARKER;
 
 	ImGui::EndFrame();
 	color_fix.RestoreRenderState();

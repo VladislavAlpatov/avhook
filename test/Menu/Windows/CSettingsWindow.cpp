@@ -37,7 +37,7 @@ void CSettingsWindow::Render()
 			m_iTab = TAB::TriggerBot;
 
 		ImGui::SameLine();
-		if (ImGui::Button(xorstr("ESP"), buttonSize))
+		if (ImGui::Button(xorstr("VISUALS"), buttonSize))
 			m_iTab = TAB::Visuals;
 
 		ImGui::SameLine();
@@ -234,6 +234,7 @@ void CSettingsWindow::DrawCfgChild()
 	ImGui::SetWindowSize(ImVec2(555, 450));
 
 	ImGui::Text(xorstr("Menu configuration"));
+	// Provide Cheat config dump
 	ImGui::BeginChild(xorstr("###FeatureCfg"), ImVec2(180, 80), true, m_iImGuiStyle);
 	{
 		ImGui::Text(xorstr("Feature Config Section"));
@@ -242,12 +243,7 @@ void CSettingsWindow::DrawCfgChild()
 		if (ImGui::Button(xorstr("Import###fi")))
 		{
 			CConfigLoader cfg(m_pAllSettings->m_sName, &GlobalVars::settings);
-			auto succes = cfg.LoadConfigFile(m_pAllSettings->m_sName);
-			if (succes)
-			{
-				strcpy_s<32>(m_pAllSettings->m_sName, cfg.m_sName);
-				*m_pAllSettings = cfg.m_pSettings;
-			}
+			cfg.LoadConfigFile(m_pAllSettings->m_sName);
 		}
 		ImGui::SameLine();
 		if (ImGui::Button(xorstr("Export###fb")))
@@ -257,6 +253,28 @@ void CSettingsWindow::DrawCfgChild()
 		}
 		ImGui::EndChild();
 	}
+	ImGui::BeginChild(xorstr("###VisualCfg"), ImVec2(180, 80), true, m_iImGuiStyle);
+	{
+		ImGui::Text(xorstr("Menu Config Section"));
+
+		DrawInputTextWithTextOnBackGround(xorstr("###Vaname"), xorstr("<Config name>"), m_pMenuCfgName, 32);
+
+		if (ImGui::Button(xorstr("Import###fin")))
+		{
+			std::ifstream file(std::string(m_pMenuCfgName) + xorstr(".avmcfg"), std::ios::binary);
+			file.read((char*)ImGui::GetStyle().Colors, 52 * sizeof(ImVec4));
+			file.close();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button(xorstr("Export###fex")))
+		{
+			std::ofstream file(std::string(m_pMenuCfgName) + xorstr(".avmcfg"), std::ios::binary);
+			file.write((const char*)ImGui::GetStyle().Colors, 52 * sizeof(ImVec4));
+			file.close();
+		}
+		ImGui::EndChild();
+	}
+
 	ImGui::BeginChild(xorstr("###MiscCfg"), ImVec2(180, 112), true, m_iImGuiStyle);
 	{
 		ImGui::Text(xorstr("Misc Settings"));
@@ -273,11 +291,11 @@ void CSettingsWindow::DrawCfgChild()
 	}
 	ImGui::SameLine();
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 84 * 2);
+	auto guiColorTheme = ImGui::GetStyle().Colors;
 
 	ImGui::BeginChild(xorstr("###MenuColors"), ImVec2(170, 360), true, m_iImGuiStyle);
 	{
 		ImGui::Text(xorstr("UI Colors"));
-		auto guiColorTheme = ImGui::GetStyle().Colors;
 		ImGui::ColorEdit4(xorstr("###1"), (float*)&guiColorTheme[ImGuiCol_Text], ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
 		ImGui::Text(xorstr("Text"));
@@ -338,7 +356,6 @@ void CSettingsWindow::DrawCfgChild()
 	ImGui::BeginChild(xorstr("###MenuColors2"), ImVec2(170, 360), true, m_iImGuiStyle);
 	{
 		ImGui::Text(xorstr("UI Colors 2"));
-		auto guiColorTheme = ImGui::GetStyle().Colors;
 		ImGui::ColorEdit4(xorstr("###11"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_CheckMark]), ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
 		ImGui::Text(xorstr("Check mark"));

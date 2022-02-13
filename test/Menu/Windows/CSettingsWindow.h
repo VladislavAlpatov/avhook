@@ -1,7 +1,5 @@
 #pragma once 
 #include "CBaseWindow.h"
-#include "../../imgui/imgui.h"
-
 #include "../Settings.h"
 #include "../../Globals/GlobalVars.h"
 #include "../../Utils/CFGloader/CFGloader.h"

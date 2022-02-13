@@ -58,17 +58,17 @@ public:
 
 	virtual json ToJson();
 };
-class BoxEspSetting : public CBaseSettings
+class BoxEspSettings : public CBaseSettings
 {
 public:
-	BoxEspSetting() {};
+	BoxEspSettings() {};
 	ImColor		m_Color      = ImColor(255, 0, 0, 255);
 	int			m_iDrawMode  = 0;
 	int			m_iThickness = 1;
 
 	virtual json ToJson();
 
-	BoxEspSetting(const json& jsn);
+	BoxEspSettings(const json& jsn);
 };
 class MiscSettings : public CBaseSettings
 {
@@ -112,7 +112,8 @@ public:
 class CRadarSettings : public CBaseSettings
 {
 public:
-	CRadarSettings() {}
+	CRadarSettings() {};
+	CRadarSettings(const json& jsn);
 	bool m_bDrawBorders = false;
 	ImColor	m_ActiveFeatureColor   = ImColor(255, 0, 0);
 	ImColor m_InactiveFeatureColor = ImColor(255, 255, 255);
@@ -178,7 +179,7 @@ struct SAllSettings
 	char m_sName[32] = { 0 };
 	AimBotSettings        m_AimBotSettings;
 	SnapLinesSettings     m_SnapLinesSettings;
-	BoxEspSetting	      m_BoxEspSettings;
+	BoxEspSettings	      m_BoxEspSettings;
 	MiscSettings          m_MiscSettings;
 	TriggerBotSettings    m_TriggerBotSettings;
 	CRadarSettings        m_RadarSettings;

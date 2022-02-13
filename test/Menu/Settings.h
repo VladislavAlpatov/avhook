@@ -40,8 +40,8 @@ public:
 
 	enum PriorityType
 	{
-		Distance,
 		FieldOfView,
+		Distance
 	};
 	virtual json ToJson();
 	AimBotSettings(const json& jsn);
@@ -65,9 +65,13 @@ public:
 	ImColor		m_Color      = ImColor(255, 0, 0, 255);
 	int			m_iDrawMode  = 0;
 	int			m_iThickness = 1;
-
+	int			m_iStyle = 0;
 	virtual json ToJson();
-
+	enum  Style
+	{
+		Solid = 0,
+		Cornered
+	};
 	BoxEspSettings(const json& jsn);
 };
 class MiscSettings : public CBaseSettings

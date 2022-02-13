@@ -156,6 +156,7 @@ void CSettingsWindow::DrawEspChild()
 	ImGui::SameLine();
 	ImGui::BeginChild(xorstr("###Boxes"), blockSize, true);
 	{
+		const char* styles[] = {"Solid", "Cornered"};
 		ImGui::Text(xorstr("Box ESP"));
 		ImGui::ColorEdit4(xorstr("###boxcolor"),       (float*)&m_pAllSettings->m_BoxEspSettings.m_Color, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
@@ -163,6 +164,7 @@ void CSettingsWindow::DrawEspChild()
 
 		ImGui::InputInt(xorstr("###boxThickness"),     &m_pAllSettings->m_BoxEspSettings.m_iThickness);
 		ImGui::Combo(xorstr("###BoxEspDrawMode"),      &m_pAllSettings->m_BoxEspSettings.m_iDrawMode, drawOptions, IM_ARRAYSIZE(drawOptions));
+		ImGui::Combo(xorstr("###BoxStyle"), &m_pAllSettings->m_BoxEspSettings.m_iStyle, styles, IM_ARRAYSIZE(styles));
 		ImGui::EndChild();
 	}
 

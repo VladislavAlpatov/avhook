@@ -24,7 +24,7 @@ private:
 
 		float distance = GlobalVars::client->pLocalPlayer->CalcDistaceToEntity(pEntity);
 
-		calculated.x = -asinf((targetPosition.z - localCameraPosition.z) / distance) * (180 / 3.1415926f);
+		calculated.x = -asinf((targetPosition.z - localCameraPosition.z) / distance) * (180.f / 3.1415926f);
 		calculated.y = atan2f(targetPosition.y - localCameraPosition.y, targetPosition.x - localCameraPosition.x) * (180 / 3.1415926f);
 
 		return calculated;

@@ -30,7 +30,10 @@ void CNetWorkWindow::Render()
 
 			ImVec2 cursorPos = ImGui::GetCursorPos();
 			ImGui::SetCursorPos(textPos);
-			ImGui::TextColored(ImColor(0, 255, 0), xorstr("Connection: Synced"));
+			if (m_CurrentUserData.m_iAccountType == -1)
+				ImGui::TextColored(ImColor(255, 0, 0), xorstr("Connection: Failed"));
+			else
+				ImGui::TextColored(ImColor(0, 255, 0), xorstr("Connection: Synced"));
 
 			textPos.y += 14;
 			ImGui::SetCursorPos(textPos);

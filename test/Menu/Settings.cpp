@@ -87,6 +87,7 @@ json BoxEspSettings::ToJson()
 
 	jsn[xorstr("Active")] = m_bActive;
 	jsn[xorstr("Color")] = ImColorToJsn(m_Color);
+	jsn[xorstr("Style")] = m_iStyle;
 	jsn[xorstr("DrawMode")] = m_iDrawMode;
 	jsn[xorstr("Thickness")] = m_iThickness;
 
@@ -94,8 +95,8 @@ json BoxEspSettings::ToJson()
 };
 BoxEspSettings::BoxEspSettings(const json& jsn)
 {
-	m_bActive     = jsn[xorstr("Active")].get<bool>();
-
+	m_bActive    = jsn[xorstr("Active")].get<bool>();
+	m_iStyle	 = jsn[xorstr("Style")].get<int>();
 	m_Color      = ImportImColorFromJson(jsn[xorstr("Color")]);
 	m_iDrawMode  = jsn[xorstr("DrawMode")].get<int>();
 	m_iThickness = jsn[xorstr("Thickness")].get<int>();

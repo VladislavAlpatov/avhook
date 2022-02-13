@@ -3,14 +3,22 @@
 CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, SAllSettings* pAllSetting, bool* pShowKeyBinderDialog) : CBaseWindow(pDevice, hModule)
 {
 	m_pAllSettings          = pAllSetting;
-	m_pShowKeyBinderDialog = pShowKeyBinderDialog;
+	m_pShowKeyBinderDialog  = pShowKeyBinderDialog;
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP5),  &m_pTextureIcon);
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP9),  &m_pTexureAimBotIcon);
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP10), &m_pTexureEspIcon);
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP11), &m_pTexureMiscIcon);
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP8),  &m_pTexureAtomaticColorIcon);
 }
+std::string CSettingsWindow::VirtualKeyNumberToString(int keyNumber)
+{
+	char name[32] = { 0 };
+	UINT scanCode = MapVirtualKeyW(keyNumber, MAPVK_VK_TO_VSC);
+	LONG lParamValue = (scanCode << 16);
+	int result = GetKeyNameTextA(lParamValue, name, 32);
 
+	return std::string(name);
+}
 void CSettingsWindow::Render()
 {
 	ImGui::Begin(xorstr("###Setting"), NULL, m_iImGuiStyle);
@@ -233,8 +241,8 @@ void CSettingsWindow::DrawCfgChild()
 		DrawInputTextWithTextOnBackGround(xorstr("###Fname"), xorstr("<Config name>"), m_pAllSettings->m_sName, 32);
 		if (ImGui::Button(xorstr("Import###fi")))
 		{
-			Config cfg;
-			auto succes = Config::LoadConfigFile(m_pAllSettings->m_sName, &cfg);
+			CConfigLoader cfg(m_pAllSettings->m_sName, &GlobalVars::settings);
+			auto succes = cfg.LoadConfigFile(m_pAllSettings->m_sName);
 			if (succes)
 			{
 				strcpy_s<32>(m_pAllSettings->m_sName, cfg.m_sName);
@@ -244,9 +252,133 @@ void CSettingsWindow::DrawCfgChild()
 		ImGui::SameLine();
 		if (ImGui::Button(xorstr("Export###fb")))
 		{
-			Config cfgOnSave = Config(m_pAllSettings->m_sName, m_pAllSettings);
+			CConfigLoader cfgOnSave = CConfigLoader(m_pAllSettings->m_sName, m_pAllSettings);
 			cfgOnSave.DumpConfigFile(m_pAllSettings->m_sName);
 		}
+		ImGui::EndChild();
+	}
+	ImGui::BeginChild(xorstr("###MiscCfg"), ImVec2(180, 112), true, m_iImGuiStyle);
+	{
+		ImGui::Text(xorstr("Misc Settings"));
+
+		ImGui::Checkbox(xorstr("Snow"), &m_pAllSettings->m_MiscSettings.m_bSnowFlakes);
+		DrawToolTip(xorstr("Draw snowflakes while menu is opened."));
+
+		ImGui::Checkbox(xorstr("Wallpaper"), &m_pAllSettings->m_MiscSettings.m_bWallPaper);
+
+		ImGui::Checkbox(xorstr("Local Time"), &m_pAllSettings->m_MiscSettings.m_bShowTime);
+		DrawToolTip(xorstr("Show local time."));
+
+		ImGui::EndChild();
+	}
+	ImGui::SameLine();
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 84 * 2);
+
+	ImGui::BeginChild(xorstr("###MenuColors"), ImVec2(170, 360), true, m_iImGuiStyle);
+	{
+		ImGui::Text(xorstr("UI Colors"));
+		auto guiColorTheme = ImGui::GetStyle().Colors;
+		ImGui::ColorEdit4(xorstr("###1"), (float*)&guiColorTheme[ImGuiCol_Text], ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Text"));
+
+		ImGui::ColorEdit4(xorstr("###2"), (float*)&guiColorTheme[ImGuiCol_TextDisabled], ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Text (Invactive)"));
+
+		ImGui::ColorEdit4(xorstr("###3"), (float*)&guiColorTheme[ImGuiCol_WindowBg], ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Background"));
+
+		ImGui::ColorEdit4(xorstr("###4"), (float*)&guiColorTheme[ImGuiCol_ChildBg], ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Background child"));
+
+		ImGui::ColorEdit4(xorstr("###5"), (float*)&guiColorTheme[ImGuiCol_PopupBg], ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Background popup"));
+
+		ImGui::ColorEdit4(xorstr("###6"), (float*)&guiColorTheme[ImGuiCol_Border], ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Border"));
+
+		ImGui::ColorEdit4(xorstr("###7"), (float*)&guiColorTheme[ImGuiCol_BorderShadow], ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Border (Shadow)"));
+
+		ImGui::ColorEdit4(xorstr("###8"), (float*)&guiColorTheme[ImGuiCol_FrameBg], ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Frame"));
+
+		ImGui::ColorEdit4(xorstr("###9"), (float*)&guiColorTheme[ImGuiCol_FrameBgHovered], ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Frame (hovered)"));
+
+		ImGui::ColorEdit4(xorstr("###10"), (float*)(&guiColorTheme[ImGuiCol_FrameBgActive]), ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Frame (active)"));
+
+		ImGui::ColorEdit4(xorstr("###Header"), (float*)(&guiColorTheme[ImGuiCol_Header]), ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Header"));
+
+		ImGui::ColorEdit4(xorstr("###HeaderActive"), (float*)(&guiColorTheme[ImGuiCol_HeaderActive]), ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Header (Active)"));
+
+		ImGui::ColorEdit4(xorstr("###HeaderActiveHovered"), (float*)(&guiColorTheme[ImGuiCol_HeaderHovered]), ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Header (Hovered)"));
+
+
+		ImGui::EndChild();
+	}
+
+	ImGui::SameLine();
+	ImGui::BeginChild(xorstr("###MenuColors2"), ImVec2(170, 360), true, m_iImGuiStyle);
+	{
+		ImGui::Text(xorstr("UI Colors 2"));
+		auto guiColorTheme = ImGui::GetStyle().Colors;
+		ImGui::ColorEdit4(xorstr("###11"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_CheckMark]), ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Check mark"));
+
+		ImGui::ColorEdit4(xorstr("###12"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_Button]), ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Button"));
+
+		ImGui::ColorEdit4(xorstr("###13"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_ButtonHovered]), ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Button (Hovered)"));
+
+		ImGui::ColorEdit4(xorstr("###18"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_ButtonActive]), ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Button (Active)"));
+
+		ImGui::ColorEdit4(xorstr("###14"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_TextSelectedBg]), ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Text (Selected)"));
+
+		ImGui::ColorEdit4(xorstr("###19"), reinterpret_cast<float*>(&m_pAllSettings->m_ChromaSettings.m_KillGlowColor), ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Kill glow (chroma)"));
+
+		ImGui::ColorEdit4(xorstr("##21"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_SliderGrab]), ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Slider grab"));
+
+		ImGui::ColorEdit4(xorstr("##22"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_SliderGrabActive]), ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Slider grab (Active)"));
+
+		ImGui::ColorEdit4(xorstr("##Scroll"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_ScrollbarGrab]), ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Scroll bar"));
+
+		ImGui::ColorEdit4(xorstr("##ScrollActive"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_ScrollbarGrabActive]), ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Slider grab (Active)"));
+
 		ImGui::EndChild();
 	}
 }

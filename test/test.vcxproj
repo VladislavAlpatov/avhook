@@ -296,7 +296,6 @@
     <ClInclude Include="Menu\Windows\CSettingsWindow.h" />
     <ClInclude Include="Menu\Windows\CStartWindow.h" />
     <ClInclude Include="Menu\Windows\CTaskBarWindow.h" />
-    <ClInclude Include="Menu\Windows\SettingsWindowBackends\SettingsWindowChildFunctions.h" />
     <ClInclude Include="RawData\RAVhookLogo.h" />
     <ClInclude Include="RazerSDK\CRazer.h" />
     <ClInclude Include="RazerSDK\CRazerExceptions.h" />
@@ -327,6 +326,7 @@
     <ClInclude Include="Utils\VMThook.h" />
     <ClInclude Include="Utils\xorstr.h" />
     <ClInclude Include="Web\CAVhookServerApi.h" />
+    <ClInclude Include="Web\httplib.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirctX\CustomDirectX9Device.cpp" />
@@ -373,6 +373,7 @@
     <ClCompile Include="SDK\IVEngineClient013\IVEngineClient013.cpp" />
     <ClCompile Include="Server\Server.cpp" />
     <ClCompile Include="Utils\CFGloader\CFGloader .cpp" />
+    <ClCompile Include="Utils\memory.cpp" />
     <ClCompile Include="Utils\VMThook.cpp" />
     <ClCompile Include="Web\CAVhookServerApi.cpp" />
   </ItemGroup>

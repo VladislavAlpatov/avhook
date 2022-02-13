@@ -1,7 +1,7 @@
 #include "CFGloader.h"
 
 
-void Config::DumpConfigFile(std::string path)
+void CConfigLoader::DumpConfigFile(std::string path)
 {
 	json outCfgJson;
 	outCfgJson[xorstr("AimBot")]       = m_pSettings.m_AimBotSettings.ToJson();
@@ -20,7 +20,7 @@ void Config::DumpConfigFile(std::string path)
 	file.close();
 }
 
-bool Config::LoadConfigFile(std::string path)
+bool CConfigLoader::LoadConfigFile(std::string path)
 {
 	return false;
 }

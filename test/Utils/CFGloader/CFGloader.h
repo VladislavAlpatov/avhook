@@ -1,11 +1,10 @@
 #pragma once
 #include "../../Menu/Settings.h"
 #include <fstream>
-class Config
+class CConfigLoader
 {
 public:
-	Config() {};
-	Config(const char* name, SAllSettings* settings)
+	CConfigLoader(const char* name, SAllSettings* settings)
 	{
 
 		strcpy_s(m_sName, name);

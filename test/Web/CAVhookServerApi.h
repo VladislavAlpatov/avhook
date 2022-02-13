@@ -35,42 +35,10 @@ public:
 	int m_iAccountType  = -1;
 	int m_iUid = 0;
 	bool m_bIsPremium;
-	const char* AccountTypeIdToString()
+	const char* AccountTypeIdToString();
+	enum AccountType : int
 	{
-#ifndef _DEBUG
-		switch (m_iAccountType)
-		{
-		case AccountType::Standart:
-			return xorstr("Standart");
-
-		case AccountType::BetaTester:
-			return xorstr("Beta tester");
-
-		case AccountType::Developer:
-			return xorstr("Developer");
-		default:
-			return xorstr("Unknown");
-		}
-#else
-
-		switch (m_iAccountType)
-		{
-		case AccountType::Standart:
-			return "Standart";
-
-		case AccountType::BetaTester:
-			return "Beta tester";
-
-		case AccountType::Developer:
-			return "Developer";
-		default:
-			return "Unknown";
-		}
-#endif // !_DEBUG
-	}
-	enum AccountType
-	{
-		Standart,
+		Standart = 0,
 		BetaTester,
 		Developer,
 	};

@@ -33,3 +33,36 @@ std::string CAVHookServerApi::GetRawAvatarDataByUserId(int iUserId)
 	return m_pClient->Get(std::format(xorstr("/media/avatars/{}"), iUserId).c_str()).value().body;
 
 }
+const char* CUserInfo::AccountTypeIdToString()
+{
+#ifndef _DEBUG
+	switch (m_iAccountType)
+	{
+	case AccountType::Standart:
+		return xorstr("Standart");
+
+	case AccountType::BetaTester:
+		return xorstr("Beta tester");
+
+	case AccountType::Developer:
+		return xorstr("Developer");
+	default:
+		return xorstr("Unknown");
+	}
+#else
+
+	switch (m_iAccountType)
+	{
+	case AccountType::Standart:
+		return "Standart";
+
+	case AccountType::BetaTester:
+		return "Beta tester";
+
+	case AccountType::Developer:
+		return "Developer";
+	default:
+		return "Unknown";
+	}
+#endif // !_DEBUG
+}

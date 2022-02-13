@@ -52,9 +52,9 @@ ImVec2 CRadarWindow::WorldToRadar(const ImVec3& EntityOrigin, const ImVec3& Loca
 void CRadarWindow::KeepWindowInSreenArea()
 {
 	ImVec2 currentWindowPosition      = ImGui::GetWindowPos();
-	ImVec2 currentWindowSize     = ImGui::GetWindowSize();
-	ImVec2 viewPortSize         = ImGui::GetMainViewport()->Size;
-	ImVec2 newWindowPosition  = ImGui::GetWindowPos();
+	ImVec2 currentWindowSize          = ImGui::GetWindowSize();
+	ImVec2 viewPortSize               = ImGui::GetMainViewport()->Size;
+	ImVec2 newWindowPosition          = ImGui::GetWindowPos();
 
 	if (currentWindowPosition.x + currentWindowSize.x > viewPortSize.x)
 		newWindowPosition.x = viewPortSize.x - currentWindowSize.x;

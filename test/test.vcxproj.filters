@@ -333,7 +333,7 @@
     <ClInclude Include="Hacks\Esp\CBarsEsp.h">
       <Filter>Hacking features\ESP\Bars</Filter>
     </ClInclude>
-    <ClInclude Include="Menu\Windows\SettingsWindowBackends\SettingsWindowChildFunctions.h">
+    <ClInclude Include="Web\httplib.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -462,6 +462,9 @@
       <Filter>Hacking features\ESP\Bars</Filter>
     </ClCompile>
     <ClCompile Include="Menu\Settings.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\memory.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

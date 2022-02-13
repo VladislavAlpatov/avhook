@@ -11,9 +11,5 @@ public:
 	virtual void Render();
 	PDIRECT3DTEXTURE9 m_pTexureCheatLogo = nullptr;
 
-	virtual ~CAboutWindow()
-	{
-		m_pTexureCheatLogo->Release();
-		m_pTextureIcon->Release();
-	}
+	virtual ~CAboutWindow();
 };

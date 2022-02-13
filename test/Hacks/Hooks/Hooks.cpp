@@ -57,11 +57,11 @@ void hooks::Attach(HMODULE ihModule)
 	MH_CreateHook((LPVOID)presentAddr, &hkPresent, reinterpret_cast<LPVOID*>(&hooks::oPresent));
 	POLY_MARKER
 	// Hook on kill function
-	auto onKillAddr = Memory::FindPattern(xorstr("server.dll"), xorstr("\x55\x8B\xEC\x81\xEC\x00\x00\x00\x00\x53\x8B\xD9\xC7\x05\x4C"), xorstr("xxxxx????xxxxxx"));
+	auto onKillAddr = CMemory::FindPattern(xorstr("server.dll"), xorstr("\x55\x8B\xEC\x81\xEC\x00\x00\x00\x00\x53\x8B\xD9\xC7\x05\x4C"), xorstr("xxxxx????xxxxxx"));
 	MH_CreateHook((LPVOID*)onKillAddr, &hOnkill, (LPVOID*)&oOnKill);
 	POLY_MARKER
 	//Hook CreateMove
-	auto createMoveAddr = Memory::FindPattern(xorstr("client.dll"), xorstr("\x55\x8B\xEC\x56\x8D\x75\x04\x8B"), xorstr("xxxxxxxx"));
+	auto createMoveAddr = CMemory::FindPattern(xorstr("client.dll"), xorstr("\x55\x8B\xEC\x56\x8D\x75\x04\x8B"), xorstr("xxxxxxxx"));
 	MH_CreateHook((LPVOID*)createMoveAddr, &hCreateMove, (LPVOID*)&oCreateMove);
 
 	DWORD DrawIndexedPrimitiveAddr = (DWORD)(GetModuleHandle(xorstr("d3d9.dll"))) + 0x627b0;

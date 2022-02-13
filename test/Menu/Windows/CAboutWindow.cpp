@@ -45,3 +45,9 @@ void CAboutWindow::Render()
 		ImGui::End();
 	}
 }
+
+CAboutWindow::~CAboutWindow()
+{
+	m_pTexureCheatLogo->Release();
+	m_pTextureIcon->Release();
+}

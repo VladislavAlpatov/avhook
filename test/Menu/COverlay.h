@@ -5,7 +5,6 @@
 #include <typeinfo>
 
 #include "Windows/CAboutWindow.h"
-#include "Windows/CSkynetWindow.h"
 #include "Windows/CSettingsWindow.h"
 #include "Windows/CStartWindow.h"
 #include "Windows/CTaskBarWindow.h"

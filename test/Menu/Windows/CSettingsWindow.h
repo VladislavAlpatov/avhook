@@ -37,13 +37,5 @@ private:
 		Menu,
 	};
 protected:
-	std::string VirtualKeyNumberToString(int keyNumber)
-	{
-		char name[32] = { 0 };
-		UINT scanCode = MapVirtualKeyW(keyNumber, MAPVK_VK_TO_VSC);
-		LONG lParamValue = (scanCode << 16);
-		int result = GetKeyNameTextA(lParamValue, name, 32);
-
-		return std::string(name);
-	}
+	std::string VirtualKeyNumberToString(int keyNumber);
 };

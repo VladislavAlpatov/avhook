@@ -17,6 +17,7 @@ void CBarsEsp::InternalRenderAt(CBaseEntity* pEntity)
 
     POLY_MARKER;
 
+
     bottomLeft.x = up.x - (maxBarLength / 4.f) - pSettings->m_iThickness;
     bottomLeft.y = up.y;
 

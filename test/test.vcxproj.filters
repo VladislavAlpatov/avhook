@@ -510,6 +510,12 @@
     <Image Include="images\profile_icon.bmp">
       <Filter>Файлы ресурсов\Icons</Filter>
     </Image>
+    <Image Include="images\avhook.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="images\es_icon_2.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="images\sound1.bin">

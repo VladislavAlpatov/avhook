@@ -384,9 +384,11 @@
     <Image Include="images\about.bmp" />
     <Image Include="images\aimbot_icon.bmp" />
     <Image Include="images\auto_color.bmp" />
+    <Image Include="images\avhook.png" />
     <Image Include="images\ct-icon.bmp" />
     <Image Include="images\default avatar.bmp" />
     <Image Include="images\esp_icon.bmp" />
+    <Image Include="images\es_icon_2.bmp" />
     <Image Include="images\misc_icon.bmp" />
     <Image Include="images\player_list.bmp" />
     <Image Include="images\profile_icon.bmp" />

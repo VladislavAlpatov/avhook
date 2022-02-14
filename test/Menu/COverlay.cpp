@@ -14,8 +14,6 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, SAllSettings* pSe
 	ImFontConfig cfg;
 	cfg.FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_Monochrome | ImGuiFreeTypeBuilderFlags_MonoHinting;
 
-	POLY_MARKER
-
 	m_pFontEsp  = io.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 13.f, &cfg);
 
 	auto& style = ImGui::GetStyle();
@@ -69,7 +67,6 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, SAllSettings* pSe
 
 void COverlay::Render()
 {
-	POLY_MARKER;
 
 	DX9ColorFix color_fix(m_pDevice);
 	color_fix.RemoveColorFilter();
@@ -148,8 +145,6 @@ void COverlay::Render()
 	}
 
 	POLY_MARKER;
-
-	ImGui::EndFrame();
 	color_fix.RestoreRenderState();
 
 	ImGui::Render();

@@ -147,16 +147,18 @@ json BarEspSettings::ToJson()
 	jsn[xorstr("DrawArmorBar")] = m_bDrawArmorBar;
 	jsn[xorstr("Thickness")] = m_iThickness;
 	jsn[xorstr("ArmorColor")] = ImColorToJsn(m_ArmorColor);
+	jsn[xorstr("BackGroundColor")] = ImColorToJsn(m_BackGroundColor);
 
 	return jsn;
 };
 BarEspSettings::BarEspSettings(const json& jsn)
 {
-	m_bActive = jsn[xorstr("Active")].get<bool>();
-	m_bDrawHealthBar = jsn[xorstr("DrawHealthBar")].get<bool>();
-	m_bDrawArmorBar = jsn[xorstr("DrawArmorBar")].get<bool>();
-	m_iThickness = jsn[xorstr("Thickness")].get<int>();
-	m_ArmorColor = ImportImColorFromJson(jsn[xorstr("ArmorColor")].get<json>());
+	m_bActive         = jsn[xorstr("Active")].get<bool>();
+	m_bDrawHealthBar  = jsn[xorstr("DrawHealthBar")].get<bool>();
+	m_bDrawArmorBar   = jsn[xorstr("DrawArmorBar")].get<bool>();
+	m_iThickness      = jsn[xorstr("Thickness")].get<int>();
+	m_ArmorColor      = ImportImColorFromJson(jsn[xorstr("ArmorColor")].get<json>());
+	m_BackGroundColor = ImportImColorFromJson(jsn[xorstr("BackGroundColor")].get<json>());
 }
 
 json CRadarSettings::ToJson()

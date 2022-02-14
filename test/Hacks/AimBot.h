@@ -14,21 +14,7 @@ private:
 	CUserCmd*       m_pCUsrCmd;
 	bool IfEntityInFov(CBaseEntity* ent, int bone);
 	__forceinline int GetBoneIDBySelectedTab();
-	ImVec3 CalcAimViewAngles(CBaseEntity* pEntity, int bone)
-	{
-		ImVec3 calculated;
-
-		ImVec3 targetPosition = pEntity->GetBonePosition(bone);
-
-		ImVec3 localCameraPosition = GlobalVars::client->pLocalPlayer->GetCameraPosition();
-
-		float distance = GlobalVars::client->pLocalPlayer->CalcDistaceToEntity(pEntity);
-
-		calculated.x = -asinf((targetPosition.z - localCameraPosition.z) / distance) * (180.f / 3.1415926f);
-		calculated.y = atan2f(targetPosition.y - localCameraPosition.y, targetPosition.x - localCameraPosition.x) * (180 / 3.1415926f);
-
-		return calculated;
-	}
+	ImVec3 CalcAimViewAngles(CBaseEntity* pEntity, int bone);
 	ImVec3 ClampViewAngles(ImVec3 vecViewAngles)
 	{
 		if (vecViewAngles.x > 89.0f && vecViewAngles.x <= 180.0f)

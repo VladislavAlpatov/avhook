@@ -199,3 +199,19 @@ CBaseEntity* CAimBot::GetClosestTargetByFov(int bone)
 	}
 	return entitylist[0];
 }
+
+ImVec3 CAimBot::CalcAimViewAngles(CBaseEntity* pEntity, int bone)
+{
+	ImVec3 calculated;
+
+	ImVec3 targetPosition = pEntity->GetBonePosition(bone);
+
+	ImVec3 localCameraPosition = GlobalVars::client->pLocalPlayer->GetCameraPosition();
+
+	float distance = GlobalVars::client->pLocalPlayer->CalcDistaceToEntity(pEntity);
+
+	calculated.x = -asinf((targetPosition.z - localCameraPosition.z) / distance) * (180.f / 3.1415926f);
+	calculated.y = atan2f(targetPosition.y - localCameraPosition.y, targetPosition.x - localCameraPosition.x) * (180.f / 3.1415926f);
+
+	return calculated;
+}

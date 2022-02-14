@@ -29,7 +29,7 @@ void CSettingsWindow::Render()
 
 		const ImVec2 buttonSize = ImVec2(102, 30);
 		
-		if (ImGui::Button(xorstr("AIMBOT"), buttonSize))
+		if (ImGui::Button(xorstr("AIM BOT"), buttonSize))
 			m_iTab = TAB::AimBot;
 
 		ImGui::SameLine();
@@ -205,6 +205,11 @@ void CSettingsWindow::DrawEspChild()
 		ImGui::ColorEdit4(xorstr("###ArmorBarColor"), (float*)&m_pAllSettings->m_BarEspSettings.m_ArmorColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
 		ImGui::Checkbox(xorstr("Armor bar"),         &m_pAllSettings->m_BarEspSettings.m_bDrawArmorBar);
+
+		ImGui::ColorEdit4(xorstr("###BgCol"), (float*)&m_pAllSettings->m_BarEspSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Background fill"));
+
 		ImGui::InputInt(xorstr("###barsthiccness"),  &m_pAllSettings->m_BarEspSettings.m_iThickness);
 		ImGui::EndChild();
 	}

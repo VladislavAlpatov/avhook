@@ -12,6 +12,25 @@ CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, SA
 }
 std::string CSettingsWindow::VirtualKeyNumberToString(int keyNumber)
 {
+	switch (keyNumber)
+	{
+	case VK_LBUTTON:
+		return xorstr("Left Mouse Button");
+		break;
+	case VK_RBUTTON:
+		return xorstr("Right Mouse Button");
+		break;
+
+	case VK_XBUTTON1:
+		return xorstr("Mouse4 Button");
+		break;
+
+	case VK_XBUTTON2:
+		return xorstr("Mouse5 Button");
+		break;
+
+	}
+
 	char name[32] = { 0 };
 	UINT scanCode = MapVirtualKeyW(keyNumber, MAPVK_VK_TO_VSC);
 	LONG lParamValue = (scanCode << 16);

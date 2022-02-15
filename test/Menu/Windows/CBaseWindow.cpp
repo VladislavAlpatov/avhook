@@ -135,13 +135,16 @@ void CBaseWindow::DrawMultiLineInputTextWithTextOnBackGround(const char* label, 
 }
 void CBaseWindow::DrawToolTip(const char* text)
 {
-	POLY_MARKER;
+	if (!ImGui::IsItemHovered())
+		return;
+
+	auto& style         =  ImGui::GetStyle();
+	auto oldWindowPad   = style.WindowPadding;
+	style.WindowPadding = ImVec2(2, 2);
 
 	ImGui::PushFont(m_pFontSmall);
-
-	if (ImGui::IsItemHovered())
-	{
-		ImGui::SetTooltip(text);
-	}
+	ImGui::SetTooltip(text);
 	ImGui::PopFont();
+
+	style.WindowPadding = oldWindowPad;
 }

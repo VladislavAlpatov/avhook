@@ -66,7 +66,7 @@ void hooks::Attach(HMODULE ihModule)
 
 	DWORD DrawIndexedPrimitiveAddr = (DWORD)(GetModuleHandle(xorstr("d3d9.dll"))) + 0x627b0;
 	MH_CreateHook((LPVOID*)DrawIndexedPrimitiveAddr, &hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
-
+	MH_CreateHook(GetProcAddress(GetModuleHandle("ntdll"), xorstr("NtQueryVirtualMemory")), &hNtQueryVirtualMemory, (LPVOID*)&oNtQueryVirtualMemory);
 	MH_EnableHook(MH_ALL_HOOKS);
 	// Wait until overlay is ready for work.
 	while (!hooks::pOverlay)
@@ -233,4 +233,18 @@ int __stdcall hooks::hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITI
 	}
 
 	return reinterpret_cast<tDrawIndexedPrimitive>(oDrawIndexedPrimitive)(pDevice, type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
+}
+NTSTATUS __stdcall hooks::hNtQueryVirtualMemory(HANDLE ProcessHandle, PVOID BaseAddress, MEMORY_INFORMATION_CLASS MemoryInformationClass, PVOID MemoryInformation, SIZE_T MemoryInformationLength, PSIZE_T ReturnLength)
+{
+	MODULEINFO modInfol;
+	GetModuleInformation(GetCurrentProcess(), GlobalVars::hModule, &modInfol, sizeof(MODULEINFO));
+	if (BaseAddress >= modInfol.lpBaseOfDll and ((uintptr_t)modInfol.lpBaseOfDll + (uintptr_t)modInfol.SizeOfImage) >= (uintptr_t)BaseAddress)
+	{
+		return 0x80;
+	}
+
+
+	typedef NTSTATUS(__stdcall* tNtQueryVirtualMemory)(HANDLE, PVOID, MEMORY_INFORMATION_CLASS, PVOID, SIZE_T, PSIZE_T);
+	return reinterpret_cast<tNtQueryVirtualMemory>(oNtQueryVirtualMemory)(ProcessHandle, BaseAddress, MemoryInformationClass, MemoryInformation, MemoryInformationLength, ReturnLength);
+
 }

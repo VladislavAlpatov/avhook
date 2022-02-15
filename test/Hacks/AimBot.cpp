@@ -105,8 +105,7 @@ void CAimBot::AimSmooth(CBaseEntity* pEnt, int iBoneId)
 	angle.x += diff.x / pAimBotSettings->m_fSmooth;
 	angle.y += diff.y / pAimBotSettings->m_fSmooth;
 
-	angle = NormalizeViewAngles(angle);
-	angle = ClampViewAngles(angle);
+	angle = ClampViewAngles(NormalizeViewAngles(angle));
 
 	if (fabs(angle.x) <= 89.f and fabs(angle.y) <= 180.f)
 	{

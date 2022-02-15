@@ -19,7 +19,7 @@ public:
 
 		float windowBgColorBackUp = style.Colors[ImGuiCol_WindowBg].w;
 
-		style.Colors[ImGuiCol_WindowBg].w = 0;
+		style.Colors[ImGuiCol_WindowBg].w = 0.f;
 		Render();
 		style.Colors[ImGuiCol_WindowBg].w = windowBgColorBackUp;
 	}

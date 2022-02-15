@@ -126,14 +126,18 @@ int  __fastcall hooks::hOnkill(void* pThis, void* edx)
 
 bool __stdcall hooks::hCreateMove(int fSampleTime, CUserCmd* pUserCmd)
 {
-	POLY_MARKER
-	if (GlobalVars::client->pLocalPlayer == nullptr or pOverlay == nullptr or pOverlay->IsShowUI())
+	POLY_MARKER;
+	if (GlobalVars::client->pLocalPlayer == nullptr or pOverlay == nullptr)
 	{
 		typedef bool(__stdcall* tCreateMove)(int, CUserCmd*);
 		return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
 	}
 	GlobalVars::veLocalPlayerViewAngles = pUserCmd->viewangles;
+	
+	// Overrige fov
+	GlobalVars::client->pLocalPlayer->m_iDefaultFOV = GlobalVars::settings.m_MiscSettings.m_iCustomFov;
 
+	// Looking for "visible" players
 	for (int i = 1; i < 33; ++i)
 	{
 		CBaseEntity* entity = reinterpret_cast<CBaseEntity*>(GlobalVars::pIEntityList->GetClientEntity(i));
@@ -152,11 +156,15 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, CUserCmd* pUserCmd)
 
 		GlobalVars::pIEngineTrace->TraceRay(ray, MASK_SHOT | CONTENTS_GRATE, &tracefilter, &trace);
 
-		if (trace.hit_entity == entity)
-			entity->m_IsVisible = true;
-		else
-			entity->m_IsVisible = false;
+		entity->m_IsVisible = trace.hit_entity == entity;
 	}
+
+	if (pOverlay->IsShowUI())
+	{
+		typedef bool(__stdcall* tCreateMove)(int, CUserCmd*);
+		return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
+	}
+
 	CHackingFeature* features[] = {
 		new BunnyHop(&GlobalVars::settings.m_BunnyHopSettings),
 		new TriggerBot(&GlobalVars::settings.m_TriggerBotSettings),

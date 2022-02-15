@@ -20,6 +20,8 @@ private:
 	// Uses as backup from server
 	CUserInfo m_OldUserData;
 	CUserInfo m_CurrentUserData;
+	bool m_bAvatarSetWindow = false;
+	char m_AvatarPath[128] = {0};
 	void UpdateUserInfo();
 	void SendNewUserInfoToServer(const CUserInfo& info);
 };

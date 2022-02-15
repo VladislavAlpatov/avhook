@@ -176,7 +176,7 @@ void CSettingsWindow::DrawEspChild()
 	ImGui::BeginChild(xorstr("###Boxes"), blockSize, true);
 	{
 		const char* styles[] = {"Solid", "Cornered"};
-		ImGui::Text(xorstr("Box ESP"));
+		ImGui::Text(xorstr("Boxes"));
 		ImGui::ColorEdit4(xorstr("###boxcolor"),       (float*)&m_pAllSettings->m_BoxEspSettings.m_Color, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
 		ImGui::Checkbox(xorstr("Active###Draw boxes"), &m_pAllSettings->m_BoxEspSettings.m_bActive);
@@ -190,7 +190,7 @@ void CSettingsWindow::DrawEspChild()
 	ImGui::SameLine();
 	ImGui::BeginChild(xorstr("###LabelEsp"), blockSize, true);
 	{
-		ImGui::Text(xorstr("Label ESP"));
+		ImGui::Text(xorstr("Labels"));
 		ImGui::ColorEdit4(xorstr("###NameLabelColor"), (float*)&m_pAllSettings->m_LabelEspSettings.m_NameLabelColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
 		ImGui::Checkbox(xorstr("Name"), &m_pAllSettings->m_LabelEspSettings.m_bDrawName);
@@ -216,7 +216,7 @@ void CSettingsWindow::DrawEspChild()
 
 	ImGui::BeginChild(xorstr("###BaResp"), blockSize, true);
 	{
-		ImGui::Text(xorstr("Bar ESP"));
+		ImGui::Text(xorstr("Bars"));
 		ImGui::Image(m_pTexureAtomaticColorIcon, ImVec2(21, 21));
 		ImGui::SameLine();
 		ImGui::Checkbox(xorstr("Health bar"),        &m_pAllSettings->m_BarEspSettings.m_bDrawHealthBar);
@@ -252,8 +252,7 @@ void CSettingsWindow::DrawMiscChild()
 	ImGui::Checkbox(xorstr("Bunny hop"), &m_pAllSettings->m_BunnyHopSettings.m_bActive);
 	DrawToolTip(xorstr("Provide an automatic bunny hop.\n\nNote: Use to gain more speed than 250 hu/s."));
 
-	if (GlobalVars::client->pLocalPlayer)
-		ImGui::SliderInt(xorstr("Field of view"), &GlobalVars::client->pLocalPlayer->m_iDefaultFOV, 1, 120);
+	ImGui::SliderInt(xorstr("Field of view"), &GlobalVars::settings.m_MiscSettings.m_iCustomFov, 1, 120);
 }
 void CSettingsWindow::DrawCfgChild()
 {

@@ -77,8 +77,6 @@ void COverlay::Render()
 
 	auto pDrawList = ImGui::GetBackgroundDrawList();
 
-	POLY_MARKER
-
 	if (GlobalVars::pIEngineClient->IsInGame() and GlobalVars::client->pLocalPlayer != nullptr)
 	{
 

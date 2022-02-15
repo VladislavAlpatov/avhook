@@ -13,16 +13,23 @@ void CNetWorkWindow::Render()
 		DrawCloseWindowButton();
 		ImGui::BeginChild(xorstr("###Profile"), ImVec2(220, 210), true, m_iImGuiStyle);
 		{
+			PDIRECT3DTEXTURE9 validAvatar = NULL;
+
 			if (m_pTextureUserAvatar != nullptr)
-				DrawImageWithBorder(m_pTextureUserAvatar, ImVec2(64, 64));
+				validAvatar = m_pTextureUserAvatar;
 			else
-				DrawImageWithBorder(m_pTexureDefaulteAvatar, ImVec2(64, 64));
+				validAvatar = m_pTexureDefaulteAvatar;
+
+			{
+				bool avatarButtonStatus = ImGui::ImageButton(validAvatar, ImVec2(64, 64), ImVec2(), ImVec2(1, 1), 1);
+				DrawToolTip(xorstr("Click on the avatar to change it."));
+				if (avatarButtonStatus)
+					m_bAvatarSetWindow = !m_bAvatarSetWindow;
+			}
 
 			ImGui::SameLine();
 			ImVec2 textPos = ImGui::GetCursorPos();
 			textPos.y += 20;
-
-			POLY_MARKER
 
 			ImGui::PushItemWidth(125);
 			DrawInputTextWithTextOnBackGround(xorstr("###Name"), xorstr("<Nickname>"), m_CurrentUserData.m_sName, 32);
@@ -45,22 +52,51 @@ void CNetWorkWindow::Render()
 
 			ImGui::SetCursorPos(cursorPos);
 
-			ImGui::PushItemWidth(197);
-			DrawMultiLineInputTextWithTextOnBackGround(xorstr("###Status"),xorstr("<Custom status>"), m_CurrentUserData.m_sStatus, 256);
-			ImGui::PopItemWidth();
+			if (m_bAvatarSetWindow)
+			{
+				ImGui::BeginChild(xorstr("###changeavatr"), ImVec2(197, 80), true, m_iImGuiStyle | ImGuiWindowFlags_NoScrollbar);
+				{
+					DrawInputTextWithTextOnBackGround(xorstr("###AvatarPath"), xorstr("<Avatar Path>"), m_AvatarPath, sizeof(m_AvatarPath));
+
+					std::ifstream file(m_AvatarPath);
+
+					if (m_AvatarPath[0] == NULL)
+						ImGui::Text(xorstr("Status: Empty"));
+
+					else if (file.is_open())
+						ImGui::TextColored(ImColor(0, 255, 0), xorstr("Status: Succeed"));
+
+					else
+						ImGui::TextColored(ImColor(255, 0, 0), xorstr("Status: Invalid Path"));
+					ImGui::Button(xorstr("Upload"));
+
+					ImGui::EndChild();
+				}
+			}
+			else
+			{
+				ImGui::PushItemWidth(197);
+				DrawMultiLineInputTextWithTextOnBackGround(xorstr("###Status"), xorstr("<Custom status>"), m_CurrentUserData.m_sStatus, 256);
+				ImGui::PopItemWidth();
+			}
 
 			ImGui::EndChild();
 		}
 		ImGui::SameLine();
-		ImGui::BeginChild(xorstr("###Cloud"), ImVec2(220, 210), true);
+		ImGui::BeginChild(xorstr("###Cloud"), ImVec2(220, 210), true, m_iImGuiStyle);
 		{
+			ImGui::BeginChild(xorstr("###Cloud"), ImVec2(180, 100), true);
+			{
+				
+				ImGui::EndChild();
+			}
+
 			ImGui::EndChild();
 		}
 		KeepWindowInSreenArea();
 		ImGui::End();
 	}
 }
-
 void CNetWorkWindow::OnOpen()
 {
 	POLY_MARKER;
@@ -77,6 +113,7 @@ CNetWorkWindow::~CNetWorkWindow()
 
 	if (m_pTextureUserAvatar != nullptr)
 		m_pTextureUserAvatar->Release();
+
 	m_pTexureDefaulteAvatar->Release();
 }
 void CNetWorkWindow::OnClose()

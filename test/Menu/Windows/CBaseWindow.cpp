@@ -79,10 +79,9 @@ void CBaseWindow::Show()
 		ImGui::PopFont();
 	}
 }
-void CBaseWindow::DrawInputTextWithTextOnBackGround(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, ImGuiInputTextFlags flags)
+void CBaseWindow::DrawInputTextWithTextOnBackGroundEx(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, const ImColor& bgLabelCol, ImGuiInputTextFlags flags)
 {
-	POLY_MARKER
-
+	
 	if (text[0] != NULL)
 	{
 		ImGui::InputText(label, text, bufferSize);
@@ -92,16 +91,19 @@ void CBaseWindow::DrawInputTextWithTextOnBackGround(const char* label, const cha
 	ImGui::InputText(label, text, bufferSize, flags);
 	auto oldCursorPos = ImGui::GetCursorPos();
 
-	textPos.x += 7;
-	textPos.y += 2;
+	textPos += ImVec2(7, 2);
 
 	ImGui::SetCursorPos(textPos);
-	ImGui::TextColored(ImGui::GetStyle().Colors[ImGuiCol_TextDisabled], backGroundLabel);
+	ImGui::TextColored(bgLabelCol, backGroundLabel);
 	ImGui::SetCursorPos(oldCursorPos);
+}
+
+void CBaseWindow::DrawInputTextWithTextOnBackGround(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, ImGuiInputTextFlags flags)
+{
+	DrawInputTextWithTextOnBackGroundEx(label, backGroundLabel, text, bufferSize,ImGui::GetStyle().Colors[ImGuiCol_TextDisabled], flags);
 }
 void CBaseWindow::DrawImageWithBorder(ImTextureID textureID, const ImVec2& size)
 {
-	POLY_MARKER
 	auto drawList  = ImGui::GetWindowDrawList();
 	auto windowPos = ImGui::GetWindowPos();
 	auto cursorPos = ImGui::GetCursorPos();
@@ -125,8 +127,7 @@ void CBaseWindow::DrawMultiLineInputTextWithTextOnBackGround(const char* label, 
 	ImGui::InputTextMultiline(label, text, bufferSize);
 	auto oldCursorPos = ImGui::GetCursorPos();
 
-	textPos.x += 7;
-	textPos.y += 2;
+	textPos += ImVec2(7, 2);
 
 	ImGui::SetCursorPos(textPos);
 	ImGui::TextColored(ImGui::GetStyle().Colors[ImGuiCol_TextDisabled], backGroundLabel);

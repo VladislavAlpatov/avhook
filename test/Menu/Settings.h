@@ -82,6 +82,7 @@ public:
 	bool m_bShowTime   = false;
 	bool m_bKillSound  = false;
 	bool m_bSnowFlakes = false;
+	int  m_iCustomFov = 90;
 	char killSoundPath[100] = { 0 };
 
 	virtual json ToJson();

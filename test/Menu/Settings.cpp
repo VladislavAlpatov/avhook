@@ -110,7 +110,7 @@ json MiscSettings::ToJson()
 	jsn[xorstr("ShowTime")] = m_bShowTime;
 	jsn[xorstr("KillSound")] = m_bKillSound;
 	jsn[xorstr("SnowFlakes")] = m_bSnowFlakes;
-
+	jsn[xorstr("CustomFov")]  = m_iCustomFov;
 	return jsn;
 };
 MiscSettings::MiscSettings(const json& jsn)
@@ -119,6 +119,7 @@ MiscSettings::MiscSettings(const json& jsn)
 	m_bShowTime = jsn[xorstr("ShowTime")].get<bool>();
 	m_bKillSound = jsn[xorstr("KillSound")].get<bool>();
 	m_bSnowFlakes = jsn[xorstr("SnowFlakes")].get<bool>();
+	m_iCustomFov  = jsn[xorstr("CustomFov")].get<int>();
 }
 
 json TriggerBotSettings::ToJson()

@@ -105,7 +105,6 @@ struct Ray_t
     }
 };
 
-//https://guidedhacking.com/threads/csgo-how-to-find-call-traceray-tutorial.14696/
 
 enum class TraceType
 {

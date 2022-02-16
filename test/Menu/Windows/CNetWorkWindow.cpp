@@ -128,7 +128,7 @@ void CNetWorkWindow::UpdateUserInfo()
 	POLY_MARKER;
 
 	auto serverClient = CAVHookServerApi();
-	m_OldUserData = serverClient.GetUserInfo(GlobalVars::userEmail);
+	m_OldUserData = serverClient.GetUserInfo();
 	auto avatarRawData = serverClient.GetRawAvatarDataByUserId(m_OldUserData.m_iUid);
 
 	if (m_pTextureUserAvatar)
@@ -139,5 +139,5 @@ void CNetWorkWindow::UpdateUserInfo()
 }
 void CNetWorkWindow::SendNewUserInfoToServer(const CUserInfo& info)
 {
-	CAVHookServerApi().SetUserNameAndStatus(GlobalVars::userEmail, info.m_sName, info.m_sStatus);
+	CAVHookServerApi().ChangeUserNameAndStatus(info.m_sName, info.m_sStatus);
 }

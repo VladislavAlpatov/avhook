@@ -9,26 +9,10 @@ class CUserInfo
 public:
 	CUserInfo() {};
 
-	CUserInfo(nlohmann::json jsn)
-	{
-		std::string sUserName    = jsn[xorstr("Name")].get<std::string>();
-		std::string sUserStatus  = jsn[xorstr("Status")].get<std::string>();
-		// Copy data
-		strcpy_s(m_sName,   sUserName.c_str());
-		strcpy_s(m_sStatus, sUserStatus.c_str());
-
-		m_iAccountType = jsn[xorstr("AccountType")].get<int>();
-		m_bIsPremium   = jsn[xorstr("IsPremium")].get<bool>();
-		m_iUid         = jsn[xorstr("Uid")].get<int>();
-
-
-	}
+	CUserInfo(nlohmann::json jsn);
 	bool operator!=(const CUserInfo& info)
 	{
-		if (memcmp((void*)this, (void*)&info, sizeof(CUserInfo)) != 0)
-			return true;
-		return false;
-
+		return memcmp((void*)this, (void*)&info, sizeof(CUserInfo)) != 0;
 	}
 	char m_sName[128]   = { 0 };
 	char m_sStatus[256] = { 0 };
@@ -49,8 +33,10 @@ class CAVHookServerApi
 public:
 	CAVHookServerApi();
 	~CAVHookServerApi();
-	CUserInfo GetUserInfo(const char* sEmail);
-	void SetUserNameAndStatus(const char* email, const char* name, const char* status);
+	CUserInfo GetUserInfo();
+	void ChangeUserNameAndStatus(const char* name, const char* status);
+	bool AuthByToken(const char* authToken);
+
 	std::string GetRawAvatarDataByUserId(int iUserId);
 
 private:

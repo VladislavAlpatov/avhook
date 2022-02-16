@@ -4,12 +4,10 @@
 
 DX9ColorFix::DX9ColorFix(LPDIRECT3DDEVICE9 pDevice)
 {
-    POLY_MARKER
     this->pDevice = pDevice;
 }
 void DX9ColorFix::RemoveColorFilter()
 {
-    POLY_MARKER
     this->pDevice->CreateStateBlock(D3DSBT_ALL, &this->state_block);
 
     for (byte i = 0; i < 7; i++)
@@ -22,7 +20,6 @@ void DX9ColorFix::RemoveColorFilter()
 
 void DX9ColorFix::RestoreRenderState()
 {
-    POLY_MARKER
     this->pDevice->SetVertexShader(nullptr);
     this->pDevice->SetPixelShader(nullptr);
 
@@ -53,7 +50,6 @@ void DX9ColorFix::RestoreRenderState()
 
 void DX9ColorFix::RestoreColorFilter()
 {
-    POLY_MARKER
     this->state_block->Apply();
     this->state_block->Release();
 

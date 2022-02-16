@@ -67,6 +67,8 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 
 BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
+	POLY_MARKER;
+
 	if (dwReason == DLL_PROCESS_ATTACH)
 	{
 		auto client = httplib::Client(AVHOOK_SERVER_URL);
@@ -76,7 +78,11 @@ BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 			MessageBox(NULL, xorstr("I can't connect to the AVhook servers, check your internet connection, the game will be closed."), xorstr("Connection error"), MB_ICONERROR | MB_OK);
 			exit(-1);
 		}
-		POLY_MARKER
+		if (!CAVHookServerApi().AuthByToken(GlobalVars::authToken))
+		{
+			MessageBox(NULL, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);
+			exit(-1);
+		}
 
 		auto data = client.Get(xorstr("/media/sounds/activated.wav")).value().body;
 		GlobalVars::activatedSound = new char[data.size()];

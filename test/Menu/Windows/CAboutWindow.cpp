@@ -30,7 +30,7 @@ void CAboutWindow::Render()
 		ImGui::Image(m_pTexureCheatLogo, ImVec2(100, 100));
 
 		ImGui::SameLine();
-		ImGui::Text(xorstr("COMPILATION DATE: %s\nCOMPILATION TIME: %s\nRegistered to: %s\n"), xorstr(__DATE__), xorstr(__TIME__), GlobalVars::userEmail);
+		ImGui::Text(xorstr("Compilation date: %s\nCompilation time: %s\nPowered by LSS, all rights reserved."), xorstr(__DATE__), xorstr(__TIME__));
 
 		POLY_MARKER
 

@@ -4,24 +4,21 @@ CAVHookServerApi::CAVHookServerApi()
 {
 	m_pClient =  new httplib::Client(AVHOOK_SERVER_URL);
 }
-CUserInfo CAVHookServerApi::GetUserInfo(const char* sEmail)
+CUserInfo CAVHookServerApi::GetUserInfo()
 {
-	nlohmann::json jsn;
-	jsn[xorstr("Email")] = sEmail;
-
 	// Download user data from server
-	auto  jsonUserData = nlohmann::json::parse(m_pClient->Post(xorstr("/api/members/get"), jsn.dump(), xorstr("application/json")).value().body);
+	auto  jsonUserData = nlohmann::json::parse(m_pClient->Get(xorstr("/api/profile/get")).value().body);
 
 	return CUserInfo(jsonUserData);
 }
-void CAVHookServerApi::SetUserNameAndStatus(const char* email, const char* name, const char* status)
+void CAVHookServerApi::ChangeUserNameAndStatus(const char* name, const char* status)
 {
 	nlohmann::json payloadJson;
-	payloadJson[xorstr("Email")]  = email;
+
 	payloadJson[xorstr("Name")]   = name;
 	payloadJson[xorstr("Status")] = status;
 
-	m_pClient->Post(xorstr("/api/members/set"), payloadJson.dump(), xorstr("application/json"));
+	m_pClient->Post(xorstr("/api/profile/set"), payloadJson.dump(), xorstr("application/json"));
 }
 CAVHookServerApi::~CAVHookServerApi()
 {
@@ -29,9 +26,7 @@ CAVHookServerApi::~CAVHookServerApi()
 }
 std::string CAVHookServerApi::GetRawAvatarDataByUserId(int iUserId)
 {
-	
-	return m_pClient->Get(std::format(xorstr("/media/avatars/{}"), iUserId).c_str()).value().body;
-
+	return m_pClient->Get(xorstr("/api/profile/get_avatar")).value().body;
 }
 const char* CUserInfo::AccountTypeIdToString()
 {
@@ -65,4 +60,30 @@ const char* CUserInfo::AccountTypeIdToString()
 		return "Unknown";
 	}
 #endif // !_DEBUG
+}
+
+bool CAVHookServerApi::AuthByToken(const char* authToken)
+{
+	auto payloadJsn = json();
+	payloadJsn[xorstr("Token")] = authToken;
+
+	json authStatus = json::parse(m_pClient->Post(xorstr("/api/oauth/token"), payloadJsn.dump(), xorstr("application/json")).value().body);
+	
+	return authStatus[xorstr("Authorized")].get<bool>();
+
+}
+
+CUserInfo::CUserInfo(nlohmann::json jsn)
+{
+	std::string sUserName   = jsn[xorstr("Name")].get<std::string>();
+	std::string sUserStatus = jsn[xorstr("Status")].get<std::string>();
+	// Copy data
+	strcpy_s(m_sName, sUserName.c_str());
+	strcpy_s(m_sStatus, sUserStatus.c_str());
+
+	m_iAccountType = jsn[xorstr("AccountType")].get<int>();
+	m_bIsPremium   = jsn[xorstr("IsPremium")].get<bool>();
+	m_iUid         = jsn[xorstr("Uid")].get<int>();
+
+
 }

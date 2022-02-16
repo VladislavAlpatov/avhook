@@ -21,7 +21,7 @@ namespace GlobalVars
 	inline SAllSettings       settings;
 	inline IEngineTrace*      pIEngineTrace;
 	inline ImVec3			  veLocalPlayerViewAngles;
-	inline const char		  userEmail[64] = "example@mail.ru";
+	inline const char		  authToken[] = "bWevWkyjyNLFwn4f3tjXJGgSux4H8Jbe";
 	inline bool bChromaSupport = false;
 	void Init(HMODULE hModule);
 

@@ -14,6 +14,6 @@ public:
 	uintptr_t GetOriginalVMptr(int vm_index);
 
 private:
-	uintptr_t* vm_table;
-	std::map<unsigned int, uintptr_t> original_ptrs;
+	uintptr_t* m_pVft;
+	std::map<unsigned int, uintptr_t> m_mOriginalFunctionAddrs;
 };

@@ -16,12 +16,16 @@ public:
 	virtual ~CNetWorkWindow();
 private:
 	PDIRECT3DTEXTURE9 m_pTexureDefaulteAvatar = nullptr;
-	PDIRECT3DTEXTURE9 m_pTextureUserAvatar    = nullptr;
+	PDIRECT3DTEXTURE9 m_pTextureUserAvatar = nullptr;
 	// Uses as backup from server
 	CUserInfo m_OldUserData;
 	CUserInfo m_CurrentUserData;
+	CAVHookServerApi m_ApiClient;
 	bool m_bAvatarSetWindow = false;
+
+	AvatarUploadStatus m_avatarUploadStatus;
 	char m_AvatarPath[128] = {0};
 	void UpdateUserInfo();
 	void SendNewUserInfoToServer(const CUserInfo& info);
+	void SetUserAvatar(const std::string pathToFile);
 };

@@ -28,6 +28,12 @@ public:
 	};
 };
 
+struct AvatarUploadStatus
+{
+	bool m_isSucced            = false;
+	std::string m_sErrorMessage = xorstr("Not uploaded");
+};
+
 class CAVHookServerApi
 {
 public:
@@ -36,8 +42,8 @@ public:
 	CUserInfo GetUserInfo();
 	void ChangeUserNameAndStatus(const char* name, const char* status);
 	bool AuthByToken(const char* authToken);
-
-	std::string GetRawAvatarDataByUserId(int iUserId);
+	AvatarUploadStatus SetUserAvatar(const std::string& rawDatas);
+	std::string GetRawAvatarData();
 
 private:
 	httplib::Client* m_pClient;

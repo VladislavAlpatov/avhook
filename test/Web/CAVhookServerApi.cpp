@@ -24,7 +24,7 @@ CAVHookServerApi::~CAVHookServerApi()
 {
 	delete m_pClient;
 }
-std::string CAVHookServerApi::GetRawAvatarDataByUserId(int iUserId)
+std::string CAVHookServerApi::GetRawAvatarData()
 {
 	return m_pClient->Get(xorstr("/api/profile/get_avatar")).value().body;
 }
@@ -72,7 +72,20 @@ bool CAVHookServerApi::AuthByToken(const char* authToken)
 	return authStatus[xorstr("Authorized")].get<bool>();
 
 }
+AvatarUploadStatus CAVHookServerApi::SetUserAvatar(const std::string& rawData)
+{
+	AvatarUploadStatus status;
 
+	auto inputJsn = json::parse(m_pClient->Post(xorstr("/api/profile/avatar_set"), rawData, xorstr("text/plain")).value().body);
+	status.m_isSucced = inputJsn[xorstr("Status")].get<bool>();
+	
+	if (status.m_isSucced)
+		return status;
+
+	status.m_sErrorMessage = inputJsn[xorstr("Reason")].get<std::string>();
+
+
+}
 CUserInfo::CUserInfo(nlohmann::json jsn)
 {
 	std::string sUserName   = jsn[xorstr("Name")].get<std::string>();
@@ -84,6 +97,5 @@ CUserInfo::CUserInfo(nlohmann::json jsn)
 	m_iAccountType = jsn[xorstr("AccountType")].get<int>();
 	m_bIsPremium   = jsn[xorstr("IsPremium")].get<bool>();
 	m_iUid         = jsn[xorstr("Uid")].get<int>();
-
 
 }

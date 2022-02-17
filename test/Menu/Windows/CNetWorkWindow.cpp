@@ -117,7 +117,7 @@ void CNetWorkWindow::Render()
 void CNetWorkWindow::OnOpen()
 {
 	POLY_MARKER;
-
+	m_bAvatarSetWindow = false;
 	std::thread([this] {UpdateUserInfo(); }).detach();
 }
 CNetWorkWindow::~CNetWorkWindow()

@@ -84,6 +84,7 @@ AvatarUploadStatus CAVHookServerApi::SetUserAvatar(const std::string& rawData)
 
 	status.m_sErrorMessage = inputJsn[xorstr("Reason")].get<std::string>();
 
+	return status;
 
 }
 CUserInfo::CUserInfo(nlohmann::json jsn)

@@ -1,5 +1,5 @@
 #include "CSnapLinesEsp.h"
-
+using namespace Esp;
 
 void CSnapLinesEsp::InternalRenderAt(CBaseEntity* pEntity)
 {

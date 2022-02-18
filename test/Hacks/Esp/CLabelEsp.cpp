@@ -1,4 +1,5 @@
 #include "CLabelEsp.h"
+using namespace Esp;
 
 void CLabelEsp::InternalRenderAt(CBaseEntity* pEntity)
 {

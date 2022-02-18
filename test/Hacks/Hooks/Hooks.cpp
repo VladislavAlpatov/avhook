@@ -165,10 +165,10 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, CUserCmd* pUserCmd)
 		return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
 	}
 
-	CHackingFeature* features[] = {
-		new BunnyHop(&GlobalVars::settings.m_BunnyHopSettings),
-		new TriggerBot(&GlobalVars::settings.m_TriggerBotSettings),
-		new CAimBot(&GlobalVars::settings.m_AimBotSettings, pUserCmd)
+	Hacks::CHackingFeature* features[] = {
+		new Hacks::BunnyHop(&GlobalVars::settings.m_BunnyHopSettings),
+		new Hacks::TriggerBot(&GlobalVars::settings.m_TriggerBotSettings),
+		new Hacks::CAimBot(&GlobalVars::settings.m_AimBotSettings, pUserCmd)
 	};
 
 	for (int i = 0; i < IM_ARRAYSIZE(features); ++i)

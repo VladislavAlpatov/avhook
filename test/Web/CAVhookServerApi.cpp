@@ -1,4 +1,5 @@
 #include "CAVhookServerApi.h"
+using namespace WebApi;
 
 CAVHookServerApi::CAVHookServerApi()
 {
@@ -92,7 +93,7 @@ CUserInfo::CUserInfo(nlohmann::json jsn)
 	std::string sUserName   = jsn[xorstr("Name")].get<std::string>();
 	std::string sUserStatus = jsn[xorstr("Status")].get<std::string>();
 	// Copy data
-	strcpy_s(m_sName, sUserName.c_str());
+	strcpy_s(m_sName,   sUserName.c_str());
 	strcpy_s(m_sStatus, sUserStatus.c_str());
 
 	m_iAccountType = jsn[xorstr("AccountType")].get<int>();

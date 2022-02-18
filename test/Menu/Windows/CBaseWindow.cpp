@@ -1,6 +1,6 @@
 #include "CBaseWindow.h"
 
-CBaseWindow::CBaseWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule)
+Windows::CBaseWindow::CBaseWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule)
 {
 	m_pDevice = pDevice;
 	m_hModule = hModule;
@@ -14,7 +14,7 @@ CBaseWindow::CBaseWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule)
 	m_pFontMediumBold = imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 15.f, &fontBUilderConfig);
 }
 
-void CBaseWindow::Toggle()
+void Windows::CBaseWindow::Toggle()
 {
 	auto newState = !m_bIsShow;
 
@@ -26,7 +26,7 @@ void CBaseWindow::Toggle()
 	m_bIsShow = newState;
 }
 
-void CBaseWindow::KeepWindowInSreenArea()
+void Windows::CBaseWindow::KeepWindowInSreenArea()
 {
 	ImVec2 imgui_window_pos     = ImGui::GetWindowPos();
 	ImVec2 imgui_window_size    = ImGui::GetWindowSize();
@@ -48,7 +48,7 @@ void CBaseWindow::KeepWindowInSreenArea()
 
 	ImGui::SetWindowPos(new_imgui_window_pos);
 }
-void CBaseWindow::DrawIconAndTittle(const char* tittle)
+void Windows::CBaseWindow::DrawIconAndTittle(const char* tittle)
 {
 	ImGui::Image(m_pTextureIcon, ImVec2(16, 16));
 	ImGui::SameLine();
@@ -58,7 +58,7 @@ void CBaseWindow::DrawIconAndTittle(const char* tittle)
 	ImGui::PopFont();
 }
 
-void CBaseWindow::DrawCloseWindowButton()
+void Windows::CBaseWindow::DrawCloseWindowButton()
 {
 	ImVec2 windowSize = ImGui::GetWindowSize();
 
@@ -70,7 +70,7 @@ void CBaseWindow::DrawCloseWindowButton()
 
 }
 
-void CBaseWindow::Show()
+void Windows::CBaseWindow::Show()
 {
 	if (m_bIsShow or m_bForceShow)
 	{
@@ -79,7 +79,7 @@ void CBaseWindow::Show()
 		ImGui::PopFont();
 	}
 }
-void CBaseWindow::DrawInputTextWithTextOnBackGroundEx(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, const ImColor& bgLabelCol, ImGuiInputTextFlags flags)
+void Windows::CBaseWindow::DrawInputTextWithTextOnBackGroundEx(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, const ImColor& bgLabelCol, ImGuiInputTextFlags flags)
 {
 	
 	if (text[0] != NULL)
@@ -98,11 +98,11 @@ void CBaseWindow::DrawInputTextWithTextOnBackGroundEx(const char* label, const c
 	ImGui::SetCursorPos(oldCursorPos);
 }
 
-void CBaseWindow::DrawInputTextWithTextOnBackGround(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, ImGuiInputTextFlags flags)
+void Windows::CBaseWindow::DrawInputTextWithTextOnBackGround(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, ImGuiInputTextFlags flags)
 {
 	DrawInputTextWithTextOnBackGroundEx(label, backGroundLabel, text, bufferSize,ImGui::GetStyle().Colors[ImGuiCol_TextDisabled], flags);
 }
-void CBaseWindow::DrawImageWithBorder(ImTextureID textureID, const ImVec2& size)
+void Windows::CBaseWindow::DrawImageWithBorder(ImTextureID textureID, const ImVec2& size)
 {
 	auto drawList  = ImGui::GetWindowDrawList();
 	auto windowPos = ImGui::GetWindowPos();
@@ -114,7 +114,7 @@ void CBaseWindow::DrawImageWithBorder(ImTextureID textureID, const ImVec2& size)
 
 	ImGui::Image(textureID, size);
 }
-void CBaseWindow::DrawMultiLineInputTextWithTextOnBackGround(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, ImGuiInputTextFlags flags)
+void Windows::CBaseWindow::DrawMultiLineInputTextWithTextOnBackGround(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, ImGuiInputTextFlags flags)
 {
 	POLY_MARKER;
 
@@ -133,7 +133,7 @@ void CBaseWindow::DrawMultiLineInputTextWithTextOnBackGround(const char* label, 
 	ImGui::TextColored(ImGui::GetStyle().Colors[ImGuiCol_TextDisabled], backGroundLabel);
 	ImGui::SetCursorPos(oldCursorPos);
 }
-void CBaseWindow::DrawToolTip(const char* text)
+void Windows::CBaseWindow::DrawToolTip(const char* text)
 {
 	if (!ImGui::IsItemHovered())
 		return;

@@ -1,12 +1,12 @@
 #include "CStartWindow.h"
 
-CStartWindow::CStartWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* pAboutWindow, CBaseWindow* pPlayerListWindow, CBaseWindow* pSettingsWindow) : CBaseWindow(pDevice, hModule)
+Windows::CStartWindow::CStartWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* pAboutWindow, CBaseWindow* pPlayerListWindow, CBaseWindow* pSettingsWindow) : CBaseWindow(pDevice, hModule)
 {
 	m_pPlayerListWindow = pPlayerListWindow;
 	m_pAboutWindow      = pAboutWindow;
 	m_pSettingsWindow   = pSettingsWindow;
 }
-void CStartWindow::Render()
+void Windows::CStartWindow::Render()
 {
 	ImGui::Begin(xorstr("###Start"), NULL, m_iImGuiStyle | ImGuiWindowFlags_NoMove);
 	{

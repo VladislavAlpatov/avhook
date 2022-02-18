@@ -46,17 +46,17 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, SAllSettings* pSe
 	theme[ImGuiCol_TabActive] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
 
 
-	m_vecWindows.push_back(new CAboutWindow(m_pDevice, hModule));
-	m_vecWindows.push_back(new CSettingsWindow(m_pDevice, hModule, pSettings, &m_bShowKeyBindDialog));
-	m_vecWindows.push_back(new CNetWorkWindow(m_pDevice, hModule));
-	m_vecWindows.push_back(new CStartWindow(m_pDevice, hModule, m_vecWindows[0], m_vecWindows[2], m_vecWindows[1]));
-	m_vecWindows.push_back(new CTaskBarWindow(pDevice, hModule, m_vecWindows[3], &pSettings->m_MiscSettings));
+	m_vecWindows.push_back(new Windows::CAboutWindow(m_pDevice, hModule));
+	m_vecWindows.push_back(new Windows::CSettingsWindow(m_pDevice, hModule, pSettings, &m_bShowKeyBindDialog));
+	m_vecWindows.push_back(new Windows::CNetWorkWindow(m_pDevice, hModule));
+	m_vecWindows.push_back(new Windows::CStartWindow(m_pDevice, hModule, m_vecWindows[0], m_vecWindows[2], m_vecWindows[1]));
+	m_vecWindows.push_back(new Windows::CTaskBarWindow(pDevice, hModule, m_vecWindows[3], &pSettings->m_MiscSettings));
 
 	m_vecEspPayload = {
-		new CBoxEsp(&GlobalVars::settings.m_BoxEspSettings), 
-		new CBarsEsp(&GlobalVars::settings.m_BarEspSettings),
-		new CLabelEsp(&GlobalVars::settings.m_LabelEspSettings), 
-		new CSnapLinesEsp(&GlobalVars::settings.m_SnapLinesSettings)
+		new Esp::CBoxEsp(&GlobalVars::settings.m_BoxEspSettings), 
+		new Esp::CBarsEsp(&GlobalVars::settings.m_BarEspSettings),
+		new Esp::CLabelEsp(&GlobalVars::settings.m_LabelEspSettings),
+		new Esp::CSnapLinesEsp(&GlobalVars::settings.m_SnapLinesSettings)
 	};
 
 	for (int i = 0; i < 100; ++i)
@@ -134,7 +134,7 @@ void COverlay::Render()
 	if (m_bShowUI or GlobalVars::pIEngineClient->IsInGame())
 	{
 		m_pAllSettings->m_RadarSettings.m_bDrawBorders = m_bShowUI;
-		CRadarWindow(&m_pAllSettings->m_RadarSettings).Show();
+		Windows::CRadarWindow(&m_pAllSettings->m_RadarSettings).Show();
 	}
 
 	if (m_bShowKeyBindDialog)

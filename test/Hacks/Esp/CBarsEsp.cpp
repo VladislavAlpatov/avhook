@@ -1,5 +1,5 @@
 #include "CBarsEsp.h"
-
+using namespace Esp;
 
 void CBarsEsp::InternalRenderAt(CBaseEntity* pEntity)
 {

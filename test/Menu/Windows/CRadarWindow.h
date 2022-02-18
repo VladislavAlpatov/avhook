@@ -2,31 +2,33 @@
 #include "CBaseWindow.h"
 #include "../../Globals/GlobalVars.h"
 
-
-class CRadarWindow : public IBaseDrawObject
+namespace Windows
 {
-public:
-	CRadarWindow(CRadarSettings* settings)
+	class CRadarWindow : public IBaseDrawObject
 	{
-		m_pRadarSettings = settings;
-	}
-	virtual void Show()
-	{
-		if (!m_pRadarSettings->m_bActive)
-			return;
+	public:
+		CRadarWindow(CRadarSettings* settings)
+		{
+			m_pRadarSettings = settings;
+		}
+		virtual void Show()
+		{
+			if (!m_pRadarSettings->m_bActive)
+				return;
 
-		ImGuiStyle& style = ImGui::GetStyle();
+			ImGuiStyle& style = ImGui::GetStyle();
 
-		float windowBgColorBackUp = style.Colors[ImGuiCol_WindowBg].w;
+			float windowBgColorBackUp = style.Colors[ImGuiCol_WindowBg].w;
 
-		style.Colors[ImGuiCol_WindowBg].w = 0.f;
-		Render();
-		style.Colors[ImGuiCol_WindowBg].w = windowBgColorBackUp;
-	}
+			style.Colors[ImGuiCol_WindowBg].w = 0.f;
+			Render();
+			style.Colors[ImGuiCol_WindowBg].w = windowBgColorBackUp;
+		}
 
-private:
-	CRadarSettings* m_pRadarSettings;
-	virtual void Render();
-	virtual void KeepWindowInSreenArea();
-	ImVec2 WorldToRadar(const ImVec3& EntityOrigin, const ImVec3& LocalPlayerOrigin, const ImVec3& LocalPlayerViewAngles, int width, float scale);
-};
+	private:
+		CRadarSettings* m_pRadarSettings;
+		virtual void Render();
+		virtual void KeepWindowInSreenArea();
+		ImVec2 WorldToRadar(const ImVec3& EntityOrigin, const ImVec3& LocalPlayerOrigin, const ImVec3& LocalPlayerViewAngles, int width, float scale);
+	};
+}

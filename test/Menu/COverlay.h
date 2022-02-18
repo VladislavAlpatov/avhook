@@ -36,14 +36,14 @@ public:
 	void Detach();
 private:
 	std::vector<SnowFlake> m_vecSnow;
-	std::vector<CBaseEsp*> m_vecEspPayload;
+	std::vector<Esp::CBaseEsp*> m_vecEspPayload;
 
 	ImFont* m_pFontMenu;
 	ImFont* m_pFontEsp;
-	bool m_bShowUI            = false;
-	bool m_bShowKeyBindDialog = false;
+	bool    m_bShowUI            = false;
+	bool    m_bShowKeyBindDialog = false;
 
 	SAllSettings* m_pAllSettings = nullptr;
-	std::vector<CBaseWindow*> m_vecWindows;
+	std::vector<Windows::CBaseWindow*> m_vecWindows;
 	LPDIRECT3DDEVICE9 m_pDevice;
 };

@@ -1,4 +1,6 @@
 #include "bhop.h"
+using namespace Hacks;
+
 
 void BunnyHop::Work()
 {

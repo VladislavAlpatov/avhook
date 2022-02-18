@@ -1,6 +1,6 @@
 #include "CNetWorkWindow.h"
 
-CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule) : CBaseWindow(pDevice, hModule)
+Windows::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule) : CBaseWindow(pDevice, hModule)
 {
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP12), &m_pTexureDefaulteAvatar);
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP13), &m_pTextureIcon);
@@ -9,7 +9,7 @@ CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule) : CB
 	D3DXCreateTextureFromFileInMemory(m_pDevice, avatarRawData.c_str(), avatarRawData.size(), &m_pTextureUserAvatar);
 
 }
-void CNetWorkWindow::Render()
+void Windows::CNetWorkWindow::Render()
 {
 	ImGui::Begin(xorstr("###Network"), nullptr, m_iImGuiStyle);
 	{
@@ -114,13 +114,13 @@ void CNetWorkWindow::Render()
 		ImGui::End();
 	}
 }
-void CNetWorkWindow::OnOpen()
+void Windows::CNetWorkWindow::OnOpen()
 {
 	POLY_MARKER;
 	m_bAvatarSetWindow = false;
 	std::thread([this] {UpdateUserInfo(); }).detach();
 }
-CNetWorkWindow::~CNetWorkWindow()
+Windows::CNetWorkWindow::~CNetWorkWindow()
 {
 	POLY_MARKER;
 
@@ -129,25 +129,25 @@ CNetWorkWindow::~CNetWorkWindow()
 
 	m_pTexureDefaulteAvatar->Release();
 }
-void CNetWorkWindow::OnClose()
+void Windows::CNetWorkWindow::OnClose()
 {
 	POLY_MARKER;
 
 	if (m_OldUserData != m_CurrentUserData)
 		std::thread([this] {SendNewUserInfoToServer(m_CurrentUserData); }).detach();
 }
-void CNetWorkWindow::UpdateUserInfo()
+void Windows::CNetWorkWindow::UpdateUserInfo()
 {
 	POLY_MARKER;
 
 	m_OldUserData      = m_ApiClient.GetUserInfo();
 	m_CurrentUserData = m_OldUserData;
 }
-void CNetWorkWindow::SendNewUserInfoToServer(const CUserInfo& info)
+void Windows::CNetWorkWindow::SendNewUserInfoToServer(const WebApi::CUserInfo & info)
 {
 	m_ApiClient.ChangeUserNameAndStatus(info.m_sName, info.m_sStatus);
 }
-void CNetWorkWindow::SetUserAvatar(const std::string pathToFile)
+void Windows::CNetWorkWindow::SetUserAvatar(const std::string pathToFile)
 {
 
 	std::ifstream file(pathToFile, std::ios::binary | std::ios::ate);

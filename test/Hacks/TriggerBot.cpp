@@ -1,4 +1,5 @@
 #include "TriggerBot.h"
+using namespace Hacks;
 
 TriggerBot::TriggerBot(TriggerBotSettings* settings) : CHackingFeature(settings)
 {

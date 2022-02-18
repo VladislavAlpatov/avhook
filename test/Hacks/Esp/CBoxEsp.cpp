@@ -1,5 +1,5 @@
 #include "CBoxEsp.h"
-
+using namespace Esp;
 
 void CBoxEsp::InternalRenderAt(CBaseEntity* pEntity)
 {

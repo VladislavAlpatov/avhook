@@ -1,5 +1,5 @@
 #include "AimBot.h"
-
+using namespace Hacks;
 CAimBot::CAimBot(AimBotSettings* pSettings, CUserCmd* ppUsrCmd) : CHackingFeature(pSettings)
 {
 	m_pCUsrCmd = ppUsrCmd;

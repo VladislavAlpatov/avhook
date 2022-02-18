@@ -5,14 +5,17 @@
 #include "../Menu/Settings.h"
 #include "../Utils/xorstr.h"
 #include "../Globals/GlobalVars.h"
-
-class CHackingFeature
+namespace Hacks
 {
-public:
-	CHackingFeature(CBaseSettings* pSettings);
-	virtual void Work() = 0;
-protected:
-	CBaseSettings* m_pSettings = nullptr;
-	bool IsShouldBeActivated();
+	class CHackingFeature
+	{
+	public:
+		CHackingFeature(CBaseSettings* pSettings);
+		virtual void Work() = 0;
+	protected:
+		CBaseSettings* m_pSettings = nullptr;
+		bool IsShouldBeActivated();
 
-};
+	};
+
+}

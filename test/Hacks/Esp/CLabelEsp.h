@@ -3,22 +3,24 @@
 #include <format>
 
 
-
-class CLabelEsp : public CBaseEsp
+namespace Esp
 {
-public:
-	CLabelEsp(CLabelEspSettings* pSettings) : CBaseEsp(pSettings) {};
-	virtual void InternalRenderAt(CBaseEntity* pEntity);
-
-private:
-	struct Label
+	class CLabelEsp : public CBaseEsp
 	{
-		Label(const ImColor& color, const std::string& text)
+	public:
+		CLabelEsp(CLabelEspSettings* pSettings) : CBaseEsp(pSettings) {};
+		virtual void InternalRenderAt(CBaseEntity* pEntity);
+
+	private:
+		struct Label
 		{
-			m_Color = color;
-			m_Text = text;
-		}
-		ImColor     m_Color;
-		std::string m_Text;
+			Label(const ImColor& color, const std::string& text)
+			{
+				m_Color = color;
+				m_Text = text;
+			}
+			ImColor     m_Color;
+			std::string m_Text;
+		};
 	};
 };

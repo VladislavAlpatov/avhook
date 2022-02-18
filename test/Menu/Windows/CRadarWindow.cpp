@@ -1,6 +1,6 @@
 #include "CRadarWindow.h"
 
-ImVec2 CRadarWindow::WorldToRadar(const ImVec3& EntityOrigin, const ImVec3& LocalPlayerOrigin, const ImVec3& LocalPlayerViewAngles, int width, float scale = 16.f)
+ImVec2 Windows::CRadarWindow::WorldToRadar(const ImVec3& EntityOrigin, const ImVec3& LocalPlayerOrigin, const ImVec3& LocalPlayerViewAngles, int width, float scale = 16.f)
 {
 	float x_diff = EntityOrigin.x - LocalPlayerOrigin.x;
 	float y_diff = EntityOrigin.y - LocalPlayerOrigin.y;
@@ -49,7 +49,7 @@ ImVec2 CRadarWindow::WorldToRadar(const ImVec3& EntityOrigin, const ImVec3& Loca
 
 	return ImVec2(xnew_diff, ynew_diff);
 }
-void CRadarWindow::KeepWindowInSreenArea()
+void Windows::CRadarWindow::KeepWindowInSreenArea()
 {
 	ImVec2 currentWindowPosition      = ImGui::GetWindowPos();
 	ImVec2 currentWindowSize          = ImGui::GetWindowSize();
@@ -71,7 +71,7 @@ void CRadarWindow::KeepWindowInSreenArea()
 	ImGui::SetWindowPos(newWindowPosition);
 	
 }
-void CRadarWindow::Render()
+void Windows::CRadarWindow::Render()
 {
 	if (m_pRadarSettings->m_bDrawBorders)
 		ImGui::Begin(xorstr("###Radar"), NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);

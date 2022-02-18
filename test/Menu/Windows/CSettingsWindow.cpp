@@ -1,6 +1,6 @@
 #include "CSettingsWindow.h"
 
-CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, SAllSettings* pAllSetting, bool* pShowKeyBinderDialog) : CBaseWindow(pDevice, hModule)
+Windows::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, SAllSettings* pAllSetting, bool* pShowKeyBinderDialog) : CBaseWindow(pDevice, hModule)
 {
 	m_pAllSettings          = pAllSetting;
 	m_pShowKeyBinderDialog  = pShowKeyBinderDialog;
@@ -10,7 +10,7 @@ CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, SA
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP11), &m_pTexureMiscIcon);
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP8),  &m_pTexureAtomaticColorIcon);
 }
-std::string CSettingsWindow::VirtualKeyNumberToString(int keyNumber)
+std::string Windows::CSettingsWindow::VirtualKeyNumberToString(int keyNumber)
 {
 	switch (keyNumber)
 	{
@@ -38,7 +38,7 @@ std::string CSettingsWindow::VirtualKeyNumberToString(int keyNumber)
 
 	return std::string(name);
 }
-void CSettingsWindow::Render()
+void Windows::CSettingsWindow::Render()
 {
 	ImGui::Begin(xorstr("###Setting"), NULL, m_iImGuiStyle);
 	{
@@ -89,7 +89,7 @@ void CSettingsWindow::Render()
 		ImGui::End();
 	}
 }
-void CSettingsWindow::DrawAimbotChild()
+void Windows::CSettingsWindow::DrawAimbotChild()
 {
 	ImGui::Text(xorstr("Automatic Target Acquisition System"));
 	const char* hitboxes[]   = { "Head", "Body", "Legs" };
@@ -147,7 +147,7 @@ void CSettingsWindow::DrawAimbotChild()
 	}
 }
 
-void CSettingsWindow::DrawEspChild()
+void Windows::CSettingsWindow::DrawEspChild()
 {
 	ImGui::SetWindowSize(ImVec2(555, 500));
 
@@ -247,14 +247,14 @@ void CSettingsWindow::DrawEspChild()
 		ImGui::EndChild();
 	}
 }
-void CSettingsWindow::DrawMiscChild()
+void Windows::CSettingsWindow::DrawMiscChild()
 {
 	ImGui::Checkbox(xorstr("Bunny hop"), &m_pAllSettings->m_BunnyHopSettings.m_bActive);
 	DrawToolTip(xorstr("Provide an automatic bunny hop.\n\nNote: Use to gain more speed than 250 hu/s."));
 
 	ImGui::SliderInt(xorstr("Field of view"), &GlobalVars::settings.m_MiscSettings.m_iCustomFov, 1, 120);
 }
-void CSettingsWindow::DrawCfgChild()
+void Windows::CSettingsWindow::DrawCfgChild()
 {
 	ImGui::SetWindowSize(ImVec2(555, 450));
 

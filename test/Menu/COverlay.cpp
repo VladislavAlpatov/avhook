@@ -79,6 +79,7 @@ void COverlay::Render()
 
 	if (GlobalVars::pIEngineClient->IsInGame() and GlobalVars::client->pLocalPlayer != nullptr)
 	{
+		std::vector<CBaseEntity*> validEntities;
 
 		for (int i = 1; i < 33; ++i)
 		{
@@ -86,13 +87,23 @@ void COverlay::Render()
 
 			if (pEntity == nullptr or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::client->pLocalPlayer->m_iTeamNum or pEntity->m_bDormant)
 				continue;
+			validEntities.push_back(pEntity);
+			
+		}
+		std::sort(validEntities.begin(), validEntities.end(), 
 
+			[](CBaseEntity* first, CBaseEntity* second)
+			{
+				return GlobalVars::client->pLocalPlayer->CalcDistaceToEntity(first) > GlobalVars::client->pLocalPlayer->CalcDistaceToEntity(second);
+			});
+		// Render Esp
+		for (auto pEntity : validEntities)
+		{
 			for (auto pEsp : m_vecEspPayload)
 			{
 				if (pEsp->isActive())
 					pEsp->RenderAt(pEntity);
 			}
-			
 		}
 	}
 
@@ -109,10 +120,6 @@ void COverlay::Render()
 		{
 			window->Show();
 		}
-
-#ifdef DEV_BUILD
-		drawList->AddText(ImVec2(), ImColor(255, 255, 255), xorstr("DEVELOPER BUILD"));
-#endif // DEV_BUILD
 
 		if (m_pAllSettings->m_MiscSettings.m_bSnowFlakes)
 		{

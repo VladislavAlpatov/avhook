@@ -43,10 +43,10 @@ void CBoxEsp::DrawSolidBox(CBaseEntity* pEntity, const ImColor& drawColor, int t
     float height = fabs(up.y - bottom.y);
 
 
-    ImVec2 topLeft = ImVec2(up.x - (height / 4.f), up.y);
-    ImVec2 topRight = ImVec2(up.x + (height / 4.f), up.y);
+    ImVec2 topLeft     = ImVec2(up.x - (height / 4.f), up.y);
+    ImVec2 topRight    = ImVec2(up.x + (height / 4.f), up.y);
     ImVec2 bottomRight = ImVec2(topRight.x, bottom.y);
-    ImVec2 bottomLeft = ImVec2(topLeft.x, bottom.y);
+    ImVec2 bottomLeft  = ImVec2(topLeft.x, bottom.y);
 
     auto pDrawList = ImGui::GetBackgroundDrawList();
 

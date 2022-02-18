@@ -13,14 +13,15 @@ namespace Hacks
 
 	private:
 		CUserCmd* m_pCUsrCmd;
-		bool IfEntityInFov(CBaseEntity* ent, int bone);
+		bool IfEntityInFov(const CBaseEntity* ent, const int bone) const;
 		__forceinline int GetBoneIDBySelectedTab();
-		ImVec3 CalcAimViewAngles(CBaseEntity* pEntity, int bone);
-		ImVec3 ClampViewAngles(ImVec3 vecViewAngles);
-		ImVec3 NormalizeViewAngles(ImVec3 vecViewAngle);
+		ImVec3 CalcAimViewAngles(const CBaseEntity* pEntity, int bone) const;
+		static ImVec3 ClampViewAngles(ImVec3 vecViewAngles);
+		static ImVec3 NormalizeViewAngles(ImVec3 vecViewAngle);
 		void AimSmooth(CBaseEntity* pEnt, int iBoneId);
 		void AimPlain(CBaseEntity* pEnt, int iBoneId);
 		CBaseEntity* GetClosestTargetByDistance(int bone);
 		CBaseEntity* GetClosestTargetByFov(int bone);
+		std::vector<CBaseEntity*> GetValidEntities(const int boneId) const;
 	};
 }

@@ -41,9 +41,9 @@ namespace WebApi
 		CAVHookServerApi();
 		~CAVHookServerApi();
 		CUserInfo GetUserInfo();
-		void ChangeUserNameAndStatus(const char* name, const char* status);
-		bool AuthByToken(const char* authToken);
-		AvatarUploadStatus SetUserAvatar(const std::string& rawDatas);
+		void ChangeUserNameAndStatus(const char* name, const char* status) const;
+		bool AuthByToken(const char* authToken) const;
+		AvatarUploadStatus SetUserAvatar(const std::string& rawDatas) const;
 		std::string GetRawAvatarData();
 
 	private:

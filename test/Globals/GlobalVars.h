@@ -4,6 +4,8 @@
 #include "../SDK/ClientBase.h"
 #include "../Menu/Settings.h"
 #include "../Utils/xorstr.h"
+#include "../SDK/IClientEntityList.h"
+#include "../Utils/GetInterface.h"
 
 #ifndef _DEBUG
 	#define AVHOOK_SERVER_URL xorstr("http://server.avhook.ru")

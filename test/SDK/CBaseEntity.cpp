@@ -1,18 +1,19 @@
 #include "CBaseEntity.h"
-ImVec3 CBaseEntity::GetBonePosition(int bone)
+ImVec3 CBaseEntity::GetBonePosition(const int bone) const
 {
-	DWORD  pBone = this->boneMatrix;
+	DWORD  pBone = m_pBoneMatrix;
 	ImVec3 position;
 
-	position.x = *reinterpret_cast<float*>((pBone + 0x30 * bone + 0x0C));
-	position.y = *reinterpret_cast<float*>((pBone + 0x30 * bone + 0x1C));
-	position.z = *reinterpret_cast<float*>((pBone + 0x30 * bone + 0x2C));
+	position.x = *(float*)((pBone + 0x30 * bone + 0x0C));
+	position.y = *(float*)((pBone + 0x30 * bone + 0x1C));
+	position.z = *(float*)((pBone + 0x30 * bone + 0x2C));
 
 	return position;
 }
 
-float CBaseEntity::CalcDistaceToEntity(CBaseEntity* entity)
+float CBaseEntity::CalcDistaceToEntity(const CBaseEntity* entity) const
 {
+	const CBaseEntity* ent;
 
 	return (m_vecOrigin + m_vecViewOffset).DistTo(entity->GetBonePosition(8));
 }
@@ -35,9 +36,7 @@ ImVec3 CBaseEntity::GetCameraPosition()
 {
 	return m_vecOrigin + m_vecViewOffset;
 }
-bool   CBaseEntity::IsAlive()
+bool CBaseEntity::IsAlive()
 {
-	if (m_iHealth > 0)
-			return true;
-	return false;
+	return m_iHealth > 0;
 }

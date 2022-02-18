@@ -12,7 +12,7 @@ CUserInfo CAVHookServerApi::GetUserInfo()
 
 	return CUserInfo(jsonUserData);
 }
-void CAVHookServerApi::ChangeUserNameAndStatus(const char* name, const char* status)
+void CAVHookServerApi::ChangeUserNameAndStatus(const char* name, const char* status) const 
 {
 	nlohmann::json payloadJson;
 
@@ -63,7 +63,7 @@ const char* CUserInfo::AccountTypeIdToString()
 #endif // !_DEBUG
 }
 
-bool CAVHookServerApi::AuthByToken(const char* authToken)
+bool CAVHookServerApi::AuthByToken(const char* authToken) const
 {
 	auto payloadJsn = json();
 	payloadJsn[xorstr("Token")] = authToken;
@@ -73,7 +73,7 @@ bool CAVHookServerApi::AuthByToken(const char* authToken)
 	return authStatus[xorstr("Authorized")].get<bool>();
 
 }
-AvatarUploadStatus CAVHookServerApi::SetUserAvatar(const std::string& rawData)
+AvatarUploadStatus CAVHookServerApi::SetUserAvatar(const std::string& rawData) const
 {
 	AvatarUploadStatus status;
 

@@ -189,9 +189,6 @@
     <ClInclude Include="SDK\ClientBase.h">
       <Filter>SDK</Filter>
     </ClInclude>
-    <ClInclude Include="SDK\CLocalPlayer.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
     <ClInclude Include="SDK\EngineBase.h">
       <Filter>SDK</Filter>
     </ClInclude>
@@ -378,9 +375,6 @@
       <Filter>SDK</Filter>
     </ClCompile>
     <ClCompile Include="SDK\ClientBase.cpp">
-      <Filter>SDK</Filter>
-    </ClCompile>
-    <ClCompile Include="SDK\CLocalPlayer.cpp">
       <Filter>SDK</Filter>
     </ClCompile>
     <ClCompile Include="SDK\IVEngineClient013\IVEngineClient013.cpp">

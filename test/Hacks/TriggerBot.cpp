@@ -11,7 +11,7 @@ void TriggerBot::Work()
 		return;
 
 	auto pTriggerBotSettings = (TriggerBotSettings*)m_pSettings;
-	CLocalPlayer* localplayer = GlobalVars::client->pLocalPlayer;
+	CBaseEntity* localplayer = GlobalVars::client->pLocalPlayer;
 	CBaseEntity*  entity      = GlobalVars::pIEntityList->GetClientEntity(localplayer->m_iCrosshairId);
 
 
@@ -20,7 +20,7 @@ void TriggerBot::Work()
 
 	Sleep(pTriggerBotSettings->m_iDelay);
 	if (pTriggerBotSettings->m_bRageMode)
-		localplayer->AimAt(entity, NULL, this->bone);
+		//localplayer->AimAt(entity, NULL, this->bone);
 
 	GlobalVars::client->dwForceAttack = 6;
 	Sleep(20);

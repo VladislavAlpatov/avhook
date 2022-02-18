@@ -307,7 +307,6 @@
     <ClInclude Include="SDK\AbstractInterface.h" />
     <ClInclude Include="SDK\CBaseEntity.h" />
     <ClInclude Include="SDK\ClientBase.h" />
-    <ClInclude Include="SDK\CLocalPlayer.h" />
     <ClInclude Include="SDK\IEngineTrace.h" />
     <ClInclude Include="SDK\CUserCMD.h" />
     <ClInclude Include="SDK\EngineBase.h" />
@@ -369,7 +368,6 @@
     <ClCompile Include="RazerSDK\CRazer.cpp" />
     <ClCompile Include="SDK\CBaseEntity.cpp" />
     <ClCompile Include="SDK\ClientBase.cpp" />
-    <ClCompile Include="SDK\CLocalPlayer.cpp" />
     <ClCompile Include="SDK\IVEngineClient013\IVEngineClient013.cpp" />
     <ClCompile Include="Server\Server.cpp" />
     <ClCompile Include="Utils\CFGloader\CFGloader .cpp" />

@@ -3,7 +3,7 @@
 
 #include "../Utils/offsets.h"
 #include "CBaseEntity.h"
-#include "CLocalPlayer.h"
+
 
 
 class viewmatrix
@@ -26,7 +26,7 @@ public:
 		DEFINE_MEMBER_N(int,	       dwForceJump,         signatures::dwForceJump);
 		DEFINE_MEMBER_N(int,	       dwForceAttack,	    signatures::dwForceAttack);
 		DEFINE_MEMBER_N(viewmatrix,    dwViewmatrix,        signatures::dwViewMatrix);
-		DEFINE_MEMBER_N(CLocalPlayer*, pLocalPlayer,       signatures::dwLocalPlayer);
+		DEFINE_MEMBER_N(CBaseEntity*, pLocalPlayer,       signatures::dwLocalPlayer);
 		DEFINE_MEMBER_N(DWORD,         dwGlowObjectManager, signatures::dwGlowObjectManager);
 	};
 	// Make local player jump

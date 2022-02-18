@@ -24,15 +24,15 @@ public:
 		DEFINE_MEMBER_N(int, m_iCrosshairId, netvars::m_iCrosshairId);
 		DEFINE_MEMBER_N(ImVec3, m_vecViewOffset, netvars::m_vecViewOffset);
 		DEFINE_MEMBER_N(ImVec3, m_vecOrigin, netvars::m_vecOrigin);
-		DEFINE_MEMBER_N(DWORD, boneMatrix, netvars::m_dwBoneMatrix);
+		DEFINE_MEMBER_N(DWORD, m_pBoneMatrix, netvars::m_dwBoneMatrix);
 		DEFINE_MEMBER_N(ImVec3, m_vecVelocity, netvars::m_vecVelocity);
 		DEFINE_MEMBER_N(bool, m_bDormant, signatures::m_bDormant);
 
 	};
 	// Get position of bone like head, pelvis and etc...
-	ImVec3 GetBonePosition(int bone);
+	ImVec3 GetBonePosition(const int bone) const;
 	// Calc distance to entity
-	float CalcDistaceToEntity(CBaseEntity* entity);
+	float CalcDistaceToEntity(const CBaseEntity* entity) const;
 	//Get color based on entity health
 	ImColor GetColorBasedOnHealth();
 	// Get entity camera position

@@ -156,8 +156,4 @@ public:
     {
         return ImVec3(x / v.x, y / v.y, z / v.z);
     }
-    void Init(float ix = 0.0f, float iy = 0.0f, float iz = 0.0f)
-    {
-        x = ix; y = iy; z = iz;
-    }
 };

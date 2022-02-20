@@ -1,6 +1,6 @@
 #include "CSettingsWindow.h"
 
-Windows::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, SAllSettings* pAllSetting, bool* pShowKeyBinderDialog) : CBaseWindow(pDevice, hModule)
+Windows::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, Settings::SAllSettings* pAllSetting, bool* pShowKeyBinderDialog) : CBaseWindow(pDevice, hModule)
 {
 	m_pAllSettings          = pAllSetting;
 	m_pShowKeyBinderDialog  = pShowKeyBinderDialog;

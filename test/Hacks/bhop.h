@@ -8,7 +8,7 @@ namespace Hacks
 	{
 	public:
 		void Work() override;
-		BunnyHop(CBunnyHopSettings* pSettings);
+		BunnyHop(Settings::CBunnyHopSettings* pSettings);
 	private:
 		int m_iPerfectJumps = 0;
 	};

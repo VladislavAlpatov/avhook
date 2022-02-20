@@ -9,7 +9,7 @@ namespace Windows
 	class CSettingsWindow : public CBaseWindow
 	{
 	public:
-		CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, SAllSettings* pAllSetting, bool* pShowKeyBinderDialog);
+		CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, Settings::SAllSettings* pAllSetting, bool* pShowKeyBinderDialog);
 		virtual void Render();
 	private:
 		char m_pMenuCfgName[32] = {};
@@ -24,7 +24,7 @@ namespace Windows
 		PDIRECT3DTEXTURE9 m_pTexureEspIcon = nullptr;
 		PDIRECT3DTEXTURE9 m_pTexureMiscIcon = nullptr;
 		PDIRECT3DTEXTURE9 m_pTexureAtomaticColorIcon = nullptr;
-		SAllSettings* m_pAllSettings = nullptr;
+		Settings::SAllSettings* m_pAllSettings = nullptr;
 		int               m_iTab = 0;
 
 		enum TAB

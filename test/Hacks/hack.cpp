@@ -1,6 +1,6 @@
 #include "hack.h"
 using namespace Hacks;
-CHackingFeature::CHackingFeature(CBaseSettings* pSettings)
+CHackingFeature::CHackingFeature(Settings::CBaseSettings* pSettings)
 {
 	m_pSettings = pSettings;
 }

@@ -1,10 +1,12 @@
 #pragma once
 #include "../../Menu/Settings.h"
 #include <fstream>
+#include "nlohmann/json.hpp"
+
 class CConfigLoader
 {
 public:
-	CConfigLoader(const char* name, SAllSettings* settings)
+	CConfigLoader(const char* name, Settings::SAllSettings* settings)
 	{
 
 		strcpy_s(m_sName, name);
@@ -13,7 +15,7 @@ public:
 	}
 
 	char m_sName[32];
-	SAllSettings* m_pSettings;
+	Settings::SAllSettings* m_pSettings;
 
 	void DumpConfigFile(std::string path);
 	bool LoadConfigFile(std::string path);

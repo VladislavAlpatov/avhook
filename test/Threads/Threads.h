@@ -17,6 +17,6 @@ public:
 	CServer* m_pServer;
 private:
 	std::vector<HANDLE> m_hThreadsHandles;
-	static DWORD WINAPI TriggerBotThread(TriggerBotSettings* pTriggerBotSettings);
+	static DWORD WINAPI TriggerBotThread(Settings::TriggerBotSettings* pTriggerBotSettings);
 	static DWORD WINAPI ServerThread(CServer* pServer);
 };

@@ -8,7 +8,7 @@ namespace Esp
 	class CBaseEsp
 	{
 	public:
-		CBaseEsp(CBaseSettings* pSettings)
+		CBaseEsp(Settings::CBaseSettings* pSettings)
 		{
 			m_pSettings = pSettings;
 		};
@@ -30,7 +30,7 @@ namespace Esp
 		}
 
 	private:
-		CBaseSettings* m_pSettings;
+		Settings::CBaseSettings* m_pSettings;
 
 		bool IsEntityOnScreen(CBaseEntity* pEnt)
 		{

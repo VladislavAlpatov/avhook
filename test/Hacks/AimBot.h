@@ -8,7 +8,7 @@ namespace Hacks
 	class CAimBot : public CHackingFeature
 	{
 	public:
-		CAimBot(AimBotSettings* settings, CUserCmd* pUsrCmd);
+		CAimBot(Settings::AimBotSettings* settings, CUserCmd* pUsrCmd);
 		virtual void Work();
 
 	private:

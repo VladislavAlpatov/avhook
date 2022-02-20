@@ -5,7 +5,7 @@ void CBarsEsp::InternalRenderAt(CBaseEntity* pEntity)
 {
     POLY_MARKER;
 
-    auto pSettings = GetSettings<BarEspSettings>();
+    auto pSettings = GetSettings<Settings::BarEspSettings>();
 
     ImVec3 up       = WorldToScreen(pEntity->m_vecOrigin);
 

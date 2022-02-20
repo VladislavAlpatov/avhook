@@ -14,6 +14,11 @@ class ALIGN16 VectorAligned : public ImVec3
 public:
     inline VectorAligned(void) {};
 
+    void Init(float ix = 0.0f, float iy = 0.0f, float iz = 0.0f)
+    {
+        x = ix; y = iy; z = iz;
+    }
+
     explicit VectorAligned(const ImVec3& vOther)
     {
         Init(vOther.x, vOther.y, vOther.z);

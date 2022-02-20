@@ -1,7 +1,7 @@
 #include "TriggerBot.h"
 using namespace Hacks;
 
-TriggerBot::TriggerBot(TriggerBotSettings* settings) : CHackingFeature(settings)
+TriggerBot::TriggerBot(Settings::TriggerBotSettings* settings) : CHackingFeature(settings)
 {
 
 }
@@ -10,7 +10,7 @@ void TriggerBot::Work()
 	if (!IsShouldBeActivated())
 		return;
 
-	auto pTriggerBotSettings = (TriggerBotSettings*)m_pSettings;
+	auto pTriggerBotSettings = (Settings::TriggerBotSettings*)m_pSettings;
 	CBaseEntity* localplayer = GlobalVars::client->pLocalPlayer;
 	CBaseEntity*  entity      = GlobalVars::pIEntityList->GetClientEntity(localplayer->m_iCrosshairId);
 

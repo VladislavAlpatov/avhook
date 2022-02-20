@@ -8,7 +8,7 @@ namespace Esp
 	class CLabelEsp : public CBaseEsp
 	{
 	public:
-		CLabelEsp(CLabelEspSettings* pSettings) : CBaseEsp(pSettings) {};
+		CLabelEsp(Settings::CLabelEspSettings* pSettings) : CBaseEsp(pSettings) {};
 		virtual void InternalRenderAt(CBaseEntity* pEntity);
 
 	private:

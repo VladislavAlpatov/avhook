@@ -13,7 +13,7 @@ void CBindListener::Listen()
 void CBindListener::RutineThread(int* pVirtualKeyValue, bool* pShowKeyBinderDialog)
 {
 	*pShowKeyBinderDialog = true;
-	Sleep(1000);
+	Sleep(500);
 	while (true)
 	{
 		for (int keyNum = 0; keyNum < 0xFE + 1; ++keyNum)

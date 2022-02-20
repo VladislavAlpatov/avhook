@@ -1,6 +1,6 @@
 #include "CTaskBarWindow.h"
 
-Windows::CTaskBarWindow::CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* startWindow, MiscSettings* pMiscSettings) : CBaseWindow(pDevice, hModule)
+Windows::CTaskBarWindow::CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* startWindow, Settings::MiscSettings* pMiscSettings) : CBaseWindow(pDevice, hModule)
 {
 	m_pStartWindow = startWindow;
 	m_pMiscSetting = pMiscSettings;

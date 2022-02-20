@@ -20,7 +20,7 @@ namespace GlobalVars
 	inline HMODULE            hModule;
 	inline IClientEntityList* pIEntityList;
 	inline IVEngineClient013* pIEngineClient;
-	inline SAllSettings       settings;
+	inline Settings::SAllSettings       settings;
 	inline IEngineTrace*      pIEngineTrace;
 	inline ImVec3			  veLocalPlayerViewAngles;
 	inline const char		  authToken[] = "bWevWkyjyNLFwn4f3tjXJGgSux4H8Jbe";

@@ -10,10 +10,10 @@ namespace Hacks
 	class CHackingFeature
 	{
 	public:
-		CHackingFeature(CBaseSettings* pSettings);
+		CHackingFeature(Settings::CBaseSettings* pSettings);
 		virtual void Work() = 0;
 	protected:
-		CBaseSettings* m_pSettings = nullptr;
+		Settings::CBaseSettings* m_pSettings = nullptr;
 		bool IsShouldBeActivated();
 
 	};

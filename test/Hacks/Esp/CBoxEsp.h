@@ -5,7 +5,7 @@ namespace Esp
 	class CBoxEsp : public CBaseEsp
 	{
 	public:
-		CBoxEsp(BoxEspSettings* pSettings) : CBaseEsp(pSettings) {};
+		CBoxEsp(Settings::BoxEspSettings* pSettings) : CBaseEsp(pSettings) {};
 
 	private:
 		void	DrawSolidBox(CBaseEntity* pEntity, const ImColor& drawColor, int thickness);

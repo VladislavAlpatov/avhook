@@ -4,7 +4,7 @@ using namespace Esp;
 void CLabelEsp::InternalRenderAt(CBaseEntity* pEntity)
 {
     POLY_MARKER;
-	auto pSettings = GetSettings<CLabelEspSettings>();
+	auto pSettings = GetSettings<Settings::CLabelEspSettings>();
 
     ImVec3 up = WorldToScreen(pEntity->m_vecOrigin);
 

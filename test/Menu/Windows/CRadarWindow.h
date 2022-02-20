@@ -7,7 +7,7 @@ namespace Windows
 	class CRadarWindow : public IBaseDrawObject
 	{
 	public:
-		CRadarWindow(CRadarSettings* settings)
+		CRadarWindow(Settings::CRadarSettings* settings)
 		{
 			m_pRadarSettings = settings;
 		}
@@ -26,7 +26,7 @@ namespace Windows
 		}
 
 	private:
-		CRadarSettings* m_pRadarSettings;
+		Settings::CRadarSettings* m_pRadarSettings;
 		virtual void Render();
 		virtual void KeepWindowInSreenArea();
 		ImVec2 WorldToRadar(const ImVec3& EntityOrigin, const ImVec3& LocalPlayerOrigin, const ImVec3& LocalPlayerViewAngles, int width, float scale);

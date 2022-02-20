@@ -9,11 +9,11 @@ namespace Windows
 	class CTaskBarWindow : public CBaseWindow
 	{
 	public:
-		CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* startWindow, MiscSettings* pMiscSettings);
+		CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* startWindow, Settings::MiscSettings* pMiscSettings);
 		virtual void Render();
 	private:
 		CBaseWindow* m_pStartWindow = nullptr;
-		MiscSettings* m_pMiscSetting = nullptr;
+		Settings::MiscSettings* m_pMiscSetting = nullptr;
 		std::string GetLocalTime();
 
 	};

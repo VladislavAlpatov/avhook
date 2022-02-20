@@ -7,7 +7,7 @@ namespace Hacks
 	{
 
 	public:
-		TriggerBot(TriggerBotSettings* settings);
+		TriggerBot(Settings::TriggerBotSettings* settings);
 		void Work() override;
 	private:
 		int bone = 8;

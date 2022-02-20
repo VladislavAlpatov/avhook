@@ -19,7 +19,7 @@ void BunnyHop::Work()
 		GlobalVars::client->dwForceJump = 6;
 	}
 }
-BunnyHop::BunnyHop(CBunnyHopSettings* pSettings) : CHackingFeature(pSettings)
+BunnyHop::BunnyHop(Settings::CBunnyHopSettings* pSettings) : CHackingFeature(pSettings)
 {
 
 }

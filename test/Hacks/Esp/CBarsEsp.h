@@ -5,7 +5,7 @@ namespace Esp
 	class CBarsEsp : public CBaseEsp
 	{
 	public:
-		CBarsEsp(BarEspSettings* pSettings) : CBaseEsp(pSettings) {};
+		CBarsEsp(Settings::BarEspSettings* pSettings) : CBaseEsp(pSettings) {};
 
 	private:
 		virtual void InternalRenderAt(CBaseEntity* pEntity);

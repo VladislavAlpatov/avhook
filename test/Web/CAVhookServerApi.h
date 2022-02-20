@@ -5,6 +5,7 @@
 #include <Windows.h>
 namespace WebApi
 {
+	using namespace nlohmann;
 	class CUserInfo
 	{
 	public:

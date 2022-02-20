@@ -1,12 +1,13 @@
 #include "Settings.h"
 
+using namespace Settings;
 
 json CBaseSettings::ToJson()
 {
 	json jsn;
 
-	jsn[xorstr("Active")] = m_bActive;
-	jsn[xorstr("OnKey")] = m_bOnKey;
+	jsn[xorstr("Active")]  = m_bActive;
+	jsn[xorstr("OnKey")]   = m_bOnKey;
 	jsn[xorstr("BindKey")] = m_iBindKey;
 
 	return jsn;

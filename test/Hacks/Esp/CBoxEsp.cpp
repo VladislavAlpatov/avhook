@@ -5,7 +5,7 @@ void CBoxEsp::InternalRenderAt(CBaseEntity* pEntity)
 {
     POLY_MARKER;
 
-    auto pSettings = GetSettings<BoxEspSettings>();
+    auto pSettings = GetSettings<Settings::BoxEspSettings>();
 
     if (!pSettings->m_bActive)
         return;
@@ -15,15 +15,15 @@ void CBoxEsp::InternalRenderAt(CBaseEntity* pEntity)
     if (pEntity == GlobalVars::settings.m_AimBotSettings.m_pCurrentTarget)
         drawColor = ImColor(255, 0, 255);
 
-    else if (pSettings->m_iDrawMode == DrawMod::AUTO)
+    else if (pSettings->m_iDrawMode == Settings::DrawMod::AUTO)
         drawColor = pEntity->GetColorBasedOnHealth();
 
     switch (pSettings->m_iStyle)
     {
-    case BoxEspSettings::Style::Solid:
+    case Settings::BoxEspSettings::Style::Solid:
         DrawSolidBox(pEntity, drawColor, pSettings->m_iThickness);
 
-    case BoxEspSettings::Style::Cornered:
+    case Settings::BoxEspSettings::Style::Cornered:
         DrawCorneredBox(pEntity, drawColor, pSettings->m_iThickness);
 
     default:

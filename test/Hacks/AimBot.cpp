@@ -1,12 +1,12 @@
 #include "AimBot.h"
 using namespace Hacks;
-CAimBot::CAimBot(AimBotSettings* pSettings, CUserCmd* ppUsrCmd) : CHackingFeature(pSettings)
+CAimBot::CAimBot(Settings::AimBotSettings* pSettings, CUserCmd* ppUsrCmd) : CHackingFeature(pSettings)
 {
 	m_pCUsrCmd = ppUsrCmd;
 }
 int CAimBot::GetBoneIDBySelectedTab()
 {
-	switch (reinterpret_cast<AimBotSettings*>(m_pSettings)->m_iSelectedHitBox)
+	switch (reinterpret_cast<Settings::AimBotSettings*>(m_pSettings)->m_iSelectedHitBox)
 	{
 	case 0:
 		return CBaseEntity::Bone::HEAD;
@@ -25,7 +25,7 @@ void CAimBot::Work()
 {
 	using namespace GlobalVars;
 
-	auto pAimBotSettings = (AimBotSettings*)m_pSettings;
+	auto pAimBotSettings = (Settings::AimBotSettings*)m_pSettings;
 
 	if (!IsShouldBeActivated())
 	{
@@ -41,11 +41,11 @@ void CAimBot::Work()
 
 	switch (pAimBotSettings->m_iPriorityType)
 	{
-	case AimBotSettings::PriorityType::FieldOfView:
+	case Settings::AimBotSettings::PriorityType::FieldOfView:
 		pEnt = GetClosestTargetByFov(aimBone);
 		break;
 
-	case AimBotSettings::PriorityType::Distance:
+	case Settings::AimBotSettings::PriorityType::Distance:
 		pEnt = GetClosestTargetByDistance(aimBone);
 		break;
 
@@ -87,7 +87,7 @@ void CAimBot::AimSmooth(CBaseEntity* pEnt, int iBoneId)
 {
 	using namespace GlobalVars;
 
-	auto pAimBotSettings = (AimBotSettings*)m_pSettings;
+	auto pAimBotSettings = (Settings::AimBotSettings*)m_pSettings;
 
 	ImVec3 targetViewAngle = CalcAimViewAngles(pEnt, iBoneId);
 
@@ -112,7 +112,7 @@ void CAimBot::AimSmooth(CBaseEntity* pEnt, int iBoneId)
 bool CAimBot::IfEntityInFov(const CBaseEntity* entity, const int iBoneId) const
 {
 	using namespace GlobalVars;
-	auto pAimBotSettings = (AimBotSettings*)m_pSettings;
+	auto pAimBotSettings = (Settings::AimBotSettings*)m_pSettings;
 
 	ImVec3  pLocalPlayerAngles  = m_pCUsrCmd->viewangles;
 	ImVec3  targetAngles         = CalcAimViewAngles(entity, iBoneId);

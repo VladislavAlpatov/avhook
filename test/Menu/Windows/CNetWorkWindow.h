@@ -5,12 +5,14 @@
 #include <thread>
 #include "../../Globals/GlobalVars.h"
 #include "../../Web/CAVhookServerApi.h"
+#include "../MessageLine/CMessageLine.h"
+
 namespace UI
 {
 	class CNetWorkWindow : public CBaseWindow
 	{
 	public:
-		CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule);
+		CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CMessageLineList* pMessageLineList);
 		virtual void Render();
 		virtual void OnOpen();
 		virtual void OnClose();
@@ -22,6 +24,7 @@ namespace UI
 		WebApi::CUserInfo m_OldUserData;
 		WebApi::CUserInfo m_CurrentUserData;
 		WebApi::CAVHookServerApi m_ApiClient;
+		CMessageLineList* m_pMessageLineList;
 		bool m_bAvatarSetWindow = false;
 
 		WebApi::AvatarUploadStatus m_avatarUploadStatus;

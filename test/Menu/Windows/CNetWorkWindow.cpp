@@ -1,10 +1,10 @@
 #include "CNetWorkWindow.h"
 
-UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule) : CBaseWindow(pDevice, hModule)
+UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CMessageLineList* pMessageLineList) : CBaseWindow(pDevice, hModule)
 {
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP12), &m_pTexureDefaulteAvatar);
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP13), &m_pTextureIcon);
-
+	m_pMessageLineList = pMessageLineList;
 	auto avatarRawData = m_ApiClient.GetRawAvatarData();
 	D3DXCreateTextureFromFileInMemory(m_pDevice, avatarRawData.c_str(), avatarRawData.size(), &m_pTextureUserAvatar);
 
@@ -58,31 +58,13 @@ void UI::CNetWorkWindow::Render()
 
 			if (m_bAvatarSetWindow)
 			{
-				ImGui::BeginChild(xorstr("###changeavatr"), ImVec2(197, 100), true, m_iImGuiStyle | ImGuiWindowFlags_NoScrollbar);
+				ImGui::BeginChild(xorstr("###changeavatr"), ImVec2(197, 80), true, m_iImGuiStyle | ImGuiWindowFlags_NoScrollbar);
 				{
 					DrawInputTextWithTextOnBackGround(xorstr("###AvatarPath"), xorstr("<Avatar Path>"), m_AvatarPath, sizeof(m_AvatarPath));
 
 					std::ifstream file(m_AvatarPath);
 
-					if (m_AvatarPath[0] == NULL)
-						ImGui::Text(xorstr("Path: Empty"));
-
-					else if (file.is_open())
-						ImGui::TextColored(ImColor(0, 255, 0), xorstr("Path: Valid"));
-
-					else
-						ImGui::TextColored(ImColor(255, 0, 0), xorstr("Path: Invalid Path"));
-
-					if (m_avatarUploadStatus.m_isSucced)
-					{
-						ImGui::TextColored(ImColor(0, 255, 0), xorstr("Upload: Succeed"));
-					}
-					else
-					{
-						ImGui::TextColored(ImColor(255, 0, 0), std::format("Upload: {}",m_avatarUploadStatus.m_sErrorMessage).c_str());
-					}
-
-					if (ImGui::Button(xorstr("Upload")) and file.is_open())
+					if (ImGui::Button(xorstr("Upload")))
 					{
 						std::thread([this] {SetUserAvatar(m_AvatarPath); }).detach();
 					}
@@ -134,7 +116,11 @@ void UI::CNetWorkWindow::OnClose()
 	POLY_MARKER;
 
 	if (m_OldUserData != m_CurrentUserData)
+	{
 		std::thread([this] {SendNewUserInfoToServer(m_CurrentUserData); }).detach();
+		m_pMessageLineList->Add(xorstr("User data successfully updated"), 2000);
+
+	}
 }
 void UI::CNetWorkWindow::UpdateUserInfo()
 {
@@ -154,9 +140,16 @@ void UI::CNetWorkWindow::SetUserAvatar(const std::string pathToFile)
 
 
 	int fileSize = file.tellg();
-
-	if (fileSize > 20 * 1024)
+	if (!file.is_open())
+	{
+		m_pMessageLineList->Add(xorstr("Could not open the file"), 2000, ImColor(255, 0, 0));
 		return;
+	}
+	else if (fileSize > 20 * 1024)
+	{
+		m_pMessageLineList->Add(xorstr("The file size is too large.\nMaximum file size: 20 kilobytes"), 2000, ImColor(255, 0, 0));
+		return;
+	}
 
 	char* tmpFileData = new char[fileSize];
 	file.seekg(0, std::ios::beg);
@@ -164,7 +157,9 @@ void UI::CNetWorkWindow::SetUserAvatar(const std::string pathToFile)
 	m_avatarUploadStatus =  m_ApiClient.SetUserAvatar(std::string(tmpFileData, fileSize));
 
 	auto avatarRawData = m_ApiClient.GetRawAvatarData();
+
 	D3DXCreateTextureFromFileInMemory(m_pDevice, avatarRawData.c_str(), avatarRawData.size(), &m_pTextureUserAvatar);
+	m_pMessageLineList->Add(xorstr("The avatar has been uploaded successfully"), 2000, ImColor(0, 255, 0));
 
 	delete[] tmpFileData;
 

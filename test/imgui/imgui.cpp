@@ -4785,8 +4785,7 @@ void ImGui::Render()
 // CalcTextSize("") should return ImVec2(0.0f, g.FontSize)
 ImVec2 ImGui::CalcTextSize(const char* text, const char* text_end, bool hide_text_after_double_hash, float wrap_width)
 {
-    POLY_MARKER
-
+    POLY_MARKER;
     ImGuiContext& g = *GImGui;
 
     const char* text_display_end;

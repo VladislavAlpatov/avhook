@@ -13,8 +13,8 @@ namespace UI
 		{
 			m_iShowDuration = showDuration;
 			m_sText         = text;
-			m_vecSize       = ImGui::CalcTextSize(m_sText.c_str()) + ImVec2(10, 4);
-			m_Color = textColor;
+			m_vecSize       = ImGui::CalcTextSize(m_sText.c_str()) + ImVec2(15, 6);
+			m_Color         = textColor;
 		};
 		void Render(const ImVec2& drawPosition) const;
 		bool isShoudShow() const
@@ -26,7 +26,7 @@ namespace UI
 			return m_vecSize;
 		}
 	private:
-		ULONGLONG m_OldTime = GetTickCount64() - 100;
+		ULONGLONG m_OldTime = GetTickCount64();
 		int m_iShowDuration;
 		std::string m_sText;
 		ImVec2 m_vecSize;

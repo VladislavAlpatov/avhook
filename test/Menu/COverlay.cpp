@@ -49,7 +49,7 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::SAllSet
 
 	m_vecWindows.push_back(new UI::CAboutWindow(m_pDevice, hModule));
 	m_vecWindows.push_back(new UI::CSettingsWindow(m_pDevice, hModule, &m_MessageLineList, pSettings, &m_bShowKeyBindDialog));
-	m_vecWindows.push_back(new UI::CNetWorkWindow(m_pDevice, hModule));
+	m_vecWindows.push_back(new UI::CNetWorkWindow(m_pDevice, hModule, &m_MessageLineList));
 	m_vecWindows.push_back(new UI::CStartWindow(m_pDevice, hModule, m_vecWindows[0], m_vecWindows[2], m_vecWindows[1]));
 	m_vecWindows.push_back(new UI::CTaskBarWindow(pDevice, hModule, m_vecWindows[3], &pSettings->m_MiscSettings));
 

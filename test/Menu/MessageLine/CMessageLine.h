@@ -13,24 +13,24 @@ namespace UI
 		{
 			m_iShowDuration = showDuration;
 			m_sText         = text;
-			m_vecSize       = ImGui::CalcTextSize(m_sText.c_str()) + ImVec2(15, 6);
 			m_Color         = textColor;
 		};
-		void Render(const ImVec2& drawPosition) const;
+		void Render(const ImVec2& drawPosition);
 		bool isShoudShow() const
 		{
 			return GetTickCount64() - m_OldTime <= m_iShowDuration;
 		}
 		ImVec2 GetSize() const
 		{
-			return m_vecSize;
+			// ImVec2(4, 4) <- Padding for text
+			return ImGui::CalcTextSize(m_sText.c_str()) + ImVec2(6, 6);
 		}
 	private:
-		ULONGLONG m_OldTime = GetTickCount64();
-		int m_iShowDuration;
+		ULONGLONG   m_OldTime = GetTickCount64();
+		int         m_iShowDuration;
 		std::string m_sText;
-		ImVec2 m_vecSize;
-		ImColor m_Color;
+		ImVec2      m_vecSize;
+		ImColor     m_Color;
 	};
 
 	class CMessageLineList

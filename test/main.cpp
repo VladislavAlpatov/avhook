@@ -1,6 +1,5 @@
 ﻿#include <Windows.h>
 
-#include "Threads/Threads.h"
 #include "Globals/GlobalVars.h"
 #include "Hacks/Hooks/Hooks.h"
 #include "resource.h"

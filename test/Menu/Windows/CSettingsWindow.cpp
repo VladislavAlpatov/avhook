@@ -329,7 +329,7 @@ void UI::CSettingsWindow::DrawCfgChild()
 			}
 			else
 			{
-				m_pMessageLineList->Add(xorstr("Enter the file name."), 2000, ImColor(255, 0, 0));
+				m_pMessageLineList->Add(xorstr("Enter xxxxxxxxxxxxxxxxxxxxxxxxxxxxx the file name."), 2000, ImColor(255, 0, 0));
 			}
 		}
 		ImGui::EndChild();

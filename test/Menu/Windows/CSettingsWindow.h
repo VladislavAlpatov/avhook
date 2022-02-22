@@ -4,12 +4,14 @@
 #include "../../Globals/GlobalVars.h"
 #include "../../Utils/CFGloader/CFGloader.h"
 #include  "../Routines/BindListener.h"
-namespace Windows
+#include "../MessageLine/CMessageLine.h"
+
+namespace UI
 {
 	class CSettingsWindow : public CBaseWindow
 	{
 	public:
-		CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, Settings::SAllSettings* pAllSetting, bool* pShowKeyBinderDialog);
+		CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CMessageLineList* pMessageLineList, Settings::SAllSettings* pAllSetting, bool* pShowKeyBinderDialog);
 		virtual void Render();
 	private:
 		char m_pMenuCfgName[32] = {};
@@ -20,11 +22,13 @@ namespace Windows
 		inline void DrawMiscChild();
 		inline void DrawCfgChild();
 
-		PDIRECT3DTEXTURE9 m_pTexureAimBotIcon = nullptr;
-		PDIRECT3DTEXTURE9 m_pTexureEspIcon = nullptr;
-		PDIRECT3DTEXTURE9 m_pTexureMiscIcon = nullptr;
-		PDIRECT3DTEXTURE9 m_pTexureAtomaticColorIcon = nullptr;
-		Settings::SAllSettings* m_pAllSettings = nullptr;
+		PDIRECT3DTEXTURE9               m_pTexureAimBotIcon = nullptr;
+		PDIRECT3DTEXTURE9               m_pTexureEspIcon = nullptr;
+		PDIRECT3DTEXTURE9               m_pTexureMiscIcon = nullptr;
+		PDIRECT3DTEXTURE9               m_pTexureAtomaticColorIcon = nullptr;
+		Settings::SAllSettings*         m_pAllSettings = nullptr;
+		CMessageLineList*               m_pMessageLineList;
+		Routines::CBindListener			m_BindListener;
 		int               m_iTab = 0;
 
 		enum TAB

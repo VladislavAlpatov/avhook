@@ -2,7 +2,7 @@
 #include "CBaseWindow.h"
 #include "../../Globals/GlobalVars.h"
 
-namespace Windows
+namespace UI
 {
 	class CRadarWindow : public IBaseDrawObject
 	{

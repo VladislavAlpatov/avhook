@@ -1,12 +1,12 @@
 #include "CAboutWindow.h"
 
-Windows::CAboutWindow::CAboutWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule) : CBaseWindow(pDevice, hModule)
+UI::CAboutWindow::CAboutWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule) : CBaseWindow(pDevice, hModule)
 {
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP1), &m_pTextureIcon);
 	D3DXCreateTextureFromFileInMemory(pDevice, RawData::AVhookLogoData, sizeof(RawData::AVhookLogoData), &m_pTexureCheatLogo);
 }
 
-void Windows::CAboutWindow::Render()
+void UI::CAboutWindow::Render()
 {
 	ImGui::Begin(xorstr("###About"), NULL, m_iImGuiStyle);
 	{
@@ -46,7 +46,7 @@ void Windows::CAboutWindow::Render()
 	}
 }
 
-Windows::CAboutWindow::~CAboutWindow()
+UI::CAboutWindow::~CAboutWindow()
 {
 	m_pTexureCheatLogo->Release();
 	m_pTextureIcon->Release();

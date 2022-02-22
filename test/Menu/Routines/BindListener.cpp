@@ -1,5 +1,8 @@
 #include "BindListener.h"
 
+using namespace Routines;
+
+
 CBindListener::CBindListener(int* pVirtualKeyValue, bool* pShowKeyBinderDialog)
 {
 	m_pVirtualKeyValue     = pVirtualKeyValue;
@@ -8,11 +11,11 @@ CBindListener::CBindListener(int* pVirtualKeyValue, bool* pShowKeyBinderDialog)
 }
 void CBindListener::Listen()
 {
-	std::thread(RutineThread, m_pVirtualKeyValue, m_pShowKeyBinderDialog).detach();
+	std::thread([this]{RutineThread();}).detach();
 }
-void CBindListener::RutineThread(int* pVirtualKeyValue, bool* pShowKeyBinderDialog)
+void CBindListener::RutineThread()
 {
-	*pShowKeyBinderDialog = true;
+	*m_pShowKeyBinderDialog = true;
 	Sleep(500);
 	while (true)
 	{
@@ -21,19 +24,19 @@ void CBindListener::RutineThread(int* pVirtualKeyValue, bool* pShowKeyBinderDial
 			if (GetAsyncKeyState(keyNum) & 0x8000)
 			{
 				if (keyNum == VK_ESCAPE)
-					*pVirtualKeyValue = NULL;
+					*m_pVirtualKeyValue = NULL;
 				else if (keyNum == VK_SNAPSHOT)
 					continue;
 				else
 				{
 
 					if (GlobalVars::bChromaSupport)
-						std::thread(ChromaEffect, keyNum).detach();
+						std::thread([this](int key) { ChromaEffect(key); }, keyNum).detach();
 
-					*pVirtualKeyValue = keyNum;
+					*m_pVirtualKeyValue = keyNum;
 				}
 
-				*pShowKeyBinderDialog = false;
+				*m_pShowKeyBinderDialog = false;
 				return;
 			}
 		}

@@ -1,16 +1,16 @@
 #include "CTaskBarWindow.h"
 
-Windows::CTaskBarWindow::CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* startWindow, Settings::MiscSettings* pMiscSettings) : CBaseWindow(pDevice, hModule)
+UI::CTaskBarWindow::CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* startWindow, Settings::MiscSettings* pMiscSettings) : CBaseWindow(pDevice, hModule)
 {
 	m_pStartWindow = startWindow;
 	m_pMiscSetting = pMiscSettings;
 	m_bForceShow = true;
 }
-void Windows::CTaskBarWindow::Render()
+void UI::CTaskBarWindow::Render()
 {
 	ImGui::Begin(xorstr("taskbar"), NULL, m_iImGuiStyle | ImGuiWindowFlags_NoMove);
 	ImVec2 windowSize = ImGui::GetMainViewport()->Size;
-	ImGui::SetWindowPos(ImVec2(0, windowSize.y - 33));
+	ImGui::SetWindowPos(ImVec2(0, windowSize.y - 32));
 	ImGui::SetWindowSize(ImVec2(windowSize.x, 20));
 
 	ImGui::SetCursorPos(ImVec2(3, 5));
@@ -25,7 +25,7 @@ void Windows::CTaskBarWindow::Render()
 
 	ImGui::End();
 }
-std::string Windows::CTaskBarWindow::GetLocalTime()
+std::string UI::CTaskBarWindow::GetLocalTime()
 {
 	time_t now = time(NULL);
 	tm  tstruct;

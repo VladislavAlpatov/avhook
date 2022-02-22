@@ -1,4 +1,6 @@
 #include "CBaseEntity.h"
+using namespace SSDK;
+
 ImVec3 CBaseEntity::GetBonePosition(const int bone) const
 {
 	DWORD  pBone = m_pBoneMatrix;

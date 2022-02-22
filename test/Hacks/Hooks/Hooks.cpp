@@ -124,12 +124,12 @@ int  __fastcall hooks::hOnkill(void* pThis, void* edx)
 	return reinterpret_cast<tOnkill>(oOnKill)(pThis, edx);
 }
 
-bool __stdcall hooks::hCreateMove(int fSampleTime, CUserCmd* pUserCmd)
+bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 {
 	POLY_MARKER;
 	if (GlobalVars::client->pLocalPlayer == nullptr or pOverlay == nullptr)
 	{
-		typedef bool(__stdcall* tCreateMove)(int, CUserCmd*);
+		typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 		return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
 	}
 	GlobalVars::veLocalPlayerViewAngles = pUserCmd->viewangles;
@@ -140,16 +140,16 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, CUserCmd* pUserCmd)
 	// Looking for "visible" players
 	for (int i = 1; i < 33; ++i)
 	{
-		CBaseEntity* entity = reinterpret_cast<CBaseEntity*>(GlobalVars::pIEntityList->GetClientEntity(i));
+		SSDK::CBaseEntity* entity = reinterpret_cast<SSDK::CBaseEntity*>(GlobalVars::pIEntityList->GetClientEntity(i));
 
 		if (!entity or entity->m_iTeamNum == GlobalVars::client->pLocalPlayer->m_iTeamNum or !entity->IsAlive())
 			continue;
 
 		auto pLocalPlayer = GlobalVars::client->pLocalPlayer;
 
-		CGameTrace trace;
-		Ray_t ray;
-		CTraceFilter tracefilter;
+		SSDK::CGameTrace   trace;
+		SSDK::Ray_t        ray;
+		SSDK::CTraceFilter tracefilter;
 		tracefilter.pSkip = (void*)pLocalPlayer;
 
 		ray.Init(pLocalPlayer->m_vecOrigin + pLocalPlayer->m_vecViewOffset, entity->GetBonePosition(8));
@@ -161,7 +161,7 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, CUserCmd* pUserCmd)
 
 	if (pOverlay->IsShowUI())
 	{
-		typedef bool(__stdcall* tCreateMove)(int, CUserCmd*);
+		typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 		return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
 	}
 
@@ -177,7 +177,7 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, CUserCmd* pUserCmd)
 		delete features[i];
 	}
 	
-	typedef bool(__stdcall* tCreateMove)(int, CUserCmd*);
+	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 	return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
 }
 

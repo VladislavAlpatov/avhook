@@ -1,16 +1,19 @@
 #include "CSettingsWindow.h"
 
-Windows::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, Settings::SAllSettings* pAllSetting, bool* pShowKeyBinderDialog) : CBaseWindow(pDevice, hModule)
+UI::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CMessageLineList* pMessageLineList, Settings::SAllSettings* pAllSetting, bool* pShowKeyBinderDialog) : CBaseWindow(pDevice, hModule)
 {
 	m_pAllSettings          = pAllSetting;
 	m_pShowKeyBinderDialog  = pShowKeyBinderDialog;
+	m_pMessageLineList      = pMessageLineList;
+	m_BindListener          = Routines::CBindListener(&m_pAllSettings->m_AimBotSettings.m_iBindKey, m_pShowKeyBinderDialog);
+
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP5),  &m_pTextureIcon);
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP9),  &m_pTexureAimBotIcon);
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP10), &m_pTexureEspIcon);
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP11), &m_pTexureMiscIcon);
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP8),  &m_pTexureAtomaticColorIcon);
 }
-std::string Windows::CSettingsWindow::VirtualKeyNumberToString(int keyNumber)
+std::string UI::CSettingsWindow::VirtualKeyNumberToString(int keyNumber)
 {
 	switch (keyNumber)
 	{
@@ -38,7 +41,7 @@ std::string Windows::CSettingsWindow::VirtualKeyNumberToString(int keyNumber)
 
 	return std::string(name);
 }
-void Windows::CSettingsWindow::Render()
+void UI::CSettingsWindow::Render()
 {
 	ImGui::Begin(xorstr("###Setting"), NULL, m_iImGuiStyle);
 	{
@@ -89,7 +92,7 @@ void Windows::CSettingsWindow::Render()
 		ImGui::End();
 	}
 }
-void Windows::CSettingsWindow::DrawAimbotChild()
+void UI::CSettingsWindow::DrawAimbotChild()
 {
 	ImGui::Text(xorstr("Automatic Target Acquisition System"));
 	const char* hitboxes[]   = { "Head", "Body", "Legs" };
@@ -119,7 +122,7 @@ void Windows::CSettingsWindow::DrawAimbotChild()
 				(ImColor)ImGui::GetStyle().Colors[ImGuiCol_Border]);
 
 		}
-
+		
 		ImGui::InputFloat(xorstr("Smooth Factor"), &m_pAllSettings->m_AimBotSettings.m_fSmooth);
 		ImGui::PopItemWidth();
 		DrawToolTip(xorstr("Make aimbot act more like human.\n\nNote: Set \"Smooth\" value to \"0\" if\nyou want to completely disable it."));
@@ -139,7 +142,7 @@ void Windows::CSettingsWindow::DrawAimbotChild()
 		ImGui::SameLine();
 		if (ImGui::Button(xorstr("Set Key")))
 		{
-			CBindListener(&m_pAllSettings->m_AimBotSettings.m_iBindKey, m_pShowKeyBinderDialog).Listen();
+			m_BindListener.Listen();
 		}
 		ImGui::Text(xorstr("Binded to: %s"), VirtualKeyNumberToString(m_pAllSettings->m_AimBotSettings.m_iBindKey).c_str());
 
@@ -147,7 +150,7 @@ void Windows::CSettingsWindow::DrawAimbotChild()
 	}
 }
 
-void Windows::CSettingsWindow::DrawEspChild()
+void UI::CSettingsWindow::DrawEspChild()
 {
 	ImGui::SetWindowSize(ImVec2(555, 500));
 
@@ -247,14 +250,14 @@ void Windows::CSettingsWindow::DrawEspChild()
 		ImGui::EndChild();
 	}
 }
-void Windows::CSettingsWindow::DrawMiscChild()
+void UI::CSettingsWindow::DrawMiscChild()
 {
 	ImGui::Checkbox(xorstr("Bunny hop"), &m_pAllSettings->m_BunnyHopSettings.m_bActive);
 	DrawToolTip(xorstr("Provide an automatic bunny hop.\n\nNote: Use to gain more speed than 250 hu/s."));
 
 	ImGui::SliderInt(xorstr("Field of view"), &GlobalVars::settings.m_MiscSettings.m_iCustomFov, 1, 120);
 }
-void Windows::CSettingsWindow::DrawCfgChild()
+void UI::CSettingsWindow::DrawCfgChild()
 {
 	ImGui::SetWindowSize(ImVec2(555, 450));
 
@@ -268,8 +271,11 @@ void Windows::CSettingsWindow::DrawCfgChild()
 		if (ImGui::Button(xorstr("Import###fi")))
 		{
 			CConfigLoader cfg(m_pAllSettings->m_sName, &GlobalVars::settings);
-			cfg.LoadConfigFile(m_pAllSettings->m_sName);
+			if (cfg.LoadConfigFile(m_pAllSettings->m_sName))
 
+				m_pMessageLineList->Add(std::format("Loaded config: \"{}\"", m_pAllSettings->m_sName), 2000);
+			else
+				m_pMessageLineList->Add(std::format("Loading error", m_pAllSettings->m_sName), 2000);
 		}
 		ImGui::SameLine();
 		if (ImGui::Button(xorstr("Export###fb")))

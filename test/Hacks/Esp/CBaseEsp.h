@@ -5,6 +5,8 @@
 
 namespace Esp
 {
+	using namespace SSDK;
+
 	class CBaseEsp
 	{
 	public:

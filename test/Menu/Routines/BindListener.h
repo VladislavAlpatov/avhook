@@ -3,21 +3,25 @@
 #include <Windows.h>
 #include "../../RazerSDK/CRazer.h"
 #include "../../Globals/GlobalVars.h"
-class CBindListener
+
+namespace Routines
 {
-public:
-	CBindListener() 
+	class CBindListener
 	{
-		m_pVirtualKeyValue = nullptr;
-		m_pShowKeyBinderDialog = nullptr;
-	}
-	CBindListener(int* pVirtualKeyValue, bool* pShowKeyBinderDialog);
-	int* m_pVirtualKeyValue;
-	bool*         m_pShowKeyBinderDialog;
+	public:
+		CBindListener()
+		{
+			m_pVirtualKeyValue = nullptr;
+			m_pShowKeyBinderDialog = nullptr;
+		}
+		CBindListener(int* pVirtualKeyValue, bool* pShowKeyBinderDialog);
+		int* m_pVirtualKeyValue;
+		bool* m_pShowKeyBinderDialog;
 
-	void Listen();
-private:
-	static void RutineThread(int* pVirtualKeyValue, bool* pShowKeyBinderDialog);
-	static void ChromaEffect(int keyNum);
+		void Listen();
+	private:
+		void RutineThread();
+		void ChromaEffect(int keyNum);
 
-};
+	};
+}

@@ -3,7 +3,8 @@
 #include <shellapi.h>
 #include "../../Globals/GlobalVars.h"
 #include "../../RawData/RAVhookLogo.h"
-namespace Windows
+
+namespace UI
 {
 	class CAboutWindow : public CBaseWindow
 	{

@@ -5,7 +5,6 @@
 #include "../Menu/Settings.h"
 #include "../Utils/xorstr.h"
 #include "../SDK/IClientEntityList.h"
-#include "../Utils/GetInterface.h"
 
 #ifndef _DEBUG
 	#define AVHOOK_SERVER_URL xorstr("http://server.avhook.ru")
@@ -15,15 +14,22 @@
 
 namespace GlobalVars
 {
-	inline ClientBase*        client;
+	inline SSDK::ClientBase*        client;
 	inline DWORD              engine;
 	inline HMODULE            hModule;
-	inline IClientEntityList* pIEntityList;
-	inline IVEngineClient013* pIEngineClient;
+	inline SSDK::IClientEntityList* pIEntityList;
+	inline SSDK::IVEngineClient013* pIEngineClient;
 	inline Settings::SAllSettings       settings;
-	inline IEngineTrace*      pIEngineTrace;
+	inline SSDK::IEngineTrace*      pIEngineTrace;
 	inline ImVec3			  veLocalPlayerViewAngles;
+#ifdef DEV_BUILD
 	inline const char		  authToken[] = "bWevWkyjyNLFwn4f3tjXJGgSux4H8Jbe";
+#elif _DEBUG
+	inline const char		  authToken[] = "bWevWkyjyNLFwn4f3tjXJGgSux4H8Jbe";
+#else
+	inline const char		  authToken[] = ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+#endif // DEV_BUILD
+
 	inline bool bChromaSupport = false;
 	void Init(HMODULE hModule);
 

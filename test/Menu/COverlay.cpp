@@ -11,6 +11,7 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::SAllSet
 
 	ImGui::GetStyle().AntiAliasedLinesUseTex = false;
 	auto io = ImGui::GetIO();
+	
 	ImFontConfig cfg;
 	cfg.FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_Monochrome | ImGuiFreeTypeBuilderFlags_MonoHinting;
 
@@ -19,7 +20,7 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::SAllSet
 	auto& style = ImGui::GetStyle();
 	auto& theme = style.Colors;
 
-	style.FrameBorderSize = 1;
+	style.FrameBorderSize         = 1;
 	style.AntiAliasedLinesUseTex = false;
 	style.AntiAliasedLines       = false;
 	style.AntiAliasedFill        = false;
@@ -46,11 +47,11 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::SAllSet
 	theme[ImGuiCol_TabActive] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
 
 
-	m_vecWindows.push_back(new Windows::CAboutWindow(m_pDevice, hModule));
-	m_vecWindows.push_back(new Windows::CSettingsWindow(m_pDevice, hModule, pSettings, &m_bShowKeyBindDialog));
-	m_vecWindows.push_back(new Windows::CNetWorkWindow(m_pDevice, hModule));
-	m_vecWindows.push_back(new Windows::CStartWindow(m_pDevice, hModule, m_vecWindows[0], m_vecWindows[2], m_vecWindows[1]));
-	m_vecWindows.push_back(new Windows::CTaskBarWindow(pDevice, hModule, m_vecWindows[3], &pSettings->m_MiscSettings));
+	m_vecWindows.push_back(new UI::CAboutWindow(m_pDevice, hModule));
+	m_vecWindows.push_back(new UI::CSettingsWindow(m_pDevice, hModule, &m_MessageLineList, pSettings, &m_bShowKeyBindDialog));
+	m_vecWindows.push_back(new UI::CNetWorkWindow(m_pDevice, hModule));
+	m_vecWindows.push_back(new UI::CStartWindow(m_pDevice, hModule, m_vecWindows[0], m_vecWindows[2], m_vecWindows[1]));
+	m_vecWindows.push_back(new UI::CTaskBarWindow(pDevice, hModule, m_vecWindows[3], &pSettings->m_MiscSettings));
 
 	m_vecEspPayload = {
 		new Esp::CBoxEsp(&GlobalVars::settings.m_BoxEspSettings), 
@@ -79,7 +80,7 @@ void COverlay::Render()
 
 	if (GlobalVars::pIEngineClient->IsInGame() and GlobalVars::client->pLocalPlayer != nullptr)
 	{
-		std::vector<CBaseEntity*> validEntities;
+		std::vector<SSDK::CBaseEntity*> validEntities;
 
 		for (int i = 1; i < 33; ++i)
 		{
@@ -87,12 +88,13 @@ void COverlay::Render()
 
 			if (pEntity == nullptr or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::client->pLocalPlayer->m_iTeamNum or pEntity->m_bDormant)
 				continue;
+
 			validEntities.push_back(pEntity);
 			
 		}
 		std::sort(validEntities.begin(), validEntities.end(), 
 
-			[](CBaseEntity* first, CBaseEntity* second)
+			[](SSDK::CBaseEntity* first, SSDK::CBaseEntity* second)
 			{
 				return GlobalVars::client->pLocalPlayer->CalcDistaceToEntity(first) > GlobalVars::client->pLocalPlayer->CalcDistaceToEntity(second);
 			});
@@ -110,7 +112,7 @@ void COverlay::Render()
 	if (m_bShowUI)
 	{
 
-		POLY_MARKER
+		POLY_MARKER;
 
 		auto windowSize = ImGui::GetMainViewport()->Size;
 
@@ -137,16 +139,22 @@ void COverlay::Render()
 			}
 		}
 	}
+	m_MessageLineList.Render(ImVec2());
 
 	if (m_bShowUI or GlobalVars::pIEngineClient->IsInGame())
 	{
 		m_pAllSettings->m_RadarSettings.m_bDrawBorders = m_bShowUI;
-		Windows::CRadarWindow(&m_pAllSettings->m_RadarSettings).Show();
+		UI::CRadarWindow(&m_pAllSettings->m_RadarSettings).Show();
 	}
 
 	if (m_bShowKeyBindDialog)
 	{
 		CBindListenerOverlay(m_pFontEsp).Show();
+	}
+
+	if (GetAsyncKeyState(VK_F1) & 1)
+	{
+		m_MessageLineList.Add("F1 pressed!", 500);
 	}
 
 	POLY_MARKER;

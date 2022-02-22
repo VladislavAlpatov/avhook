@@ -4,7 +4,7 @@
 #include <string>
 #include <time.h>
 
-namespace Windows
+namespace UI
 {
 	class CTaskBarWindow : public CBaseWindow
 	{

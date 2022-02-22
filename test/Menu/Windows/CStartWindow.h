@@ -2,7 +2,7 @@
 #include "CBaseWindow.h"
 
 
-namespace Windows
+namespace UI
 {
 	class CStartWindow : public CBaseWindow
 	{

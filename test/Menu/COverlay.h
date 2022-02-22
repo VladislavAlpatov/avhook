@@ -25,6 +25,7 @@
 #include "../DirctX/DX9ColorFix.h"
 #include "SnowFlakes/SnowFlake.h"
 #include "../Utils/Marker.h"
+#include "MessageLine/CMessageLine.h"
 
 class COverlay
 {
@@ -43,7 +44,9 @@ private:
 	bool    m_bShowUI            = false;
 	bool    m_bShowKeyBindDialog = false;
 
-	Settings::SAllSettings* m_pAllSettings = nullptr;
-	std::vector<Windows::CBaseWindow*> m_vecWindows;
+	Settings::SAllSettings*       m_pAllSettings = nullptr;
+	std::vector<UI::CBaseWindow*> m_vecWindows;
+	UI::CMessageLineList	      m_MessageLineList;
+
 	LPDIRECT3DDEVICE9 m_pDevice;
 };

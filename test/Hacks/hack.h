@@ -7,6 +7,8 @@
 #include "../Globals/GlobalVars.h"
 namespace Hacks
 {
+	using namespace SSDK;
+
 	class CHackingFeature
 	{
 	public:

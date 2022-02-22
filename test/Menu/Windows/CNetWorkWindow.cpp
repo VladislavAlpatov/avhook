@@ -1,6 +1,6 @@
 #include "CNetWorkWindow.h"
 
-Windows::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule) : CBaseWindow(pDevice, hModule)
+UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule) : CBaseWindow(pDevice, hModule)
 {
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP12), &m_pTexureDefaulteAvatar);
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP13), &m_pTextureIcon);
@@ -9,7 +9,7 @@ Windows::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hMod
 	D3DXCreateTextureFromFileInMemory(m_pDevice, avatarRawData.c_str(), avatarRawData.size(), &m_pTextureUserAvatar);
 
 }
-void Windows::CNetWorkWindow::Render()
+void UI::CNetWorkWindow::Render()
 {
 	ImGui::Begin(xorstr("###Network"), nullptr, m_iImGuiStyle);
 	{
@@ -114,13 +114,13 @@ void Windows::CNetWorkWindow::Render()
 		ImGui::End();
 	}
 }
-void Windows::CNetWorkWindow::OnOpen()
+void UI::CNetWorkWindow::OnOpen()
 {
 	POLY_MARKER;
 	m_bAvatarSetWindow = false;
 	std::thread([this] {UpdateUserInfo(); }).detach();
 }
-Windows::CNetWorkWindow::~CNetWorkWindow()
+UI::CNetWorkWindow::~CNetWorkWindow()
 {
 	POLY_MARKER;
 
@@ -129,25 +129,25 @@ Windows::CNetWorkWindow::~CNetWorkWindow()
 
 	m_pTexureDefaulteAvatar->Release();
 }
-void Windows::CNetWorkWindow::OnClose()
+void UI::CNetWorkWindow::OnClose()
 {
 	POLY_MARKER;
 
 	if (m_OldUserData != m_CurrentUserData)
 		std::thread([this] {SendNewUserInfoToServer(m_CurrentUserData); }).detach();
 }
-void Windows::CNetWorkWindow::UpdateUserInfo()
+void UI::CNetWorkWindow::UpdateUserInfo()
 {
 	POLY_MARKER;
 
 	m_OldUserData      = m_ApiClient.GetUserInfo();
 	m_CurrentUserData = m_OldUserData;
 }
-void Windows::CNetWorkWindow::SendNewUserInfoToServer(const WebApi::CUserInfo & info)
+void UI::CNetWorkWindow::SendNewUserInfoToServer(const WebApi::CUserInfo & info)
 {
 	m_ApiClient.ChangeUserNameAndStatus(info.m_sName, info.m_sStatus);
 }
-void Windows::CNetWorkWindow::SetUserAvatar(const std::string pathToFile)
+void UI::CNetWorkWindow::SetUserAvatar(const std::string pathToFile)
 {
 
 	std::ifstream file(pathToFile, std::ios::binary | std::ios::ate);

@@ -207,9 +207,6 @@
     <ClInclude Include="Utils\offsets.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\GetInterface.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Utils\Vec3.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -331,6 +328,9 @@
       <Filter>Hacking features\ESP\Bars</Filter>
     </ClInclude>
     <ClInclude Include="Web\httplib.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\MessageLine\CMessageLine.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -459,6 +459,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Utils\memory.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu\MessageLine\CMessageLine.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

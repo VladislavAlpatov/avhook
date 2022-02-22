@@ -17,26 +17,28 @@ public:
 private:
 	float data[4][4];
 };
-
-class ClientBase
+namespace SSDK
 {
-public:
-	union
+	class ClientBase
 	{
-		DEFINE_MEMBER_N(int,	       dwForceJump,         signatures::dwForceJump);
-		DEFINE_MEMBER_N(int,	       dwForceAttack,	    signatures::dwForceAttack);
-		DEFINE_MEMBER_N(viewmatrix,    dwViewmatrix,        signatures::dwViewMatrix);
-		DEFINE_MEMBER_N(CBaseEntity*, pLocalPlayer,       signatures::dwLocalPlayer);
-		DEFINE_MEMBER_N(DWORD,         dwGlowObjectManager, signatures::dwGlowObjectManager);
+	public:
+		union
+		{
+			DEFINE_MEMBER_N(int, dwForceJump, signatures::dwForceJump);
+			DEFINE_MEMBER_N(int, dwForceAttack, signatures::dwForceAttack);
+			DEFINE_MEMBER_N(viewmatrix, dwViewmatrix, signatures::dwViewMatrix);
+			DEFINE_MEMBER_N(CBaseEntity*, pLocalPlayer, signatures::dwLocalPlayer);
+			DEFINE_MEMBER_N(DWORD, dwGlowObjectManager, signatures::dwGlowObjectManager);
+		};
+		// Make local player jump
+		void SendJumpCode()
+		{
+			this->dwForceJump = 6;
+		}
+		// Make local player attack
+		void SendAttackCode()
+		{
+			this->dwForceAttack = 6;
+		}
 	};
-	// Make local player jump
-	void SendJumpCode()
-	{
-		this->dwForceJump = 6;
-	}
-	// Make local player attack
-	void SendAttackCode()
-	{
-		this->dwForceAttack = 6;
-	}
-};
+}

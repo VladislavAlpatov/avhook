@@ -12,7 +12,7 @@
 
 DWORD WINAPI InitCheat(HMODULE hModule)
 {
-	POLY_MARKER
+	POLY_MARKER;
 
 	CRazer razer = CRazer();
 	if (razer.isSupported())
@@ -40,22 +40,20 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 
 	GlobalVars::Init(hModule);
 	hooks::Attach(hModule);
-	
-	PlaySound((char*)GlobalVars::activatedSound, hModule, SND_MEMORY | SND_ASYNC);
+
+	PlaySound(GlobalVars::activatedSound, hModule, SND_MEMORY | SND_ASYNC);
 
 	while (!GetAsyncKeyState(VK_END))
 	{
 		Sleep(100);
 	}
 
-	PlaySound((char*)GlobalVars::deactivatedSound, hModule, SND_MEMORY | SND_ASYNC);
+	PlaySound(GlobalVars::deactivatedSound, hModule, SND_MEMORY | SND_ASYNC);
 
 	// Clean up sounds
 
 	delete GlobalVars::deactivatedSound;
 	delete GlobalVars::activatedSound;
-
-	POLY_MARKER
 
 	hooks::Detach();
 	
@@ -67,8 +65,8 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 
 BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
-	POLY_MARKER;
 
+	POLY_MARKER;
 	if (dwReason == DLL_PROCESS_ATTACH)
 	{
 		auto client = httplib::Client(AVHOOK_SERVER_URL);

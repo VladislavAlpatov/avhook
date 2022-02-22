@@ -1,6 +1,6 @@
 #pragma once
 #include "../IBaseDrawObject.h"
-namespace Windows
+namespace UI
 {
 	class CBaseWindow : public IBaseDrawObject
 	{

@@ -38,7 +38,7 @@ namespace Settings
 		float			   m_fSmooth = 0.f;
 		int                m_iSelectedHitBox = 0;
 		int				   m_iPriorityType = 0;
-		CBaseEntity* m_pCurrentTarget = 0;
+		SSDK::CBaseEntity* m_pCurrentTarget = 0;
 
 		enum PriorityType
 		{

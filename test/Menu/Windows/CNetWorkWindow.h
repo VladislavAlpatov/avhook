@@ -5,7 +5,7 @@
 #include <thread>
 #include "../../Globals/GlobalVars.h"
 #include "../../Web/CAVhookServerApi.h"
-namespace Windows
+namespace UI
 {
 	class CNetWorkWindow : public CBaseWindow
 	{

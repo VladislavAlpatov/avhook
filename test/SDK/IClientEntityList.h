@@ -3,13 +3,15 @@
 #include "AbstractInterface.h"
 #include "../Utils/memory.h"
 
-
-class IClientEntityList : public AbstractInterface
+namespace SSDK
 {
-public:
-	CBaseEntity* GetClientEntity(int entnum)
+	class IClientEntityList : public AbstractInterface
 	{
-		typedef CBaseEntity*(__thiscall* GetEntityFunc)(void*, int);
-		return GetVirtualFunction<GetEntityFunc>(3)(this, entnum);
-	}
-};
+	public:
+		CBaseEntity* GetClientEntity(int entnum)
+		{
+			typedef CBaseEntity* (__thiscall* GetEntityFunc)(void*, int);
+			return GetVirtualFunction<GetEntityFunc>(3)(this, entnum);
+		}
+	};
+}

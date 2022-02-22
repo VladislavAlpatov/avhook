@@ -121,7 +121,7 @@
     <LibraryPath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;$(LibraryPath)</LibraryPath>
     <TargetName>avhook</TargetName>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
     <EnableMicrosoftCodeAnalysis>true</EnableMicrosoftCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -172,7 +172,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;NDEBUG;_CONSOLE;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <Optimization>MaxSpeed</Optimization>
@@ -262,6 +262,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Menu\MessageLine\CMessageLine.h" />
     <ClInclude Include="DirctX\CustomDirectX9Device.h" />
     <ClInclude Include="DirctX\DX9ColorFix.h" />
     <ClInclude Include="Globals\GlobalVars.h" />
@@ -320,7 +321,6 @@
     <ClInclude Include="Utils\Marker.h" />
     <ClInclude Include="Utils\memory.h" />
     <ClInclude Include="Utils\offsets.h" />
-    <ClInclude Include="Utils\GetInterface.h" />
     <ClInclude Include="Utils\Vec3.h" />
     <ClInclude Include="Utils\VMThook.h" />
     <ClInclude Include="Utils\xorstr.h" />
@@ -328,6 +328,7 @@
     <ClInclude Include="Web\httplib.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Menu\MessageLine\CMessageLine.cpp" />
     <ClCompile Include="DirctX\CustomDirectX9Device.cpp" />
     <ClCompile Include="DirctX\DX9ColorFix.cpp" />
     <ClCompile Include="Globals\GlobalVars.cpp" />

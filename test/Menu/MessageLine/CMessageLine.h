@@ -9,11 +9,12 @@ namespace UI
 	class CMessageLine
 	{
 	public:
-		CMessageLine(const std::string& text, int showDuration)
+		CMessageLine(const std::string& text, int showDuration, const ImColor& textColor)
 		{
 			m_iShowDuration = showDuration;
 			m_sText         = text;
 			m_vecSize       = ImGui::CalcTextSize(m_sText.c_str()) + ImVec2(10, 4);
+			m_Color = textColor;
 		};
 		void Render(const ImVec2& drawPosition) const;
 		bool isShoudShow() const
@@ -29,6 +30,7 @@ namespace UI
 		int m_iShowDuration;
 		std::string m_sText;
 		ImVec2 m_vecSize;
+		ImColor m_Color;
 	};
 
 	class CMessageLineList
@@ -36,8 +38,13 @@ namespace UI
 	public:
 		void Add(const std::string& text, const int showDuration)
 		{
-			m_Lines.push_back(CMessageLine(text, showDuration));
+			Add(text, showDuration, ImGui::GetStyle().Colors[ImGuiCol_Text]);
 		}
+		void Add(const std::string& text, const int showDuration, const ImColor& col)
+		{
+			m_Lines.push_back(CMessageLine(text, showDuration, col));
+		}
+
 		void Render(ImVec2 startPosition)
 		{
 			for (int i = 0; i < m_Lines.size(); ++i)

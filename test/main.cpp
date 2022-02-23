@@ -11,8 +11,6 @@
 
 DWORD WINAPI InitCheat(HMODULE hModule)
 {
-	POLY_MARKER;
-
 	CRazer razer = CRazer();
 	if (razer.isSupported())
 	{
@@ -40,19 +38,12 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 	GlobalVars::Init(hModule);
 	hooks::Attach(hModule);
 
-	PlaySound(GlobalVars::activatedSound, hModule, SND_MEMORY | SND_ASYNC);
-
 	while (!GetAsyncKeyState(VK_END))
 	{
 		Sleep(100);
 	}
 
-	PlaySound(GlobalVars::deactivatedSound, hModule, SND_MEMORY | SND_ASYNC);
-
 	// Clean up sounds
-
-	delete GlobalVars::deactivatedSound;
-	delete GlobalVars::activatedSound;
 
 	hooks::Detach();
 	
@@ -64,8 +55,6 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 
 BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
-
-	POLY_MARKER;
 	if (dwReason == DLL_PROCESS_ATTACH)
 	{
 		auto client = httplib::Client(AVHOOK_SERVER_URL);
@@ -80,16 +69,6 @@ BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 			MessageBox(NULL, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);
 			exit(-1);
 		}
-
-		auto data = client.Get(xorstr("/media/sounds/activated.wav")).value().body;
-		GlobalVars::activatedSound = new char[data.size()];
-			
-		memcpy_s(GlobalVars::activatedSound, data.size(), data.c_str(), data.size());
-
-		data = client.Get(xorstr("/media/sounds/deactivated.wav")).value().body;
-		GlobalVars::deactivatedSound = new char[data.size()];
-
-		memcpy_s(GlobalVars::deactivatedSound, data.size(), data.c_str(), data.size());
 
 		CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)InitCheat,   hModule, 0, nullptr);
 	}

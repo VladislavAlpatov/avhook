@@ -1113,8 +1113,13 @@ bool ImGui::Checkbox(const char* label, bool* v)
     }
     else if (*v)
     {
-        const float pad = ImMax(1.0f, IM_FLOOR(square_sz / 6.0f));
-        RenderCheckMark(window->DrawList, check_bb.Min + ImVec2(pad, pad), check_col, square_sz - pad * 2.0f);
+        // Deafaulte check mark
+        //const float pad = ImMax(1.0f, IM_FLOOR(square_sz / 6.0f));
+        //RenderCheckMark(window->DrawList, check_bb.Min + ImVec2(pad, pad), check_col, square_sz - pad * 2.0f);
+
+        // Square
+        ImVec2 pad(ImMax(1.0f, IM_FLOOR(square_sz / 3.6f)) - 1, ImMax(1.0f, IM_FLOOR(square_sz / 3.6f)) - 1);
+        window->DrawList->AddRectFilled(check_bb.Min + pad, check_bb.Max - pad, check_col, style.FrameRounding);
     }
 
     ImVec2 label_pos = ImVec2(check_bb.Max.x + style.ItemInnerSpacing.x, check_bb.Min.y + style.FramePadding.y);

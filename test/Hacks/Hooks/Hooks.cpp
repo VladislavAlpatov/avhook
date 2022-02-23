@@ -167,7 +167,6 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 
 	Hacks::CHackingFeature* features[] = {
 		new Hacks::BunnyHop(&GlobalVars::settings.m_BunnyHopSettings),
-		new Hacks::TriggerBot(&GlobalVars::settings.m_TriggerBotSettings),
 		new Hacks::CAimBot(&GlobalVars::settings.m_AimBotSettings, pUserCmd)
 	};
 

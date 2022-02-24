@@ -114,9 +114,9 @@ bool CAimBot::IfEntityInFov(const CBaseEntity* entity, const int iBoneId) const
 	using namespace GlobalVars;
 	auto pAimBotSettings = (Settings::AimBotSettings*)m_pSettings;
 
-	ImVec3  pLocalPlayerAngles  = m_pCUsrCmd->viewangles;
+	ImVec3  pLocalPlayerAngles   = m_pCUsrCmd->viewangles;
 	ImVec3  targetAngles         = CalcAimViewAngles(entity, iBoneId);
-	ImVec2  deltaFov            = ImVec2(pLocalPlayerAngles.x - targetAngles.x, pLocalPlayerAngles.y - targetAngles.y);
+	ImVec3  deltaFov             = pLocalPlayerAngles - targetAngles;
 
 	return fabs(deltaFov.x) <= pAimBotSettings->m_fFov and fabs(deltaFov.y) <= pAimBotSettings->m_fFov;
 }

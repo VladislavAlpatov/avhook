@@ -118,7 +118,7 @@ void UI::CNetWorkWindow::OnClose()
 	if (m_OldUserData != m_CurrentUserData)
 	{
 		std::thread([this] {SendNewUserInfoToServer(m_CurrentUserData); }).detach();
-		m_pMessageLineList->Add(xorstr("User data successfully updated"), 2000);
+		m_pMessageLineList->Add(xorstr("User data successfully updated."), 2000);
 
 	}
 }
@@ -142,12 +142,12 @@ void UI::CNetWorkWindow::SetUserAvatar(const std::string pathToFile)
 	int fileSize = file.tellg();
 	if (!file.is_open())
 	{
-		m_pMessageLineList->Add(xorstr("Could not open the file"), 2000, ImColor(255, 0, 0));
+		m_pMessageLineList->Add(xorstr("Could not open the file!"), 2000, ImColor(255, 0, 0));
 		return;
 	}
 	else if (fileSize > 20 * 1024)
 	{
-		m_pMessageLineList->Add(xorstr("The file size is too large.\nMaximum file size: 20 kilobytes"), 2000, ImColor(255, 0, 0));
+		m_pMessageLineList->Add(xorstr("The file size is too large.\nMaximum file size: 20 kilobytes!"), 2000, ImColor(255, 0, 0));
 		return;
 	}
 
@@ -159,7 +159,7 @@ void UI::CNetWorkWindow::SetUserAvatar(const std::string pathToFile)
 	auto avatarRawData = m_ApiClient.GetRawAvatarData();
 
 	D3DXCreateTextureFromFileInMemory(m_pDevice, avatarRawData.c_str(), avatarRawData.size(), &m_pTextureUserAvatar);
-	m_pMessageLineList->Add(xorstr("The avatar has been uploaded successfully"), 2000, ImColor(0, 255, 0));
+	m_pMessageLineList->Add(xorstr("The avatar has been uploaded successfully."), 2000);
 
 	delete[] tmpFileData;
 

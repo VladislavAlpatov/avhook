@@ -1,6 +1,7 @@
 #pragma once
 #include "../../imgui/imgui.h"
 #include "../../imgui/imgui_internal.h"
+
 #include <string>
 #include <vector>
 
@@ -16,23 +17,26 @@ namespace UI
 			m_Color         = textColor;
 		};
 		void Render(const ImVec2& drawPosition);
+
+		// If message line should be shown?
 		bool isShoudShow() const
 		{
-			return GetTickCount64() - m_OldTime <= m_iShowDuration;
+			return GetTickCount64() - m_ullCreationTime <= m_iShowDuration;
 		}
+		// Get size of message line
 		ImVec2 GetSize() const
 		{
-			// ImVec2(4, 4) <- Padding for text
+			// ImVec2(6, 6) <- Padding for text
 			return ImGui::CalcTextSize(m_sText.c_str()) + ImVec2(6, 6);
 		}
 	private:
-		ULONGLONG   m_OldTime = GetTickCount64();
+		// Cration time stamp
+		ULONGLONG   m_ullCreationTime = GetTickCount64();
 		int         m_iShowDuration;
 		std::string m_sText;
 		ImVec2      m_vecSize;
 		ImColor     m_Color;
 	};
-
 	class CMessageLineList
 	{
 	public:

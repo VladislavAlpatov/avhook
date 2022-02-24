@@ -14,11 +14,11 @@ public:
     void RestoreColorFilter();
     void RestoreRenderState();
 private:
-    IDirect3DStateBlock9* state_block = nullptr;
+    IDirect3DStateBlock9* m_pStateBlock = nullptr;
 
-    LPDIRECT3DDEVICE9   pDevice      = nullptr;
-    D3DRENDERSTATETYPE  back_up[7]   = { D3DRS_COLORWRITEENABLE, D3DRS_SRGBWRITEENABLE, D3DRS_ALPHABLENDENABLE, D3DRS_SRCBLEND, D3DRS_DESTBLEND, D3DRS_BLENDOP, D3DRS_FOGENABLE };
-    DWORD               old_block[7] = {0};
+    LPDIRECT3DDEVICE9   m_pDevice      = nullptr;
+    D3DRENDERSTATETYPE  m_BackUp[7]   = { D3DRS_COLORWRITEENABLE, D3DRS_SRGBWRITEENABLE, D3DRS_ALPHABLENDENABLE, D3DRS_SRCBLEND, D3DRS_DESTBLEND, D3DRS_BLENDOP, D3DRS_FOGENABLE };
+    DWORD               m_OldBlock[7] = {0};
 
 };
 

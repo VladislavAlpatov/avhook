@@ -275,7 +275,7 @@ void UI::CSettingsWindow::DrawCfgChild()
 			if (cfg.LoadConfigFile(m_pAllSettings->m_sName))
 				m_pMessageLineList->Add(std::format(xorstr("Loaded config: \"{}\""), m_pAllSettings->m_sName), 2000);
 			else
-				m_pMessageLineList->Add(std::format(xorstr("Loading error!"), m_pAllSettings->m_sName), 2000);
+				m_pMessageLineList->Add(std::format(xorstr("Loading error."), m_pAllSettings->m_sName), 2000);
 
 		}
 		ImGui::SameLine();
@@ -285,7 +285,7 @@ void UI::CSettingsWindow::DrawCfgChild()
 			{
 				CConfigLoader cfgOnSave = CConfigLoader(m_pAllSettings->m_sName, m_pAllSettings);
 				cfgOnSave.DumpConfigFile(m_pAllSettings->m_sName);
-				m_pMessageLineList->Add(xorstr("           No"), 2000);
+				m_pMessageLineList->Add(xorstr("Config successfully imported."), 2000);
 
 			}
 			else
@@ -329,7 +329,7 @@ void UI::CSettingsWindow::DrawCfgChild()
 			}
 			else
 			{
-				m_pMessageLineList->Add(xorstr("Enter xxxxxxxxxxxxxxxxxxxxxxxxxxxxx the file name."), 2000, ImColor(255, 0, 0));
+				m_pMessageLineList->Add(xorstr("Enter the file name."), 2000, ImColor(255, 0, 0));
 			}
 		}
 		ImGui::EndChild();

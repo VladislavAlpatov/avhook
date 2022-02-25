@@ -18,32 +18,6 @@ int __stdcall  hooks::hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a
 	typedef int(__stdcall* Present)(LPDIRECT3DDEVICE9, int, int, int, int);
 	return reinterpret_cast<Present>(hooks::oPresent)(pDevice, a2, a3, a4, a5);
 }
-void KillKeyBoardEffect()
-{
-	CRazer razer = CRazer();
-	RZEFFECTID onKillEffectId;
-	RZEFFECTID clearEffectId;
-	ChromaSDK::Keyboard::STATIC_EFFECT_TYPE clearEffect;
-	clearEffect.Color = RGB(255, 255, 255);
-
-	ChromaSDK::Keyboard::STATIC_EFFECT_TYPE onKillEffect;
-
-
-	onKillEffect.Color = GlobalVars::settings.m_ChromaSettings.m_KillGlowColor.ToRgbColorRef();
-
-
-	POLY_MARKER
-
-
-	razer.CreateKeyboardEffect(ChromaSDK::Keyboard::CHROMA_STATIC, &onKillEffect, &onKillEffectId);
-	razer.CreateKeyboardEffect(ChromaSDK::Keyboard::CHROMA_STATIC, &clearEffect, &clearEffectId);
-	razer.SetEffect(onKillEffectId);
-	Sleep(200);
-	razer.SetEffect(clearEffectId);
-
-	razer.DeleteEffect(clearEffectId);
-	razer.DeleteEffect(onKillEffectId);
-}
 void hooks::Attach(HMODULE ihModule)
 {
 	hooks::hmodule = ihModule;
@@ -55,11 +29,6 @@ void hooks::Attach(HMODULE ihModule)
 	DWORD presentAddr = (DWORD)(GetModuleHandle(xorstr("d3d9.dll"))) + 0xE5880;
 
 	MH_CreateHook((LPVOID)presentAddr, &hkPresent, reinterpret_cast<LPVOID*>(&hooks::oPresent));
-	POLY_MARKER
-	// Hook on kill function
-	auto onKillAddr = CMemory::FindPattern(xorstr("server.dll"), xorstr("\x55\x8B\xEC\x81\xEC\x00\x00\x00\x00\x53\x8B\xD9\xC7\x05\x4C"), xorstr("xxxxx????xxxxxx"));
-	MH_CreateHook((LPVOID*)onKillAddr, &hOnkill, (LPVOID*)&oOnKill);
-	POLY_MARKER
 	//Hook CreateMove
 	auto createMoveAddr = CMemory::FindPattern(xorstr("client.dll"), xorstr("\x55\x8B\xEC\x56\x8D\x75\x04\x8B"), xorstr("xxxxxxxx"));
 	MH_CreateHook((LPVOID*)createMoveAddr, &hCreateMove, (LPVOID*)&oCreateMove);
@@ -78,7 +47,7 @@ void hooks::Attach(HMODULE ihModule)
 
 LRESULT WINAPI hooks::WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	POLY_MARKER
+	POLY_MARKER;
 	if (hooks::pOverlay->IsShowUI())
 	{
 		POLY_MARKER
@@ -104,32 +73,13 @@ void hooks::Detach()
 	MH_Uninitialize();
 }
 
-int  __fastcall hooks::hOnkill(void* pThis, void* edx)
-{
-	POLY_MARKER
-
-	if (GlobalVars::bChromaSupport)
-		std::thread(KillKeyBoardEffect).detach();
-
-	if (GlobalVars::settings.m_MiscSettings.m_bKillSound and GlobalVars::settings.m_MiscSettings.killSoundPath[0] == NULL)
-	{
-		//PlaySound(MAKEINTRESOURCE(IDR_WAVE3), GlobalVars::hModule, SND_RESOURCE | SND_ASYNC);
-	}
-	else if (GlobalVars::settings.m_MiscSettings.m_bKillSound)
-	{
-		PlaySound(GlobalVars::settings.m_MiscSettings.killSoundPath, GlobalVars::hModule, SND_ASYNC);
-	}
-
-	typedef int(__fastcall* tOnkill)(void*, void* edx);
-	return reinterpret_cast<tOnkill>(oOnKill)(pThis, edx);
-}
-
 bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 {
-	POLY_MARKER;
+	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
+
+
 	if (GlobalVars::client->pLocalPlayer == nullptr or pOverlay == nullptr)
 	{
-		typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 		return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
 	}
 	GlobalVars::veLocalPlayerViewAngles = pUserCmd->viewangles;
@@ -159,9 +109,8 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 		entity->m_IsVisible = trace.hit_entity == entity;
 	}
 
-	if (pOverlay->IsShowUI())
+	if (pOverlay->IsShowUI() or !GlobalVars::client->pLocalPlayer->IsAlive())
 	{
-		typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 		return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
 	}
 
@@ -176,7 +125,6 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 		delete features[i];
 	}
 	
-	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 	return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
 }
 

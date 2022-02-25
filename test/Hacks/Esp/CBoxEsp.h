@@ -9,7 +9,7 @@ namespace Esp
 
 	private:
 		void	DrawSolidBox(CBaseEntity* pEntity, const ImColor& drawColor, int thickness);
-		void	DrawCorneredBox(CBaseEntity* pEntity, const ImColor& drawColor, int thickness);
+		void	DrawCorneredBox(const CBaseEntity* pEntity, const ImColor& drawColor,const  int thickness);
 		virtual void InternalRenderAt(CBaseEntity* pEntity);
 	};
 }

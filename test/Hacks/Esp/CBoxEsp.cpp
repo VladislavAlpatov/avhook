@@ -22,9 +22,11 @@ void CBoxEsp::InternalRenderAt(CBaseEntity* pEntity)
     {
     case Settings::BoxEspSettings::Style::Solid:
         DrawSolidBox(pEntity, drawColor, pSettings->m_iThickness);
+        break;
 
     case Settings::BoxEspSettings::Style::Cornered:
         DrawCorneredBox(pEntity, drawColor, pSettings->m_iThickness);
+        break;
 
     default:
         break;
@@ -55,7 +57,7 @@ void CBoxEsp::DrawSolidBox(CBaseEntity* pEntity, const ImColor& drawColor, int t
     pDrawList->AddLine(topLeft, bottomLeft, drawColor,     (float)thickness);
     pDrawList->AddLine(topRight, bottomRight, drawColor,   (float)thickness);
 }
-void CBoxEsp::DrawCorneredBox(CBaseEntity* pEntity, const ImColor& drawColor, int thickness)
+void CBoxEsp::DrawCorneredBox(const CBaseEntity* pEntity, const ImColor& drawColor,const  int thickness)
 {
     ImVec3 up = WorldToScreen(pEntity->m_vecOrigin);
 

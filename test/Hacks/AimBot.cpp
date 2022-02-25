@@ -217,13 +217,13 @@ std::vector<CBaseEntity*> CAimBot::GetValidEntities(const int boneId) const
 
 	for (int i = 1; i < 33; i++)
 	{
-		CBaseEntity* entity = reinterpret_cast<CBaseEntity*>(GlobalVars::pIEntityList->GetClientEntity(i));
+		CBaseEntity* pEntites = reinterpret_cast<CBaseEntity*>(GlobalVars::pIEntityList->GetClientEntity(i));
 
-		if (!entity or !entity->m_IsVisible)
+		if (!pEntites or !pEntites->m_IsVisible)
 			continue;
 
-		if (entity->m_iHealth > 0 and !entity->m_bDormant and localPlayer->m_iTeamNum != entity->m_iTeamNum and IfEntityInFov(entity, boneId) and entity->m_IsVisible)
-			validEntities.push_back(entity);
+		if (pEntites->IsAlive() and !pEntites->m_bDormant and localPlayer->m_iTeamNum != pEntites->m_iTeamNum and IfEntityInFov(pEntites, boneId) and pEntites->m_IsVisible)
+			validEntities.push_back(pEntites);
 
 	}
 	return validEntities;

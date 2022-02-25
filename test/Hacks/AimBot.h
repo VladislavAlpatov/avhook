@@ -15,7 +15,7 @@ namespace Hacks
 		CUserCmd* m_pCUsrCmd;
 		bool IfEntityInFov(const CBaseEntity* ent, const int bone) const;
 		__forceinline int GetBoneIDBySelectedTab();
-		ImVec3 CalcAimViewAngles(const CBaseEntity* pEntity, int bone) const;
+		ImVec3 CalcAimViewAngles(const CBaseEntity* pEntity, const int bone) const;
 		static ImVec3 ClampViewAngles(ImVec3 vecViewAngles);
 		static ImVec3 NormalizeViewAngles(ImVec3 vecViewAngle);
 		void AimSmooth(CBaseEntity* pEnt, int iBoneId);

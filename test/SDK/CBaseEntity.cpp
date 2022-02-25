@@ -15,13 +15,12 @@ ImVec3 CBaseEntity::GetBonePosition(const int bone) const
 
 float CBaseEntity::CalcDistaceToEntity(const CBaseEntity* entity) const
 {
-	const CBaseEntity* ent;
-
 	return (m_vecOrigin + m_vecViewOffset).DistTo(entity->GetBonePosition(8));
 }
 
-ImColor CBaseEntity::GetColorBasedOnHealth()
+ImColor CBaseEntity::GetColorBasedOnHealth() const
 {
+
 	if (20 >= m_iHealth)
 		return ImColor(255, 0, 0);
 
@@ -34,11 +33,11 @@ ImColor CBaseEntity::GetColorBasedOnHealth()
 	return ImColor(221, 0, 255);
 }
 
-ImVec3 CBaseEntity::GetCameraPosition()
+ImVec3 CBaseEntity::GetCameraPosition() const
 {
 	return m_vecOrigin + m_vecViewOffset;
 }
-bool CBaseEntity::IsAlive()
+bool CBaseEntity::IsAlive() const
 {
 	return m_iHealth > 0;
 }

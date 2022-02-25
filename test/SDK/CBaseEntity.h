@@ -35,11 +35,11 @@ namespace SSDK
 		// Calc distance to entity
 		float CalcDistaceToEntity(const CBaseEntity* entity) const;
 		//Get color based on entity health
-		ImColor GetColorBasedOnHealth();
+		ImColor GetColorBasedOnHealth() const;
 		// Get entity camera position
-		ImVec3 GetCameraPosition();
+		ImVec3 GetCameraPosition() const;
 		// Is player alive?
-		bool IsAlive();
+		bool IsAlive() const ;
 
 		enum Bone
 		{

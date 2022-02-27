@@ -521,6 +521,7 @@
     <None Include="images\wave3.bin">
       <Filter>Файлы ресурсов</Filter>
     </None>
+    <None Include="LICENSE" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="sound\killsound.wav">

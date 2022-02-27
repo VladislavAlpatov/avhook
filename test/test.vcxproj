@@ -398,6 +398,9 @@
   <ItemGroup>
     <None Include="images\sound1.bin" />
     <None Include="images\wave3.bin" />
+    <None Include="LICENSE">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Media Include="sound\killsound.wav" />

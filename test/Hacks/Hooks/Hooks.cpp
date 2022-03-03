@@ -15,6 +15,9 @@ int __stdcall  hooks::hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a
 	}
 	pOverlay->Render();
 
+	if (GlobalVars::client->pLocalPlayer)
+		GlobalVars::client->pLocalPlayer->m_iDefaultFOV = GlobalVars::settings.m_MiscSettings.m_iCustomFov;
+
 	typedef int(__stdcall* Present)(LPDIRECT3DDEVICE9, int, int, int, int);
 	return reinterpret_cast<Present>(hooks::oPresent)(pDevice, a2, a3, a4, a5);
 }
@@ -78,14 +81,11 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 
 
-	if (GlobalVars::client->pLocalPlayer == nullptr or pOverlay == nullptr)
+	if (GlobalVars::client->pLocalPlayer == nullptr or pOverlay == nullptr or pUserCmd->command_number == 0)
 	{
-		return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
+		return false;
 	}
 	GlobalVars::veLocalPlayerViewAngles = pUserCmd->viewangles;
-	
-	// Overrige fov
-	GlobalVars::client->pLocalPlayer->m_iDefaultFOV = GlobalVars::settings.m_MiscSettings.m_iCustomFov;
 
 	// Looking for "visible" players
 	for (int i = 1; i < 33; ++i)

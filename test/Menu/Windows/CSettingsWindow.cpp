@@ -241,6 +241,11 @@ void UI::CSettingsWindow::DrawEspChild()
 	{
 		ImGui::Text(xorstr("Radar"));
 		ImGui::Checkbox(xorstr("Active"), &m_pAllSettings->m_RadarSettings.m_bActive);
+		const char* style[] = {"Embedded", "Custom"};
+
+		ImGui::Combo(xorstr("Style###RStyle"),         &m_pAllSettings->m_RadarSettings.m_iStyle, style, IM_ARRAYSIZE(style));
+		DrawToolTip(xorstr("Embedded - the standard game radar will be used.\nCustom - avhook radar will be used, which you can\ncustomize yourself, for example, change the color"));
+
 
 		ImGui::ColorEdit4(xorstr("Inactive Color"),   (float*)&m_pAllSettings->m_RadarSettings.m_InactiveFeatureColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::ColorEdit4(xorstr("Active Color"),     (float*)&m_pAllSettings->m_RadarSettings.m_ActiveFeatureColor,   ImGuiColorEditFlags_NoInputs);

@@ -73,6 +73,28 @@ void UI::CRadarWindow::KeepWindowInSreenArea()
 }
 void UI::CRadarWindow::Render()
 {
+	if (m_pRadarSettings->m_iStyle == Settings::CRadarSettings::EMBEDDED)
+		UseGameRadar();
+	else
+		RenderCustomRadar();
+}
+
+void UI::CRadarWindow::UseGameRadar() const
+{
+	for (int i = 1; i < 32; ++i)
+	{
+		const auto pEntity = GlobalVars::pIEntityList->GetClientEntity(i);
+		
+		if (!pEntity or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::client->pLocalPlayer->m_iTeamNum or pEntity->m_bSpotted)
+			continue;
+
+		pEntity->m_bSpotted = true;
+
+	}
+}
+
+void UI::CRadarWindow::RenderCustomRadar()
+{
 	if (m_pRadarSettings->m_bDrawBorders)
 		ImGui::Begin(xorstr("###Radar"), NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
 	else
@@ -81,7 +103,7 @@ void UI::CRadarWindow::Render()
 		ImGui::SetWindowSize(ImVec2(384, 256));
 
 		const auto windowPosition = ImGui::GetWindowPos();
-		const auto windowCenter   = windowPosition + ImGui::GetWindowSize() / 2.f;
+		const auto windowCenter = windowPosition + ImGui::GetWindowSize() / 2.f;
 
 		auto pDrawList = ImGui::GetWindowDrawList();
 
@@ -105,16 +127,16 @@ void UI::CRadarWindow::Render()
 		{
 			auto pEnt = GlobalVars::pIEntityList->GetClientEntity(i);
 
-			if (!pEnt or !pEnt->IsAlive() or pEnt->m_iTeamNum == GlobalVars::client->pLocalPlayer->m_iTeamNum)
+			if (!pEnt or !pEnt->IsAlive() or pEnt->m_iTeamNum == GlobalVars::client->pLocalPlayer->m_iTeamNum or pEnt->m_bDormant)
 				continue;
 			auto windowPosition = ImGui::GetWindowPos();
-			
+
 			auto vecEntityRadarPosition = WorldToRadar(pEnt->m_vecOrigin, GlobalVars::client->pLocalPlayer->m_vecOrigin, GlobalVars::veLocalPlayerViewAngles, 256);
 
 			ImColor enemyColor = ImColor(255, 255, 255);
 			if (GlobalVars::settings.m_AimBotSettings.m_pCurrentTarget == pEnt)
 				enemyColor = ImColor(255, 0, 255);
-			pDrawList->AddCircleFilled(ImVec2(windowPosition.x + vecEntityRadarPosition.x + 384.f / 6.0f, windowPosition.y + vecEntityRadarPosition.y), 4, ImColor(0,0,0));
+			pDrawList->AddCircleFilled(ImVec2(windowPosition.x + vecEntityRadarPosition.x + 384.f / 6.0f, windowPosition.y + vecEntityRadarPosition.y), 4, ImColor(0, 0, 0));
 			pDrawList->AddCircleFilled(ImVec2(windowPosition.x + vecEntityRadarPosition.x + 384.f / 6.0f, windowPosition.y + vecEntityRadarPosition.y), 3, enemyColor);
 		}
 

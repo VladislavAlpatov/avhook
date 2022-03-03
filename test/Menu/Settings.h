@@ -122,7 +122,8 @@ namespace Settings
 	public:
 		CRadarSettings() {};
 		CRadarSettings(const json& jsn);
-		bool m_bDrawBorders = false;
+		bool    m_bDrawBorders = false;
+		int     m_iStyle = 0;
 		ImColor	m_ActiveFeatureColor = ImColor(255, 0, 0);
 		ImColor m_InactiveFeatureColor = ImColor(255, 255, 255);
 		ImColor m_BackGroundColor = ImColor(0, 0, 0, 30);
@@ -130,6 +131,12 @@ namespace Settings
 		ImColor m_CyrcleBorderColor = ImColor(255, 95, 95);
 
 		virtual json ToJson();
+
+		enum RADAR_STYLE : int
+		{
+			EMBEDDED = 0,
+			CUSTOM
+		};
 	};
 	class CLabelEspSettings : public CBaseSettings
 	{

@@ -28,6 +28,9 @@ namespace UI
 	private:
 		Settings::CRadarSettings* m_pRadarSettings;
 		virtual void Render();
+		void UseGameRadar() const;
+		void RenderCustomRadar();
+
 		virtual void KeepWindowInSreenArea();
 		ImVec2 WorldToRadar(const ImVec3& EntityOrigin, const ImVec3& LocalPlayerOrigin, const ImVec3& LocalPlayerViewAngles, int width, float scale);
 	};

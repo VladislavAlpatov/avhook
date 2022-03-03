@@ -172,6 +172,7 @@ json CRadarSettings::ToJson()
 	jsn[xorstr("InactiveFeatureColor")] = ImColorToJsn(m_InactiveFeatureColor);
 	jsn[xorstr("BackGroundColor")] = ImColorToJsn(m_BackGroundColor);
 	jsn[xorstr("CrossColor")] = ImColorToJsn(m_CrossColor);
+	jsn[xorstr("Style")] = m_iStyle;
 	jsn[xorstr("CyrcleBorderColor")] = ImColorToJsn(m_CyrcleBorderColor);
 
 	return jsn;
@@ -240,6 +241,7 @@ json SAllSettings::ToJson()
 }
 CRadarSettings::CRadarSettings(const json& jsn)
 {
+	m_iStyle               = jsn[xorstr("Style")].get<int>();
 	m_bActive              = jsn[xorstr("Active")].get<bool>();
 	m_ActiveFeatureColor   = ImportImColorFromJson(jsn[xorstr("ActiveFeatureColor")].get<json>());
 	m_InactiveFeatureColor = ImportImColorFromJson(jsn[xorstr("InactiveFeatureColor")].get<json>());

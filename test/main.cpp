@@ -35,6 +35,9 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 		GlobalVars::bChromaSupport = false;
 	}
 
+	while (!GetModuleHandle(xorstr("serverbrowser.dll")))
+		Sleep(100);
+
 	GlobalVars::Init(hModule);
 	hooks::Attach(hModule);
 

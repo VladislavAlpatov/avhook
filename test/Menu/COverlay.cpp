@@ -3,7 +3,7 @@
 
 COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::SAllSettings* pSettings)
 {
-	m_pDevice = pDevice;
+	m_pDevice      = pDevice;
 	m_pAllSettings = pSettings;
 	ImGui::CreateContext();
 	ImGui_ImplWin32_Init(FindWindow(NULL, WINDOW_NAME));
@@ -15,7 +15,7 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::SAllSet
 	ImFontConfig cfg;
 	cfg.FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_Monochrome | ImGuiFreeTypeBuilderFlags_MonoHinting;
 
-	m_pFontEsp  = io.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 13.f, &cfg);
+	m_pFontEsp  = io.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 12.6f, &cfg);
 
 	auto& style = ImGui::GetStyle();
 	auto& theme = style.Colors;
@@ -64,6 +64,8 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::SAllSet
 	{
 		m_vecSnow.push_back(SnowFlake(ImVec2(0, 2), 1920));
 	}
+
+	m_MessageLineList.Add(xorstr("User controle initiated.\nFocus.Plan.Attack"), 3000);
 }
 
 void COverlay::Render()

@@ -7,10 +7,6 @@ namespace Esp
 {
 	class CLabelEsp : public CBaseEsp
 	{
-	public:
-		CLabelEsp(Settings::CLabelEspSettings* pSettings) : CBaseEsp(pSettings) {};
-		virtual void InternalRenderAt(CBaseEntity* pEntity);
-
 	private:
 		struct Label
 		{
@@ -22,5 +18,10 @@ namespace Esp
 			ImColor     m_Color;
 			std::string m_Text;
 		};
+		void DrawLabelsAtLeftSide(const CBaseEntity* pEntity, const std::list<Label>& labels);
+		void DrawLabelsAtTop(const CBaseEntity* pEntity, const std::list<Label>& labels);
+	public:
+		CLabelEsp(Settings::CLabelEspSettings* pSettings) : CBaseEsp(pSettings) {};
+		virtual void InternalRenderAt(CBaseEntity* pEntity);
 	};
 };

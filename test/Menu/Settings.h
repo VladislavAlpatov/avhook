@@ -153,6 +153,7 @@ namespace Settings
 		bool m_bDrawAimbot = false;
 		int  m_iIndexMin = 0;
 		int  m_iIndexMax = 0;
+		int  m_iDrawPos  = 0;
 		ImColor m_GlovesColor = ImColor(255, 255, 255);
 		ImColor m_NameLabelColor = ImColor(255, 255, 255);
 		ImColor m_DistanceLabelColor = ImColor(255, 155, 5);
@@ -162,6 +163,11 @@ namespace Settings
 		virtual json ToJson();
 		CLabelEspSettings(const json& jsn);
 		//void Restore() override {};
+		enum LABELS_ALLIGN
+		{
+			LEFT = 0,
+			TOP
+		};
 	};
 	class ChromaSettings
 	{

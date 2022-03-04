@@ -194,6 +194,10 @@ void UI::CSettingsWindow::DrawEspChild()
 	ImGui::BeginChild(xorstr("###LabelEsp"), blockSize, true);
 	{
 		ImGui::Text(xorstr("Labels"));
+
+		const char* positions[] = { "Left alligned", "Top alligned" };
+		ImGui::Combo(xorstr("###LabelDrawPos"), &m_pAllSettings->m_LabelEspSettings.m_iDrawPos, positions, IM_ARRAYSIZE(positions));
+
 		ImGui::ColorEdit4(xorstr("###NameLabelColor"), (float*)&m_pAllSettings->m_LabelEspSettings.m_NameLabelColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
 		ImGui::Checkbox(xorstr("Name"), &m_pAllSettings->m_LabelEspSettings.m_bDrawName);

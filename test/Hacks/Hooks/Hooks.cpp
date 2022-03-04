@@ -77,12 +77,15 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 {
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 
+	POLY_MARKER;
 
-	if (GlobalVars::client->pLocalPlayer == nullptr or pOverlay == nullptr or pUserCmd->command_number == 0)
+	if (GlobalVars::client->pLocalPlayer == nullptr or pOverlay == nullptr or GlobalVars::client->pLocalPlayer->m_bDormant)
 	{
 		return false;
 	}
 	GlobalVars::veLocalPlayerViewAngles = pUserCmd->viewangles;
+
+	GlobalVars::client->pLocalPlayer->m_iDefaultFOV = GlobalVars::settings.m_MiscSettings.m_iCustomFov;
 
 	// Looking for "visible" players
 	for (int i = 1; i < 33; ++i)

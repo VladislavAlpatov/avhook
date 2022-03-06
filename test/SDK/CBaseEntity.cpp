@@ -41,3 +41,8 @@ bool CBaseEntity::IsAlive() const
 {
 	return m_iHealth > 0;
 }
+
+float SSDK::CBaseEntity::GetHealthPercent() const
+{
+	return m_iHealth;
+}

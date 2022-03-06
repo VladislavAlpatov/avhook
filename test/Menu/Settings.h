@@ -27,10 +27,10 @@ namespace Settings
 		json    ImColorToJsn(const ImColor& color);
 		ImColor ImportImColorFromJson(const json& jsn);
 	};
-	class AimBotSettings : public CBaseSettings
+	class CAimBotSettings : public CBaseSettings
 	{
 	public:
-		AimBotSettings() {};
+		CAimBotSettings() {};
 		bool			   m_bAutoShot = false;
 		bool			   silent = false;
 		bool			   m_bIsWorking = false;
@@ -39,14 +39,21 @@ namespace Settings
 		int                m_iSelectedHitBox = 0;
 		int				   m_iPriorityType = 0;
 		SSDK::CBaseEntity* m_pCurrentTarget = 0;
+		int				   m_pSwitchFromHeadToBodyHitboxHelthPercent = 50;
+		int			       m_iHitBoxFilterMode = 0;
 
 		enum PriorityType
 		{
 			FieldOfView,
 			Distance
 		};
+		enum HitBoxFilterMode
+		{
+			Static = 0,
+			Dynamic
+		};
 		virtual json ToJson();
-		AimBotSettings(const json& jsn);
+		CAimBotSettings(const json& jsn);
 	};
 	class SnapLinesSettings : public CBaseSettings
 	{
@@ -198,7 +205,7 @@ namespace Settings
 	struct SAllSettings
 	{
 		char m_sName[32] = { 0 };
-		AimBotSettings        m_AimBotSettings;
+		CAimBotSettings        m_AimBotSettings;
 		SnapLinesSettings     m_SnapLinesSettings;
 		BoxEspSettings	      m_BoxEspSettings;
 		MiscSettings          m_MiscSettings;

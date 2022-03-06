@@ -35,7 +35,7 @@ void hooks::Attach(HMODULE ihModule)
 
 	DWORD DrawIndexedPrimitiveAddr = (DWORD)(GetModuleHandle(xorstr("d3d9.dll"))) + 0x627b0;
 	MH_CreateHook((LPVOID*)DrawIndexedPrimitiveAddr, &hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
-	MH_CreateHook(GetProcAddress(GetModuleHandle("ntdll"), xorstr("NtQueryVirtualMemory")), &hNtQueryVirtualMemory, (LPVOID*)&oNtQueryVirtualMemory);
+	//MH_CreateHook(GetProcAddress(GetModuleHandle("ntdll"), xorstr("NtQueryVirtualMemory")), &hNtQueryVirtualMemory, (LPVOID*)&oNtQueryVirtualMemory);
 	MH_EnableHook(MH_ALL_HOOKS);
 	// Wait until overlay is ready for work.
 	while (!hooks::pOverlay)
@@ -76,8 +76,6 @@ void hooks::Detach()
 bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 {
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
-
-	POLY_MARKER;
 
 	if (GlobalVars::client->pLocalPlayer == nullptr or pOverlay == nullptr or GlobalVars::client->pLocalPlayer->m_bDormant)
 	{

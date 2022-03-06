@@ -1,12 +1,13 @@
 #include "AimBot.h"
 using namespace Hacks;
-CAimBot::CAimBot(Settings::AimBotSettings* pSettings, CUserCmd* ppUsrCmd) : CHackingFeature(pSettings)
+
+CAimBot::CAimBot(Settings::CAimBotSettings* pSettings, CUserCmd* ppUsrCmd) : CHackingFeature(pSettings)
 {
 	m_pCUsrCmd = ppUsrCmd;
 }
-int CAimBot::GetBoneIDBySelectedTab()
+int CAimBot::GetBoneIDBySelectedTab() const
 {
-	switch (reinterpret_cast<Settings::AimBotSettings*>(m_pSettings)->m_iSelectedHitBox)
+	switch (reinterpret_cast<Settings::CAimBotSettings*>(m_pSettings)->m_iSelectedHitBox)
 	{
 	case 0:
 		return CBaseEntity::Bone::HEAD;
@@ -25,7 +26,7 @@ void CAimBot::Work()
 {
 	using namespace GlobalVars;
 
-	auto pAimBotSettings = (Settings::AimBotSettings*)m_pSettings;
+	auto pAimBotSettings = (Settings::CAimBotSettings*)m_pSettings;
 
 	if (!IsShouldBeActivated())
 	{
@@ -41,11 +42,11 @@ void CAimBot::Work()
 
 	switch (pAimBotSettings->m_iPriorityType)
 	{
-	case Settings::AimBotSettings::PriorityType::FieldOfView:
+	case Settings::CAimBotSettings::PriorityType::FieldOfView:
 		pEnt = GetClosestTargetByFov(aimBone);
 		break;
 
-	case Settings::AimBotSettings::PriorityType::Distance:
+	case Settings::CAimBotSettings::PriorityType::Distance:
 		pEnt = GetClosestTargetByDistance(aimBone);
 		break;
 
@@ -59,6 +60,8 @@ void CAimBot::Work()
 		pAimBotSettings->m_pCurrentTarget = nullptr;
 		return;
 	}
+	if (pAimBotSettings->m_iHitBoxFilterMode == Settings::CAimBotSettings::HitBoxFilterMode::Dynamic)
+		aimBone = GetBoneIdByEntityHealth(pEnt);
 
 	pAimBotSettings->m_pCurrentTarget = pEnt;
 
@@ -74,7 +77,7 @@ void CAimBot::Work()
 		client->SendAttackCode();
 
 }
-void CAimBot::AimPlain(CBaseEntity* pEnt, int iBoneId)
+void CAimBot::AimPlain(const CBaseEntity* pEnt, int iBoneId)
 {
 	auto calcedAngles = CalcAimViewAngles(pEnt, iBoneId);
 
@@ -83,11 +86,11 @@ void CAimBot::AimPlain(CBaseEntity* pEnt, int iBoneId)
 		m_pCUsrCmd->viewangles = calcedAngles;
 	}
 }
-void CAimBot::AimSmooth(CBaseEntity* pEnt, int iBoneId)
+void CAimBot::AimSmooth(const CBaseEntity* pEnt, int iBoneId)
 {
 	using namespace GlobalVars;
 
-	auto pAimBotSettings = (Settings::AimBotSettings*)m_pSettings;
+	auto pAimBotSettings = (Settings::CAimBotSettings*)m_pSettings;
 
 	ImVec3 targetViewAngle = CalcAimViewAngles(pEnt, iBoneId);
 
@@ -103,7 +106,7 @@ void CAimBot::AimSmooth(CBaseEntity* pEnt, int iBoneId)
 	angle.y += diff.y / pAimBotSettings->m_fSmooth;
 
 	angle = ClampViewAngles(NormalizeViewAngles(angle));
-
+	
 	if (fabs(angle.x) <= 89.f and fabs(angle.y) <= 180.f)
 	{
 		m_pCUsrCmd->viewangles = angle;
@@ -112,7 +115,7 @@ void CAimBot::AimSmooth(CBaseEntity* pEnt, int iBoneId)
 bool CAimBot::IfEntityInFov(const CBaseEntity* entity, const int iBoneId) const
 {
 	using namespace GlobalVars;
-	auto pAimBotSettings = (Settings::AimBotSettings*)m_pSettings;
+	auto pAimBotSettings = (Settings::CAimBotSettings*)m_pSettings;
 
 	ImVec3  pLocalPlayerAngles   = m_pCUsrCmd->viewangles;
 	ImVec3  targetAngles         = CalcAimViewAngles(entity, iBoneId);
@@ -147,10 +150,10 @@ CBaseEntity* CAimBot::GetClosestTargetByFov(int bone)
 
 	std::sort(validEntities.begin(), validEntities.end(),
 
-		[this, bone](CBaseEntity* first, CBaseEntity* second)
+		[this, bone](CBaseEntity* pEntityFirst, CBaseEntity* pEntitySecond)
 		{
-			ImVec3 diffFirstEntity = (CalcAimViewAngles(first,   bone) - m_pCUsrCmd->viewangles).Abs();
-			ImVec3 diffSecondEntity = (CalcAimViewAngles(second, bone) - m_pCUsrCmd->viewangles).Abs();
+			ImVec3 diffFirstEntity = (CalcAimViewAngles(pEntityFirst,   bone) - m_pCUsrCmd->viewangles).Abs();
+			ImVec3 diffSecondEntity = (CalcAimViewAngles(pEntitySecond, bone) - m_pCUsrCmd->viewangles).Abs();
 
 			return diffFirstEntity.Length2D() < diffSecondEntity.Length2D();
 		});
@@ -209,6 +212,7 @@ ImVec3 CAimBot::ClampViewAngles(ImVec3 vecViewAngles)
 
 	return vecViewAngles;
 }
+
 std::vector<CBaseEntity*> CAimBot::GetValidEntities(const int boneId) const
 {
 	std::vector<CBaseEntity*> validEntities;
@@ -228,4 +232,14 @@ std::vector<CBaseEntity*> CAimBot::GetValidEntities(const int boneId) const
 	}
 	return validEntities;
 
+}
+
+int Hacks::CAimBot::GetBoneIdByEntityHealth(const CBaseEntity* pEntiy) const
+{
+	auto pSettings = (Settings::CAimBotSettings*)m_pSettings;
+
+	if (pEntiy->GetHealthPercent() > pSettings->m_pSwitchFromHeadToBodyHitboxHelthPercent)
+		return CBaseEntity::Bone::HEAD;
+	
+	return CBaseEntity::Bone::BODY;
 }

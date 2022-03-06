@@ -94,11 +94,14 @@ void UI::CSettingsWindow::Render()
 }
 void UI::CSettingsWindow::DrawAimbotChild()
 {
-	ImGui::Text(xorstr("Automatic Target Acquisition System"));
-	const char* hitboxes[]   = { "Head", "Body", "Legs" };
-	const char* priorities[] = { "FoV", "Distnace" };
+	ImGui::SetWindowSize(ImVec2(555, 400));
+	const char* hitboxes[]      = { "Head",   "Body", "Legs" };
+	const char* priorities[]    = { "FoV",    "Distnace" };
+	const char* hitboxFilters[] = { "Static", "Dynamic" };
 
-	ImGui::BeginChild(xorstr("###General"), ImVec2(232, 166), true, m_iImGuiStyle);
+	ImGui::Text(xorstr("Automatic Target Acquisition System"));
+
+	ImGui::BeginChild(xorstr("###General"), ImVec2(232, 220), true, m_iImGuiStyle);
 	{
 		ImGui::PushItemWidth(112.f);
 		ImGui::Combo(xorstr("Hit-Box"), &m_pAllSettings->m_AimBotSettings.m_iSelectedHitBox, hitboxes, IM_ARRAYSIZE(hitboxes));
@@ -107,9 +110,12 @@ void UI::CSettingsWindow::DrawAimbotChild()
 		ImGui::Combo(xorstr("Priority"), &m_pAllSettings->m_AimBotSettings.m_iPriorityType, priorities, IM_ARRAYSIZE(priorities));
 		DrawToolTip(xorstr("Defines the target priority.\n\nFOV: The enemy closest to the crosshair is chosen first.\nDistance : The enemy closest to you is chosen first."));
 
+		ImGui::Combo(xorstr("Hitbox filter"), &m_pAllSettings->m_AimBotSettings.m_iHitBoxFilterMode, hitboxFilters, IM_ARRAYSIZE(hitboxFilters));
+		DrawToolTip(xorstr("Static: Aimbot will only aim at the hitbox of the player that you have chosen yourself.\n\nDynamic: Aimbot will change the target hitbox depending on the opponent's health percentage."));
+
+		ImGui::InputInt(xorstr("Health border"), &m_pAllSettings->m_AimBotSettings.m_pSwitchFromHeadToBodyHitboxHelthPercent);
 		ImGui::InputFloat(xorstr("FoV"), &m_pAllSettings->m_AimBotSettings.m_fFov);
 		DrawToolTip(xorstr("Define the field of view.\n\nNote: Enemy will be force-ignore if\nhe not in selected fov.\nSet FoV to 360 to disable it."));
-
 
 		if (GlobalVars::client->pLocalPlayer != nullptr and ImGui::IsItemHovered())
 		{
@@ -117,7 +123,7 @@ void UI::CSettingsWindow::DrawAimbotChild()
 
 			float fovScreenRatio = sqrtf(screenSize.x * screenSize.x + screenSize.y * screenSize.y) / (float)GlobalVars::client->pLocalPlayer->m_iDefaultFOV / 2.f;
 
-			ImGui::GetBackgroundDrawList()->AddCircle(ImVec2(screenSize.x / 2.f, screenSize.y / 2.f),
+			ImGui::GetBackgroundDrawList()->AddCircle(screenSize / 2.f,
 				fovScreenRatio * m_pAllSettings->m_AimBotSettings.m_fFov,
 				(ImColor)ImGui::GetStyle().Colors[ImGuiCol_Border]);
 
@@ -127,7 +133,6 @@ void UI::CSettingsWindow::DrawAimbotChild()
 		ImGui::PopItemWidth();
 		DrawToolTip(xorstr("Make aimbot act more like human.\n\nNote: Set \"Smooth\" value to \"0\" if\nyou want to completely disable it."));
 
-
 		ImGui::Checkbox(xorstr("Auto shoot"), &m_pAllSettings->m_AimBotSettings.m_bAutoShot);
 		DrawToolTip(xorstr("Provide automatic shoot when aimbot\naimed on enemy."));
 
@@ -135,7 +140,7 @@ void UI::CSettingsWindow::DrawAimbotChild()
 		ImGui::EndChild();
 	}
 	ImGui::SameLine();
-	ImGui::BeginChild(xorstr("###Binds"), ImVec2(232, 166), true, m_iImGuiStyle);
+	ImGui::BeginChild(xorstr("###Binds"), ImVec2(232, 55), true, m_iImGuiStyle);
 	{
 		ImGui::Checkbox(xorstr("Activate on key"), &m_pAllSettings->m_AimBotSettings.m_bOnKey);
 		DrawToolTip(xorstr("Set AimBot avtivation key."));
@@ -186,7 +191,7 @@ void UI::CSettingsWindow::DrawEspChild()
 
 		ImGui::InputInt(xorstr("###boxThickness"),     &m_pAllSettings->m_BoxEspSettings.m_iThickness);
 		ImGui::Combo(xorstr("###BoxEspDrawMode"),      &m_pAllSettings->m_BoxEspSettings.m_iDrawMode, drawOptions, IM_ARRAYSIZE(drawOptions));
-		ImGui::Combo(xorstr("###BoxStyle"), &m_pAllSettings->m_BoxEspSettings.m_iStyle, styles, IM_ARRAYSIZE(styles));
+		ImGui::Combo(xorstr("###BoxStyle"),            &m_pAllSettings->m_BoxEspSettings.m_iStyle, styles, IM_ARRAYSIZE(styles));
 		ImGui::EndChild();
 	}
 

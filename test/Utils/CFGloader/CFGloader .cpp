@@ -31,7 +31,7 @@ bool CConfigLoader::LoadConfigFile(std::string path)
 	file.read(configBuffer, sizeof(configBuffer));
 	auto jsn = nlohmann::json::parse(configBuffer);
 
-	m_pSettings->m_AimBotSettings     = Settings::AimBotSettings(jsn[xorstr("AimBot")].get<nlohmann::json>());
+	m_pSettings->m_AimBotSettings     = Settings::CAimBotSettings(jsn[xorstr("AimBot")].get<nlohmann::json>());
 	m_pSettings->m_BarEspSettings     = Settings::BarEspSettings(jsn[xorstr("BarEsp")].get<nlohmann::json>());
 	m_pSettings->m_BoxEspSettings     = Settings::BoxEspSettings(jsn[xorstr("BoxEsp")].get<nlohmann::json>());
 	m_pSettings->m_BunnyHopSettings   = Settings::CBunnyHopSettings(jsn[xorstr("BunnyHop")].get<nlohmann::json>());

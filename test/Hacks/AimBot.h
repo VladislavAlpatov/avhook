@@ -8,20 +8,25 @@ namespace Hacks
 	class CAimBot : public CHackingFeature
 	{
 	public:
-		CAimBot(Settings::AimBotSettings* settings, CUserCmd* pUsrCmd);
+		CAimBot(Settings::CAimBotSettings* settings, CUserCmd* pUsrCmd);
 		virtual void Work();
 
 	private:
-		CUserCmd* m_pCUsrCmd;
-		bool IfEntityInFov(const CBaseEntity* ent, const int bone) const;
-		__forceinline int GetBoneIDBySelectedTab();
-		ImVec3 CalcAimViewAngles(const CBaseEntity* pEntity, const int bone) const;
-		static ImVec3 ClampViewAngles(ImVec3 vecViewAngles);
-		static ImVec3 NormalizeViewAngles(ImVec3 vecViewAngle);
-		void AimSmooth(CBaseEntity* pEnt, int iBoneId);
-		void AimPlain(CBaseEntity* pEnt, int iBoneId);
-		CBaseEntity* GetClosestTargetByDistance(int bone);
-		CBaseEntity* GetClosestTargetByFov(int bone);
+		CUserCmd* m_pCUsrCmd = nullptr;
+
+		bool                      IfEntityInFov(const CBaseEntity* pEntity, const int bone) const;
+		__forceinline int         GetBoneIDBySelectedTab() const;
+		ImVec3                    CalcAimViewAngles(const CBaseEntity* pEntity, const int bone) const;
+		static ImVec3             ClampViewAngles(ImVec3 vecViewAngles);
+		static ImVec3             NormalizeViewAngles(ImVec3 vecViewAngle);
+		void                      AimSmooth(const CBaseEntity* pEntity, int iBoneId);
+		void                      AimPlain(const  CBaseEntity* pEntity, int iBoneId);
+		CBaseEntity*              GetClosestTargetByDistance(int bone);
+		CBaseEntity*              GetClosestTargetByFov(int bone);
+
+		// Get All enemy entites that are Alive, In fov range and can be seen 
 		std::vector<CBaseEntity*> GetValidEntities(const int boneId) const;
+
+		int						  GetBoneIdByEntityHealth(const CBaseEntity* pEntity) const;
 	};
 }

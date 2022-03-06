@@ -35,7 +35,7 @@ ImColor CBaseSettings::ImportImColorFromJson(const json& jsn)
 	);
 }
 
-json AimBotSettings::ToJson()
+json CAimBotSettings::ToJson()
 {
 	json jsn;
 
@@ -50,7 +50,7 @@ json AimBotSettings::ToJson()
 	jsn[xorstr("PriorityType")] = m_iPriorityType;
 	return jsn;
 };
-AimBotSettings::AimBotSettings(const json& jsn)
+CAimBotSettings::CAimBotSettings(const json& jsn)
 {
 	m_bActive = jsn[xorstr("Active")].get<bool>();
 	m_bOnKey = jsn[xorstr("OnKey")].get<int>();

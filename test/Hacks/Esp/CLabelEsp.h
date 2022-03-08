@@ -13,7 +13,7 @@ namespace Esp
 			Label(const ImColor& color, const std::string& text)
 			{
 				m_Color = color;
-				m_Text = text;
+				m_Text  = text;
 			}
 			ImColor     m_Color;
 			std::string m_Text;

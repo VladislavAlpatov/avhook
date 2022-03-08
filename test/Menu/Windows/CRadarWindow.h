@@ -20,6 +20,7 @@ namespace UI
 
 			float windowBgColorBackUp = style.Colors[ImGuiCol_WindowBg].w;
 
+			// Remove window bg color for a while and them restore it to make radar transparent.
 			style.Colors[ImGuiCol_WindowBg].w = 0.f;
 			Render();
 			style.Colors[ImGuiCol_WindowBg].w = windowBgColorBackUp;

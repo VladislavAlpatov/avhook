@@ -39,28 +39,33 @@ json CAimBotSettings::ToJson()
 {
 	json jsn;
 
-	jsn[xorstr("Active")] = m_bActive;
-	jsn[xorstr("OnKey")] = m_bOnKey;
-	jsn[xorstr("BindKey")] = m_iBindKey;
-	jsn[xorstr("AutoShot")] = m_bAutoShot;
-	jsn[xorstr("Silent")] = silent;
-	jsn[xorstr("Fov")] = m_fFov;
-	jsn[xorstr("Smooth")] = m_fSmooth;
-	jsn[xorstr("SelectedHitBox")] = m_iSelectedHitBox;
-	jsn[xorstr("PriorityType")] = m_iPriorityType;
+	jsn[xorstr("Active")]           = m_bActive;
+	jsn[xorstr("OnKey")]            = m_bOnKey;
+	jsn[xorstr("BindKey")]          = m_iBindKey;
+	jsn[xorstr("AutoShot")]         = m_bAutoShot;
+	jsn[xorstr("Silent")]           = silent;
+	jsn[xorstr("Fov")]              = m_fFov;
+	jsn[xorstr("Smooth")]           = m_fSmooth;
+	jsn[xorstr("SelectedHitBox")]   = m_iSelectedHitBox;
+	jsn[xorstr("PriorityType")]     = m_iPriorityType;
+	jsn[xorstr("HealthBorder")]     = m_iHealthBorder;
+	jsn[xorstr("HitBoxFilrerMode")] = m_iHitBoxFilterMode;
+
 	return jsn;
 };
 CAimBotSettings::CAimBotSettings(const json& jsn)
 {
-	m_bActive = jsn[xorstr("Active")].get<bool>();
-	m_bOnKey = jsn[xorstr("OnKey")].get<int>();
-	m_iBindKey = jsn[xorstr("BindKey")].get<int>();
-	m_bAutoShot = jsn[xorstr("AutoShot")].get<bool>();
-	silent = jsn[xorstr("Silent")].get<bool>();
-	m_fFov = jsn[xorstr("Fov")].get<float>();
-	m_fSmooth = jsn[xorstr("Smooth")].get<float>();
-	m_iSelectedHitBox = jsn[xorstr("SelectedHitBox")].get<int>();
-	m_iPriorityType = jsn[xorstr("PriorityType")].get<int>();
+	m_bActive           = jsn[xorstr("Active")].get<bool>();
+	m_bOnKey            = jsn[xorstr("OnKey")].get<int>();
+	m_iBindKey          = jsn[xorstr("BindKey")].get<int>();
+	m_bAutoShot         = jsn[xorstr("AutoShot")].get<bool>();
+	silent              = jsn[xorstr("Silent")].get<bool>();
+	m_fFov              = jsn[xorstr("Fov")].get<float>();
+	m_fSmooth           = jsn[xorstr("Smooth")].get<float>();
+	m_iSelectedHitBox   = jsn[xorstr("SelectedHitBox")].get<int>();
+	m_iPriorityType     = jsn[xorstr("PriorityType")].get<int>();
+	m_iHealthBorder     = jsn[xorstr("HealthBorder")].get<int>();
+	m_iHitBoxFilterMode = jsn[xorstr("HitBoxFilrerMode")].get<int>();
 }
 json SnapLinesSettings::ToJson()
 {

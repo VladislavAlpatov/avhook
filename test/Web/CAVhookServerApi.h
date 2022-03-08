@@ -43,10 +43,14 @@ namespace WebApi
 		~CAVHookServerApi();
 		CUserInfo GetUserInfo();
 		void ChangeUserNameAndStatus(const char* name, const char* status) const;
+		bool AddNewConfig(int cfgId, std::string& data);
+		bool UpdateConfig(int cfgIid, std::string& data);
+		bool DeleteConfig(int cfgIid);
+		bool GetConfig(int cfgId);
+
 		bool AuthByToken(const char* authToken) const;
 		AvatarUploadStatus SetUserAvatar(const std::string& rawDatas) const;
 		std::string GetRawAvatarData();
-
 	private:
 		httplib::Client* m_pClient;
 	};

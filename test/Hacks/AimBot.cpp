@@ -238,7 +238,7 @@ int Hacks::CAimBot::GetBoneIdByEntityHealth(const CBaseEntity* pEntiy) const
 {
 	auto pSettings = (Settings::CAimBotSettings*)m_pSettings;
 
-	if (pEntiy->GetHealthPercent() > pSettings->m_pSwitchFromHeadToBodyHitboxHelthPercent)
+	if (pEntiy->GetHealthPercent() > pSettings->m_iHealthBorder)
 		return CBaseEntity::Bone::HEAD;
 	
 	return CBaseEntity::Bone::BODY;

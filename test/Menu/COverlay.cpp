@@ -65,7 +65,7 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::SAllSet
 		m_vecSnow.push_back(SnowFlake(ImVec2(0, 2), 1920));
 	}
 
-	m_MessageLineList.Add(xorstr("User controle initiated.\nFocus.Plan.Attack"), 3000);
+	m_MessageLineList.Add(xorstr("User controle initiated. Focus.Plan.Attack"), 3000);
 }
 
 void COverlay::Render()

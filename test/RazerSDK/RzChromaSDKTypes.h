@@ -11,7 +11,7 @@ typedef GUID            RZEFFECTID;
 typedef GUID            RZDEVICEID;
 typedef unsigned int    RZDURATION;
 typedef size_t          RZSIZE;
-typedef void* PRZPARAM;
+typedef void*           PRZPARAM;
 typedef DWORD           RZID;
 typedef DWORD           RZCOLOR;
 

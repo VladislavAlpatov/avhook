@@ -4,8 +4,10 @@ UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, 
 {
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP12), &m_pTexureDefaulteAvatar);
 	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP13), &m_pTextureIcon);
+
 	m_pMessageLineList = pMessageLineList;
 	auto avatarRawData = m_ApiClient.GetRawAvatarData();
+
 	D3DXCreateTextureFromFileInMemory(m_pDevice, avatarRawData.c_str(), avatarRawData.size(), &m_pTextureUserAvatar);
 
 }
@@ -84,11 +86,18 @@ void UI::CNetWorkWindow::Render()
 		ImGui::SameLine();
 		ImGui::BeginChild(xorstr("###Cloud"), ImVec2(220, 210), true, m_iImGuiStyle);
 		{
-			ImGui::BeginChild(xorstr("###Cloud"), ImVec2(180, 100), true);
-			{
-				
-				ImGui::EndChild();
-			}
+			ImGui::Button(xorstr("Upload"), ImVec2(70, 20));
+			ImGui::SameLine();
+
+			ImGui::PushItemWidth(125);
+			DrawInputTextWithTextOnBackGround(xorstr(""), xorstr("<Config name>"), m_cfgName, 32);
+			ImGui::PopItemWidth();
+			
+			ImGui::Button(xorstr("Download"), ImVec2(70, 20));
+			ImGui::SameLine();
+			ImGui::Button(xorstr("Delete"), ImVec2(70, 20));
+			static int itm = 0;
+			DrawVectorCombo(xorstr("Configs"), &itm, {"Hello", "To", "Every One"});
 
 			ImGui::EndChild();
 		}

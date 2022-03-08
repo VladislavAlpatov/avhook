@@ -39,7 +39,7 @@ namespace Settings
 		int                m_iSelectedHitBox = 0;
 		int				   m_iPriorityType = 0;
 		SSDK::CBaseEntity* m_pCurrentTarget = 0;
-		int				   m_pSwitchFromHeadToBodyHitboxHelthPercent = 50;
+		int				   m_iHealthBorder = 50;
 		int			       m_iHitBoxFilterMode = 0;
 
 		enum PriorityType
@@ -87,11 +87,11 @@ namespace Settings
 	{
 	public:
 		MiscSettings() {};
-		bool m_bWallPaper = false;
-		bool m_bShowTime = false;
-		bool m_bKillSound = false;
-		bool m_bSnowFlakes = false;
-		int  m_iCustomFov = 90;
+		bool m_bWallPaper       = false;
+		bool m_bShowTime        = false;
+		bool m_bKillSound       = false;
+		bool m_bSnowFlakes      = false;
+		int  m_iCustomFov       = 90;
 		char killSoundPath[100] = { 0 };
 
 		virtual json ToJson();
@@ -103,7 +103,7 @@ namespace Settings
 	public:
 		TriggerBotSettings() {}
 		bool m_bRageMode = false;
-		int  m_iDelay = 0;
+		int  m_iDelay    = 0;
 
 		virtual json ToJson();
 		TriggerBotSettings(const json& jsn);
@@ -115,10 +115,11 @@ namespace Settings
 		{
 			m_bActive = true;
 		}
-		bool    m_bDrawHealthBar = false;
-		bool    m_bDrawArmorBar = false;
-		int     m_iThickness = 1;
-		ImColor m_ArmorColor = ImColor(56, 122, 255);
+
+		bool    m_bDrawHealthBar  = false;
+		bool    m_bDrawArmorBar   = false;
+		int     m_iThickness      = 1;
+		ImColor m_ArmorColor      = ImColor(56, 122, 255);
 		ImColor m_BackGroundColor = ImColor(0, 0, 0, 0);
 
 		virtual json ToJson();
@@ -129,13 +130,13 @@ namespace Settings
 	public:
 		CRadarSettings() {};
 		CRadarSettings(const json& jsn);
-		bool    m_bDrawBorders = false;
-		int     m_iStyle = 0;
-		ImColor	m_ActiveFeatureColor = ImColor(255, 0, 0);
+		bool    m_bDrawBorders         = false;
+		int     m_iStyle               = 0;
+		ImColor	m_ActiveFeatureColor   = ImColor(255, 0, 0);
 		ImColor m_InactiveFeatureColor = ImColor(255, 255, 255);
-		ImColor m_BackGroundColor = ImColor(0, 0, 0, 30);
-		ImColor m_CrossColor = ImColor(255, 95, 95);
-		ImColor m_CyrcleBorderColor = ImColor(255, 95, 95);
+		ImColor m_BackGroundColor      = ImColor(0, 0, 0, 30);
+		ImColor m_CrossColor           = ImColor(255, 95, 95);
+		ImColor m_CyrcleBorderColor    = ImColor(255, 95, 95);
 
 		virtual json ToJson();
 

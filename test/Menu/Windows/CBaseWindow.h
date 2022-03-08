@@ -1,5 +1,11 @@
 #pragma once
 #include "../IBaseDrawObject.h"
+
+/*
+Use as base class for others UI windows
+*/
+
+
 namespace UI
 {
 	class CBaseWindow : public IBaseDrawObject
@@ -45,8 +51,8 @@ namespace UI
 		void DrawMultiLineInputTextWithTextOnBackGround(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, ImGuiInputTextFlags flags = 0);
 		void DrawToolTip(const char* text);
 
-		ImFont* m_pFontSmall = nullptr;
-		ImFont* m_pFontMedium = nullptr;
+		ImFont* m_pFontSmall      = nullptr;
+		ImFont* m_pFontMedium     = nullptr;
 		ImFont* m_pFontMediumBold = nullptr;
 
 	};

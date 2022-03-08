@@ -113,7 +113,7 @@ void UI::CSettingsWindow::DrawAimbotChild()
 		ImGui::Combo(xorstr("Hitbox filter"), &m_pAllSettings->m_AimBotSettings.m_iHitBoxFilterMode, hitboxFilters, IM_ARRAYSIZE(hitboxFilters));
 		DrawToolTip(xorstr("Static: Aimbot will only aim at the hitbox of the player that you have chosen yourself.\n\nDynamic: Aimbot will change the target hitbox depending on the opponent's health percentage."));
 
-		ImGui::InputInt(xorstr("Health border"), &m_pAllSettings->m_AimBotSettings.m_pSwitchFromHeadToBodyHitboxHelthPercent);
+		ImGui::InputInt(xorstr("Health border"), &m_pAllSettings->m_AimBotSettings.m_iHealthBorder);
 		ImGui::InputFloat(xorstr("FoV"), &m_pAllSettings->m_AimBotSettings.m_fFov);
 		DrawToolTip(xorstr("Define the field of view.\n\nNote: Enemy will be force-ignore if\nhe not in selected fov.\nSet FoV to 360 to disable it."));
 

@@ -25,14 +25,14 @@ int CServer::GetFreePort()
         hints.ai_socktype = SOCK_STREAM;
         hints.ai_protocol = IPPROTO_TCP;
 
-        auto iResult = getaddrinfo("127.0.0.1", std::to_string(port).c_str(), &hints, &result);
+        auto iResult = getaddrinfo(xorstr("127.0.0.1"), std::to_string(port).c_str(), &hints, &result);
 
 
         auto ConnectSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
 
         if (ConnectSocket == INVALID_SOCKET)
         {
-            throw std::runtime_error("socket failed with error");
+            throw std::runtime_error(xorstr("socket failed with error"));
         }
 
 
@@ -65,15 +65,16 @@ void CServer::Work()
     int iSendResult;
     int recvbuflen = 512;
 
-    hints.ai_family = AF_INET;
+    hints.ai_family   = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_TCP;
-    hints.ai_flags = AI_PASSIVE;
+    hints.ai_flags    = AI_PASSIVE;
 
-    iResult = getaddrinfo("127.0.0.1", std::to_string(GetFreePort()).c_str(), &hints, &result);
+    iResult = getaddrinfo(xorstr("127.0.0.1"), std::to_string(GetFreePort()).c_str(), &hints, &result);
+
     if (iResult != 0) 
     {
-        exit(-1);
+        throw std::runtime_error(xorstr("Addr info failed :("));
     }
     while (true)
     {
@@ -92,12 +93,14 @@ void CServer::Work()
         }
 
         iResult = listen(ListenSocket, SOMAXCONN);
-        if (iResult == SOCKET_ERROR) {
+        if (iResult == SOCKET_ERROR) 
+        {
             exit(-1);
         }
 
         // Accept a client socket
         ClientSocket = accept(ListenSocket, NULL, NULL);
+        
         if (ClientSocket == INVALID_SOCKET) 
         {
             exit(-1);

@@ -77,7 +77,8 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 {
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 
-	if (GlobalVars::client->pLocalPlayer == nullptr or pOverlay == nullptr or GlobalVars::client->pLocalPlayer->m_bDormant)
+	// GlobalVars::client->pLocalPlayer->m_Index > 33 prevent from bug when you can peek team
+	if (GlobalVars::client->pLocalPlayer == nullptr or pOverlay == nullptr or GlobalVars::client->pLocalPlayer->m_Index > 33)
 	{
 		return false;
 	}
@@ -109,7 +110,7 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 
 	if (pOverlay->IsShowUI() or !GlobalVars::client->pLocalPlayer->IsAlive())
 	{
-		return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
+		return false;
 	}
 
 	Hacks::CHackingFeature* features[] = {

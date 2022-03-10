@@ -18,7 +18,7 @@ void CLabelEsp::InternalRenderAt(CBaseEntity* pEntity)
         drawTextList.push_back(Label(pSettings->m_ArmorLabelColor, std::format(xorstr("Armor: {}/100"), pEntity->m_ArmorValue)));
 
     if (pSettings->m_bDrawDistance)
-        drawTextList.push_back(Label(pSettings->m_DistanceLabelColor, std::format(xorstr("Distance: {}m"), static_cast<int>(GlobalVars::client->pLocalPlayer->CalcDistaceToEntity(pEntity) * 2.54f / 100.f))));
+        drawTextList.push_back(Label(pSettings->m_DistanceLabelColor, std::format(xorstr("Distance: {}m"), static_cast<int>(GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(pEntity) * 2.54f / 100.f))));
 
     if (pEntity->m_IsVisible and pSettings->m_bDrawVisibility)
         drawTextList.push_back(Label(pSettings->m_VisibilityLabelColor, xorstr("*VISIBLE*")));

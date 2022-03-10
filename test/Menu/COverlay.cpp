@@ -80,7 +80,7 @@ void COverlay::Render()
 
 	auto pDrawList = ImGui::GetBackgroundDrawList();
 
-	if (GlobalVars::pIEngineClient->IsInGame() and GlobalVars::client->pLocalPlayer != nullptr)
+	if (GlobalVars::pIEngineClient->IsInGame() and GlobalVars::pClient->pLocalPlayer != nullptr)
 	{
 		std::vector<SSDK::CBaseEntity*> validEntities;
 
@@ -88,7 +88,7 @@ void COverlay::Render()
 		{
 			auto pEntity = GlobalVars::pIEntityList->GetClientEntity(i);
 
-			if (pEntity == nullptr or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::client->pLocalPlayer->m_iTeamNum or pEntity->m_bDormant)
+			if (pEntity == nullptr or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::pClient->pLocalPlayer->m_iTeamNum or pEntity->m_bDormant)
 				continue;
 
 			validEntities.push_back(pEntity);
@@ -98,7 +98,7 @@ void COverlay::Render()
 
 			[](SSDK::CBaseEntity* first, SSDK::CBaseEntity* second)
 			{
-				return GlobalVars::client->pLocalPlayer->CalcDistaceToEntity(first) > GlobalVars::client->pLocalPlayer->CalcDistaceToEntity(second);
+				return GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(first) > GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(second);
 			});
 		// Render Esp
 		for (auto pEntity : validEntities)

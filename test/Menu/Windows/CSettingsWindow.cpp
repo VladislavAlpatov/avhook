@@ -117,11 +117,11 @@ void UI::CSettingsWindow::DrawAimbotChild()
 		ImGui::InputFloat(xorstr("FoV"), &m_pAllSettings->m_AimBotSettings.m_fFov);
 		DrawToolTip(xorstr("Define the field of view.\n\nNote: Enemy will be force-ignore if\nhe not in selected fov.\nSet FoV to 360 to disable it."));
 
-		if (GlobalVars::client->pLocalPlayer != nullptr and ImGui::IsItemHovered())
+		if (GlobalVars::pClient->pLocalPlayer != nullptr and ImGui::IsItemHovered())
 		{
 			auto screenSize = ImGui::GetMainViewport()->Size;
 
-			float fovScreenRatio = sqrtf(screenSize.x * screenSize.x + screenSize.y * screenSize.y) / (float)GlobalVars::client->pLocalPlayer->m_iDefaultFOV / 2.f;
+			float fovScreenRatio = sqrtf(screenSize.x * screenSize.x + screenSize.y * screenSize.y) / (float)GlobalVars::pClient->pLocalPlayer->m_iDefaultFOV / 2.f;
 
 			ImGui::GetBackgroundDrawList()->AddCircle(screenSize / 2.f,
 				fovScreenRatio * m_pAllSettings->m_AimBotSettings.m_fFov,

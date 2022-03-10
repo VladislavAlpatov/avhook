@@ -85,7 +85,7 @@ void UI::CRadarWindow::UseGameRadar() const
 	{
 		const auto pEntity = GlobalVars::pIEntityList->GetClientEntity(i);
 		
-		if (!pEntity or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::client->pLocalPlayer->m_iTeamNum or pEntity->m_bSpotted)
+		if (!pEntity or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::pClient->pLocalPlayer->m_iTeamNum or pEntity->m_bSpotted)
 			continue;
 
 		pEntity->m_bSpotted = true;
@@ -116,7 +116,7 @@ void UI::CRadarWindow::RenderCustomRadar()
 		pDrawList->AddCircle(windowCenter, 254.f / 2.f, m_pRadarSettings->m_CyrcleBorderColor, 0, 2.f);
 
 		// if player not in game then dont draw
-		if (!GlobalVars::pIEngineClient->IsInGame() or !GlobalVars::pIEngineClient->IsConnected() or !GlobalVars::client->pLocalPlayer)
+		if (!GlobalVars::pIEngineClient->IsInGame() or !GlobalVars::pIEngineClient->IsConnected() or !GlobalVars::pClient->pLocalPlayer)
 		{
 			KeepWindowInSreenArea();
 			ImGui::End();
@@ -127,11 +127,11 @@ void UI::CRadarWindow::RenderCustomRadar()
 		{
 			auto pEnt = GlobalVars::pIEntityList->GetClientEntity(i);
 
-			if (!pEnt or !pEnt->IsAlive() or pEnt->m_iTeamNum == GlobalVars::client->pLocalPlayer->m_iTeamNum or pEnt->m_bDormant)
+			if (!pEnt or !pEnt->IsAlive() or pEnt->m_iTeamNum == GlobalVars::pClient->pLocalPlayer->m_iTeamNum or pEnt->m_bDormant)
 				continue;
 			auto windowPosition = ImGui::GetWindowPos();
 
-			auto vecEntityRadarPosition = WorldToRadar(pEnt->m_vecOrigin, GlobalVars::client->pLocalPlayer->m_vecOrigin, GlobalVars::veLocalPlayerViewAngles, 256);
+			auto vecEntityRadarPosition = WorldToRadar(pEnt->m_vecOrigin, GlobalVars::pClient->pLocalPlayer->m_vecOrigin, GlobalVars::veLocalPlayerViewAngles, 256);
 
 			ImColor enemyColor = ImColor(255, 255, 255);
 			if (GlobalVars::settings.m_AimBotSettings.m_pCurrentTarget == pEnt)

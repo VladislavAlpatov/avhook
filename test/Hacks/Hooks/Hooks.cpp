@@ -77,24 +77,24 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 {
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 
-	// GlobalVars::client->pLocalPlayer->m_Index > 33 prevent from bug when you can peek team
-	if (GlobalVars::client->pLocalPlayer == nullptr or pOverlay == nullptr or GlobalVars::client->pLocalPlayer->m_Index > 33)
+	// GlobalVars::pClient->pLocalPlayer->m_Index > 33 prevent from bug when you can peek team
+	if (GlobalVars::pClient->pLocalPlayer == nullptr or pOverlay == nullptr or GlobalVars::pClient->pLocalPlayer->m_Index > 33)
 	{
 		return false;
 	}
 	GlobalVars::veLocalPlayerViewAngles = pUserCmd->viewangles;
 
-	GlobalVars::client->pLocalPlayer->m_iDefaultFOV = GlobalVars::settings.m_MiscSettings.m_iCustomFov;
+	GlobalVars::pClient->pLocalPlayer->m_iDefaultFOV = GlobalVars::settings.m_MiscSettings.m_iCustomFov;
 
 	// Looking for "visible" players
 	for (int i = 1; i < 33; ++i)
 	{
 		SSDK::CBaseEntity* entity = reinterpret_cast<SSDK::CBaseEntity*>(GlobalVars::pIEntityList->GetClientEntity(i));
 
-		if (!entity or entity->m_iTeamNum == GlobalVars::client->pLocalPlayer->m_iTeamNum or !entity->IsAlive())
+		if (!entity or entity->m_iTeamNum == GlobalVars::pClient->pLocalPlayer->m_iTeamNum or !entity->IsAlive())
 			continue;
 
-		auto pLocalPlayer = GlobalVars::client->pLocalPlayer;
+		auto pLocalPlayer = GlobalVars::pClient->pLocalPlayer;
 
 		SSDK::CGameTrace   trace;
 		SSDK::Ray_t        ray;
@@ -108,13 +108,13 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 		entity->m_IsVisible = trace.hit_entity == entity;
 	}
 
-	if (pOverlay->IsShowUI() or !GlobalVars::client->pLocalPlayer->IsAlive())
+	if (pOverlay->IsShowUI() or !GlobalVars::pClient->pLocalPlayer->IsAlive())
 	{
 		return false;
 	}
 
 	Hacks::CHackingFeature* features[] = {
-		new Hacks::BunnyHop(&GlobalVars::settings.m_BunnyHopSettings),
+		new Hacks::ÑBunnyHop(&GlobalVars::settings.m_BunnyHopSettings),
 		new Hacks::CAimBot(&GlobalVars::settings.m_AimBotSettings, pUserCmd)
 	};
 

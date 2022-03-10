@@ -10,8 +10,8 @@ void TriggerBot::Work()
 	if (!IsShouldBeActivated())
 		return;
 
-	auto pTriggerBotSettings = (Settings::TriggerBotSettings*)m_pSettings;
-	CBaseEntity* localplayer = GlobalVars::client->pLocalPlayer;
+	auto pTriggerBotSettings  = (Settings::TriggerBotSettings*)m_pSettings;
+	CBaseEntity* localplayer  = GlobalVars::pClient->pLocalPlayer;
 	CBaseEntity*  entity      = GlobalVars::pIEntityList->GetClientEntity(localplayer->m_iCrosshairId);
 
 
@@ -22,7 +22,7 @@ void TriggerBot::Work()
 	if (pTriggerBotSettings->m_bRageMode)
 		//localplayer->AimAt(entity, NULL, this->bone);
 
-	GlobalVars::client->dwForceAttack = 6;
+	GlobalVars::pClient->dwForceAttack = 6;
 	Sleep(20);
 
 }

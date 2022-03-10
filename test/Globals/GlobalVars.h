@@ -14,14 +14,14 @@
 
 namespace GlobalVars
 {
-	inline SSDK::ClientBase*        client;
+	inline SSDK::ClientBase*        pClient;
 	inline DWORD              engine;
-	inline HMODULE            hModule;
+	inline HMODULE                  hModule;
 	inline SSDK::IClientEntityList* pIEntityList;
 	inline SSDK::IVEngineClient013* pIEngineClient;
-	inline Settings::SAllSettings       settings;
+	inline Settings::SAllSettings   settings;
 	inline SSDK::IEngineTrace*      pIEngineTrace;
-	inline ImVec3			  veLocalPlayerViewAngles;
+	inline ImVec3			        veLocalPlayerViewAngles;
 #ifdef DEV_BUILD
 	inline const char		  authToken[] = "bWevWkyjyNLFwn4f3tjXJGgSux4H8Jbe";
 #elif _DEBUG
@@ -32,7 +32,4 @@ namespace GlobalVars
 
 	inline bool bChromaSupport = false;
 	void Init(HMODULE hModule);
-
-	inline char* activatedSound   = nullptr;
-	inline char* deactivatedSound = nullptr;
 }

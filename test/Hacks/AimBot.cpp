@@ -74,7 +74,7 @@ void CAimBot::Work()
 	}
 
 	if (pAimBotSettings->m_bAutoShot)
-		client->SendAttackCode();
+		pClient->SendAttackCode();
 
 }
 void CAimBot::AimPlain(const CBaseEntity* pEnt, int iBoneId)
@@ -134,7 +134,7 @@ CBaseEntity* CAimBot::GetClosestTargetByDistance(int bone)
 
 		[](CBaseEntity* first, CBaseEntity* second)
 		{
-			return GlobalVars::client->pLocalPlayer->CalcDistaceToEntity(first) < GlobalVars::client->pLocalPlayer->CalcDistaceToEntity(second);
+			return GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(first) < GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(second);
 		});
 	return validEntities[0];
 }
@@ -146,7 +146,7 @@ CBaseEntity* CAimBot::GetClosestTargetByFov(int bone)
 	if (validEntities.size() == 0)
 		return NULL;
 
-	auto localPlayer = GlobalVars::client->pLocalPlayer;
+	auto localPlayer = GlobalVars::pClient->pLocalPlayer;
 
 	std::sort(validEntities.begin(), validEntities.end(),
 
@@ -167,9 +167,9 @@ ImVec3 CAimBot::CalcAimViewAngles(const CBaseEntity* pEntity, const int bone) co
 
 	ImVec3 targetPosition = pEntity->GetBonePosition(bone);
 
-	ImVec3 localCameraPosition = GlobalVars::client->pLocalPlayer->GetCameraPosition();
+	ImVec3 localCameraPosition = GlobalVars::pClient->pLocalPlayer->GetCameraPosition();
 
-	float distance = GlobalVars::client->pLocalPlayer->CalcDistaceToEntity(pEntity);
+	float distance = GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(pEntity);
 
 	calculated.x = -asinf((targetPosition.z - localCameraPosition.z) / distance) * (180.f / 3.1415926f);
 	calculated.y = atan2f(targetPosition.y - localCameraPosition.y, targetPosition.x - localCameraPosition.x) * (180.f / 3.1415926f);
@@ -216,7 +216,7 @@ ImVec3 CAimBot::ClampViewAngles(ImVec3 vecViewAngles)
 std::vector<CBaseEntity*> CAimBot::GetValidEntities(const int boneId) const
 {
 	std::vector<CBaseEntity*> validEntities;
-	const auto localPlayer = GlobalVars::client->pLocalPlayer;
+	const auto localPlayer = GlobalVars::pClient->pLocalPlayer;
 
 
 	for (int i = 1; i < 33; i++)

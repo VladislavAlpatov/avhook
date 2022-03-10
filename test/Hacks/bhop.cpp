@@ -2,24 +2,24 @@
 using namespace Hacks;
 
 
-void BunnyHop::Work()
+void ÑBunnyHop::Work()
 {
 	if (!IsShouldBeActivated())
 		return;
 
-	auto state = GlobalVars::client->pLocalPlayer->m_fFlags;
+	auto state = GlobalVars::pClient->pLocalPlayer->m_fFlags;
 
 	if ((state == CBaseEntity::FLAGS::ON_GROUND or state == CBaseEntity::FLAGS::ON_GROUND_DUCK
 		or state == CBaseEntity::FLAGS::IN_WATER or state == CBaseEntity::FLAGS::IN_WATER_DUCK))
 	{
-		GlobalVars::client->dwForceJump = 6;
+		GlobalVars::pClient->dwForceJump = 6;
 	}
-	else if ((state == CBaseEntity::FLAGS::IN_AIR or state == CBaseEntity::FLAGS::IN_AIR_DUCK) and GlobalVars::client->dwForceJump == 5)
+	else if ((state == CBaseEntity::FLAGS::IN_AIR or state == CBaseEntity::FLAGS::IN_AIR_DUCK) and GlobalVars::pClient->dwForceJump == 5)
 	{
-		GlobalVars::client->dwForceJump = 6;
+		GlobalVars::pClient->dwForceJump = 6;
 	}
 }
-BunnyHop::BunnyHop(Settings::CBunnyHopSettings* pSettings) : CHackingFeature(pSettings)
+ÑBunnyHop::ÑBunnyHop(Settings::CBunnyHopSettings* pSettings) : CHackingFeature(pSettings)
 {
 
 }

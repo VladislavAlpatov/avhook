@@ -47,11 +47,11 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::SAllSet
 	theme[ImGuiCol_TabActive] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
 
 
-	m_vecWindows.push_back(new UI::CAboutWindow(m_pDevice, hModule));
-	m_vecWindows.push_back(new UI::CSettingsWindow(m_pDevice, hModule, &m_MessageLineList, pSettings, &m_bShowKeyBindDialog));
-	m_vecWindows.push_back(new UI::CNetWorkWindow(m_pDevice, hModule, &m_MessageLineList));
-	m_vecWindows.push_back(new UI::CStartWindow(m_pDevice, hModule, m_vecWindows[0], m_vecWindows[2], m_vecWindows[1]));
-	m_vecWindows.push_back(new UI::CTaskBarWindow(pDevice, hModule, m_vecWindows[3], &pSettings->m_MiscSettings));
+	m_vecWindows.push_back(new UI::CAboutWindow(m_pDevice,     hModule));
+	m_vecWindows.push_back(new UI::CSettingsWindow(m_pDevice,  hModule, &m_MessageLineList, pSettings, &m_bShowKeyBindDialog));
+	m_vecWindows.push_back(new UI::CNetWorkWindow(m_pDevice,   hModule,  &m_MessageLineList));
+	m_vecWindows.push_back(new UI::CStartWindow(m_pDevice,     hModule,    m_vecWindows[0], m_vecWindows[2], m_vecWindows[1]));
+	m_vecWindows.push_back(new UI::CTaskBarWindow(pDevice,     hModule, m_vecWindows[3], &pSettings->m_MiscSettings));
 
 	m_vecEspPayload = {
 		new Esp::CBoxEsp(&GlobalVars::settings.m_BoxEspSettings), 
@@ -153,12 +153,6 @@ void COverlay::Render()
 	{
 		CBindListenerOverlay(m_pFontEsp).Show();
 	}
-
-	if (GetAsyncKeyState(VK_F1) & 1)
-	{
-		m_MessageLineList.Add("F1 pressed!", 500);
-	}
-
 	POLY_MARKER;
 	color_fix.RestoreRenderState();
 

@@ -85,7 +85,7 @@ void UI::CRadarWindow::UseGameRadar() const
 	{
 		const auto pEntity = GlobalVars::pIEntityList->GetClientEntity(i);
 		
-		if (!pEntity or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::pClient->pLocalPlayer->m_iTeamNum or pEntity->m_bSpotted)
+		if (!GlobalVars::pClient->pLocalPlayer or !pEntity or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::pClient->pLocalPlayer->m_iTeamNum or pEntity->m_bSpotted)
 			continue;
 
 		pEntity->m_bSpotted = true;

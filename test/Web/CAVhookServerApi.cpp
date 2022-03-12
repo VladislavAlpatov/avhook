@@ -16,8 +16,8 @@ void CAVHookServerApi::ChangeUserNameAndStatus(const char* name, const char* sta
 {
 	nlohmann::json payloadJson;
 
-	payloadJson[xorstr("Name")]   = name;
-	payloadJson[xorstr("Status")] = status;
+	payloadJson[xorstr("name")]   = name;
+	payloadJson[xorstr("status")] = status;
 
 	m_pClient->Post(xorstr("/api/profile/set"), payloadJson.dump(), xorstr("application/json"));
 }
@@ -90,14 +90,14 @@ AvatarUploadStatus CAVHookServerApi::SetUserAvatar(const std::string& rawData) c
 }
 CUserInfo::CUserInfo(nlohmann::json jsn)
 {
-	std::string sUserName   = jsn[xorstr("Name")].get<std::string>();
-	std::string sUserStatus = jsn[xorstr("Status")].get<std::string>();
+	std::string sUserName   = jsn[xorstr("name")].get<std::string>();
+	std::string sUserStatus = jsn[xorstr("status")].get<std::string>();
 	// Copy data
 	strcpy_s(m_sName,   sUserName.c_str());
 	strcpy_s(m_sStatus, sUserStatus.c_str());
 
-	m_iAccountType = jsn[xorstr("AccountType")].get<int>();
-	m_bIsPremium   = jsn[xorstr("IsPremium")].get<bool>();
-	m_iUid         = jsn[xorstr("Uid")].get<int>();
+	m_iAccountType = jsn[xorstr("type")].get<int>();
+	m_bIsPremium   = jsn[xorstr("premium")].get<bool>();
+	m_iUid         = jsn[xorstr("uid")].get<int>();
 
 }

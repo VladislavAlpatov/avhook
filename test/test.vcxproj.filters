@@ -333,6 +333,9 @@
     <ClInclude Include="Menu\MessageLine\CMessageLine.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="SDK\ICCvar.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_draw.cpp">
@@ -462,6 +465,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Menu\MessageLine\CMessageLine.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\ICCvar.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

@@ -15,7 +15,7 @@
 namespace GlobalVars
 {
 	inline SSDK::ClientBase*        pClient;
-	inline DWORD              engine;
+	inline DWORD                    engine;
 	inline HMODULE                  hModule;
 	inline SSDK::IClientEntityList* pIEntityList;
 	inline SSDK::IVEngineClient013* pIEngineClient;

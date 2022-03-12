@@ -90,7 +90,7 @@ void UI::CNetWorkWindow::Render()
 			ImGui::SameLine();
 
 			ImGui::PushItemWidth(125);
-			DrawInputTextWithTextOnBackGround(xorstr(""), xorstr("<Config name>"), m_cfgName, 32);
+			DrawInputTextWithTextOnBackGround(xorstr("###ConfigName"), xorstr("<Config name>"), m_cfgName, 32);
 			ImGui::PopItemWidth();
 			
 			ImGui::Button(xorstr("Download"), ImVec2(70, 20));

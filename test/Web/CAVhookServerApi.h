@@ -43,6 +43,7 @@ namespace WebApi
 		~CAVHookServerApi();
 		CUserInfo GetUserInfo();
 		void ChangeUserNameAndStatus(const char* name, const char* status) const;
+		std::list<Settings::CAllSettings> GetListOfConfigs();
 		bool AddNewConfig(int cfgId, std::string& data);
 		bool UpdateConfig(int cfgIid, std::string& data);
 		bool DeleteConfig(int cfgIid);

@@ -229,19 +229,31 @@ CBunnyHopSettings::CBunnyHopSettings(const json& jsn) : CBunnyHopSettings::CBunn
 {
 	m_bActive = jsn[xorstr("Active")].get<bool>();
 }
-json SAllSettings::ToJson()
+Settings::CAllSettings::CAllSettings(const json& jsn)
+{
+	m_AimBotSettings = Settings::CAimBotSettings(jsn[xorstr("AimBot")].get<nlohmann::json>());
+	m_BarEspSettings = Settings::BarEspSettings(jsn[xorstr("BarEsp")].get<nlohmann::json>());
+	m_BoxEspSettings = Settings::BoxEspSettings(jsn[xorstr("BoxEsp")].get<nlohmann::json>());
+	m_BunnyHopSettings = Settings::CBunnyHopSettings(jsn[xorstr("BunnyHop")].get<nlohmann::json>());
+	m_LabelEspSettings = Settings::CLabelEspSettings(jsn[xorstr("LabelEsp")].get<nlohmann::json>());
+	m_MiscSettings = Settings::MiscSettings(jsn[xorstr("Misc")].get<nlohmann::json>());
+	m_RadarSettings = Settings::CRadarSettings(jsn[xorstr("Radar")].get<nlohmann::json>());
+	m_SnapLinesSettings = Settings::SnapLinesSettings(jsn[xorstr("SnapLinesEsp")].get<nlohmann::json>());
+	m_TriggerBotSettings = Settings::TriggerBotSettings(jsn[xorstr("TriggerBot")].get<nlohmann::json>());
+}
+json CAllSettings::ToJson()
 {
 	json jsn;
-	jsn[xorstr("Aimbot")] = m_AimBotSettings.ToJson();
-	jsn[xorstr("SnapLines")] = m_AimBotSettings.ToJson();
-	jsn[xorstr("Boxes")] = m_AimBotSettings.ToJson();
-	jsn[xorstr("Misc")] = m_AimBotSettings.ToJson();
-	jsn[xorstr("TrigerBot")] = m_AimBotSettings.ToJson();
-	jsn[xorstr("Radar")] = m_AimBotSettings.ToJson();
-	jsn[xorstr("Labels")] = m_AimBotSettings.ToJson();
-	jsn[xorstr("Bars")] = m_AimBotSettings.ToJson();
-	jsn[xorstr("BunnyHop")] = m_AimBotSettings.ToJson();
 
+	jsn[xorstr("AimBot")]       = m_AimBotSettings.ToJson();
+	jsn[xorstr("BarEsp")]       = m_BarEspSettings.ToJson();
+	jsn[xorstr("BoxEsp")]       = m_BoxEspSettings.ToJson();
+	jsn[xorstr("BunnyHop")]     = m_BunnyHopSettings.ToJson();
+	jsn[xorstr("LabelEsp")]     = m_LabelEspSettings.ToJson();
+	jsn[xorstr("Misc")]         = m_MiscSettings.ToJson();
+	jsn[xorstr("Radar")]        = m_RadarSettings.ToJson();
+	jsn[xorstr("SnapLinesEsp")] = m_SnapLinesSettings.ToJson();
+	jsn[xorstr("TriggerBot")]   = m_TriggerBotSettings.ToJson();
 	return jsn;
 }
 CRadarSettings::CRadarSettings(const json& jsn)

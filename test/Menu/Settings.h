@@ -19,7 +19,7 @@ namespace Settings
 	{
 	public:
 		bool m_bActive = false;
-		bool m_bOnKey = false;
+		bool m_bOnKey  = false;
 		int m_iBindKey = 0;
 
 		virtual json ToJson();
@@ -203,10 +203,14 @@ namespace Settings
 
 	};
 
-	struct SAllSettings
+	class CAllSettings
 	{
+	public:
+		CAllSettings(const json& jsn);
+		CAllSettings() {};
 		char m_sName[32] = { 0 };
-		CAimBotSettings        m_AimBotSettings;
+
+		CAimBotSettings       m_AimBotSettings;
 		SnapLinesSettings     m_SnapLinesSettings;
 		BoxEspSettings	      m_BoxEspSettings;
 		MiscSettings          m_MiscSettings;

@@ -6,7 +6,7 @@
 class CConfigLoader
 {
 public:
-	CConfigLoader(const char* name, Settings::SAllSettings* settings)
+	CConfigLoader(const char* name, Settings::CAllSettings* settings)
 	{
 
 		strcpy_s(m_sName, name);
@@ -15,7 +15,7 @@ public:
 	}
 
 	char m_sName[32];
-	Settings::SAllSettings* m_pSettings;
+	Settings::CAllSettings* m_pSettings;
 
 	void DumpConfigFile(std::string path);
 	bool LoadConfigFile(std::string path);

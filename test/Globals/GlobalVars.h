@@ -19,7 +19,7 @@ namespace GlobalVars
 	inline HMODULE                  hModule;
 	inline SSDK::IClientEntityList* pIEntityList;
 	inline SSDK::IVEngineClient013* pIEngineClient;
-	inline Settings::SAllSettings   settings;
+	inline Settings::CAllSettings   settings;
 	inline SSDK::IEngineTrace*      pIEngineTrace;
 	inline ImVec3			        veLocalPlayerViewAngles;
 #ifdef DEV_BUILD

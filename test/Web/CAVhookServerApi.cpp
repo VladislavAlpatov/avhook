@@ -21,6 +21,17 @@ void CAVHookServerApi::ChangeUserNameAndStatus(const char* name, const char* sta
 
 	m_pClient->Post(xorstr("/api/profile/set"), payloadJson.dump(), xorstr("application/json"));
 }
+std::list<Settings::CAllSettings> WebApi::CAVHookServerApi::GetListOfConfigs()
+{
+	auto jsn = nlohmann::json::parse(m_pClient->Get("api/profile/configs/get/list").value().body);
+
+	for (auto& cfgJson : jsn["configs"].get<nlohmann::json>())
+	{
+
+	}
+
+	return std::list<Settings::CAllSettings>();
+}
 CAVHookServerApi::~CAVHookServerApi()
 {
 	delete m_pClient;

@@ -1,7 +1,7 @@
 #include "COverlay.h"
 
 
-COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::SAllSettings* pSettings)
+COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSettings* pSettings)
 {
 	m_pDevice      = pDevice;
 	m_pAllSettings = pSettings;

@@ -30,7 +30,7 @@
 class COverlay
 {
 public:
-	COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::SAllSettings* pSettings);
+	COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSettings* pSettings);
 	void Render();
 	bool IsShowUI();
 	void ToggleUI();
@@ -44,7 +44,7 @@ private:
 	bool    m_bShowUI            = false;
 	bool    m_bShowKeyBindDialog = false;
 
-	Settings::SAllSettings*       m_pAllSettings = nullptr;
+	Settings::CAllSettings*       m_pAllSettings = nullptr;
 	std::vector<UI::CBaseWindow*> m_vecWindows;
 	UI::CMessageLineList	      m_MessageLineList;
 

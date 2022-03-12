@@ -31,6 +31,7 @@ namespace hooks
 	inline DWORD	      oCreateMove;
 	inline DWORD          oOnKill;
 	inline HMODULE		  hmodule;
+
 	inline COverlay*      pOverlay = NULL;
 	int __stdcall  hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a4, int a5);
 	LRESULT WINAPI WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

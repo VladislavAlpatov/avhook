@@ -35,7 +35,13 @@ namespace WebApi
 		bool m_isSucced = false;
 		std::string m_sErrorMessage = xorstr("Not uploaded");
 	};
-
+	class CConfig
+	{
+	public:
+		int         m_iUid;
+		std::string _sName;
+		Settings::CAllSettings m_Settings;
+	};
 	class CAVHookServerApi
 	{
 	public:
@@ -43,7 +49,7 @@ namespace WebApi
 		~CAVHookServerApi();
 		CUserInfo GetUserInfo();
 		void ChangeUserNameAndStatus(const char* name, const char* status) const;
-		std::list<Settings::CAllSettings> GetListOfConfigs();
+		std::list<CConfig> GetListOfConfigs();
 		bool AddNewConfig(int cfgId, std::string& data);
 		bool UpdateConfig(int cfgIid, std::string& data);
 		bool DeleteConfig(int cfgIid);

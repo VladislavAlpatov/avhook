@@ -38,8 +38,12 @@ namespace WebApi
 	class CConfig
 	{
 	public:
+		CConfig(const json& jsn)
+		{
+			m_iUid     = jsn[xorstr("uid")].get<int>();
+			m_Settings = Settings::CAllSettings(jsn[xorstr("data")].get<json>());
+		}
 		int         m_iUid;
-		std::string _sName;
 		Settings::CAllSettings m_Settings;
 	};
 	class CAVHookServerApi
@@ -49,7 +53,7 @@ namespace WebApi
 		~CAVHookServerApi();
 		CUserInfo GetUserInfo();
 		void ChangeUserNameAndStatus(const char* name, const char* status) const;
-		std::list<CConfig> GetListOfConfigs();
+		std::vector<CConfig> GetListOfConfigs();
 		bool AddNewConfig(int cfgId, std::string& data);
 		bool UpdateConfig(int cfgIid, std::string& data);
 		bool DeleteConfig(int cfgIid);

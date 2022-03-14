@@ -27,6 +27,7 @@ namespace UI
 		WebApi::CUserInfo          m_OldUserData;
 		WebApi::CUserInfo          m_CurrentUserData;
 		WebApi::CAVHookServerApi   m_ApiClient;
+		std::vector<WebApi::CConfig> m_ConfgsList;
 		CMessageLineList*          m_pMessageLineList;
 
 		WebApi::AvatarUploadStatus m_avatarUploadStatus;
@@ -35,13 +36,13 @@ namespace UI
 		void SendNewUserInfoToServer(const WebApi::CUserInfo& info);
 		void SetUserAvatar(const std::string pathToFile);
 
-		void DrawVectorCombo(const char* label, int* CurrentItem, const std::vector<std::string>& list)
+		void DrawConfigCombo(const char* label, int* CurrentItem, const std::vector<WebApi::CConfig>& list)
 		{
 			const char** tmpArr = new const char*[list.size()];
 
 			for (int i = 0; i < list.size(); ++i)
 			{
-				tmpArr[i] = list[i].c_str();
+				tmpArr[i] = list[i].m_Settings.m_Name.c_str();
 			};
 			ImGui::Combo(label, CurrentItem, tmpArr, list.size());
 

@@ -13,6 +13,7 @@ UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, 
 }
 void UI::CNetWorkWindow::Render()
 {
+
 	ImGui::Begin(xorstr("###Network"), nullptr, m_iImGuiStyle);
 	{
 		DrawIconAndTittle(xorstr("Network"));
@@ -86,18 +87,27 @@ void UI::CNetWorkWindow::Render()
 		ImGui::SameLine();
 		ImGui::BeginChild(xorstr("###Cloud"), ImVec2(220, 210), true, m_iImGuiStyle);
 		{
-			ImGui::Button(xorstr("Upload"), ImVec2(70, 20));
-			ImGui::SameLine();
-
-			ImGui::PushItemWidth(125);
-			DrawInputTextWithTextOnBackGround(xorstr("###ConfigName"), xorstr("<Config name>"), m_cfgName, 32);
-			ImGui::PopItemWidth();
-			
-			ImGui::Button(xorstr("Download"), ImVec2(70, 20));
-			ImGui::SameLine();
-			ImGui::Button(xorstr("Delete"), ImVec2(70, 20));
 			static int itm = 0;
-			DrawVectorCombo(xorstr("Configs"), &itm, {"Hello", "To", "Every One"});
+			if (!m_ConfgsList.empty())
+			{
+				ImGui::Button(xorstr("Export"), ImVec2(70, 20));
+				ImGui::SameLine();
+
+				ImGui::PushItemWidth(125);
+				DrawInputTextWithTextOnBackGround(xorstr("###ConfigName"), xorstr("<Config name>"), (char*)m_ConfgsList[itm].m_Settings.m_Name.c_str(),
+					m_ConfgsList[itm].m_Settings.m_Name.size());
+
+				ImGui::PopItemWidth();
+
+				if (ImGui::Button(xorstr("Import"), ImVec2(70, 20)))
+				{
+					GlobalVars::settings = m_ConfgsList[itm].m_Settings;
+					m_pMessageLineList->Add(std::format(xorstr("The config is loaded from the cloud: {}"), m_ConfgsList[itm].m_Settings.m_Name), 3000);
+				}
+				ImGui::SameLine();
+				ImGui::Button(xorstr("Delete"), ImVec2(70, 20));
+				DrawConfigCombo(xorstr("Configs"), &itm, m_ConfgsList);
+			}
 
 			ImGui::EndChild();
 		}
@@ -134,12 +144,13 @@ void UI::CNetWorkWindow::OnClose()
 void UI::CNetWorkWindow::UpdateUserInfo()
 {
 	POLY_MARKER;
-
+	m_ConfgsList       = m_ApiClient.GetListOfConfigs();
 	m_OldUserData      = m_ApiClient.GetUserInfo();
 	m_CurrentUserData = m_OldUserData;
 }
 void UI::CNetWorkWindow::SendNewUserInfoToServer(const WebApi::CUserInfo & info)
 {
+
 	m_ApiClient.ChangeUserNameAndStatus(info.m_sName, info.m_sStatus);
 }
 void UI::CNetWorkWindow::SetUserAvatar(const std::string pathToFile)

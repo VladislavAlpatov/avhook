@@ -281,24 +281,24 @@ void UI::CSettingsWindow::DrawCfgChild()
 	{
 		ImGui::Text(xorstr("Feature Config Section"));
 
-		DrawInputTextWithTextOnBackGround(xorstr("###Fname"), xorstr("<Config name>"), m_pAllSettings->m_sName, 32);
+		DrawInputTextWithTextOnBackGround(xorstr("###Fname"), xorstr("<Config name>"), (char*)m_pAllSettings->m_Name.c_str(), m_pAllSettings->m_Name.size());
 		if (ImGui::Button(xorstr("Import###fi")))
 		{
-			CConfigLoader cfg(m_pAllSettings->m_sName, &GlobalVars::settings);
+			CConfigLoader cfg(m_pAllSettings->m_Name.c_str(), &GlobalVars::settings);
 
-			if (cfg.LoadConfigFile(m_pAllSettings->m_sName))
-				m_pMessageLineList->Add(std::format(xorstr("Loaded config: \"{}\""), m_pAllSettings->m_sName), 2000);
+			if (cfg.LoadConfigFile(m_pAllSettings->m_Name.c_str()))
+				m_pMessageLineList->Add(std::format(xorstr("Loaded config: \"{}\""), m_pAllSettings->m_Name.c_str()), 2000);
 			else
-				m_pMessageLineList->Add(std::format(xorstr("Loading error."), m_pAllSettings->m_sName), 2000);
+				m_pMessageLineList->Add(std::format(xorstr("Loading error."), m_pAllSettings->m_Name.c_str()), 2000);
 
 		}
 		ImGui::SameLine();
 		if (ImGui::Button(xorstr("Export###fb")))
 		{
-			if (m_pAllSettings->m_sName[0] != NULL)
+			if (!m_pAllSettings->m_Name.empty())
 			{
-				CConfigLoader cfgOnSave = CConfigLoader(m_pAllSettings->m_sName, m_pAllSettings);
-				cfgOnSave.DumpConfigFile(m_pAllSettings->m_sName);
+				CConfigLoader cfgOnSave = CConfigLoader(m_pAllSettings->m_Name.c_str(), m_pAllSettings);
+				cfgOnSave.DumpConfigFile(m_pAllSettings->m_Name.c_str());
 				m_pMessageLineList->Add(xorstr("Config successfully imported."), 2000);
 
 			}

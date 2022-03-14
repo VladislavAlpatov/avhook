@@ -240,11 +240,13 @@ Settings::CAllSettings::CAllSettings(const json& jsn)
 	m_RadarSettings = Settings::CRadarSettings(jsn[xorstr("Radar")].get<nlohmann::json>());
 	m_SnapLinesSettings = Settings::SnapLinesSettings(jsn[xorstr("SnapLinesEsp")].get<nlohmann::json>());
 	m_TriggerBotSettings = Settings::TriggerBotSettings(jsn[xorstr("TriggerBot")].get<nlohmann::json>());
+	auto tmp = jsn[xorstr("CfgName")].get<std::string>();
+	m_Name = std::string(tmp.c_str(), 32);
 }
 json CAllSettings::ToJson()
 {
 	json jsn;
-
+	jsn[xorstr("CfgName")]      = m_Name.c_str();
 	jsn[xorstr("AimBot")]       = m_AimBotSettings.ToJson();
 	jsn[xorstr("BarEsp")]       = m_BarEspSettings.ToJson();
 	jsn[xorstr("BoxEsp")]       = m_BoxEspSettings.ToJson();

@@ -208,7 +208,7 @@ namespace Settings
 	public:
 		CAllSettings(const json& jsn);
 		CAllSettings() {};
-		char m_sName[32] = { 0 };
+		std::string m_Name = std::string("", 32);
 
 		CAimBotSettings       m_AimBotSettings;
 		SnapLinesSettings     m_SnapLinesSettings;

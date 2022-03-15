@@ -12,7 +12,6 @@
 #define VERSION  xorstr("0.0.10.0")
 
 
-
 namespace netvars {
 	constexpr ::std::ptrdiff_t cs_gamerules_data = 0x0;
 	constexpr ::std::ptrdiff_t m_ArmorValue = 0x117CC;
@@ -152,9 +151,9 @@ namespace signatures {
 	constexpr ::std::ptrdiff_t dwWeaponTableIndex = 0x326C;
 	constexpr ::std::ptrdiff_t dwYawPtr = 0xDB8F48;
 	constexpr ::std::ptrdiff_t dwZoomSensitivityRatioPtr = 0xDBF1B0;
-	constexpr ::std::ptrdiff_t dwbSendPackets = 0xD9542;
+	constexpr ::std::ptrdiff_t dwbSendPackets = 0xD9572;
 	constexpr ::std::ptrdiff_t dwppDirect3DDevice9 = 0xA5050;
-	constexpr ::std::ptrdiff_t find_hud_element = 0x5B4650F0;
+	constexpr ::std::ptrdiff_t find_hud_element = 0x2E1650F0;
 	constexpr ::std::ptrdiff_t force_update_spectator_glow = 0x3BB80A;
 	constexpr ::std::ptrdiff_t interface_engine_cvar = 0x3E9EC;
 	constexpr ::std::ptrdiff_t is_c4_owner = 0x3C8890;

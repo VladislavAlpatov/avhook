@@ -1,5 +1,35 @@
 #include "Hooks.h"
 
+LPVOID GetVirtualFunctionAddr(int index)
+{
+	auto pD3D = Direct3DCreate9(D3D_SDK_VERSION);
+
+	LPDIRECT3DDEVICE9        pDevice      = NULL;
+	D3DPRESENT_PARAMETERS    deviceParams = {};
+	// Create the D3DDevice
+	ZeroMemory(&deviceParams, sizeof(deviceParams));
+
+	deviceParams.Windowed   = TRUE;
+	deviceParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
+
+	auto result = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, FindWindow(NULL, WINDOW_NAME), D3DCREATE_HARDWARE_VERTEXPROCESSING, &deviceParams, &pDevice);
+
+	// If Device creation is failed then window is in fullscreen mode and we must change flag and try again
+	if (FAILED(result))
+	{
+		deviceParams.Windowed = FALSE;
+		pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, FindWindow(NULL, WINDOW_NAME), D3DCREATE_HARDWARE_VERTEXPROCESSING, &deviceParams, &pDevice);
+	}
+	// Get vtable pointer and get function addr by index
+	LPVOID addr = (*(LPVOID**)pDevice)[index];
+
+	// Clean up
+	pDevice->Release();
+	pD3D->Release();
+
+	return addr;
+}
+
 int __stdcall  hooks::hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a4, int a5)
 {
 	POLY_MARKER
@@ -23,18 +53,16 @@ void hooks::Attach(HMODULE ihModule)
 	hooks::hmodule = ihModule;
 	MH_Initialize();
 
-	POLY_MARKER
-	// Hooking and also remove other hooks from CBaseDevice::Present fucntion
+	POLY_MARKER;
+	LPVOID presentAddr = GetVirtualFunctionAddr(17);
 
-	DWORD presentAddr = (DWORD)(GetModuleHandle(xorstr("d3d9.dll"))) + 0xE5880;
-
-	MH_CreateHook((LPVOID)presentAddr, &hkPresent, reinterpret_cast<LPVOID*>(&hooks::oPresent));
+	MH_CreateHook(presentAddr, &hkPresent, reinterpret_cast<LPVOID*>(&hooks::oPresent));
 	//Hook CreateMove
 	auto createMoveAddr = CMemory::FindPattern(xorstr("client.dll"), xorstr("\x55\x8B\xEC\x56\x8D\x75\x04\x8B"), xorstr("xxxxxxxx"));
 	MH_CreateHook((LPVOID*)createMoveAddr, &hCreateMove, (LPVOID*)&oCreateMove);
 
 	DWORD DrawIndexedPrimitiveAddr = (DWORD)(GetModuleHandle(xorstr("d3d9.dll"))) + 0x627b0;
-	MH_CreateHook((LPVOID*)DrawIndexedPrimitiveAddr, &hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
+	//MH_CreateHook((LPVOID*)DrawIndexedPrimitiveAddr, &hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
 	//MH_CreateHook(GetProcAddress(GetModuleHandle("ntdll"), xorstr("NtQueryVirtualMemory")), &hNtQueryVirtualMemory, (LPVOID*)&oNtQueryVirtualMemory);
 	MH_EnableHook(MH_ALL_HOOKS);
 	// Wait until overlay is ready for work.
@@ -161,7 +189,7 @@ HRESULT GenerateColoredTexture(IDirect3DDevice9* pDevice, IDirect3DTexture9** pT
 }
 
 
-int __stdcall hooks::hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE type, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
+/*int __stdcall hooks::hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE type, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
 {
 	typedef bool(__stdcall* tDrawIndexedPrimitive)(LPDIRECT3DDEVICE9, D3DPRIMITIVETYPE, INT, UINT, UINT, UINT, UINT);
 	if (NumVertices >= GlobalVars::settings.m_LabelEspSettings.m_iIndexMin and NumVertices <= GlobalVars::settings.m_LabelEspSettings.m_iIndexMax)
@@ -179,7 +207,7 @@ int __stdcall hooks::hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITI
 	}
 
 	return reinterpret_cast<tDrawIndexedPrimitive>(oDrawIndexedPrimitive)(pDevice, type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
-}
+}*/
 NTSTATUS __stdcall hooks::hNtQueryVirtualMemory(HANDLE ProcessHandle, PVOID BaseAddress, MEMORY_INFORMATION_CLASS MemoryInformationClass, PVOID MemoryInformation, SIZE_T MemoryInformationLength, PSIZE_T ReturnLength)
 {
 	MODULEINFO modInfol;

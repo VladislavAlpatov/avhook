@@ -20,13 +20,13 @@ void CMemory::PatchBytes(BYTE* dst, BYTE* src, unsigned int size)
 	VirtualProtect(dst, size, oproc, &oproc);
 }
 
-DWORD CMemory::FindPattern(const char* module, const char* pattern, const  char* mask)
+std::vector<DWORD> CMemory::FindPattern(const char* module, const char* pattern, const  char* mask, bool exitOnFirstMatch)
 {
 	MODULEINFO mInfo = GetModuleInfo(module);
 	DWORD base = (DWORD)mInfo.lpBaseOfDll;
 	DWORD size = (DWORD)mInfo.SizeOfImage;
 	DWORD patternLength = (DWORD)strlen(mask);
-
+	std::vector<DWORD> foundAddresses;
 	for (DWORD i = 0; i < size - patternLength; i++)
 	{
 		bool found = true;
@@ -34,11 +34,17 @@ DWORD CMemory::FindPattern(const char* module, const char* pattern, const  char*
 		{
 			found &= mask[j] == '?' || pattern[j] == *(char*)(base + i + j);
 		}
-		if (found)
+		if (found and exitOnFirstMatch)
 		{
-			return base + i;
+			foundAddresses.push_back(base + i);
+
+			return foundAddresses;
+		}
+		else if (found)
+		{
+			foundAddresses.push_back(base + i);
 		}
 	}
 
-	return NULL;
+	return foundAddresses;
 }

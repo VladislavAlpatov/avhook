@@ -12,20 +12,24 @@ LPVOID GetVirtualFunctionAddr(int index)
 	deviceParams.Windowed   = TRUE;
 	deviceParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
 
-	auto result = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, FindWindow(NULL, WINDOW_NAME), D3DCREATE_HARDWARE_VERTEXPROCESSING, &deviceParams, &pDevice);
+	auto result = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, FindWindow(NULL, WINDOW_NAME), D3DCREATE_SOFTWARE_VERTEXPROCESSING, &deviceParams, &pDevice);
 
 	// If Device creation is failed then window is in fullscreen mode and we must change flag and try again
 	if (FAILED(result))
 	{
 		deviceParams.Windowed = FALSE;
-		pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, FindWindow(NULL, WINDOW_NAME), D3DCREATE_HARDWARE_VERTEXPROCESSING, &deviceParams, &pDevice);
+		pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, FindWindow(NULL, WINDOW_NAME), D3DCREATE_SOFTWARE_VERTEXPROCESSING, &deviceParams, &pDevice);
 	}
 	// Get vtable pointer and get function addr by index
-	LPVOID addr = (*(LPVOID**)pDevice)[index];
+	LPVOID addr = NULL;
 
-	// Clean up
-	pDevice->Release();
-	pD3D->Release();
+	if (pDevice)
+	{
+		addr = (*(LPVOID**)pDevice)[index];
+
+		pDevice->Release();
+		pD3D->Release();
+	}
 
 	return addr;
 }
@@ -54,11 +58,11 @@ void hooks::Attach(HMODULE ihModule)
 	MH_Initialize();
 
 	POLY_MARKER;
-	LPVOID presentAddr = GetVirtualFunctionAddr(17);
+	auto  presentAddr = CMemory::FindPattern(xorstr("d3d9.dll"), xorstr("\x00\x00\x00\x00\x00\x83\xE4\xF8\x51\x51\x56\x8B\x75\x08\x8B\xCE\xF7\xD9\x57\x1B\xC9\x8D\x46\x04\x23\xC8\x6A\x00\x51\x8D\x4C\x24\x10\xE8\x00\x00\x00\x00\xF7\x46\x00\x00\x00\x00\x00\x74\x07\xBF\x00\x00\x00\x00\xEB\x17"), xorstr("?????xxxxxxxxxxxxxxxxxxxxxxxxxxxxx????xx?????xxx????xx"))[0];
+	MH_CreateHook((LPVOID)presentAddr, &hkPresent, reinterpret_cast<LPVOID*>(&hooks::oPresent));
 
-	MH_CreateHook(presentAddr, &hkPresent, reinterpret_cast<LPVOID*>(&hooks::oPresent));
 	//Hook CreateMove
-	auto createMoveAddr = CMemory::FindPattern(xorstr("client.dll"), xorstr("\x55\x8B\xEC\x56\x8D\x75\x04\x8B"), xorstr("xxxxxxxx"));
+	auto createMoveAddr = CMemory::FindPattern(xorstr("client.dll"), xorstr("\x55\x8B\xEC\x56\x8D\x75\x04\x8B"), xorstr("xxxxxxxx"))[0];
 	MH_CreateHook((LPVOID*)createMoveAddr, &hCreateMove, (LPVOID*)&oCreateMove);
 
 	DWORD DrawIndexedPrimitiveAddr = (DWORD)(GetModuleHandle(xorstr("d3d9.dll"))) + 0x627b0;

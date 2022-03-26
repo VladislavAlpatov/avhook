@@ -8,6 +8,17 @@
 #include "RazerSDK/CRazer.h"
 #include "nlohmann/json.hpp"
 
+class CChatElement : public SSDK::AbstractInterface
+{
+public:
+	void ChatPrintf(int iPlayerIndex, int iFilter, const char* fmt, ...)
+	{
+		GetVirtualFunction<void(__cdecl*)(void*, int, int, const char*, ...)>(26)(this, iPlayerIndex, iFilter, fmt);
+	}
+
+private:
+
+};
 
 DWORD WINAPI InitCheat(HMODULE hModule)
 {
@@ -60,6 +71,8 @@ BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
 	if (dwReason == DLL_PROCESS_ATTACH)
 	{
+		auto chat = (CChatElement*)CMemory::FindPattern("client.dll", "\xE8\x0\x0\x0\x0\x8B\x4F\x0\x85\xC9\x74\x06\x51", "x????xx?xxxxx")[0] + 7;
+		chat->ChatPrintf(0, 0, "Hello world from chat");
 		auto client = httplib::Client(AVHOOK_SERVER_URL);
 
 		if (client.Get(xorstr("/")).error() != httplib::Error::Success)

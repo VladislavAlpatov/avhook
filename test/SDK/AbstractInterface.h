@@ -10,9 +10,7 @@ namespace SSDK
 		template<typename FuncType>
 		FuncType GetVirtualFunction(unsigned int index)
 		{
-			uintptr_t* pVTable = *reinterpret_cast<unsigned int**>(this);
-			uintptr_t function_address = pVTable[index];
-			return reinterpret_cast<FuncType>(function_address);
+			return reinterpret_cast<FuncType>( (*(uintptr_t**)this)[index] );
 		}
 
 	};

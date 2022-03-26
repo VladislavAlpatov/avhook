@@ -96,7 +96,7 @@ void UI::CSettingsWindow::DrawAimbotChild()
 {
 	ImGui::SetWindowSize(ImVec2(555, 400));
 	const char* hitboxes[]      = { "Head",   "Body", "Legs" };
-	const char* priorities[]    = { "FoV",    "Distnace" };
+	const char* priorities[]    = { "FoV",    "Distance" };
 	const char* hitboxFilters[] = { "Static", "Dynamic" };
 
 	ImGui::Text(xorstr("Automatic Target Acquisition System"));

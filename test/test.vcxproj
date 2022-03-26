@@ -403,6 +403,7 @@
     <None Include="LICENSE">
       <DeploymentContent>true</DeploymentContent>
     </None>
+    <None Include="Scripts\vckg-auto-install.bat" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="sound\killsound.wav" />

@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Файлы ресурсов">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Hacking features">
       <UniqueIdentifier>{df480926-9fcd-4516-a6cc-9d5bdb276319}</UniqueIdentifier>
     </Filter>
@@ -93,16 +89,6 @@
     <Filter Include="Web">
       <UniqueIdentifier>{7d635985-b83c-428c-b822-eac3483cff08}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы ресурсов\Icons">
-      <UniqueIdentifier>{63edf7b9-6f47-4568-9fd7-0a4925163fed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Файлы ресурсов\Sound">
-      <UniqueIdentifier>{a9072075-a9c9-4667-b51f-765690cae2f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Файлы заголовков">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Render\Menu\Windows\NetWork">
       <UniqueIdentifier>{176db0c6-4464-400e-a0f0-f9e2083cb860}</UniqueIdentifier>
     </Filter>
@@ -139,6 +125,20 @@
     <Filter Include="Hacking features\ESP\Bars">
       <UniqueIdentifier>{09f3c967-e2ce-4c69-ae39-08bb1c69c635}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="source\Icons">
+      <UniqueIdentifier>{63edf7b9-6f47-4568-9fd7-0a4925163fed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Sound">
+      <UniqueIdentifier>{a9072075-a9c9-4667-b51f-765690cae2f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imgui.h">
@@ -160,7 +160,7 @@
       <Filter>Render\imgui</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="DirctX\DX9ColorFix.h">
       <Filter>Render\DirectX\DX9ColorFix</Filter>
@@ -328,13 +328,13 @@
       <Filter>Hacking features\ESP\Bars</Filter>
     </ClInclude>
     <ClInclude Include="Web\httplib.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="Menu\MessageLine\CMessageLine.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="SDK\ICCvar.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -473,65 +473,68 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="test.rc">
-      <Filter>Файлы ресурсов</Filter>
+      <Filter>source</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\about.bmp">
-      <Filter>Файлы ресурсов\Icons</Filter>
+      <Filter>source\Icons</Filter>
     </Image>
     <Image Include="images\aimbot_icon.bmp">
-      <Filter>Файлы ресурсов\Icons</Filter>
+      <Filter>source\Icons</Filter>
     </Image>
     <Image Include="images\auto_color.bmp">
-      <Filter>Файлы ресурсов\Icons</Filter>
+      <Filter>source\Icons</Filter>
     </Image>
     <Image Include="images\ct-icon.bmp">
-      <Filter>Файлы ресурсов\Icons</Filter>
+      <Filter>source\Icons</Filter>
     </Image>
     <Image Include="images\esp_icon.bmp">
-      <Filter>Файлы ресурсов\Icons</Filter>
+      <Filter>source\Icons</Filter>
     </Image>
     <Image Include="images\misc_icon.bmp">
-      <Filter>Файлы ресурсов\Icons</Filter>
+      <Filter>source\Icons</Filter>
     </Image>
     <Image Include="images\player_list.bmp">
-      <Filter>Файлы ресурсов\Icons</Filter>
+      <Filter>source\Icons</Filter>
     </Image>
     <Image Include="images\radar_icon.bmp">
-      <Filter>Файлы ресурсов\Icons</Filter>
+      <Filter>source\Icons</Filter>
     </Image>
     <Image Include="images\settings.bmp">
-      <Filter>Файлы ресурсов\Icons</Filter>
+      <Filter>source\Icons</Filter>
     </Image>
     <Image Include="images\t-icon.bmp">
-      <Filter>Файлы ресурсов\Icons</Filter>
+      <Filter>source\Icons</Filter>
     </Image>
     <Image Include="images\default avatar.bmp">
-      <Filter>Файлы ресурсов\Icons</Filter>
+      <Filter>source\Icons</Filter>
     </Image>
     <Image Include="images\profile_icon.bmp">
-      <Filter>Файлы ресурсов\Icons</Filter>
+      <Filter>source\Icons</Filter>
     </Image>
     <Image Include="images\avhook.png">
-      <Filter>Файлы ресурсов</Filter>
+      <Filter>source</Filter>
     </Image>
     <Image Include="images\es_icon_2.bmp">
-      <Filter>Файлы ресурсов</Filter>
+      <Filter>source</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="images\sound1.bin">
-      <Filter>Файлы ресурсов</Filter>
+      <Filter>source</Filter>
     </None>
     <None Include="images\wave3.bin">
-      <Filter>Файлы ресурсов</Filter>
+      <Filter>source</Filter>
     </None>
     <None Include="LICENSE" />
+    <None Include="Scripts\vckg-auto-install.bat">
+      <Filter>Core</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Media Include="sound\killsound.wav">
-      <Filter>Файлы ресурсов\Sound</Filter>
+      <Filter>source\Sound</Filter>
     </Media>
   </ItemGroup>
 </Project>

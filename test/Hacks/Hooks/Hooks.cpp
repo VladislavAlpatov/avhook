@@ -133,7 +133,7 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 		SSDK::CTraceFilter tracefilter;
 		tracefilter.pSkip = (void*)pLocalPlayer;
 
-		ray.Init(pLocalPlayer->m_vecOrigin + pLocalPlayer->m_vecViewOffset, entity->GetBonePosition(8));
+		ray.Init(pLocalPlayer->m_vecOrigin + pLocalPlayer->m_vecViewOffset, entity->GetBonePosition(Hacks::CAimBot::GetBoneIDBySelectedTab(GlobalVars::settings.m_AimBotSettings.m_iSelectedHitBox)));
 
 		GlobalVars::pIEngineTrace->TraceRay(ray, MASK_SHOT | CONTENTS_GRATE, &tracefilter, &trace);
 

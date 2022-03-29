@@ -5,6 +5,7 @@
 #include "../Utils/xorstr.h"
 #include "../SDK/CBaseEntity.h"
 #include <nlohmann/json.hpp>
+#include <typeinfo>
 
 namespace Settings
 {
@@ -26,6 +27,27 @@ namespace Settings
 	protected:
 		json    ImColorToJsn(const ImColor& color);
 		ImColor ImportImColorFromJson(const json& jsn);
+
+		template<typename T>
+		bool SetValueIfFiledExistInJson(const json& jsn,const char* filedName, T* var)
+		{
+			if (jsn.contains(filedName))
+			{
+				*var = jsn[filedName].get<T>();
+				return true;
+			}
+			return false;
+		}
+
+		bool SetValueIfFiledExistInJson(const json& jsn, const char* filedName, ImColor* var)
+		{
+			if (jsn.contains(filedName))
+			{
+				*var = ImportImColorFromJson(jsn[filedName].get<json>());
+				return true;
+			}
+			return false;
+		}
 	};
 	class CAimBotSettings : public CBaseSettings
 	{

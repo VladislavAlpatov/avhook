@@ -31,6 +31,17 @@ std::vector<CConfig> WebApi::CAVHookServerApi::GetListOfConfigs()
 	}
 	return cfgList;
 }
+bool WebApi::CAVHookServerApi::UpdateConfig(const int cfgIid, const json& data)
+{
+	json postJsn;
+
+	postJsn[xorstr("id")]   = cfgIid;
+	postJsn[xorstr("data")] = data;
+
+	auto respJsn = json::parse(m_pClient->Post(xorstr("/api/profile/configs/update"), postJsn.dump(), xorstr("application/json")).value().body);
+
+	return respJsn[xorstr("Status")].get<bool>();
+}
 CAVHookServerApi::~CAVHookServerApi()
 {
 	delete m_pClient;

@@ -87,26 +87,70 @@ void UI::CNetWorkWindow::Render()
 		ImGui::SameLine();
 		ImGui::BeginChild(xorstr("###Cloud"), ImVec2(220, 210), true, m_iImGuiStyle);
 		{
-			static int itm = 0;
+			static int selectedCfgId = 0;
 			if (!m_ConfgsList.empty())
 			{
-				ImGui::Button(xorstr("Export"), ImVec2(70, 20));
+				if (ImGui::Button(xorstr("Upload"), ImVec2(70, 20)))
+				{
+					auto payload = [this]
+					{
+						auto pSelectedCfg           = &m_ConfgsList[selectedCfgId];
+						GlobalVars::settings.m_Name = pSelectedCfg->m_Settings.m_Name;
+
+						bool status = m_ApiClient.UpdateConfig(pSelectedCfg->m_iUid, GlobalVars::settings.ToJson());
+
+						if (!status)
+						{
+							m_pMessageLineList->Add(xorstr("An error occurred while trying to update the config."), 3000);
+							return;
+						}
+
+						m_pMessageLineList->Add(xorstr("Config has been successfully updated."), 3000);
+						pSelectedCfg->m_Settings = GlobalVars::settings;
+					};
+
+					std::thread(payload).detach();
+				}
+
 				ImGui::SameLine();
 
 				ImGui::PushItemWidth(125);
-				DrawInputTextWithTextOnBackGround(xorstr("###ConfigName"), xorstr("<Config name>"), (char*)m_ConfgsList[itm].m_Settings.m_Name.c_str(),
-					m_ConfgsList[itm].m_Settings.m_Name.size());
+				DrawInputTextWithTextOnBackGround(xorstr("###ConfigName"), xorstr("<Config name>"), (char*)m_ConfgsList[selectedCfgId].m_Settings.m_Name.c_str(),
+					m_ConfgsList[selectedCfgId].m_Settings.m_Name.size());
 
 				ImGui::PopItemWidth();
 
 				if (ImGui::Button(xorstr("Import"), ImVec2(70, 20)))
 				{
-					GlobalVars::settings = m_ConfgsList[itm].m_Settings;
-					m_pMessageLineList->Add(std::format(xorstr("The config is loaded from the cloud: {}"), m_ConfgsList[itm].m_Settings.m_Name), 3000);
+					GlobalVars::settings = m_ConfgsList[selectedCfgId].m_Settings;
+					m_pMessageLineList->Add(std::format(xorstr("Config is loaded from the cloud: {}"), m_ConfgsList[selectedCfgId].m_Settings.m_Name), 3000);
 				}
 				ImGui::SameLine();
-				ImGui::Button(xorstr("Delete"), ImVec2(70, 20));
-				DrawConfigCombo(xorstr("Configs"), &itm, m_ConfgsList);
+				if (ImGui::Button(xorstr("Restore"), ImVec2(70, 20)))
+				{
+					auto payload = [this]
+					{
+						auto defaultSettings = Settings::CAllSettings();
+						defaultSettings.m_Name = std::format(xorstr("Config - {}"), selectedCfgId);
+						defaultSettings.m_Name.resize(32);
+
+						bool status = m_ApiClient.UpdateConfig(m_ConfgsList[selectedCfgId].m_iUid, defaultSettings.ToJson());
+
+						if (!status)
+						{
+							m_pMessageLineList->Add(xorstr("An error occurred while trying to restore the config."), 3000);
+							return;
+						}
+
+						m_pMessageLineList->Add(xorstr("Config was successfully restored to the default settings."), 3000);
+
+						m_ConfgsList[selectedCfgId].m_Settings = defaultSettings;
+						GlobalVars::settings                   = defaultSettings;
+						
+					};
+					std::thread(payload).detach();
+				}
+				DrawConfigCombo(xorstr("Configs"), &selectedCfgId, m_ConfgsList);
 			}
 
 			ImGui::EndChild();

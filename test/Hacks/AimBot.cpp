@@ -5,9 +5,9 @@ CAimBot::CAimBot(Settings::CAimBotSettings* pSettings, CUserCmd* ppUsrCmd) : CHa
 {
 	m_pCUsrCmd = ppUsrCmd;
 }
-int CAimBot::GetBoneIDBySelectedTab() const
+int CAimBot::GetBoneIDBySelectedTab(const int iTabIndex)
 {
-	switch (reinterpret_cast<Settings::CAimBotSettings*>(m_pSettings)->m_iSelectedHitBox)
+	switch (iTabIndex)
 	{
 	case 0:
 		return CBaseEntity::Bone::HEAD;
@@ -36,7 +36,7 @@ void CAimBot::Work()
 	}
 	pAimBotSettings->m_bIsWorking = true;
 
-	int aimBone = GetBoneIDBySelectedTab();
+	int aimBone = GetBoneIDBySelectedTab(reinterpret_cast<Settings::CAimBotSettings*>(m_pSettings)->m_iSelectedHitBox);
 
 	CBaseEntity* pEnt = nullptr;
 

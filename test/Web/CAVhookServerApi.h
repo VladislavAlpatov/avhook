@@ -54,8 +54,7 @@ namespace WebApi
 		CUserInfo GetUserInfo();
 		void ChangeUserNameAndStatus(const char* name, const char* status) const;
 		std::vector<CConfig> GetListOfConfigs();
-		bool AddNewConfig(int cfgId, std::string& data);
-		bool UpdateConfig(int cfgIid, std::string& data);
+		bool UpdateConfig(const int cfgIid,const json& data);
 		bool DeleteConfig(int cfgIid);
 		bool GetConfig(int cfgId);
 

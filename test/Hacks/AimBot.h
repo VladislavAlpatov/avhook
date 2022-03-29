@@ -10,12 +10,11 @@ namespace Hacks
 	public:
 		CAimBot(Settings::CAimBotSettings* settings, CUserCmd* pUsrCmd);
 		virtual void Work();
-
+		static int         GetBoneIDBySelectedTab(const int iTabIndex);
 	private:
 		CUserCmd* m_pCUsrCmd = nullptr;
 
 		bool                      IfEntityInFov(const CBaseEntity* pEntity, const int bone) const;
-		__forceinline int         GetBoneIDBySelectedTab() const;
 		ImVec3                    CalcAimViewAngles(const CBaseEntity* pEntity, const int bone) const;
 		static ImVec3             ClampViewAngles(ImVec3 vecViewAngles);
 		static ImVec3             NormalizeViewAngles(ImVec3 vecViewAngle);

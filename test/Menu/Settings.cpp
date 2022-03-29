@@ -54,18 +54,18 @@ json CAimBotSettings::ToJson()
 	return jsn;
 };
 CAimBotSettings::CAimBotSettings(const json& jsn)
-{
-	m_bActive           = jsn[xorstr("Active")].get<bool>();
-	m_bOnKey            = jsn[xorstr("OnKey")].get<int>();
-	m_iBindKey          = jsn[xorstr("BindKey")].get<int>();
-	m_bAutoShot         = jsn[xorstr("AutoShot")].get<bool>();
-	silent              = jsn[xorstr("Silent")].get<bool>();
-	m_fFov              = jsn[xorstr("Fov")].get<float>();
-	m_fSmooth           = jsn[xorstr("Smooth")].get<float>();
-	m_iSelectedHitBox   = jsn[xorstr("SelectedHitBox")].get<int>();
-	m_iPriorityType     = jsn[xorstr("PriorityType")].get<int>();
-	m_iHealthBorder     = jsn[xorstr("HealthBorder")].get<int>();
-	m_iHitBoxFilterMode = jsn[xorstr("HitBoxFilrerMode")].get<int>();
+{	
+	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("Active"),           &m_bActive);
+	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("OnKey"),            &m_bOnKey);
+	SetValueIfFiledExistInJson<int>(jsn,   xorstr("BindKey"),          &m_iBindKey);
+	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("AutoShot"),         &m_bAutoShot);
+	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("Silent"),           &silent);
+	SetValueIfFiledExistInJson<float>(jsn, xorstr("Fov"),              &m_fFov);
+	SetValueIfFiledExistInJson<float>(jsn, xorstr("Smooth"),           &m_fSmooth);
+	SetValueIfFiledExistInJson<int>(jsn,   xorstr("SelectedHitBox"),   &m_iSelectedHitBox);
+	SetValueIfFiledExistInJson<int>(jsn,   xorstr("PriorityType"),     &m_iPriorityType);
+	SetValueIfFiledExistInJson<int>(jsn,   xorstr("HealthBorder"),     &m_iHealthBorder);
+	SetValueIfFiledExistInJson<int>(jsn,   xorstr("HitBoxFilrerMode"), &m_iHitBoxFilterMode);
 }
 json SnapLinesSettings::ToJson()
 {
@@ -81,11 +81,11 @@ json SnapLinesSettings::ToJson()
 };
 SnapLinesSettings::SnapLinesSettings(const json& jsn)
 {
-	m_bActive = jsn[xorstr("Active")].get<bool>();
-	m_iSelectedBone = jsn[xorstr("SelectedBone")].get<int>();
-	m_Color = ImportImColorFromJson(jsn[xorstr("Color")]);
-	m_iDrawMode = jsn[xorstr("DrawMode")].get<int>();
-	m_iThickness = jsn[xorstr("Thickness")].get<int>();
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
+	SetValueIfFiledExistInJson<int>(jsn,  xorstr("SelectedBone"), &m_iSelectedBone);
+	SetValueIfFiledExistInJson<int>(jsn,  xorstr("DrawMode"), &m_iDrawMode);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("Thickness"), &m_iThickness);
+	SetValueIfFiledExistInJson(jsn, xorstr("Color"), &m_Color);
 }
 json BoxEspSettings::ToJson()
 {
@@ -99,13 +99,14 @@ json BoxEspSettings::ToJson()
 
 	return jsn;
 };
+
 BoxEspSettings::BoxEspSettings(const json& jsn)
 {
-	m_bActive    = jsn[xorstr("Active")].get<bool>();
-	m_iStyle	 = jsn[xorstr("Style")].get<int>();
-	m_Color      = ImportImColorFromJson(jsn[xorstr("Color")]);
-	m_iDrawMode  = jsn[xorstr("DrawMode")].get<int>();
-	m_iThickness = jsn[xorstr("Thickness")].get<int>();
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("Style"), &m_iStyle);
+	SetValueIfFiledExistInJson(jsn, xorstr("Color"), &m_Color);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("DrawMode"), &m_iDrawMode);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("Thickness"), &m_iThickness);
 }
 
 json MiscSettings::ToJson()
@@ -119,13 +120,14 @@ json MiscSettings::ToJson()
 	jsn[xorstr("CustomFov")]  = m_iCustomFov;
 	return jsn;
 };
+
 MiscSettings::MiscSettings(const json& jsn)
 {
-	m_bWallPaper = jsn[xorstr("WallPaper")].get<bool>();
-	m_bShowTime = jsn[xorstr("ShowTime")].get<bool>();
-	m_bKillSound = jsn[xorstr("KillSound")].get<bool>();
-	m_bSnowFlakes = jsn[xorstr("SnowFlakes")].get<bool>();
-	m_iCustomFov  = jsn[xorstr("CustomFov")].get<int>();
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("WallPaper"), &m_bWallPaper);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("ShowTime"), &m_bShowTime);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("KillSound"), &m_bKillSound);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("SnowFlakes"), &m_bSnowFlakes);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("CustomFov"), &m_iCustomFov);
 }
 
 json TriggerBotSettings::ToJson()
@@ -140,9 +142,9 @@ json TriggerBotSettings::ToJson()
 };
 TriggerBotSettings::TriggerBotSettings(const json& jsn)
 {
-	m_bActive = jsn[xorstr("Active")].get<bool>();
-	m_bRageMode = jsn[xorstr("RageMode")].get<bool>();
-	m_iDelay = jsn[xorstr("iDelay")].get<int>();
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("RageMode"), &m_bRageMode);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("iDelay"), &m_iDelay);
 }
 
 json BarEspSettings::ToJson()
@@ -160,12 +162,12 @@ json BarEspSettings::ToJson()
 };
 BarEspSettings::BarEspSettings(const json& jsn)
 {
-	m_bActive         = jsn[xorstr("Active")].get<bool>();
-	m_bDrawHealthBar  = jsn[xorstr("DrawHealthBar")].get<bool>();
-	m_bDrawArmorBar   = jsn[xorstr("DrawArmorBar")].get<bool>();
-	m_iThickness      = jsn[xorstr("Thickness")].get<int>();
-	m_ArmorColor      = ImportImColorFromJson(jsn[xorstr("ArmorColor")].get<json>());
-	m_BackGroundColor = ImportImColorFromJson(jsn[xorstr("BackGroundColor")].get<json>());
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawHealthBar"), &m_bDrawHealthBar);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawArmorBar"), &m_bDrawArmorBar);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("Thickness"), &m_iThickness);
+	SetValueIfFiledExistInJson(jsn, xorstr("ArmorColor"), &m_ArmorColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("BackGroundColor"), &m_BackGroundColor);
 }
 
 json CRadarSettings::ToJson()
@@ -176,8 +178,8 @@ json CRadarSettings::ToJson()
 	jsn[xorstr("ActiveFeatureColor")] = ImColorToJsn(m_ActiveFeatureColor);
 	jsn[xorstr("InactiveFeatureColor")] = ImColorToJsn(m_InactiveFeatureColor);
 	jsn[xorstr("BackGroundColor")] = ImColorToJsn(m_BackGroundColor);
-	jsn[xorstr("CrossColor")] = ImColorToJsn(m_CrossColor);
-	jsn[xorstr("Style")] = m_iStyle;
+	jsn[xorstr("CrossColor")]        = ImColorToJsn(m_CrossColor);
+	jsn[xorstr("Style")]             = m_iStyle;
 	jsn[xorstr("CyrcleBorderColor")] = ImColorToJsn(m_CyrcleBorderColor);
 
 	return jsn;
@@ -204,17 +206,17 @@ json CLabelEspSettings::ToJson()
 };
 CLabelEspSettings::CLabelEspSettings(const json& jsn) : CLabelEspSettings::CLabelEspSettings()
 {
-	m_bDrawName = jsn[xorstr("DrawName")].get<bool>();
-	m_bDrawDistance = jsn[xorstr("DrawDistance")].get<bool>();
-	m_bDrawHealth = jsn[xorstr("DrawHealth")].get<bool>();
-	m_bDrawArmor = jsn[xorstr("DrawArmor")].get<bool>();
-	m_bDrawVisibility = jsn[xorstr("DrawVisibility")].get<bool>();
-	m_bDrawAimbot = jsn[xorstr("DrawAimbot")].get<bool>();
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawName"), &m_bDrawName);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawDistance"), &m_bDrawDistance);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawHealth"), &m_bDrawHealth);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawArmor"), &m_bDrawArmor);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawVisibility"), &m_bDrawVisibility);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawAimbot"), &m_bDrawAimbot);
 
-	m_NameLabelColor = ImportImColorFromJson(jsn[xorstr("NameLabelColor")].get<json>());
-	m_DistanceLabelColor = ImportImColorFromJson(jsn[xorstr("DistanceLabelColor")].get<json>());
-	m_ArmorLabelColor = ImportImColorFromJson(jsn[xorstr("ArmorLabelColor")].get<json>());
-	m_VisibilityLabelColor = ImportImColorFromJson(jsn[xorstr("VisibilityLabelColor")].get<json>());
+	SetValueIfFiledExistInJson(jsn, xorstr("NameLabelColor"), &m_NameLabelColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("DistanceLabelColor"), &m_DistanceLabelColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("ArmorLabelColor"), &m_ArmorLabelColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("VisibilityLabelColor"), &m_VisibilityLabelColor);
 }
 
 json CBunnyHopSettings::ToJson()
@@ -227,7 +229,7 @@ json CBunnyHopSettings::ToJson()
 };
 CBunnyHopSettings::CBunnyHopSettings(const json& jsn) : CBunnyHopSettings::CBunnyHopSettings()
 {
-	m_bActive = jsn[xorstr("Active")].get<bool>();
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
 }
 Settings::CAllSettings::CAllSettings(const json& jsn)
 {
@@ -260,11 +262,12 @@ json CAllSettings::ToJson()
 }
 CRadarSettings::CRadarSettings(const json& jsn)
 {
-	m_iStyle               = jsn[xorstr("Style")].get<int>();
-	m_bActive              = jsn[xorstr("Active")].get<bool>();
-	m_ActiveFeatureColor   = ImportImColorFromJson(jsn[xorstr("ActiveFeatureColor")].get<json>());
-	m_InactiveFeatureColor = ImportImColorFromJson(jsn[xorstr("InactiveFeatureColor")].get<json>());
-	m_BackGroundColor      = ImportImColorFromJson(jsn[xorstr("BackGroundColor")].get<json>());
-	m_CrossColor           = ImportImColorFromJson(jsn[xorstr("CrossColor")].get<json>());
-	m_CyrcleBorderColor	   = ImportImColorFromJson(jsn[xorstr("CyrcleBorderColor")].get<json>());
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("Style"), &m_iStyle);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
+
+	SetValueIfFiledExistInJson(jsn, xorstr("ActiveFeatureColor"), &m_ActiveFeatureColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("InactiveFeatureColor"), &m_InactiveFeatureColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("BackGroundColor"), &m_BackGroundColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("CrossColor"), &m_CrossColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("CyrcleBorderColor"), &m_CyrcleBorderColor);
 }

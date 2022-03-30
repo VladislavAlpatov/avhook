@@ -56,7 +56,7 @@ const char* CUserInfo::AccountTypeIdToString()
 	switch (m_iAccountType)
 	{
 	case AccountType::Standart:
-		return xorstr("Standart");
+		return xorstr("Standard");
 
 	case AccountType::BetaTester:
 		return xorstr("Beta tester");

@@ -28,6 +28,7 @@ namespace SSDK
 			DEFINE_MEMBER_N(ImVec3, m_vecOrigin, netvars::m_vecOrigin);
 			DEFINE_MEMBER_N(DWORD,  m_pBoneMatrix, netvars::m_dwBoneMatrix);
 			DEFINE_MEMBER_N(ImVec3, m_vecVelocity, netvars::m_vecVelocity);
+			DEFINE_MEMBER_N(ImVec3, m_vecViewAngles, 0x12C);
 			DEFINE_MEMBER_N(bool,   m_bDormant, signatures::m_bDormant);
 
 		};

@@ -156,4 +156,13 @@ public:
     {
         return ImVec3(x / v.x, y / v.y, z / v.z);
     }
+    ImVec3 Transform(const ImVec3& agles, const float legth) const
+    {
+        ImVec3 trasnformedVec;
+        trasnformedVec.x = x + (cosf(agles.y * (3.141592653589f / 180.f)) * legth);
+        trasnformedVec.y = y + (sinf(agles.y * (3.141592653589f / 180.f)) * legth);
+        trasnformedVec.z = z - (tanf(agles.x * (3.141592653589f / 180.f)) * legth);
+
+        return trasnformedVec;
+    }
 };

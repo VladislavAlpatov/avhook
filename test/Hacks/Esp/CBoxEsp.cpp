@@ -59,6 +59,7 @@ void CBoxEsp::DrawSolidBox(CBaseEntity* pEntity, const ImColor& drawColor, int t
 }
 void CBoxEsp::DrawCorneredBox(const CBaseEntity* pEntity, const ImColor& drawColor,const  int thickness)
 {
+    
     ImVec3 up = WorldToScreen(pEntity->m_vecOrigin);
 
     ImVec3 headpos = pEntity->GetBonePosition(CBaseEntity::Bone::HEAD);
@@ -75,7 +76,7 @@ void CBoxEsp::DrawCorneredBox(const CBaseEntity* pEntity, const ImColor& drawCol
 
     auto pDrawList = ImGui::GetBackgroundDrawList();
     float offset = height / 7.f;
-
+    
     pDrawList->AddLine(topLeft,  topLeft + ImVec2(offset, 0), drawColor, (float)thickness);
     pDrawList->AddLine(topLeft,  topLeft - ImVec2(0, offset), drawColor, (float)thickness);
 

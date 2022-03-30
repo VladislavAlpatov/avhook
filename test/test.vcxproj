@@ -263,8 +263,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Menu\MessageLine\CMessageLine.h" />
-    <ClInclude Include="DirctX\CustomDirectX9Device.h" />
-    <ClInclude Include="DirctX\DX9ColorFix.h" />
+    <ClInclude Include="DirectX\CustomDirectX9Device.h" />
+    <ClInclude Include="DirectX\DX9ColorFix.h" />
     <ClInclude Include="Globals\GlobalVars.h" />
     <ClInclude Include="Hacks\AimBot.h" />
     <ClInclude Include="Hacks\bhop.h" />
@@ -330,8 +330,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Menu\MessageLine\CMessageLine.cpp" />
-    <ClCompile Include="DirctX\CustomDirectX9Device.cpp" />
-    <ClCompile Include="DirctX\DX9ColorFix.cpp" />
+    <ClCompile Include="DirectX\CustomDirectX9Device.cpp" />
+    <ClCompile Include="DirectX\DX9ColorFix.cpp" />
     <ClCompile Include="Globals\GlobalVars.cpp" />
     <ClCompile Include="Hacks\AimBot.cpp" />
     <ClCompile Include="Hacks\bhop.cpp" />

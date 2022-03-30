@@ -22,7 +22,7 @@
 #include "../imgui/imgui_impl_dx9.h"
 #include "../imgui/misc/freetype/imgui_freetype.h"
 
-#include "../DirctX/DX9ColorFix.h"
+#include "../DirectX/DX9ColorFix.h"
 #include "SnowFlakes/SnowFlake.h"
 #include "../Utils/Marker.h"
 #include "MessageLine/CMessageLine.h"

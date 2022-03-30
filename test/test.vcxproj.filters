@@ -162,7 +162,7 @@
     <ClInclude Include="resource.h">
       <Filter>header</Filter>
     </ClInclude>
-    <ClInclude Include="DirctX\DX9ColorFix.h">
+    <ClInclude Include="DirectX\DX9ColorFix.h">
       <Filter>Render\DirectX\DX9ColorFix</Filter>
     </ClInclude>
     <ClInclude Include="Menu\Settings.h">
@@ -216,7 +216,7 @@
     <ClInclude Include="SDK\IVEngineClient013\IVEngineClient013.h">
       <Filter>SDK\IVEngineClient013</Filter>
     </ClInclude>
-    <ClInclude Include="DirctX\CustomDirectX9Device.h">
+    <ClInclude Include="DirectX\CustomDirectX9Device.h">
       <Filter>Render\DirectX\CustomDevice</Filter>
     </ClInclude>
     <ClInclude Include="SDK\CUserCMD.h">
@@ -359,7 +359,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="DirctX\DX9ColorFix.cpp">
+    <ClCompile Include="DirectX\DX9ColorFix.cpp">
       <Filter>Render\DirectX\DX9ColorFix</Filter>
     </ClCompile>
     <ClCompile Include="Hacks\AimBot.cpp">
@@ -383,7 +383,7 @@
     <ClCompile Include="SDK\IVEngineClient013\IVEngineClient013.cpp">
       <Filter>SDK\IVEngineClient013</Filter>
     </ClCompile>
-    <ClCompile Include="DirctX\CustomDirectX9Device.cpp">
+    <ClCompile Include="DirectX\CustomDirectX9Device.cpp">
       <Filter>Render\DirectX\CustomDevice</Filter>
     </ClCompile>
     <ClCompile Include="Utils\VMThook.cpp">

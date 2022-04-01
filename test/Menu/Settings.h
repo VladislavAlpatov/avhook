@@ -6,7 +6,7 @@
 #include "../SDK/CBaseEntity.h"
 #include <nlohmann/json.hpp>
 #include <typeinfo>
-
+#include "../Hacks/Esp/CLabel/CLabel.h"
 namespace Settings
 {
 	using namespace nlohmann;
@@ -174,6 +174,12 @@ namespace Settings
 		CLabelEspSettings()
 		{
 			m_bActive = true;
+			m_Labels.push_back(new CLabels::CNameLabel("Name",                  true, 1, ImColor(255, 255, 255)));
+			m_Labels.push_back(new CLabels::CHealthLabel("Health",              true, 1));
+			m_Labels.push_back(new CLabels::CDistanceLabel("Distance",          true, 1, ImColor(255, 255, 255)));
+			m_Labels.push_back(new CLabels::CArmorLabel("Armor",                true, 1, ImColor(255, 255, 255)));
+			m_Labels.push_back(new CLabels::CVisibilityLabel("Visibility",      true, 1, ImColor(255, 255, 255)));
+			m_Labels.push_back(new CLabels::CAimBotTargetLabel("Aimbot Target", true, 1, ImColor(255, 255, 255)));
 		}
 		bool m_bDrawName = false;
 		bool m_bDrawDistance = false;
@@ -189,7 +195,7 @@ namespace Settings
 		ImColor m_DistanceLabelColor = ImColor(255, 155, 5);
 		ImColor m_ArmorLabelColor = ImColor(56, 122, 255);
 		ImColor m_VisibilityLabelColor = ImColor(0, 255, 208);
-
+		std::vector<CLabels::CBaseLabel*> m_Labels;
 		virtual json ToJson();
 		CLabelEspSettings(const json& jsn);
 		//void Restore() override {};
@@ -198,6 +204,13 @@ namespace Settings
 			LEFT = 0,
 			TOP
 		};
+		~CLabelEspSettings()
+		{
+			for (auto pLabel : m_Labels)
+			{
+				delete pLabel;
+			}
+		}
 	};
 	class ChromaSettings
 	{

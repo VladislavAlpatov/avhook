@@ -2,7 +2,7 @@
 using namespace Hacks;
 
 
-void ÑBunnyHop::Work()
+void CBunnyHop::Work()
 {
 	if (!IsShouldBeActivated())
 		return;
@@ -19,7 +19,7 @@ void ÑBunnyHop::Work()
 		GlobalVars::pClient->dwForceJump = 6;
 	}
 }
-ÑBunnyHop::ÑBunnyHop(Settings::CBunnyHopSettings* pSettings) : CHackingFeature(pSettings)
+CBunnyHop::CBunnyHop(Settings::CBunnyHopSettings* pSettings) : CHackingFeature(pSettings)
 {
 
 }

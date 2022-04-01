@@ -2,7 +2,6 @@
 #include "CBaseWindow.h"
 #include "../Settings.h"
 #include <string>
-#include <time.h>
 
 namespace UI
 {

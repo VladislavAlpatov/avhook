@@ -1,5 +1,5 @@
 #include "CTaskBarWindow.h"
-
+#include <time.h>
 UI::CTaskBarWindow::CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* startWindow, Settings::MiscSettings* pMiscSettings) : CBaseWindow(pDevice, hModule)
 {
 	m_pStartWindow = startWindow;

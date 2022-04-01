@@ -1,5 +1,4 @@
 #pragma once
-#include "../../Menu/IBaseDrawObject.h"
 #include "../../Utils/Vec3.h"
 #include "../../Globals/GlobalVars.h"
 

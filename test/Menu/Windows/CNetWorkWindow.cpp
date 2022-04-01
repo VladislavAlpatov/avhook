@@ -1,4 +1,6 @@
 #include "CNetWorkWindow.h"
+#include <thread>
+#include "../../Globals/GlobalVars.h"
 
 UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CMessageLineList* pMessageLineList) : CBaseWindow(pDevice, hModule)
 {

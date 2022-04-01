@@ -25,6 +25,7 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSet
 	style.AntiAliasedLines       = false;
 	style.AntiAliasedFill        = false;
 	style.ScrollbarRounding = 0.f;
+
 	theme[ImGuiCol_WindowBg] = ImColor(24, 31, 35, 255);
 	theme[ImGuiCol_Button] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
 	theme[ImGuiCol_Tab] = ImVec4(1.f, 0.372f, 0.372f, 1.f);

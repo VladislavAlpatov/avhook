@@ -1,3 +1,8 @@
+#include <thread>
+#include <Windows.h>
+#include "../../RazerSDK/CRazer.h"
+#include "../../Globals/GlobalVars.h"
+
 #include "BindListener.h"
 
 using namespace Routines;

@@ -1,6 +1,6 @@
 #pragma once
 #include "CBaseWindow.h"
-#include "../../Globals/GlobalVars.h"
+#include "../Settings.h"
 
 namespace UI
 {

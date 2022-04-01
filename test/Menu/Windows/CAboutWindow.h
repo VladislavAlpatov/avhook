@@ -1,8 +1,5 @@
 #pragma once
 #include "CBaseWindow.h"
-#include <shellapi.h>
-#include "../../Globals/GlobalVars.h"
-#include "../../RawData/RAVhookLogo.h"
 
 namespace UI
 {

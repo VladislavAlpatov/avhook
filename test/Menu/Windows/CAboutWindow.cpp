@@ -1,4 +1,7 @@
 #include "CAboutWindow.h"
+#include <shellapi.h>
+#include "../../Globals/GlobalVars.h"
+#include "../../RawData/RAVhookLogo.h"
 
 UI::CAboutWindow::CAboutWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule) : CBaseWindow(pDevice, hModule)
 {

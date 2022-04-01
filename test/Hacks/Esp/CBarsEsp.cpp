@@ -1,4 +1,5 @@
 #include "CBarsEsp.h"
+#include "../../imgui/imgui_internal.h"
 using namespace Esp;
 
 void CBarsEsp::InternalRenderAt(CBaseEntity* pEntity)

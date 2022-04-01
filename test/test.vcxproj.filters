@@ -336,6 +336,9 @@
     <ClInclude Include="SDK\ICCvar.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="Hacks\Esp\CLabel\CLabel.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_draw.cpp">
@@ -468,6 +471,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="SDK\ICCvar.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Hacks\Esp\CLabel\CLabel.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

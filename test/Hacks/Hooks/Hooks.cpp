@@ -1,4 +1,15 @@
+#pragma once
 #include "Hooks.h"
+
+#include "../../Utils/offsets.h"
+#include "../../Utils/memory.h"
+#include "../../Hacks/AimBot.h"
+#include "../../RazerSDK/CRazer.h"
+#include "../../Hacks/TriggerBot.h"
+#include "../../Utils/Marker.h"
+#include "../../Hacks/bhop.h"
+
+#include "MinHook.h"
 
 LPVOID GetVirtualFunctionAddr(int index)
 {
@@ -146,7 +157,7 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 	}
 	
 	Hacks::CHackingFeature* features[] = {
-		new Hacks::ÑBunnyHop(&GlobalVars::settings.m_BunnyHopSettings),
+		new Hacks::CBunnyHop(&GlobalVars::settings.m_BunnyHopSettings),
 		new Hacks::CAimBot(&GlobalVars::settings.m_AimBotSettings, pUserCmd)
 	};
 
@@ -212,17 +223,3 @@ HRESULT GenerateColoredTexture(IDirect3DDevice9* pDevice, IDirect3DTexture9** pT
 
 	return reinterpret_cast<tDrawIndexedPrimitive>(oDrawIndexedPrimitive)(pDevice, type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
 }*/
-NTSTATUS __stdcall hooks::hNtQueryVirtualMemory(HANDLE ProcessHandle, PVOID BaseAddress, MEMORY_INFORMATION_CLASS MemoryInformationClass, PVOID MemoryInformation, SIZE_T MemoryInformationLength, PSIZE_T ReturnLength)
-{
-	MODULEINFO modInfol;
-	GetModuleInformation(GetCurrentProcess(), GlobalVars::hModule, &modInfol, sizeof(MODULEINFO));
-	if (BaseAddress >= modInfol.lpBaseOfDll and ((uintptr_t)modInfol.lpBaseOfDll + (uintptr_t)modInfol.SizeOfImage) >= (uintptr_t)BaseAddress)
-	{
-		return 0x80;
-	}
-
-
-	typedef NTSTATUS(__stdcall* tNtQueryVirtualMemory)(HANDLE, PVOID, MEMORY_INFORMATION_CLASS, PVOID, SIZE_T, PSIZE_T);
-	return reinterpret_cast<tNtQueryVirtualMemory>(oNtQueryVirtualMemory)(ProcessHandle, BaseAddress, MemoryInformationClass, MemoryInformation, MemoryInformationLength, ReturnLength);
-
-}

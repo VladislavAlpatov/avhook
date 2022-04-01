@@ -4,11 +4,11 @@
 
 namespace Hacks
 {
-	class ÑBunnyHop : public CHackingFeature
+	class CBunnyHop : public CHackingFeature
 	{
 	public:
 		void Work() override;
-		ÑBunnyHop(Settings::CBunnyHopSettings* pSettings);
+		CBunnyHop(Settings::CBunnyHopSettings* pSettings);
 	private:
 		int m_iPerfectJumps = 0;
 	};

@@ -1,10 +1,9 @@
 #include "CBoxEsp.h"
+#include "../../imgui/imgui_internal.h"
 using namespace Esp;
 
 void CBoxEsp::InternalRenderAt(CBaseEntity* pEntity)
 {
-    POLY_MARKER;
-
     auto pSettings = GetSettings<Settings::BoxEspSettings>();
 
     if (!pSettings->m_bActive)

@@ -1,5 +1,23 @@
 #include "CSettingsWindow.h"
+#include "../../Globals/GlobalVars.h"
+#include "../../imgui/imgui_internal.h"
+#include <format>
 
+class CLabelSettings
+{
+public:
+	CLabelSettings(std::string& name, bool* pActive, int* pPriority, ImColor* color)
+	{
+		m_sName     = name;
+		m_pActive   = pActive;
+		m_pPriority = pPriority;
+		m_pColor    = color;
+	};
+	std::string		m_sName;
+	bool*			m_pActive;
+	int*			m_pPriority;
+	ImColor*		m_pColor;
+};
 UI::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CMessageLineList* pMessageLineList, Settings::CAllSettings* pAllSetting, bool* pShowKeyBinderDialog) : CBaseWindow(pDevice, hModule)
 {
 	m_pAllSettings          = pAllSetting;
@@ -196,33 +214,40 @@ void UI::CSettingsWindow::DrawEspChild()
 	}
 
 	ImGui::SameLine();
-	ImGui::BeginChild(xorstr("###LabelEsp"), blockSize, true);
+	ImGui::BeginChild(xorstr("###LabelEsp"), blockSize + ImVec2(0, 100), true, m_iImGuiStyle);
 	{
 		ImGui::Text(xorstr("Labels"));
 
 		const char* positions[] = { "Left alligned", "Top alligned" };
 		ImGui::Combo(xorstr("###LabelDrawPos"), &m_pAllSettings->m_LabelEspSettings.m_iDrawPos, positions, IM_ARRAYSIZE(positions));
 
-		ImGui::ColorEdit4(xorstr("###NameLabelColor"), (float*)&m_pAllSettings->m_LabelEspSettings.m_NameLabelColor, ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Name"), &m_pAllSettings->m_LabelEspSettings.m_bDrawName);
 
-		ImGui::Image(m_pTexureAtomaticColorIcon, ImVec2(21, 21));
-		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Health"), &m_pAllSettings->m_LabelEspSettings.m_bDrawHealth);
+		for (auto& pLabel : m_pAllSettings->m_LabelEspSettings.m_Labels)
+		{
+			auto& style         = ImGui::GetStyle();
+			auto backUp         = style.WindowPadding;
+			auto backUp2        = style.ItemSpacing;
+			style.WindowPadding = ImVec2(2, 2);
+			style.ItemSpacing   = ImVec2(2, 2);
 
-		ImGui::ColorEdit4(xorstr("###ArmorLabelColor"), (float*)&m_pAllSettings->m_LabelEspSettings.m_ArmorLabelColor, ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Armor"), &m_pAllSettings->m_LabelEspSettings.m_bDrawArmor);
+			ImGui::BeginChild((std::string(xorstr("###Child")) + pLabel->m_sName).c_str(), ImVec2(150, 25), true, m_iImGuiStyle);
+			{
+				ImGui::ColorEdit4((std::string(xorstr("###")) + pLabel->m_sName).c_str(), (float*)&pLabel->m_Color, ImGuiColorEditFlags_NoInputs);
+				ImGui::SameLine();
 
-		ImGui::ColorEdit4(xorstr("###DistanceLabelColor"), (float*)&m_pAllSettings->m_LabelEspSettings.m_DistanceLabelColor, ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Distance"), &m_pAllSettings->m_LabelEspSettings.m_bDrawDistance);
+				ImGui::PushItemWidth(20);
+				ImGui::InputInt((std::string("###Priority") + pLabel->m_sName).c_str(), &pLabel->m_iPriority, 0);
+				ImGui::PopItemWidth();
 
-		ImGui::ColorEdit4(xorstr("###Visibility"), (float*)&m_pAllSettings->m_LabelEspSettings.m_VisibilityLabelColor, ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Visibility"), &m_pAllSettings->m_LabelEspSettings.m_bDrawVisibility);
-		ImGui::ColorEdit4(xorstr("###Gloves"), (float*)&m_pAllSettings->m_LabelEspSettings.m_GlovesColor, ImGuiColorEditFlags_NoInputs);
+				ImGui::SameLine();
+
+				ImGui::Checkbox(pLabel->m_sName.c_str(), &pLabel->m_bActive);
+				ImGui::EndChild();
+				style.WindowPadding = backUp;
+				style.ItemSpacing   = backUp2;
+			}
+		}
+
 		ImGui::EndChild();
 	}
 
@@ -235,9 +260,9 @@ void UI::CSettingsWindow::DrawEspChild()
 
 		ImGui::ColorEdit4(xorstr("###ArmorBarColor"), (float*)&m_pAllSettings->m_BarEspSettings.m_ArmorColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Armor bar"),         &m_pAllSettings->m_BarEspSettings.m_bDrawArmorBar);
+		ImGui::Checkbox(xorstr("Armor bar"),          &m_pAllSettings->m_BarEspSettings.m_bDrawArmorBar);
 
-		ImGui::ColorEdit4(xorstr("###BgCol"), (float*)&m_pAllSettings->m_BarEspSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("###BgCol"),        (float*)&m_pAllSettings->m_BarEspSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
 		ImGui::Text(xorstr("Background fill"));
 

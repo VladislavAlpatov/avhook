@@ -3,7 +3,6 @@ using namespace Esp;
 
 void CSnapLinesEsp::InternalRenderAt(CBaseEntity* pEntity)
 {
-    POLY_MARKER;
     auto pSettings = GetSettings<Settings::SnapLinesSettings>();
     if (!pSettings->m_bActive)
         return;

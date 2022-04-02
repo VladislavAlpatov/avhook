@@ -1,9 +1,5 @@
 #pragma once
 #include "CBaseWindow.h"
-#include "../../Web/httplib.h"
-
-#include <thread>
-#include "../../Globals/GlobalVars.h"
 #include "../../Web/CAVhookServerApi.h"
 #include "../MessageLine/CMessageLine.h"
 

@@ -1,8 +1,4 @@
 #pragma once
-#include <thread>
-#include <Windows.h>
-#include "../../RazerSDK/CRazer.h"
-#include "../../Globals/GlobalVars.h"
 
 namespace Routines
 {

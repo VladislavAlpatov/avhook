@@ -4,8 +4,6 @@ using namespace Esp;
 void CSnapLinesEsp::InternalRenderAt(CBaseEntity* pEntity)
 {
     auto pSettings = GetSettings<Settings::SnapLinesSettings>();
-    if (!pSettings->m_bActive)
-        return;
 
     ImVec3 pos;
 
@@ -24,8 +22,6 @@ void CSnapLinesEsp::InternalRenderAt(CBaseEntity* pEntity)
 
     ImVec3 entity_screen_pos = WorldToScreen(pos);
 
-    if (entity_screen_pos.z < 0.1f)
-        return;
 
     ImVec2 window_size = ImGui::GetMainViewport()->Size;
 

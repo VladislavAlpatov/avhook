@@ -185,6 +185,9 @@ namespace Settings
 			if (this == &other)
 				return *this;
 
+			m_iDrawPos = other.m_iDrawPos;
+			m_bActive  = other.m_bActive;
+
 			for (auto pLabel : m_Labels)
 			{
 				delete pLabel;
@@ -209,7 +212,7 @@ namespace Settings
 		CLabelEspSettings(const CLabelEspSettings& other)
 		{
 			m_bActive = other.m_bActive;
-			
+			m_iDrawPos = other.m_iDrawPos;
 			if (other.m_Labels.empty())
 				return;
 			

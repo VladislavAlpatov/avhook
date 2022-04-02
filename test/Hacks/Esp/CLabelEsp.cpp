@@ -46,6 +46,9 @@ void Esp::CLabelEsp::DrawLabelsAtTop(const CBaseEntity* pEntity, const std::vect
 
     for (auto pLabel : labels)
     {
+        if (!pLabel->m_bActive)
+            continue;
+
         if (pLabel->Render(bottomLeft, pEntity))
             bottomLeft.y -= 13.f;
     }

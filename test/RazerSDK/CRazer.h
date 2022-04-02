@@ -16,10 +16,10 @@ class CRazer
 public:
 	CRazer()
 	{
-		m_RazerModule = GetModuleHandle(xorstr("RzChromaSDK"));
+		m_RazerModule = GetModuleHandleA(xorstr("RzChromaSDK"));
 		
 		if (m_RazerModule == nullptr)
-            m_RazerModule = LoadLibrary(xorstr("C:\\Windows\\SysWOW64\\RzChromaSDK.dll"));
+            m_RazerModule = LoadLibraryA(xorstr("C:\\Windows\\SysWOW64\\RzChromaSDK.dll"));
 
 	}
     bool isSupported()

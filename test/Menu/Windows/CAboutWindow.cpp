@@ -5,7 +5,7 @@
 
 UI::CAboutWindow::CAboutWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule) : CBaseWindow(pDevice, hModule)
 {
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP1), &m_pTextureIcon);
+	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP1), &m_pTextureIcon);
 	D3DXCreateTextureFromFileInMemory(pDevice, RawData::AVhookLogoData, sizeof(RawData::AVhookLogoData), &m_pTexureCheatLogo);
 }
 
@@ -39,10 +39,10 @@ void UI::CAboutWindow::Render()
 
 		ImGui::SetCursorPos(ImVec2(115, 80));
 		if (ImGui::Button(xorstr("SITE"), ImVec2(100, 25)))
-			ShellExecute(0, 0, xorstr("https://avhook.ru/"), 0, 0, SW_SHOW);
+			ShellExecuteA(0, 0, xorstr("https://avhook.ru/"), 0, 0, SW_SHOW);
 		ImGui::SameLine();
 		if (ImGui::Button(xorstr("DISCORD"), ImVec2(100, 25)))
-			ShellExecute(0, 0, xorstr("https://discord.gg/PqND3RxTCP"), 0, 0, SW_SHOW);
+			ShellExecuteA(0, 0, xorstr("https://discord.gg/PqND3RxTCP"), 0, 0, SW_SHOW);
 
 		KeepWindowInSreenArea();
 		ImGui::End();

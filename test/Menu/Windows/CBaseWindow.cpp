@@ -7,11 +7,10 @@ UI::CBaseWindow::CBaseWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule)
 
 	ImFontConfig fontBUilderConfig;
 	fontBUilderConfig.FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_Monochrome | ImGuiFreeTypeBuilderFlags_MonoHinting;
-
 	auto imGuiIo = ImGui::GetIO();
-	m_pFontSmall      = imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdana.ttf"), 11.f, &fontBUilderConfig);
-	m_pFontMedium     = imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdana.ttf"), 15.f, &fontBUilderConfig);
-	m_pFontMediumBold = imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 15.f, &fontBUilderConfig);
+	m_pFontSmall      = imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdana.ttf"),  11.f, &fontBUilderConfig, imGuiIo.Fonts->GetGlyphRangesCyrillic());
+	m_pFontMedium     = imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdana.ttf"),  15.f, &fontBUilderConfig, imGuiIo.Fonts->GetGlyphRangesCyrillic());
+	m_pFontMediumBold = imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 15.f, &fontBUilderConfig, imGuiIo.Fonts->GetGlyphRangesCyrillic());
 }
 
 void UI::CBaseWindow::Toggle()

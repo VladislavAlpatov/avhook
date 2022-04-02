@@ -1,7 +1,8 @@
-#include "CSettingsWindow.h"
+﻿#include "CSettingsWindow.h"
 #include "../../Globals/GlobalVars.h"
 #include "../../imgui/imgui_internal.h"
-#include <format>
+#include <fmt/format.h>
+
 
 class CLabelSettings
 {
@@ -25,11 +26,11 @@ UI::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule
 	m_pMessageLineList      = pMessageLineList;
 	m_BindListener          = Routines::CBindListener(&m_pAllSettings->m_AimBotSettings.m_iBindKey, m_pShowKeyBinderDialog);
 
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP5),  &m_pTextureIcon);
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP9),  &m_pTexureAimBotIcon);
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP10), &m_pTexureEspIcon);
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP11), &m_pTexureMiscIcon);
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP8),  &m_pTexureAtomaticColorIcon);
+	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP5),  &m_pTextureIcon);
+	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP9),  &m_pTexureAimBotIcon);
+	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP10), &m_pTexureEspIcon);
+	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP11), &m_pTexureMiscIcon);
+	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP8),  &m_pTexureAtomaticColorIcon);
 }
 std::string UI::CSettingsWindow::VirtualKeyNumberToString(int keyNumber)
 {
@@ -222,6 +223,35 @@ void UI::CSettingsWindow::DrawEspChild()
 		ImGui::Combo(xorstr("###LabelDrawPos"), &m_pAllSettings->m_LabelEspSettings.m_iDrawPos, positions, IM_ARRAYSIZE(positions));
 
 
+		for (int i = 0; i < m_pAllSettings->m_LabelEspSettings.m_Labels.size(); ++i)
+		{
+			auto& style = ImGui::GetStyle();
+			auto backUp = style.WindowPadding;
+			auto backUp2 = style.ItemSpacing;
+			style.WindowPadding = ImVec2(2, 2);
+			style.ItemSpacing = ImVec2(2, 2);
+			auto pCurrentLabel = m_pAllSettings->m_LabelEspSettings.m_Labels[i];
+			ImGui::BeginChild((std::string(xorstr("###Child")) + pCurrentLabel->m_sName).c_str(), ImVec2(150, 25), true, m_iImGuiStyle);
+			{
+				ImGui::ColorEdit4((std::string(xorstr("###")) + pCurrentLabel->m_sName).c_str(), (float*)&pCurrentLabel->m_Color, ImGuiColorEditFlags_NoInputs);
+				ImGui::SameLine();
+
+				ImGui::PushItemWidth(20);
+				ImGui::InputInt((std::string("###Priority") + pCurrentLabel->m_sName).c_str(), &pCurrentLabel->m_iPriority, 0);
+				ImGui::PopItemWidth();
+
+
+				ImGui::Button("∨");
+				ImGui::SameLine();
+				ImGui::Button("∨");
+				ImGui::SameLine();
+
+				ImGui::Checkbox(pCurrentLabel->m_sName.c_str(), &pCurrentLabel->m_bActive);
+				ImGui::EndChild();
+				style.WindowPadding = backUp;
+				style.ItemSpacing = backUp2;
+			}
+		}
 		for (auto& pLabel : m_pAllSettings->m_LabelEspSettings.m_Labels)
 		{
 			auto& style         = ImGui::GetStyle();
@@ -312,9 +342,9 @@ void UI::CSettingsWindow::DrawCfgChild()
 			CConfigLoader cfg(m_pAllSettings->m_Name.c_str(), &GlobalVars::settings);
 
 			if (cfg.LoadConfigFile(m_pAllSettings->m_Name.c_str()))
-				m_pMessageLineList->Add(std::format(xorstr("Loaded config: \"{}\""), m_pAllSettings->m_Name.c_str()), 2000);
+				m_pMessageLineList->Add(fmt::format(xorstr("Loaded config: \"{}\""), m_pAllSettings->m_Name.c_str()), 2000);
 			else
-				m_pMessageLineList->Add(std::format(xorstr("Loading error."), m_pAllSettings->m_Name.c_str()), 2000);
+				m_pMessageLineList->Add(fmt::format(xorstr("Loading error."), m_pAllSettings->m_Name.c_str()), 2000);
 
 		}
 		ImGui::SameLine();

@@ -11,40 +11,6 @@
 
 #include "MinHook.h"
 
-LPVOID GetVirtualFunctionAddr(int index)
-{
-	auto pD3D = Direct3DCreate9(D3D_SDK_VERSION);
-
-	LPDIRECT3DDEVICE9        pDevice      = NULL;
-	D3DPRESENT_PARAMETERS    deviceParams = {};
-	// Create the D3DDevice
-	ZeroMemory(&deviceParams, sizeof(deviceParams));
-
-	deviceParams.Windowed   = TRUE;
-	deviceParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
-
-	auto result = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, FindWindow(NULL, WINDOW_NAME), D3DCREATE_SOFTWARE_VERTEXPROCESSING, &deviceParams, &pDevice);
-
-	// If Device creation is failed then window is in fullscreen mode and we must change flag and try again
-	if (FAILED(result))
-	{
-		deviceParams.Windowed = FALSE;
-		pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, FindWindow(NULL, WINDOW_NAME), D3DCREATE_SOFTWARE_VERTEXPROCESSING, &deviceParams, &pDevice);
-	}
-	// Get vtable pointer and get function addr by index
-	LPVOID addr = NULL;
-
-	if (pDevice)
-	{
-		addr = (*(LPVOID**)pDevice)[index];
-
-		pDevice->Release();
-		pD3D->Release();
-	}
-
-	return addr;
-}
-
 int __stdcall  hooks::hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a4, int a5)
 {
 	POLY_MARKER
@@ -76,7 +42,7 @@ void hooks::Attach(HMODULE ihModule)
 	auto createMoveAddr = CMemory::FindPattern(xorstr("client.dll"), xorstr("\x55\x8B\xEC\x56\x8D\x75\x04\x8B"), xorstr("xxxxxxxx"))[0];
 	MH_CreateHook((LPVOID*)createMoveAddr, &hCreateMove, (LPVOID*)&oCreateMove);
 
-	DWORD DrawIndexedPrimitiveAddr = (DWORD)(GetModuleHandle(xorstr("d3d9.dll"))) + 0x627b0;
+	DWORD DrawIndexedPrimitiveAddr = (DWORD)(GetModuleHandleA(xorstr("d3d9.dll"))) + 0x627b0;
 	//MH_CreateHook((LPVOID*)DrawIndexedPrimitiveAddr, &hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
 	//MH_CreateHook(GetProcAddress(GetModuleHandle("ntdll"), xorstr("NtQueryVirtualMemory")), &hNtQueryVirtualMemory, (LPVOID*)&oNtQueryVirtualMemory);
 	MH_EnableHook(MH_ALL_HOOKS);

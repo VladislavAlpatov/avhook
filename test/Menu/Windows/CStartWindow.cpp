@@ -1,4 +1,4 @@
-#include "CStartWindow.h"
+﻿#include "CStartWindow.h"
 
 UI::CStartWindow::CStartWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* pAboutWindow, CBaseWindow* pPlayerListWindow, CBaseWindow* pSettingsWindow) : CBaseWindow(pDevice, hModule)
 {

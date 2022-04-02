@@ -19,7 +19,7 @@ namespace SSDK
 	T* GetInterface(const char* dllname, const char* interfacename)
 	{
 		typedef void* (__cdecl* tCreateInterface)(const char* name, int* returncode);
-		tCreateInterface CreateInterFace = reinterpret_cast<tCreateInterface>(GetProcAddress(GetModuleHandle(dllname), xorstr("CreateInterface")));
+		tCreateInterface CreateInterFace = reinterpret_cast<tCreateInterface>(GetProcAddress(GetModuleHandleA(dllname), xorstr("CreateInterface")));
 
 		int returnCode = 0;
 

@@ -1,11 +1,12 @@
-#include "CNetWorkWindow.h"
+﻿#include "CNetWorkWindow.h"
 #include <thread>
 #include "../../Globals/GlobalVars.h"
+#include <fmt/format.h>
 
 UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CMessageLineList* pMessageLineList) : CBaseWindow(pDevice, hModule)
 {
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP12), &m_pTexureDefaulteAvatar);
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCE(IDB_BITMAP13), &m_pTextureIcon);
+	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP12), &m_pTexureDefaulteAvatar);
+	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP13), &m_pTextureIcon);
 
 	m_pMessageLineList = pMessageLineList;
 	auto avatarRawData = m_ApiClient.GetRawAvatarData();
@@ -125,7 +126,7 @@ void UI::CNetWorkWindow::Render()
 				if (ImGui::Button(xorstr("Import"), ImVec2(70, 20)))
 				{
 					GlobalVars::settings = m_ConfgsList[selectedCfgId].m_Settings;
-					m_pMessageLineList->Add(std::format(xorstr("Config is loaded from the cloud: {}"), m_ConfgsList[selectedCfgId].m_Settings.m_Name), 3000);
+					m_pMessageLineList->Add(fmt::format(xorstr("Config is loaded from the cloud: {}"), m_ConfgsList[selectedCfgId].m_Settings.m_Name), 3000);
 				}
 				ImGui::SameLine();
 				if (ImGui::Button(xorstr("Restore"), ImVec2(70, 20)))
@@ -133,7 +134,7 @@ void UI::CNetWorkWindow::Render()
 					auto payload = [this]
 					{
 						auto defaultSettings = Settings::CAllSettings();
-						defaultSettings.m_Name = std::format(xorstr("Config - {}"), selectedCfgId);
+						defaultSettings.m_Name = fmt::format(xorstr("Config - {}"), selectedCfgId);
 						defaultSettings.m_Name.resize(32);
 
 						bool status = m_ApiClient.UpdateConfig(m_ConfgsList[selectedCfgId].m_iUid, defaultSettings.ToJson());

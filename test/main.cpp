@@ -34,7 +34,7 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 		GlobalVars::bChromaSupport = false;
 	}
 
-	while (!GetModuleHandle(xorstr("serverbrowser.dll")))
+	while (!GetModuleHandleA(xorstr("serverbrowser.dll")))
 		Sleep(100);
 
 	GlobalVars::Init(hModule);
@@ -63,12 +63,12 @@ BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 
 		if (client.Get(xorstr("/")).error() != httplib::Error::Success)
 		{
-			MessageBox(NULL, xorstr("I can't connect to the AVhook servers, check your internet connection, the game will be closed."), xorstr("Connection error"), MB_ICONERROR | MB_OK);
+			MessageBoxA(NULL, xorstr("I can't connect to the AVhook servers, check your internet connection, the game will be closed."), xorstr("Connection error"), MB_ICONERROR | MB_OK);
 			exit(-1);
 		}
 		if (!WebApi::CAVHookServerApi().AuthByToken(GlobalVars::authToken))
 		{
-			MessageBox(NULL, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);
+			MessageBoxA(NULL, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);
 			exit(-1);
 		}
 

@@ -101,6 +101,7 @@ void COverlay::Render()
 			{
 				return GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(first) > GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(second);
 			});
+	
 		// Render Esp
 		for (auto pEntity : validEntities)
 		{
@@ -120,6 +121,13 @@ void COverlay::Render()
 		auto windowSize = ImGui::GetMainViewport()->Size;
 
 		pDrawList->AddRectFilled(ImVec2(), windowSize, ImColor(0, 0, 0, 90));
+
+		std::sort(GlobalVars::settings.m_LabelEspSettings.m_Labels.begin(), GlobalVars::settings.m_LabelEspSettings.m_Labels.end(),
+
+			[](const CLabels::CBaseLabel* first, const CLabels::CBaseLabel* second)
+			{
+				return first->m_iPriority < second->m_iPriority;
+			});
 
 		for (auto window : m_vecWindows)
 		{

@@ -224,15 +224,23 @@ void UI::CSettingsWindow::DrawEspChild()
 
 		for (auto& pLabel : m_pAllSettings->m_LabelEspSettings.m_Labels)
 		{
-			auto& style = ImGui::GetStyle();
-			auto backUp = style.WindowPadding;
-			auto backUp2 = style.ItemSpacing;
+			auto& style         = ImGui::GetStyle();
+			auto backUp         = style.WindowPadding;
+			auto backUp2        = style.ItemSpacing;
 			style.WindowPadding = ImVec2(2, 2);
-			style.ItemSpacing = ImVec2(2, 2);
-			ImGui::BeginChild((std::string(xorstr("###Child")) + pLabel->m_sName).c_str(), ImVec2(120, 25), true, m_iImGuiStyle);
+			style.ItemSpacing   = ImVec2(2, 2);
+
+			ImGui::BeginChild((std::string(xorstr("###Child")) + pLabel->m_sName).c_str(), ImVec2(150, 25), true, m_iImGuiStyle);
 			{
 				ImGui::ColorEdit4((std::string(xorstr("###")) + pLabel->m_sName).c_str(), (float*)&pLabel->m_Color, ImGuiColorEditFlags_NoInputs);
 				ImGui::SameLine();
+
+				ImGui::PushItemWidth(20);
+				ImGui::InputInt((std::string("###Priority") + pLabel->m_sName).c_str(), &pLabel->m_iPriority, 0);
+				ImGui::PopItemWidth();
+
+				ImGui::SameLine();
+
 				ImGui::Checkbox(pLabel->m_sName.c_str(), &pLabel->m_bActive);
 				ImGui::EndChild();
 				style.WindowPadding = backUp;
@@ -252,9 +260,9 @@ void UI::CSettingsWindow::DrawEspChild()
 
 		ImGui::ColorEdit4(xorstr("###ArmorBarColor"), (float*)&m_pAllSettings->m_BarEspSettings.m_ArmorColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Armor bar"),         &m_pAllSettings->m_BarEspSettings.m_bDrawArmorBar);
+		ImGui::Checkbox(xorstr("Armor bar"),          &m_pAllSettings->m_BarEspSettings.m_bDrawArmorBar);
 
-		ImGui::ColorEdit4(xorstr("###BgCol"), (float*)&m_pAllSettings->m_BarEspSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("###BgCol"),        (float*)&m_pAllSettings->m_BarEspSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
 		ImGui::Text(xorstr("Background fill"));
 

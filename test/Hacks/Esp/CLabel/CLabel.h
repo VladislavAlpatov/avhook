@@ -5,9 +5,24 @@
 
 namespace CLabels
 {
+	enum LabelTypeId : int 
+	{
+		Base = -1,
+		Name,
+		Heatlh,
+		Armor,
+		Distance,
+		Visibility,
+		AimbotTarget,
+	};
+
 	class CBaseLabel
 	{
 	public:
+		CBaseLabel()
+		{
+
+		}
 		CBaseLabel(const std::string& name, bool bActive, int iPriority, const ImColor& color)
 		{
 			m_sName     = name;
@@ -15,7 +30,8 @@ namespace CLabels
 			m_iPriority = iPriority;
 			m_Color     = color;
 		};
-		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) = 0;
+		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) { return false; };
+		virtual int  GetTypeId() { return LabelTypeId::Base; }
 		std::string		m_sName;
 		bool            m_bActive;
 		int             m_iPriority;
@@ -27,6 +43,7 @@ namespace CLabels
 	public:
 		CNameLabel(const std::string& name, bool bActive, int iPriority, const ImColor& color) : CBaseLabel(name, bActive, iPriority, color) {};
 		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity);
+		virtual int  GetTypeId() { return LabelTypeId::Name; }
 	private:
 
 	};
@@ -36,6 +53,7 @@ namespace CLabels
 	public:
 		CHealthLabel(const std::string& name, bool bActive, int iPriority) : CBaseLabel(name, bActive, iPriority, ImColor(255, 255, 255)) {};
 		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity);
+		virtual int  GetTypeId() { return LabelTypeId::Heatlh; }
 	private:
 
 	};
@@ -45,6 +63,7 @@ namespace CLabels
 	public:
 		CArmorLabel(const std::string& name, bool bActive, int iPriority, const ImColor& color) : CBaseLabel(name, bActive, iPriority, color) {};
 		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity);
+		virtual int  GetTypeId() { return LabelTypeId::Armor; }
 	private:
 
 	};
@@ -54,6 +73,7 @@ namespace CLabels
 	public:
 		CDistanceLabel(const std::string& name, bool bActive, int iPriority, const ImColor& color) : CBaseLabel(name, bActive, iPriority, color) {};
 		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity);
+		virtual int  GetTypeId() { return LabelTypeId::Distance; }
 	private:
 
 	};
@@ -63,6 +83,7 @@ namespace CLabels
 	public:
 		CVisibilityLabel(const std::string& name, bool bActive, int iPriority, const ImColor& color) : CBaseLabel(name, bActive, iPriority, color) {};
 		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity);
+		virtual int  GetTypeId() { return LabelTypeId::Visibility; }
 	private:
 
 	};
@@ -72,5 +93,6 @@ namespace CLabels
 	public:
 		CAimBotTargetLabel(const std::string& name, bool bActive, int iPriority, const ImColor& color) : CBaseLabel(name, bActive, iPriority, color) {};
 		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity);
+		virtual int  GetTypeId() { return LabelTypeId::AimbotTarget; }
 	};
 }

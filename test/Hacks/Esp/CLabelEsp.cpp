@@ -6,14 +6,7 @@ void CLabelEsp::InternalRenderAt(CBaseEntity* pEntity)
 {
 	auto pSettings = GetSettings<Settings::CLabelEspSettings>();
 
-    auto pLabels = &GlobalVars::settings.m_LabelEspSettings.m_Labels;
-    
-    std::sort(pLabels->begin(), pLabels->end(),
-
-        [](const CLabels::CBaseLabel* first, const CLabels::CBaseLabel* second)
-        {
-            return first->m_iPriority < second->m_iPriority;
-        });
+    auto pLabels = &pSettings->m_Labels;
 
     // Rednder labels
     if(pSettings->m_iDrawPos == Settings::CLabelEspSettings::LABELS_ALLIGN::LEFT)

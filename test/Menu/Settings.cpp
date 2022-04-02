@@ -1,5 +1,6 @@
+#pragma once
 #include "Settings.h"
-
+#include "../Utils/xorstr.h"
 using namespace Settings;
 
 json CBaseSettings::ToJson()
@@ -162,12 +163,12 @@ json BarEspSettings::ToJson()
 };
 BarEspSettings::BarEspSettings(const json& jsn)
 {
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawHealthBar"), &m_bDrawHealthBar);
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawArmorBar"), &m_bDrawArmorBar);
-	SetValueIfFiledExistInJson<int>(jsn, xorstr("Thickness"), &m_iThickness);
-	SetValueIfFiledExistInJson(jsn, xorstr("ArmorColor"), &m_ArmorColor);
-	SetValueIfFiledExistInJson(jsn, xorstr("BackGroundColor"), &m_BackGroundColor);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"),          &m_bActive);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawHealthBar"),   &m_bDrawHealthBar);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawArmorBar"),    &m_bDrawArmorBar);
+	SetValueIfFiledExistInJson<int>(jsn,  xorstr("Thickness"),       &m_iThickness);
+	SetValueIfFiledExistInJson(jsn,       xorstr("ArmorColor"),      &m_ArmorColor);
+	SetValueIfFiledExistInJson(jsn,       xorstr("BackGroundColor"), &m_BackGroundColor);
 }
 
 json CRadarSettings::ToJson()
@@ -188,35 +189,72 @@ json CRadarSettings::ToJson()
 json CLabelEspSettings::ToJson()
 {
 	json jsn;
+	std::vector<json> lablesJson;
+	jsn[xorstr("iDrawPos")] = m_iDrawPos;
 
-	jsn[xorstr("Active")] = m_bActive;
-	jsn[xorstr("DrawDistance")] = m_bDrawDistance;
-	jsn[xorstr("DrawHealth")] = m_bDrawHealth;
-	jsn[xorstr("DrawArmor")] = m_bDrawArmor;
-	jsn[xorstr("DrawName")] = m_bDrawName;
-	jsn[xorstr("DrawVisibility")] = m_bDrawVisibility;
-	jsn[xorstr("DrawAimbot")] = m_bDrawAimbot;
+	for (auto pLabel : m_Labels)
+	{
+		json labelJson;
+		labelJson[xorstr("bActive")]   = pLabel->m_bActive;
+		labelJson[xorstr("iPriority")] = pLabel->m_iPriority;
+		labelJson[xorstr("Color")]     = ImColorToJsn(pLabel->m_Color);
+		labelJson[xorstr("Name")]      = pLabel->m_sName;
+		labelJson[xorstr("Type")]      = pLabel->GetTypeId();
 
-	jsn[xorstr("NameLabelColor")] = ImColorToJsn(m_NameLabelColor);
-	jsn[xorstr("DistanceLabelColor")] = ImColorToJsn(m_DistanceLabelColor);
-	jsn[xorstr("ArmorLabelColor")] = ImColorToJsn(m_ArmorLabelColor);
-	jsn[xorstr("VisibilityLabelColor")] = ImColorToJsn(m_VisibilityLabelColor);
+		lablesJson.push_back(labelJson);
+
+	}
+	jsn[xorstr("Labels")] = lablesJson;
 
 	return jsn;
 };
-CLabelEspSettings::CLabelEspSettings(const json& jsn) : CLabelEspSettings::CLabelEspSettings()
+CLabelEspSettings::CLabelEspSettings(const json& jsn) : CLabelEspSettings()
 {
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawName"), &m_bDrawName);
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawDistance"), &m_bDrawDistance);
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawHealth"), &m_bDrawHealth);
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawArmor"), &m_bDrawArmor);
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawVisibility"), &m_bDrawVisibility);
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawAimbot"), &m_bDrawAimbot);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("iDrawPos"), &m_iDrawPos);
 
-	SetValueIfFiledExistInJson(jsn, xorstr("NameLabelColor"), &m_NameLabelColor);
-	SetValueIfFiledExistInJson(jsn, xorstr("DistanceLabelColor"), &m_DistanceLabelColor);
-	SetValueIfFiledExistInJson(jsn, xorstr("ArmorLabelColor"), &m_ArmorLabelColor);
-	SetValueIfFiledExistInJson(jsn, xorstr("VisibilityLabelColor"), &m_VisibilityLabelColor);
+	if (!jsn.contains(xorstr("Labels")))
+		return;
+
+	for (auto pLabel : m_Labels)
+	{
+		delete pLabel;
+	}
+	m_Labels.clear();
+
+	for (auto& jsnLabel : jsn[xorstr("Labels")].get<std::vector<json>>())
+	{
+		CLabels::CBaseLabel* pLabel = nullptr;
+		
+		switch (jsnLabel["Type"].get<int>())
+		{
+		case CLabels::LabelTypeId::Name:
+			pLabel = new CLabels::CNameLabel(jsnLabel[xorstr("Name")].get<std::string>(),
+				jsnLabel[xorstr("bActive")].get<bool>(), jsnLabel[xorstr("iPriority")].get<int>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<json>()));
+			break;
+		case CLabels::LabelTypeId::Heatlh:
+			pLabel = new CLabels::CHealthLabel(jsnLabel[xorstr("Name")].get<std::string>(),
+				jsnLabel[xorstr("bActive")].get<bool>(), jsnLabel[xorstr("iPriority")].get<int>());
+			break;
+		case CLabels::LabelTypeId::Distance:
+			pLabel = new CLabels::CDistanceLabel(jsnLabel[xorstr("Name")].get<std::string>(),
+				jsnLabel[xorstr("bActive")].get<bool>(), jsnLabel[xorstr("iPriority")].get<int>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<json>()));
+			break;
+		case CLabels::LabelTypeId::Armor:
+			pLabel = new CLabels::CArmorLabel(jsnLabel[xorstr("Name")].get<std::string>(),
+				jsnLabel[xorstr("bActive")].get<bool>(), jsnLabel[xorstr("iPriority")].get<int>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<json>()));
+			break;
+		case CLabels::LabelTypeId::Visibility:
+			pLabel = new CLabels::CVisibilityLabel(jsnLabel[xorstr("Name")].get<std::string>(),
+				jsnLabel[xorstr("bActive")].get<bool>(), jsnLabel[xorstr("iPriority")].get<int>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<json>()));
+			break;
+		case CLabels::LabelTypeId::AimbotTarget:
+			pLabel = new CLabels::CAimBotTargetLabel(jsnLabel[xorstr("Name")].get<std::string>(),
+				jsnLabel[xorstr("bActive")].get<bool>(), jsnLabel[xorstr("iPriority")].get<int>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<json>()));
+			break;
+		}
+		if (pLabel)
+			m_Labels.push_back(pLabel);
+	}
 }
 
 json CBunnyHopSettings::ToJson()
@@ -233,14 +271,14 @@ CBunnyHopSettings::CBunnyHopSettings(const json& jsn) : CBunnyHopSettings::CBunn
 }
 Settings::CAllSettings::CAllSettings(const json& jsn)
 {
-	m_AimBotSettings = Settings::CAimBotSettings(jsn[xorstr("AimBot")].get<nlohmann::json>());
-	m_BarEspSettings = Settings::BarEspSettings(jsn[xorstr("BarEsp")].get<nlohmann::json>());
-	m_BoxEspSettings = Settings::BoxEspSettings(jsn[xorstr("BoxEsp")].get<nlohmann::json>());
-	m_BunnyHopSettings = Settings::CBunnyHopSettings(jsn[xorstr("BunnyHop")].get<nlohmann::json>());
-	m_LabelEspSettings = Settings::CLabelEspSettings(jsn[xorstr("LabelEsp")].get<nlohmann::json>());
-	m_MiscSettings = Settings::MiscSettings(jsn[xorstr("Misc")].get<nlohmann::json>());
-	m_RadarSettings = Settings::CRadarSettings(jsn[xorstr("Radar")].get<nlohmann::json>());
-	m_SnapLinesSettings = Settings::SnapLinesSettings(jsn[xorstr("SnapLinesEsp")].get<nlohmann::json>());
+	m_AimBotSettings     = Settings::CAimBotSettings(jsn[xorstr("AimBot")].get<nlohmann::json>());
+	m_BarEspSettings     = Settings::BarEspSettings(jsn[xorstr("BarEsp")].get<nlohmann::json>());
+	m_BoxEspSettings     = Settings::BoxEspSettings(jsn[xorstr("BoxEsp")].get<nlohmann::json>());
+	m_BunnyHopSettings   = Settings::CBunnyHopSettings(jsn[xorstr("BunnyHop")].get<nlohmann::json>());
+	m_LabelEspSettings   = Settings::CLabelEspSettings(jsn[xorstr("LabelEsp")].get<nlohmann::json>());
+	m_MiscSettings       = Settings::MiscSettings(jsn[xorstr("Misc")].get<nlohmann::json>());
+	m_RadarSettings      = Settings::CRadarSettings(jsn[xorstr("Radar")].get<nlohmann::json>());
+	m_SnapLinesSettings  = Settings::SnapLinesSettings(jsn[xorstr("SnapLinesEsp")].get<nlohmann::json>());
 	m_TriggerBotSettings = Settings::TriggerBotSettings(jsn[xorstr("TriggerBot")].get<nlohmann::json>());
 	auto tmp = jsn[xorstr("CfgName")].get<std::string>();
 	m_Name = std::string(tmp.c_str(), 32);

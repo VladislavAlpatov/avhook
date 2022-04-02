@@ -2,11 +2,10 @@
 #include <Windows.h>
 
 #include "../imgui/imgui.h"
-#include "../Utils/xorstr.h"
 #include "../SDK/CBaseEntity.h"
 #include <nlohmann/json.hpp>
-#include <typeinfo>
 #include "../Hacks/Esp/CLabel/CLabel.h"
+
 namespace Settings
 {
 	using namespace nlohmann;
@@ -179,22 +178,53 @@ namespace Settings
 			m_Labels.push_back(new CLabels::CDistanceLabel("Distance",          true, 1, ImColor(255, 255, 255)));
 			m_Labels.push_back(new CLabels::CArmorLabel("Armor",                true, 1, ImColor(255, 255, 255)));
 			m_Labels.push_back(new CLabels::CVisibilityLabel("Visibility",      true, 1, ImColor(255, 255, 255)));
-			m_Labels.push_back(new CLabels::CAimBotTargetLabel("Aimbot Target", true, 1, ImColor(255, 255, 255)));
+			m_Labels.push_back(new CLabels::CAimBotTargetLabel("Locked",        true, 1, ImColor(255, 255, 255)));
 		}
-		bool m_bDrawName = false;
-		bool m_bDrawDistance = false;
-		bool m_bDrawHealth = false;
-		bool m_bDrawArmor = false;
-		bool m_bDrawVisibility = false;
-		bool m_bDrawAimbot = false;
-		int  m_iIndexMin = 0;
-		int  m_iIndexMax = 0;
+		CLabelEspSettings& operator=(const CLabelEspSettings& other)
+		{
+			if (this == &other)
+				return *this;
+
+			for (auto pLabel : m_Labels)
+			{
+				delete pLabel;
+			}
+			m_Labels.clear();
+
+			for (auto pLabel : other.m_Labels)
+			{
+				auto pTmpLabel = new CLabels::CBaseLabel();
+				*pTmpLabel = *pLabel;
+
+				// We also must copy vft table to safe original functions! 
+				// if we will not do this object will get base class vft tabls
+				((uintptr_t*)pTmpLabel)[0] = ((uintptr_t*)pLabel)[0];
+
+				m_Labels.push_back(pTmpLabel);
+			}
+				
+			return *this;
+		}
+		
+		CLabelEspSettings(const CLabelEspSettings& other)
+		{
+			m_bActive = other.m_bActive;
+			
+			if (other.m_Labels.empty())
+				return;
+			
+			for (auto pLabel : other.m_Labels)
+			{
+				auto lableCopy = new CLabels::CBaseLabel();
+				*lableCopy     = *pLabel;
+
+				// We also must copy vft table to safe original functions! 
+				// if we will not do this object will get base class vft tabls
+				((uintptr_t*)lableCopy)[0] = ((uintptr_t*)pLabel)[0];
+				m_Labels.push_back(lableCopy);
+			}
+		}
 		int  m_iDrawPos  = 0;
-		ImColor m_GlovesColor = ImColor(255, 255, 255);
-		ImColor m_NameLabelColor = ImColor(255, 255, 255);
-		ImColor m_DistanceLabelColor = ImColor(255, 155, 5);
-		ImColor m_ArmorLabelColor = ImColor(56, 122, 255);
-		ImColor m_VisibilityLabelColor = ImColor(0, 255, 208);
 		std::vector<CLabels::CBaseLabel*> m_Labels;
 		virtual json ToJson();
 		CLabelEspSettings(const json& jsn);
@@ -206,6 +236,9 @@ namespace Settings
 		};
 		~CLabelEspSettings()
 		{
+			if (m_Labels.empty())
+				return;
+
 			for (auto pLabel : m_Labels)
 			{
 				delete pLabel;

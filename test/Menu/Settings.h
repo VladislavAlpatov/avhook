@@ -173,12 +173,12 @@ namespace Settings
 		CLabelEspSettings()
 		{
 			m_bActive = true;
-			m_Labels.push_back(new CLabels::CNameLabel("Name",                  false, 1, ImColor(255, 255, 255)));
-			m_Labels.push_back(new CLabels::CHealthLabel("Health",				false, 1));
-			m_Labels.push_back(new CLabels::CDistanceLabel("Distance",			false, 1, ImColor(255, 255, 255)));
-			m_Labels.push_back(new CLabels::CArmorLabel("Armor",				false, 1, ImColor(255, 255, 255)));
-			m_Labels.push_back(new CLabels::CVisibilityLabel("Visibility",      false, 1, ImColor(255, 255, 255)));
-			m_Labels.push_back(new CLabels::CAimBotTargetLabel("Locked",		false, 1, ImColor(255, 255, 255)));
+			m_Labels.push_back(new CLabels::CNameLabel("Name",                  false,ImColor(255, 255, 255)));
+			m_Labels.push_back(new CLabels::CHealthLabel("Health",				false));
+			m_Labels.push_back(new CLabels::CDistanceLabel("Distance",			false, ImColor(255, 255, 255)));
+			m_Labels.push_back(new CLabels::CArmorLabel("Armor",				false, ImColor(255, 255, 255)));
+			m_Labels.push_back(new CLabels::CVisibilityLabel("Visibility",      false, ImColor(255, 255, 255)));
+			m_Labels.push_back(new CLabels::CAimBotTargetLabel("Locked",		false, ImColor(255, 255, 255)));
 		}
 		CLabelEspSettings& operator=(const CLabelEspSettings& other)
 		{

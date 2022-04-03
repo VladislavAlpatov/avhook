@@ -23,25 +23,23 @@ namespace CLabels
 		{
 
 		}
-		CBaseLabel(const std::string& name, bool bActive, int iPriority, const ImColor& color)
+		CBaseLabel(const std::string& name, bool bActive, const ImColor& color)
 		{
 			m_sName     = name;
 			m_bActive   = bActive;
-			m_iPriority = iPriority;
 			m_Color     = color;
 		};
 		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) { return false; };
 		virtual int  GetTypeId() { return LabelTypeId::Base; }
 		std::string		m_sName;
 		bool            m_bActive;
-		int             m_iPriority;
 		ImColor         m_Color;
 	};
 
 	class CNameLabel : public CBaseLabel
 	{
 	public:
-		CNameLabel(const std::string& name, bool bActive, int iPriority, const ImColor& color) : CBaseLabel(name, bActive, iPriority, color) {};
+		CNameLabel(const std::string& name, bool bActive, const ImColor& color) : CBaseLabel(name, bActive, color) {};
 		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity);
 		virtual int  GetTypeId() { return LabelTypeId::Name; }
 	private:
@@ -51,7 +49,7 @@ namespace CLabels
 	class CHealthLabel : public CBaseLabel
 	{
 	public:
-		CHealthLabel(const std::string& name, bool bActive, int iPriority) : CBaseLabel(name, bActive, iPriority, ImColor(255, 255, 255)) {};
+		CHealthLabel(const std::string& name, bool bActive) : CBaseLabel(name, bActive, ImColor(255, 255, 255)) {};
 		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity);
 		virtual int  GetTypeId() { return LabelTypeId::Heatlh; }
 	private:
@@ -61,7 +59,7 @@ namespace CLabels
 	class CArmorLabel : public CBaseLabel
 	{
 	public:
-		CArmorLabel(const std::string& name, bool bActive, int iPriority, const ImColor& color) : CBaseLabel(name, bActive, iPriority, color) {};
+		CArmorLabel(const std::string& name, bool bActive, const ImColor& color) : CBaseLabel(name, bActive, color) {};
 		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity);
 		virtual int  GetTypeId() { return LabelTypeId::Armor; }
 	private:
@@ -71,7 +69,7 @@ namespace CLabels
 	class CDistanceLabel : public CBaseLabel
 	{
 	public:
-		CDistanceLabel(const std::string& name, bool bActive, int iPriority, const ImColor& color) : CBaseLabel(name, bActive, iPriority, color) {};
+		CDistanceLabel(const std::string& name, bool bActive, const ImColor& color) : CBaseLabel(name, bActive, color) {};
 		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity);
 		virtual int  GetTypeId() { return LabelTypeId::Distance; }
 	private:
@@ -81,7 +79,7 @@ namespace CLabels
 	class CVisibilityLabel : public CBaseLabel
 	{
 	public:
-		CVisibilityLabel(const std::string& name, bool bActive, int iPriority, const ImColor& color) : CBaseLabel(name, bActive, iPriority, color) {};
+		CVisibilityLabel(const std::string& name, bool bActive, const ImColor& color) : CBaseLabel(name, bActive, color) {};
 		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity);
 		virtual int  GetTypeId() { return LabelTypeId::Visibility; }
 	private:
@@ -91,7 +89,7 @@ namespace CLabels
 	class CAimBotTargetLabel : public CBaseLabel
 	{
 	public:
-		CAimBotTargetLabel(const std::string& name, bool bActive, int iPriority, const ImColor& color) : CBaseLabel(name, bActive, iPriority, color) {};
+		CAimBotTargetLabel(const std::string& name, bool bActive, const ImColor& color) : CBaseLabel(name, bActive, color) {};
 		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity);
 		virtual int  GetTypeId() { return LabelTypeId::AimbotTarget; }
 	};

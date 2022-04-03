@@ -186,7 +186,7 @@ void UI::CSettingsWindow::DrawEspChild()
 	const char* drawOptions[] = { "Custom", "Health" };
 	const ImVec2 blockSize    = ImVec2(170, 145);
 
-	ImGui::BeginChild(xorstr("###SnapLinesESP"), blockSize, true);
+	ImGui::BeginChild(xorstr("###SnapLinesESP"), ImVec2(120, 135), true);
 	{
 		ImGui::Text(xorstr("Snap Lines"));
 		ImGui::ColorEdit4(xorstr("###lineColor"),     (float*)&m_pAllSettings->m_SnapLinesSettings.m_Color, ImGuiColorEditFlags_NoInputs);
@@ -200,7 +200,7 @@ void UI::CSettingsWindow::DrawEspChild()
 	}
 
 	ImGui::SameLine();
-	ImGui::BeginChild(xorstr("###Boxes"), blockSize, true);
+	ImGui::BeginChild(xorstr("###Boxes"), ImVec2(120, 135), true);
 	{
 		const char* styles[] = {"Solid", "Cornered"};
 		ImGui::Text(xorstr("Boxes"));
@@ -215,7 +215,7 @@ void UI::CSettingsWindow::DrawEspChild()
 	}
 
 	ImGui::SameLine();
-	ImGui::BeginChild(xorstr("###LabelEsp"), blockSize + ImVec2(0, 100), true, m_iImGuiStyle);
+	ImGui::BeginChild(xorstr("###LabelEsp"), blockSize + ImVec2(30, 100), true, m_iImGuiStyle);
 	{
 		ImGui::Text(xorstr("Labels"));
 
@@ -231,50 +231,24 @@ void UI::CSettingsWindow::DrawEspChild()
 			style.WindowPadding = ImVec2(2, 2);
 			style.ItemSpacing = ImVec2(2, 2);
 			auto pCurrentLabel = m_pAllSettings->m_LabelEspSettings.m_Labels[i];
-			ImGui::BeginChild((std::string(xorstr("###Child")) + pCurrentLabel->m_sName).c_str(), ImVec2(150, 25), true, m_iImGuiStyle);
+			ImGui::BeginChild((std::string(xorstr("###Child")) + pCurrentLabel->m_sName).c_str(), ImVec2(160, 25), true, m_iImGuiStyle);
 			{
-				ImGui::ColorEdit4((std::string(xorstr("###")) + pCurrentLabel->m_sName).c_str(), (float*)&pCurrentLabel->m_Color, ImGuiColorEditFlags_NoInputs);
+				ImGui::ColorEdit4((std::string(xorstr("###Color")) + pCurrentLabel->m_sName).c_str(), (float*)&pCurrentLabel->m_Color, ImGuiColorEditFlags_NoInputs);
 				ImGui::SameLine();
-
-				ImGui::PushItemWidth(20);
-				ImGui::InputInt((std::string("###Priority") + pCurrentLabel->m_sName).c_str(), &pCurrentLabel->m_iPriority, 0);
-				ImGui::PopItemWidth();
-
-
-				ImGui::Button("∨");
+				if (ImGui::Button(u8"Λ", ImVec2(20, 20)) and i > 0)
+				{
+					std::swap<CLabels::CBaseLabel*>(m_pAllSettings->m_LabelEspSettings.m_Labels[i], m_pAllSettings->m_LabelEspSettings.m_Labels[i - 1]);
+				}
 				ImGui::SameLine();
-				ImGui::Button("∨");
+				if (ImGui::Button(u8"V", ImVec2(20, 20)) and i < m_pAllSettings->m_LabelEspSettings.m_Labels.size() - 1 )
+				{
+					std::swap<CLabels::CBaseLabel*>(m_pAllSettings->m_LabelEspSettings.m_Labels[i+1], m_pAllSettings->m_LabelEspSettings.m_Labels[i]);
+				}
 				ImGui::SameLine();
-
 				ImGui::Checkbox(pCurrentLabel->m_sName.c_str(), &pCurrentLabel->m_bActive);
 				ImGui::EndChild();
 				style.WindowPadding = backUp;
 				style.ItemSpacing = backUp2;
-			}
-		}
-		for (auto& pLabel : m_pAllSettings->m_LabelEspSettings.m_Labels)
-		{
-			auto& style         = ImGui::GetStyle();
-			auto backUp         = style.WindowPadding;
-			auto backUp2        = style.ItemSpacing;
-			style.WindowPadding = ImVec2(2, 2);
-			style.ItemSpacing   = ImVec2(2, 2);
-
-			ImGui::BeginChild((std::string(xorstr("###Child")) + pLabel->m_sName).c_str(), ImVec2(150, 25), true, m_iImGuiStyle);
-			{
-				ImGui::ColorEdit4((std::string(xorstr("###")) + pLabel->m_sName).c_str(), (float*)&pLabel->m_Color, ImGuiColorEditFlags_NoInputs);
-				ImGui::SameLine();
-
-				ImGui::PushItemWidth(20);
-				ImGui::InputInt((std::string("###Priority") + pLabel->m_sName).c_str(), &pLabel->m_iPriority, 0);
-				ImGui::PopItemWidth();
-
-				ImGui::SameLine();
-
-				ImGui::Checkbox(pLabel->m_sName.c_str(), &pLabel->m_bActive);
-				ImGui::EndChild();
-				style.WindowPadding = backUp;
-				style.ItemSpacing   = backUp2;
 			}
 		}
 

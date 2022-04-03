@@ -196,7 +196,6 @@ json CLabelEspSettings::ToJson()
 	{
 		json labelJson;
 		labelJson[xorstr("bActive")]   = pLabel->m_bActive;
-		labelJson[xorstr("iPriority")] = pLabel->m_iPriority;
 		labelJson[xorstr("Color")]     = ImColorToJsn(pLabel->m_Color);
 		labelJson[xorstr("Name")]      = pLabel->m_sName;
 		labelJson[xorstr("Type")]      = pLabel->GetTypeId();
@@ -229,27 +228,27 @@ CLabelEspSettings::CLabelEspSettings(const json& jsn) : CLabelEspSettings()
 		{
 		case CLabels::LabelTypeId::Name:
 			pLabel = new CLabels::CNameLabel(jsnLabel[xorstr("Name")].get<std::string>(),
-				jsnLabel[xorstr("bActive")].get<bool>(), jsnLabel[xorstr("iPriority")].get<int>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<json>()));
+				jsnLabel[xorstr("bActive")].get<bool>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<json>()));
 			break;
 		case CLabels::LabelTypeId::Heatlh:
 			pLabel = new CLabels::CHealthLabel(jsnLabel[xorstr("Name")].get<std::string>(),
-				jsnLabel[xorstr("bActive")].get<bool>(), jsnLabel[xorstr("iPriority")].get<int>());
+				jsnLabel[xorstr("bActive")].get<bool>());
 			break;
 		case CLabels::LabelTypeId::Distance:
 			pLabel = new CLabels::CDistanceLabel(jsnLabel[xorstr("Name")].get<std::string>(),
-				jsnLabel[xorstr("bActive")].get<bool>(), jsnLabel[xorstr("iPriority")].get<int>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<json>()));
+				jsnLabel[xorstr("bActive")].get<bool>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<json>()));
 			break;
 		case CLabels::LabelTypeId::Armor:
 			pLabel = new CLabels::CArmorLabel(jsnLabel[xorstr("Name")].get<std::string>(),
-				jsnLabel[xorstr("bActive")].get<bool>(), jsnLabel[xorstr("iPriority")].get<int>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<json>()));
+				jsnLabel[xorstr("bActive")].get<bool>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<json>()));
 			break;
 		case CLabels::LabelTypeId::Visibility:
 			pLabel = new CLabels::CVisibilityLabel(jsnLabel[xorstr("Name")].get<std::string>(),
-				jsnLabel[xorstr("bActive")].get<bool>(), jsnLabel[xorstr("iPriority")].get<int>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<json>()));
+				jsnLabel[xorstr("bActive")].get<bool>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<json>()));
 			break;
 		case CLabels::LabelTypeId::AimbotTarget:
 			pLabel = new CLabels::CAimBotTargetLabel(jsnLabel[xorstr("Name")].get<std::string>(),
-				jsnLabel[xorstr("bActive")].get<bool>(), jsnLabel[xorstr("iPriority")].get<int>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<json>()));
+				jsnLabel[xorstr("bActive")].get<bool>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<json>()));
 			break;
 		}
 		if (pLabel)

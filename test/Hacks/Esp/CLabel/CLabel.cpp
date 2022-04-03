@@ -36,6 +36,9 @@ bool CDistanceLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* 
 }
 bool CVisibilityLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity)
 {
+	if (!pEntity->m_IsVisible)
+		return false;
+
 	auto pDrawList = ImGui::GetBackgroundDrawList();
 	pDrawList->AddText(vecPosition, m_Color, xorstr("*VISIBLE*"));
 

@@ -14,14 +14,8 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSet
 	
 	ImFontConfig cfg;
 	cfg.FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_Monochrome | ImGuiFreeTypeBuilderFlags_MonoHinting;
-	static const ImWchar ranges[] =
-	{
-		0x0020, 0x00FF, // Basic Latin + Latin Supplement
-		0x0400, 0x044F, // Cyrillic
-		0,
-	};
+	static ImWchar ranges[] = { 0x1, 0xFFFD, 0 };
 	m_pFontEsp  = io.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 13.f, &cfg, ranges);
-
 	auto& style = ImGui::GetStyle();
 	auto& theme = style.Colors;
 
@@ -100,13 +94,6 @@ void COverlay::Render()
 			validEntities.push_back(pEntity);
 			
 		}
-		std::sort(validEntities.begin(), validEntities.end(), 
-
-			[](SSDK::CBaseEntity* first, SSDK::CBaseEntity* second)
-			{
-				return GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(first) > GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(second);
-			});
-	
 		// Render Esp
 		for (auto pEntity : validEntities)
 		{
@@ -126,13 +113,6 @@ void COverlay::Render()
 		auto windowSize = ImGui::GetMainViewport()->Size;
 
 		pDrawList->AddRectFilled(ImVec2(), windowSize, ImColor(0, 0, 0, 90));
-
-		std::sort(GlobalVars::settings.m_LabelEspSettings.m_Labels.begin(), GlobalVars::settings.m_LabelEspSettings.m_Labels.end(),
-
-			[](const CLabels::CBaseLabel* first, const CLabels::CBaseLabel* second)
-			{
-				return first->m_iPriority < second->m_iPriority;
-			});
 
 		for (auto window : m_vecWindows)
 		{

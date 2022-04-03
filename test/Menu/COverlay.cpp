@@ -94,6 +94,13 @@ void COverlay::Render()
 			validEntities.push_back(pEntity);
 			
 		}
+		// sort by distance
+		std::sort(validEntities.begin(), validEntities.end(),
+
+			[](SSDK::CBaseEntity* first, SSDK::CBaseEntity* second)
+			{
+				return GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(first) > GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(second);
+			});
 		// Render Esp
 		for (auto pEntity : validEntities)
 		{

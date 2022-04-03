@@ -186,7 +186,7 @@ void UI::CSettingsWindow::DrawEspChild()
 	const char* drawOptions[] = { "Custom", "Health" };
 	const ImVec2 blockSize    = ImVec2(170, 145);
 
-	ImGui::BeginChild(xorstr("###SnapLinesESP"), ImVec2(120, 135), true);
+	ImGui::BeginChild(xorstr("###SnapLinesESP"), blockSize, true);
 	{
 		ImGui::Text(xorstr("Snap Lines"));
 		ImGui::ColorEdit4(xorstr("###lineColor"),     (float*)&m_pAllSettings->m_SnapLinesSettings.m_Color, ImGuiColorEditFlags_NoInputs);
@@ -200,7 +200,7 @@ void UI::CSettingsWindow::DrawEspChild()
 	}
 
 	ImGui::SameLine();
-	ImGui::BeginChild(xorstr("###Boxes"), ImVec2(120, 135), true);
+	ImGui::BeginChild(xorstr("###Boxes"), blockSize, true);
 	{
 		const char* styles[] = {"Solid", "Cornered"};
 		ImGui::Text(xorstr("Boxes"));
@@ -215,7 +215,44 @@ void UI::CSettingsWindow::DrawEspChild()
 	}
 
 	ImGui::SameLine();
-	ImGui::BeginChild(xorstr("###LabelEsp"), blockSize + ImVec2(30, 100), true, m_iImGuiStyle);
+	ImGui::BeginChild(xorstr("###BaResp"), blockSize, true);
+	{
+		ImGui::Text(xorstr("Bars"));
+		ImGui::Image(m_pTexureAtomaticColorIcon, ImVec2(21, 21));
+		ImGui::SameLine();
+		ImGui::Checkbox(xorstr("Health bar"), &m_pAllSettings->m_BarEspSettings.m_bDrawHealthBar);
+
+		ImGui::ColorEdit4(xorstr("###ArmorBarColor"), (float*)&m_pAllSettings->m_BarEspSettings.m_ArmorColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Checkbox(xorstr("Armor bar"), &m_pAllSettings->m_BarEspSettings.m_bDrawArmorBar);
+
+		ImGui::ColorEdit4(xorstr("###BgCol"), (float*)&m_pAllSettings->m_BarEspSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::Text(xorstr("Background fill"));
+
+		ImGui::InputInt(xorstr("###barsthiccness"), &m_pAllSettings->m_BarEspSettings.m_iThickness);
+		ImGui::EndChild();
+	}
+
+	ImGui::BeginChild(xorstr("###Radar"), blockSize + ImVec2(0, 80), true);
+	{
+		ImGui::Text(xorstr("Radar"));
+		ImGui::Checkbox(xorstr("Active"), &m_pAllSettings->m_RadarSettings.m_bActive);
+		const char* style[] = { "Embedded", "Custom" };
+
+		ImGui::Combo(xorstr("Style###RStyle"), &m_pAllSettings->m_RadarSettings.m_iStyle, style, IM_ARRAYSIZE(style));
+		DrawToolTip(xorstr("Embedded - the standard game radar will be used.\nCustom - avhook radar will be used, which you can\ncustomize yourself, for example, change the color"));
+
+
+		ImGui::ColorEdit4(xorstr("Inactive Color"), (float*)&m_pAllSettings->m_RadarSettings.m_InactiveFeatureColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("Active Color"), (float*)&m_pAllSettings->m_RadarSettings.m_ActiveFeatureColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("Border Color"), (float*)&m_pAllSettings->m_RadarSettings.m_CyrcleBorderColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("Cross Color"), (float*)&m_pAllSettings->m_RadarSettings.m_CrossColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("Background Color"), (float*)&m_pAllSettings->m_RadarSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::EndChild();
+	}
+	ImGui::SameLine();
+	ImGui::BeginChild(xorstr("###LabelEsp"), blockSize + ImVec2(20, 80), true, m_iImGuiStyle);
 	{
 		ImGui::Text(xorstr("Labels"));
 
@@ -255,43 +292,6 @@ void UI::CSettingsWindow::DrawEspChild()
 		ImGui::EndChild();
 	}
 
-	ImGui::BeginChild(xorstr("###BaResp"), blockSize, true);
-	{
-		ImGui::Text(xorstr("Bars"));
-		ImGui::Image(m_pTexureAtomaticColorIcon, ImVec2(21, 21));
-		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Health bar"),        &m_pAllSettings->m_BarEspSettings.m_bDrawHealthBar);
-
-		ImGui::ColorEdit4(xorstr("###ArmorBarColor"), (float*)&m_pAllSettings->m_BarEspSettings.m_ArmorColor, ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Armor bar"),          &m_pAllSettings->m_BarEspSettings.m_bDrawArmorBar);
-
-		ImGui::ColorEdit4(xorstr("###BgCol"),        (float*)&m_pAllSettings->m_BarEspSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Background fill"));
-
-		ImGui::InputInt(xorstr("###barsthiccness"),  &m_pAllSettings->m_BarEspSettings.m_iThickness);
-		ImGui::EndChild();
-	}
-
-	ImGui::SameLine();
-	ImGui::BeginChild(xorstr("###Radar"), blockSize, true);
-	{
-		ImGui::Text(xorstr("Radar"));
-		ImGui::Checkbox(xorstr("Active"), &m_pAllSettings->m_RadarSettings.m_bActive);
-		const char* style[] = {"Embedded", "Custom"};
-
-		ImGui::Combo(xorstr("Style###RStyle"),         &m_pAllSettings->m_RadarSettings.m_iStyle, style, IM_ARRAYSIZE(style));
-		DrawToolTip(xorstr("Embedded - the standard game radar will be used.\nCustom - avhook radar will be used, which you can\ncustomize yourself, for example, change the color"));
-
-
-		ImGui::ColorEdit4(xorstr("Inactive Color"),   (float*)&m_pAllSettings->m_RadarSettings.m_InactiveFeatureColor, ImGuiColorEditFlags_NoInputs);
-		ImGui::ColorEdit4(xorstr("Active Color"),     (float*)&m_pAllSettings->m_RadarSettings.m_ActiveFeatureColor,   ImGuiColorEditFlags_NoInputs);
-		ImGui::ColorEdit4(xorstr("Border Color"),     (float*)&m_pAllSettings->m_RadarSettings.m_CyrcleBorderColor,    ImGuiColorEditFlags_NoInputs);
-		ImGui::ColorEdit4(xorstr("Cross Color"),      (float*)&m_pAllSettings->m_RadarSettings.m_CrossColor,           ImGuiColorEditFlags_NoInputs);
-		ImGui::ColorEdit4(xorstr("Background Color"), (float*)&m_pAllSettings->m_RadarSettings.m_BackGroundColor,      ImGuiColorEditFlags_NoInputs);
-		ImGui::EndChild();
-	}
 }
 void UI::CSettingsWindow::DrawMiscChild()
 {

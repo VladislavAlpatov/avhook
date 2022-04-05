@@ -1,14 +1,16 @@
 #include "TriggerBot.h"
+#include "../Globals/GlobalVars.h"
+
 using namespace Hacks;
 
 TriggerBot::TriggerBot(Settings::TriggerBotSettings* settings) : CHackingFeature(settings)
 {
 
 }
+
+
 void TriggerBot::Work()
 {
-	if (!IsShouldBeActivated())
-		return;
 
 	auto pTriggerBotSettings  = (Settings::TriggerBotSettings*)m_pSettings;
 	CBaseEntity* localplayer  = GlobalVars::pClient->pLocalPlayer;

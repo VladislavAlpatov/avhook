@@ -1,7 +1,5 @@
 #pragma once
 #include "hack.h"
-#include "../SDK/CUserCMD.h"
-#include "../Utils/Marker.h"
 
 namespace Hacks
 {

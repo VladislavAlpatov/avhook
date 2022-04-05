@@ -1,8 +1,8 @@
 #pragma once
 #include <Windows.h>
 #include <Psapi.h>
-#include <vector>
 #include <string>
+#include <vector>
 
 struct SPattern
 {

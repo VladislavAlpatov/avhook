@@ -114,7 +114,7 @@ void UI::CSettingsWindow::Render()
 void UI::CSettingsWindow::DrawAimbotChild()
 {
 	ImGui::SetWindowSize(ImVec2(555, 400));
-	const char* hitboxes[]      = { "Head",   "Body", "Legs" };
+	const char* hitboxes[]      = { "Head",   "Chest", "Pelvis" };
 	const char* priorities[]    = { "FoV",    "Distance" };
 	const char* hitboxFilters[] = { "Static", "Dynamic" };
 

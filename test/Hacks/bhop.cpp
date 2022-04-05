@@ -1,4 +1,6 @@
 #include "bhop.h"
+#include "../Globals/GlobalVars.h"
+
 using namespace Hacks;
 
 

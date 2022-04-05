@@ -397,6 +397,7 @@
     <Image Include="images\profile_icon.bmp" />
     <Image Include="images\radar_icon.bmp" />
     <Image Include="images\settings.bmp" />
+    <Image Include="images\start-button.bmp" />
     <Image Include="images\t-icon.bmp" />
   </ItemGroup>
   <ItemGroup>

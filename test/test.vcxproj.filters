@@ -525,6 +525,9 @@
     <Image Include="images\es_icon_2.bmp">
       <Filter>source</Filter>
     </Image>
+    <Image Include="images\start-button.bmp">
+      <Filter>source</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="images\sound1.bin">

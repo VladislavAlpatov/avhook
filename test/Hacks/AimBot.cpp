@@ -1,4 +1,7 @@
+#pragma once
 #include "AimBot.h"
+#include "../Globals/GlobalVars.h"
+
 using namespace Hacks;
 
 CAimBot::CAimBot(Settings::CAimBotSettings* pSettings, CUserCmd* ppUsrCmd) : CHackingFeature(pSettings)

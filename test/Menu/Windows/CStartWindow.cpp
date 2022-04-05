@@ -5,6 +5,7 @@ UI::CStartWindow::CStartWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBas
 	m_pPlayerListWindow = pPlayerListWindow;
 	m_pAboutWindow      = pAboutWindow;
 	m_pSettingsWindow   = pSettingsWindow;
+
 }
 void UI::CStartWindow::Render()
 {

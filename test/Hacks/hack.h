@@ -3,8 +3,7 @@
 
 #include "../SDK/SDK.h"
 #include "../Menu/Settings.h"
-#include "../Utils/xorstr.h"
-#include "../Globals/GlobalVars.h"
+
 namespace Hacks
 {
 	using namespace SSDK;

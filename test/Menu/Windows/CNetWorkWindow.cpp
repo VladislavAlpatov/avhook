@@ -129,6 +129,9 @@ void UI::CNetWorkWindow::Render()
 					m_pMessageLineList->Add(fmt::format(xorstr("Config is loaded from the cloud: {}"), m_ConfgsList[selectedCfgId].m_Settings.m_Name), 3000);
 				}
 				ImGui::SameLine();
+				ImGui::PushItemWidth(125);
+				DrawConfigCombo(xorstr("##CfgList"), &selectedCfgId, m_ConfgsList);
+				ImGui::PopItemWidth();
 				if (ImGui::Button(xorstr("Restore"), ImVec2(70, 20)))
 				{
 					auto payload = [this]
@@ -153,7 +156,6 @@ void UI::CNetWorkWindow::Render()
 					};
 					std::thread(payload).detach();
 				}
-				DrawConfigCombo(xorstr("Configs"), &selectedCfgId, m_ConfgsList);
 			}
 
 			ImGui::EndChild();

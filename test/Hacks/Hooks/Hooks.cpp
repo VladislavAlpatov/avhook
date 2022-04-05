@@ -35,11 +35,11 @@ void hooks::Attach(HMODULE ihModule)
 	MH_Initialize();
 
 	POLY_MARKER;
-	auto  presentAddr = CMemory::FindPattern(xorstr("d3d9.dll"), xorstr("\x00\x00\x00\x00\x00\x83\xE4\xF8\x51\x51\x56\x8B\x75\x08\x8B\xCE\xF7\xD9\x57\x1B\xC9\x8D\x46\x04\x23\xC8\x6A\x00\x51\x8D\x4C\x24\x10\xE8\x00\x00\x00\x00\xF7\x46\x00\x00\x00\x00\x00\x74\x07\xBF\x00\x00\x00\x00\xEB\x17"), xorstr("?????xxxxxxxxxxxxxxxxxxxxxxxxxxxxx????xx?????xxx????xx"))[0];
+	auto  presentAddr = CMemory::FindPattern(xorstr("d3d9.dll"), xorstr("?? ?? ?? ?? ?? 83 E4 F8 51 51 56 8B 75 08 8B CE F7 D9 57 1B C9 8D 46 04 23 C8 6A ?? 51 8D 4C 24 10 E8 ?? ?? ?? ?? F7 46 ?? ?? ?? ?? ?? 74 07 BF ?? ?? ?? ?? EB 17"));
 	MH_CreateHook((LPVOID)presentAddr, &hkPresent, reinterpret_cast<LPVOID*>(&hooks::oPresent));
 
 	//Hook CreateMove
-	auto createMoveAddr = CMemory::FindPattern(xorstr("client.dll"), xorstr("\x55\x8B\xEC\x56\x8D\x75\x04\x8B"), xorstr("xxxxxxxx"))[0];
+	auto createMoveAddr = CMemory::FindPattern(xorstr("client.dll"), xorstr("55 8B EC 56 8D 75 04 8B"));
 	MH_CreateHook((LPVOID*)createMoveAddr, &hCreateMove, (LPVOID*)&oCreateMove);
 
 	DWORD DrawIndexedPrimitiveAddr = (DWORD)(GetModuleHandleA(xorstr("d3d9.dll"))) + 0x627b0;

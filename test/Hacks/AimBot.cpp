@@ -73,9 +73,13 @@ void CAimBot::Work()
 		if (pAimBotSettings->m_fSmooth > 0.f)
 			AimSmooth(pEnt, aimBone);
 		else
+		{
 			AimPlain(pEnt, aimBone);
+			if (pAimBotSettings->m_bRcsControle)
+				m_pCUsrCmd->viewangles = NormalizeViewAngles(m_pCUsrCmd->viewangles - GlobalVars::pClient->pLocalPlayer->m_vecAimPuchAngle * 2.f);
+		}
 	}
-
+	
 	if (pAimBotSettings->m_bAutoShot)
 		pClient->SendAttackCode();
 

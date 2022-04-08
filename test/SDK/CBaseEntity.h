@@ -30,6 +30,7 @@ namespace SSDK
 			DEFINE_MEMBER_N(ImVec3, m_vecVelocity, netvars::m_vecVelocity);
 			DEFINE_MEMBER_N(ImVec3, m_vecViewAngles, 0x12C);
 			DEFINE_MEMBER_N(bool,   m_bDormant, signatures::m_bDormant);
+			DEFINE_MEMBER_N(ImVec3, m_vecAimPuchAngle, netvars::m_aimPunchAngle);
 
 		};
 		// Get position of bone like head, pelvis and etc...

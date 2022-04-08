@@ -51,6 +51,7 @@ json CAimBotSettings::ToJson()
 	jsn[xorstr("PriorityType")]     = m_iPriorityType;
 	jsn[xorstr("HealthBorder")]     = m_iHealthBorder;
 	jsn[xorstr("HitBoxFilrerMode")] = m_iHitBoxFilterMode;
+	jsn[xorstr("RcsControl")]       = m_bRcsControle;
 
 	return jsn;
 };
@@ -61,6 +62,7 @@ CAimBotSettings::CAimBotSettings(const json& jsn)
 	SetValueIfFiledExistInJson<int>(jsn,   xorstr("BindKey"),          &m_iBindKey);
 	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("AutoShot"),         &m_bAutoShot);
 	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("Silent"),           &silent);
+	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("RcsControl"),       &m_bRcsControle);
 	SetValueIfFiledExistInJson<float>(jsn, xorstr("Fov"),              &m_fFov);
 	SetValueIfFiledExistInJson<float>(jsn, xorstr("Smooth"),           &m_fSmooth);
 	SetValueIfFiledExistInJson<int>(jsn,   xorstr("SelectedHitBox"),   &m_iSelectedHitBox);

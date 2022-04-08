@@ -55,6 +55,7 @@ namespace Settings
 		bool			   m_bAutoShot = false;
 		bool			   silent = false;
 		bool			   m_bIsWorking = false;
+		bool			   m_bRcsControle = false;
 		float			   m_fFov = 10.f;
 		float			   m_fSmooth = 0.f;
 		int                m_iSelectedHitBox = 0;

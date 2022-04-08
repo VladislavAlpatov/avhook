@@ -120,7 +120,7 @@ void UI::CSettingsWindow::DrawAimbotChild()
 
 	ImGui::Text(xorstr("Automatic Target Acquisition System"));
 
-	ImGui::BeginChild(xorstr("###General"), ImVec2(232, 220), true, m_iImGuiStyle);
+	ImGui::BeginChild(xorstr("###General"), ImVec2(230, 235), true, m_iImGuiStyle);
 	{
 		ImGui::PushItemWidth(112.f);
 		ImGui::Combo(xorstr("Hit-Box"), &m_pAllSettings->m_AimBotSettings.m_iSelectedHitBox, hitboxes, IM_ARRAYSIZE(hitboxes));
@@ -151,6 +151,9 @@ void UI::CSettingsWindow::DrawAimbotChild()
 		ImGui::InputFloat(xorstr("Smooth Factor"), &m_pAllSettings->m_AimBotSettings.m_fSmooth);
 		ImGui::PopItemWidth();
 		DrawToolTip(xorstr("Make aimbot act more like human.\n\nNote: Set \"Smooth\" value to \"0\" if\nyou want to completely disable it."));
+
+		ImGui::Checkbox(xorstr("Auto Recoil Control"), &m_pAllSettings->m_AimBotSettings.m_bRcsControle);
+		DrawToolTip(xorstr("Provide automatic recoil control when aimbot\naimed on enemy."));
 
 		ImGui::Checkbox(xorstr("Auto shoot"), &m_pAllSettings->m_AimBotSettings.m_bAutoShot);
 		DrawToolTip(xorstr("Provide automatic shoot when aimbot\naimed on enemy."));

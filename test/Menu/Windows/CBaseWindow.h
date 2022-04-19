@@ -45,13 +45,14 @@ namespace UI
 		PDIRECT3DTEXTURE9 m_pTextureIcon = nullptr;
 
 		void DrawImageWithBorder(ImTextureID textureID, const ImVec2& size);
-
+		void DrawTextCentered(const char* text);
 		void DrawInputTextWithTextOnBackGround(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, ImGuiInputTextFlags flags = 0);
 		void DrawInputTextWithTextOnBackGroundEx(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, const ImColor& bgLabelCol, ImGuiInputTextFlags flags = 0);
 		void DrawMultiLineInputTextWithTextOnBackGround(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, ImGuiInputTextFlags flags = 0);
 		void DrawToolTip(const char* text);
 
 		ImFont* m_pFontSmall      = nullptr;
+		ImFont* m_pFontSmallBold  = nullptr;
 		ImFont* m_pFontMedium     = nullptr;
 		ImFont* m_pFontMediumBold = nullptr;
 

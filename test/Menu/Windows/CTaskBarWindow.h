@@ -8,11 +8,9 @@ namespace UI
 	class CTaskBarWindow : public CBaseWindow
 	{
 	public:
-		CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* startWindow, Settings::MiscSettings* pMiscSettings);
+		CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule);
 		virtual void Render();
 	private:
-		CBaseWindow* m_pStartWindow = nullptr;
-		Settings::MiscSettings* m_pMiscSetting = nullptr;
 		std::string GetLocalTime();
 
 	};

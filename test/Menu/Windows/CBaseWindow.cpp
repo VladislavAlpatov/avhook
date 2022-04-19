@@ -12,6 +12,7 @@ UI::CBaseWindow::CBaseWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule)
 	static ImWchar ranges[] = { 0x1, 0xFFFD, 0 };
 
 	m_pFontSmall      = imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdana.ttf"),  11.f, &fontBUilderConfig, ranges);
+	m_pFontSmallBold  = imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 11.f, &fontBUilderConfig, ranges);
 	m_pFontMedium     = imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdana.ttf"),  15.f, &fontBUilderConfig, ranges);
 	m_pFontMediumBold = imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 15.f, &fontBUilderConfig, ranges);
 }
@@ -115,6 +116,11 @@ void UI::CBaseWindow::DrawImageWithBorder(ImTextureID textureID, const ImVec2& s
 	drawList->AddRect(ImageBorderPos, ImVec2(ImageBorderPos.x + size.x + 2, ImageBorderPos.y + size.y + 2), (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Border]);
 
 	ImGui::Image(textureID, size);
+}
+void UI::CBaseWindow::DrawTextCentered(const char* text)
+{
+	ImGui::SetCursorPosX( (ImGui::GetWindowWidth() - ImGui::CalcTextSize(text).x) / 2.f);
+	ImGui::Text(text);
 }
 void UI::CBaseWindow::DrawMultiLineInputTextWithTextOnBackGround(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, ImGuiInputTextFlags flags)
 {

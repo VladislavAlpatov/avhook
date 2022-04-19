@@ -24,7 +24,7 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSet
 	style.AntiAliasedLines       = false;
 	style.AntiAliasedFill        = false;
 	style.ScrollbarRounding = 0.f;
-
+	style.WindowMinSize = ImVec2(0, 0);
 	theme[ImGuiCol_WindowBg] = ImColor(24, 31, 35, 255);
 	theme[ImGuiCol_Button] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
 	theme[ImGuiCol_Tab] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
@@ -51,7 +51,7 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSet
 	m_vecWindows.push_back(new UI::CSettingsWindow(m_pDevice,  hModule, &m_MessageLineList, pSettings, &m_bShowKeyBindDialog));
 	m_vecWindows.push_back(new UI::CNetWorkWindow(m_pDevice,   hModule,  &m_MessageLineList));
 	m_vecWindows.push_back(new UI::CStartWindow(m_pDevice,     hModule,    m_vecWindows[0], m_vecWindows[2], m_vecWindows[1]));
-	m_vecWindows.push_back(new UI::CTaskBarWindow(pDevice,     hModule, m_vecWindows[3], &pSettings->m_MiscSettings));
+	m_vecWindows.push_back(new UI::CTaskBarWindow(pDevice,     hModule));
 
 	m_vecEspPayload = {
 		new Esp::CBoxEsp(&GlobalVars::settings.m_BoxEspSettings), 

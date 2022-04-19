@@ -39,7 +39,7 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 
 	GlobalVars::Init(hModule);
 	hooks::Attach(hModule);
-
+	
 	while (!GetAsyncKeyState(VK_END))
 	{
 		Sleep(100);

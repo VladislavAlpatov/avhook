@@ -8,19 +8,14 @@ void CBarsEsp::InternalRenderAt(CBaseEntity* pEntity)
 
     auto pSettings = GetSettings<Settings::BarEspSettings>();
 
-    ImVec3 up       = WorldToScreen(pEntity->m_vecOrigin);
+    auto box = CalcEspBox(pEntity);
 
-    ImVec3 bottom   = WorldToScreen(pEntity->GetBonePosition(CBaseEntity::Bone::HEAD) + ImVec3(0, 0, 7.9f));
-
-    float maxBarLength = up.y - bottom.y;
-
-    ImVec2 bottomLeft;
+    float maxBarLength = abs(box.m_vecTop.y - box.m_vecBottom.y);
 
     POLY_MARKER;
 
 
-    bottomLeft.x = up.x - (maxBarLength / 4.f) - pSettings->m_iThickness;
-    bottomLeft.y = up.y;
+    ImVec2 bottomLeft = ImVec2(box.m_vecTop.x, box.m_vecBottom.y) - ImVec2(box.m_Width / 2.f + pSettings->m_iThickness + 3, 0);
 
     std::list<LineData> lines;
 
@@ -32,12 +27,12 @@ void CBarsEsp::InternalRenderAt(CBaseEntity* pEntity)
     POLY_MARKER;
     auto pDrawList = ImGui::GetBackgroundDrawList();
 
-    ImVec2 barStart = bottomLeft - ImVec2(3, 0);
+    ImVec2 barStart = bottomLeft;
     for (auto& line : lines)
     {
         pDrawList->AddRectFilled(barStart, barStart + ImVec2(pSettings->m_iThickness, -maxBarLength), pSettings->m_BackGroundColor);
         pDrawList->AddRectFilled(barStart, barStart + ImVec2(pSettings->m_iThickness, -line.m_fLength), line.m_Color);
         pDrawList->AddRect(barStart + ImVec2(-1, 0), barStart + ImVec2(pSettings->m_iThickness + 1, -maxBarLength), ImColor(0, 0, 0));
-        barStart.x -= pSettings->m_iThickness;
+        barStart.x -= pSettings->m_iThickness + 1;
     }
 }

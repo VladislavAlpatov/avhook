@@ -21,7 +21,7 @@ void UI::CTaskBarWindow::Render()
 		DrawTextCentered("AVhook Project");
 		ImGui::PopFont();
 
-		if (1)
+		if (GlobalVars::settings.m_MiscSettings.m_bShowTime)
 		{
 			std::string time = GetLocalTime();
 			ImGui::PushFont(m_pFontMediumBold);

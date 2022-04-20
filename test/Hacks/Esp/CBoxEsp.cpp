@@ -1,5 +1,7 @@
 #include "CBoxEsp.h"
 #include "../../imgui/imgui_internal.h"
+#include <algorithm>
+
 using namespace Esp;
 
 void CBoxEsp::InternalRenderAt(CBaseEntity* pEntity)
@@ -34,58 +36,53 @@ void CBoxEsp::InternalRenderAt(CBaseEntity* pEntity)
 
 void CBoxEsp::DrawSolidBox(CBaseEntity* pEntity, const ImColor& drawColor, int thickness)
 {
-
-    ImVec3 up = WorldToScreen(pEntity->m_vecOrigin);
-
-    ImVec3 headpos = pEntity->GetBonePosition(CBaseEntity::Bone::HEAD);
-    headpos.z += 8.1f;
-
-    ImVec3 bottom = WorldToScreen(headpos);
-    float height = fabs(up.y - bottom.y);
-
-
-    ImVec2 topLeft     = ImVec2(up.x - (height / 4.f), up.y);
-    ImVec2 topRight    = ImVec2(up.x + (height / 4.f), up.y);
-    ImVec2 bottomRight = ImVec2(topRight.x, bottom.y);
-    ImVec2 bottomLeft  = ImVec2(topLeft.x, bottom.y);
-
     auto pDrawList = ImGui::GetBackgroundDrawList();
 
-    pDrawList->AddLine(topLeft, topRight, drawColor,       (float)thickness);
+    auto box = CalcEspBox(pEntity);
+
+    ImVec2 topLeft = box.m_vecTop - ImVec3(box.m_Width / 2.f, 0, 0);
+    ImVec2 topRight = box.m_vecTop + ImVec3(box.m_Width / 2.f, 0, 0);
+
+
+    ImVec2 bottomRight = ImVec3(box.m_vecTop.x, box.m_vecBottom.y, 0) + ImVec3(box.m_Width / 2.f, 0, 0);
+
+    ImVec2 bottomLeft = ImVec3(box.m_vecTop.x, box.m_vecBottom.y, 0) - ImVec3(box.m_Width / 2.f, 0, 0);
+
+
+    pDrawList->AddLine(topLeft, topRight, drawColor, (float)thickness);
+    pDrawList->AddLine(topLeft, bottomLeft, drawColor, (float)thickness);
+
     pDrawList->AddLine(bottomLeft, bottomRight, drawColor, (float)thickness);
-    pDrawList->AddLine(topLeft, bottomLeft, drawColor,     (float)thickness);
-    pDrawList->AddLine(topRight, bottomRight, drawColor,   (float)thickness);
+    pDrawList->AddLine(topRight, bottomRight, drawColor, (float)thickness);
+
 }
 void CBoxEsp::DrawCorneredBox(const CBaseEntity* pEntity, const ImColor& drawColor,const  int thickness)
 {
-    
-    ImVec3 up = WorldToScreen(pEntity->m_vecOrigin);
-
-    ImVec3 headpos = pEntity->GetBonePosition(CBaseEntity::Bone::HEAD);
-    headpos.z += 8.1f;
-
-    ImVec3 bottom = WorldToScreen(headpos);
-    float height = fabs(up.y - bottom.y);
-
-
-    ImVec2 topLeft     = ImVec2(up.x - (height / 4.f), up.y);
-    ImVec2 topRight    = ImVec2(up.x + (height / 4.f), up.y);
-    ImVec2 bottomRight = ImVec2(topRight.x, bottom.y);
-    ImVec2 bottomLeft  = ImVec2(topLeft.x, bottom.y);
-
     auto pDrawList = ImGui::GetBackgroundDrawList();
-    float offset = height / 7.f;
-    
-    pDrawList->AddLine(topLeft,  topLeft + ImVec2(offset, 0), drawColor, (float)thickness);
-    pDrawList->AddLine(topLeft,  topLeft - ImVec2(0, offset), drawColor, (float)thickness);
+
+    auto box = CalcEspBox(pEntity);
+
+    ImVec2 topLeft  = box.m_vecTop - ImVec3(box.m_Width / 2.f, 0, 0);
+    ImVec2 topRight = box.m_vecTop + ImVec3(box.m_Width / 2.f, 0, 0);
+
+
+
+    ImVec2 bottomRight = ImVec3(box.m_vecTop.x, box.m_vecBottom.y, 0) + ImVec3(box.m_Width / 2.f, 0, 0);
+
+    ImVec2 bottomLeft  = ImVec3(box.m_vecTop.x, box.m_vecBottom.y, 0) - ImVec3(box.m_Width / 2.f, 0, 0);
+
+    auto offset = abs(box.m_vecTop.y - box.m_vecBottom.y) / 7.f;
+
+    pDrawList->AddLine(topLeft, topLeft + ImVec2(offset, 0), drawColor, (float)thickness);
+    pDrawList->AddLine(topLeft, topLeft + ImVec2(0, offset), drawColor, (float)thickness);
 
     pDrawList->AddLine(topRight, topRight - ImVec2(offset, 0), drawColor, (float)thickness);
-    pDrawList->AddLine(topRight, topRight - ImVec2(0, offset), drawColor, (float)thickness);
+    pDrawList->AddLine(topRight, topRight + ImVec2(0, offset), drawColor, (float)thickness);
 
     pDrawList->AddLine(bottomLeft, bottomLeft + ImVec2(offset, 0), drawColor, (float)thickness);
-    pDrawList->AddLine(bottomLeft, bottomLeft + ImVec2(0, offset), drawColor, (float)thickness);
+    pDrawList->AddLine(bottomLeft, bottomLeft - ImVec2(0, offset), drawColor, (float)thickness);
 
     pDrawList->AddLine(bottomRight, bottomRight - ImVec2(offset, 0), drawColor, (float)thickness);
-    pDrawList->AddLine(bottomRight, bottomRight + ImVec2(0, offset), drawColor, (float)thickness);
+    pDrawList->AddLine(bottomRight, bottomRight - ImVec2(0, offset), drawColor, (float)thickness);
 
 }

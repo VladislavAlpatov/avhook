@@ -4,11 +4,20 @@
 
 namespace Esp
 {
+
+	struct EntityBox
+	{
+		ImVec2 m_vecTop;
+		ImVec2 m_vecBottom;
+		float  m_Width;
+	};
+
 	using namespace SSDK;
 
 	class CBaseEsp
 	{
 	public:
+
 		CBaseEsp(Settings::CBaseSettings* pSettings)
 		{
 			m_pSettings = pSettings;
@@ -21,6 +30,7 @@ namespace Esp
 
 		}
 	protected:
+		EntityBox CalcEspBox(const CBaseEntity* pEntity);
 		ImVec3 WorldToScreen(const ImVec3& pos);
 		virtual void InternalRenderAt(CBaseEntity* pEntity) = 0;
 

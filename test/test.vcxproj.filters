@@ -255,7 +255,7 @@
     <ClInclude Include="Menu\Windows\CSettingsWindow.h">
       <Filter>Render\Menu\Windows\Settings</Filter>
     </ClInclude>
-    <ClInclude Include="Menu\Windows\CStartWindow.h">
+    <ClInclude Include="Menu\Windows\CDockWindow.h">
       <Filter>Render\Menu\Windows\Start</Filter>
     </ClInclude>
     <ClInclude Include="Menu\COverlay.h">
@@ -413,7 +413,7 @@
     <ClCompile Include="Menu\Windows\CBaseWindow.cpp">
       <Filter>Render\Menu\Windows\Window</Filter>
     </ClCompile>
-    <ClCompile Include="Menu\Windows\CStartWindow.cpp">
+    <ClCompile Include="Menu\Windows\CDockWindow.cpp">
       <Filter>Render\Menu\Windows\Start</Filter>
     </ClCompile>
     <ClCompile Include="Menu\Windows\CSettingsWindow.cpp">

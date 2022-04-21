@@ -1,5 +1,8 @@
+#pragma once
 #include "DX9ColorFix.h"
 
+#include "../Utils/Marker.h"
+#include <d3dx9.h>
 
 
 DX9ColorFix::DX9ColorFix(LPDIRECT3DDEVICE9 pDevice)

@@ -4,10 +4,10 @@
 
 namespace UI
 {
-	class CStartWindow : public CBaseWindow
+	class CDockWindow : public CBaseWindow
 	{
 	public:
-		CStartWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* pAboutWindow, CBaseWindow* pPlayerListWindow, CBaseWindow* pSettingsWindow);
+		CDockWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* pAboutWindow, CBaseWindow* pPlayerListWindow, CBaseWindow* pSettingsWindow);
 		virtual void Render();
 	private:
 		CBaseWindow* m_pPlayerListWindow;

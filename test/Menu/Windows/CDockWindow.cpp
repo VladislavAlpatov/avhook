@@ -1,8 +1,8 @@
 ﻿#pragma once
-#include "CStartWindow.h"
+#include "CDockWindow.h"
 #include "../../Utils/xorstr.h"
 
-UI::CStartWindow::CStartWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* pAboutWindow, CBaseWindow* pPlayerListWindow, CBaseWindow* pSettingsWindow) : CBaseWindow(pDevice, hModule)
+UI::CDockWindow::CDockWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* pAboutWindow, CBaseWindow* pPlayerListWindow, CBaseWindow* pSettingsWindow) : CBaseWindow(pDevice, hModule)
 {
 	m_bForceShow        = true;
 	m_pPlayerListWindow = pPlayerListWindow;
@@ -10,7 +10,7 @@ UI::CStartWindow::CStartWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBas
 	m_pSettingsWindow   = pSettingsWindow;
 
 }
-void UI::CStartWindow::Render()
+void UI::CDockWindow::Render()
 {
 	ImGui::Begin(xorstr("###Start"), NULL, m_iImGuiStyle | ImGuiWindowFlags_NoMove);
 	{

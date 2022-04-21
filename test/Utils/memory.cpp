@@ -2,6 +2,7 @@
 #include "memory.h"
 #include <sstream>
 #include <boost/algorithm/string.hpp>
+#include "xorstr.h"
 
 MODULEINFO CMemory::GetModuleInfo(const char* szModule)
 {
@@ -32,15 +33,15 @@ SPattern CMemory::ParsePattern(const std::string& str)
 	
 	for (auto& strHex : strs)
 	{
-		if (strHex == "??")
+		if (strHex == xorstr("??"))
 		{
 			pattern.data.push_back(NULL);
-			pattern.mask += "?";
+			pattern.mask += xorstr("?");
 			continue;
 		}
 
 		pattern.data.push_back(HexdecimalStringToInt(strHex));
-		pattern.mask += "x";
+		pattern.mask += xorstr("x");
 
 	}
 	return pattern;

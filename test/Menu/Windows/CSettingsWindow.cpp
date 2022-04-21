@@ -1,8 +1,13 @@
-﻿#include "CSettingsWindow.h"
+﻿#pragma once
+
+#include "CSettingsWindow.h"
 #include "../../Globals/GlobalVars.h"
 #include "../../imgui/imgui_internal.h"
+#include "../../Utils/CFGloader/CFGloader.h"
 #include <fmt/format.h>
-
+#include "../../resource.h"
+#include <fstream>
+#include <d3dx9.h>
 
 class CLabelSettings
 {
@@ -369,6 +374,7 @@ void UI::CSettingsWindow::DrawCfgChild()
 			{
 
 				std::ofstream file(std::string(m_pMenuCfgName) + xorstr(".avmcfg"), std::ios::binary);
+				// 52 - Length of imgui color theme
 				file.write((const char*)ImGui::GetStyle().Colors, 52 * sizeof(ImVec4));
 				file.close();
 				m_pMessageLineList->Add(xorstr("Config successfully exported."), 2000, ImColor(0, 255, 0));

@@ -1,4 +1,6 @@
-﻿#include "CStartWindow.h"
+﻿#pragma once
+#include "CStartWindow.h"
+#include "../../Utils/xorstr.h"
 
 UI::CStartWindow::CStartWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* pAboutWindow, CBaseWindow* pPlayerListWindow, CBaseWindow* pSettingsWindow) : CBaseWindow(pDevice, hModule)
 {

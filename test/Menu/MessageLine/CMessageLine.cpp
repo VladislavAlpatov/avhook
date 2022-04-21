@@ -1,4 +1,6 @@
+#pragma once
 #include "CMessageLine.h"
+#include "../../imgui/imgui_internal.h"
 
 void UI::CMessageLine::Render(const ImVec2& drawPosition)
 {
@@ -14,4 +16,9 @@ void UI::CMessageLine::Render(const ImVec2& drawPosition)
 	// ImVec2(4, 4) <- padding for text;
 	pDrawList->AddText(drawPosition + ImVec2(4, 4), m_Color, m_sText.c_str());
 
+}
+
+ImVec2 UI::CMessageLine::GetSize() const
+{
+	return ImGui::CalcTextSize(m_sText.c_str()) + ImVec2(6, 6);
 }

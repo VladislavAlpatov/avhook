@@ -1,7 +1,12 @@
-﻿#include "CNetWorkWindow.h"
+﻿#pragma once
+
+#include "CNetWorkWindow.h"
 #include <thread>
 #include "../../Globals/GlobalVars.h"
 #include <fmt/format.h>
+#include "../../resource.h"
+#include <d3dx9.h>
+#include "../../Utils/Marker.h"
 
 UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CMessageLineList* pMessageLineList) : CBaseWindow(pDevice, hModule)
 {

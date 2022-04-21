@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Utils/Vec3.h"
-#include "../../Globals/GlobalVars.h"
+#include "../../Menu/Settings.h"
 
 namespace Esp
 {

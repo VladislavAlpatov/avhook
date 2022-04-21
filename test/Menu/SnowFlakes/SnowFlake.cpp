@@ -1,4 +1,8 @@
+#pragma once
+
 #include "SnowFlake.h"
+#include <random>
+
 
 SnowFlake::SnowFlake(const ImVec2& velocity, float generationWidthRange, float flakeOffest)
 {

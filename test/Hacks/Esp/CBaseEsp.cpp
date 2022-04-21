@@ -1,4 +1,8 @@
+#pragma once
+#include "../../Globals/GlobalVars.h"
+
 #include "CBaseEsp.h"
+
 using namespace Esp;
 
 ImVec3 CBaseEsp::WorldToScreen(const ImVec3& vecPosition)

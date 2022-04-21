@@ -1,6 +1,7 @@
 #pragma once
 #include "CRadarWindow.h"
 #include "../../Globals/GlobalVars.h"
+#include "../../imgui/imgui_internal.h"
 
 ImVec2 UI::CRadarWindow::WorldToRadar(const ImVec3& EntityOrigin, const ImVec3& LocalPlayerOrigin, const ImVec3& LocalPlayerViewAngles, int width, float scale = 16.f)
 {

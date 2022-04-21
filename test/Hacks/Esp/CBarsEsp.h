@@ -1,5 +1,5 @@
 #include "CBaseEsp.h"
-#include <list>
+
 namespace Esp
 {
 	class CBarsEsp : public CBaseEsp

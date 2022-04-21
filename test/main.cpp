@@ -2,11 +2,8 @@
 
 #include "Globals/GlobalVars.h"
 #include "Hacks/Hooks/Hooks.h"
-#include "resource.h"
-#include "Utils/memory.h"
-#include "Mmsystem.h"
 #include "RazerSDK/CRazer.h"
-#include "nlohmann/json.hpp"
+#include "Web/CAVhookServerApi.h"
 
 DWORD WINAPI InitCheat(HMODULE hModule)
 {
@@ -33,7 +30,7 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 	{
 		GlobalVars::bChromaSupport = false;
 	}
-
+	
 	while (!GetModuleHandleA(xorstr("serverbrowser.dll")))
 		Sleep(100);
 

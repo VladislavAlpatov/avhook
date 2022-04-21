@@ -1,6 +1,7 @@
+#pragma once
+
 #include "CBaseEsp.h"
 #include <list>
-#include <format>
 #include "CLabel/CLabel.h"
 
 

@@ -18,7 +18,7 @@ void UI::CTaskBarWindow::Render()
 		ImGui::PushFont(m_pFontMediumBold);
 
 		ImGui::SetCursorPosY(2);
-		DrawTextCentered("AVhook Project");
+		DrawTextCentered(xorstr("AVhook Project"));
 		ImGui::PopFont();
 
 		if (GlobalVars::settings.m_MiscSettings.m_bShowTime)

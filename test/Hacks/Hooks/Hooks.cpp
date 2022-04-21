@@ -9,11 +9,18 @@
 #include "../../Utils/Marker.h"
 #include "../../Hacks/bhop.h"
 
-#include "MinHook.h"
+#include "../../SDK/CUserCMD.h"
 
-int __stdcall  hooks::hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a4, int a5)
+#include "MinHook.h"
+#include "../../Globals/GlobalVars.h"
+
+using namespace hooks;
+
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+int __stdcall  hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a4, int a5)
 {
-	POLY_MARKER
+	POLY_MARKER;
 
 	if (pOverlay == nullptr)
 	{
@@ -29,60 +36,8 @@ int __stdcall  hooks::hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a
 	typedef int(__stdcall* Present)(LPDIRECT3DDEVICE9, int, int, int, int);
 	return reinterpret_cast<Present>(hooks::oPresent)(pDevice, a2, a3, a4, a5);
 }
-void hooks::Attach(HMODULE ihModule)
-{
-	hooks::hmodule = ihModule;
-	MH_Initialize();
 
-	POLY_MARKER;
-	auto  presentAddr = CMemory::FindPattern(xorstr("d3d9.dll"), xorstr("?? ?? ?? ?? ?? 83 E4 F8 51 51 56 8B 75 08 8B CE F7 D9 57 1B C9 8D 46 04 23 C8 6A ?? 51 8D 4C 24 10 E8 ?? ?? ?? ?? F7 46 ?? ?? ?? ?? ?? 74 07 BF ?? ?? ?? ?? EB 17"));
-	MH_CreateHook((LPVOID)presentAddr, &hkPresent, reinterpret_cast<LPVOID*>(&hooks::oPresent));
-
-	//Hook CreateMove
-	auto createMoveAddr = CMemory::FindPattern(xorstr("client.dll"), xorstr("55 8B EC 56 8D 75 04 8B"));
-	MH_CreateHook((LPVOID*)createMoveAddr, &hCreateMove, (LPVOID*)&oCreateMove);
-
-	DWORD DrawIndexedPrimitiveAddr = (DWORD)(GetModuleHandleA(xorstr("d3d9.dll"))) + 0x627b0;
-	//MH_CreateHook((LPVOID*)DrawIndexedPrimitiveAddr, &hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
-	//MH_CreateHook(GetProcAddress(GetModuleHandle("ntdll"), xorstr("NtQueryVirtualMemory")), &hNtQueryVirtualMemory, (LPVOID*)&oNtQueryVirtualMemory);
-	MH_EnableHook(MH_ALL_HOOKS);
-	// Wait until overlay is ready for work.
-	while (!hooks::pOverlay)
-		Sleep(50);
-
-	oWndProc = (DWORD)(SetWindowLongPtr(FindWindowA(NULL, WINDOW_NAME), GWL_WNDPROC, reinterpret_cast<LONG_PTR>(WndProc)));
-	POLY_MARKER
-}
-
-LRESULT WINAPI hooks::WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	POLY_MARKER;
-	if (hooks::pOverlay->IsShowUI())
-	{
-		POLY_MARKER
-
-		ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
-		return TRUE;
-	}
-	typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);
-	return CallWindowProc((WNDPROC)hooks::oWndProc, hWnd, uMsg, wParam, lParam);
-}
-
-void hooks::Detach()
-{
-	SetWindowLongPtr(FindWindowA(NULL, WINDOW_NAME), GWLP_WNDPROC, (LONG_PTR)(hooks::oWndProc));
-
-	MH_DisableHook(MH_ALL_HOOKS);
-	Sleep(100);
-	MH_RemoveHook(MH_ALL_HOOKS);
-
-	POLY_MARKER
-
-	hooks::pOverlay->Detach();
-	MH_Uninitialize();
-}
-
-bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
+bool __stdcall hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 {
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 
@@ -121,7 +76,7 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 	{
 		return false;
 	}
-	
+
 	Hacks::CHackingFeature* features[] = {
 		new Hacks::CBunnyHop(&GlobalVars::settings.m_BunnyHopSettings),
 		new Hacks::CAimBot(&GlobalVars::settings.m_AimBotSettings, pUserCmd)
@@ -132,8 +87,63 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 		features[i]->Work();
 		delete features[i];
 	}
-	
+
 	return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
+}
+
+LRESULT WINAPI WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	POLY_MARKER;
+	if (pOverlay->IsShowUI())
+	{
+		POLY_MARKER;
+
+		ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
+		return TRUE;
+	}
+	typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);
+	return CallWindowProc((WNDPROC)hooks::oWndProc, hWnd, uMsg, wParam, lParam);
+}
+
+void hooks::Attach(HMODULE ihModule)
+{
+	POLY_MARKER;
+
+	hooks::hmodule = ihModule;
+	MH_Initialize();
+
+	auto  presentAddr = CMemory::FindPattern(xorstr("d3d9.dll"), xorstr("?? ?? ?? ?? ?? 83 E4 F8 51 51 56 8B 75 08 8B CE F7 D9 57 1B C9 8D 46 04 23 C8 6A ?? 51 8D 4C 24 10 E8 ?? ?? ?? ?? F7 46 ?? ?? ?? ?? ?? 74 07 BF ?? ?? ?? ?? EB 17"));
+	MH_CreateHook((LPVOID)presentAddr, &hkPresent, reinterpret_cast<LPVOID*>(&hooks::oPresent));
+
+	//Hook CreateMove
+	auto createMoveAddr = CMemory::FindPattern(xorstr("client.dll"), xorstr("55 8B EC 56 8D 75 04 8B"));
+	MH_CreateHook((LPVOID*)createMoveAddr, &hCreateMove, (LPVOID*)&oCreateMove);
+	POLY_MARKER;
+	uintptr_t DrawIndexedPrimitiveAddr = (uintptr_t)(GetModuleHandleA(xorstr("d3d9.dll"))) + 0x627b0;
+	//MH_CreateHook((LPVOID*)DrawIndexedPrimitiveAddr, &hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
+	//MH_CreateHook(GetProcAddress(GetModuleHandle("ntdll"), xorstr("NtQueryVirtualMemory")), &hNtQueryVirtualMemory, (LPVOID*)&oNtQueryVirtualMemory);
+	MH_EnableHook(MH_ALL_HOOKS);
+	// Wait until overlay is ready for work.
+	while (!pOverlay)
+		Sleep(50);
+
+	oWndProc = (uintptr_t)(SetWindowLongPtr(FindWindowA(NULL, WINDOW_NAME), GWL_WNDPROC, reinterpret_cast<LONG_PTR>(WndProc)));
+	POLY_MARKER
+}
+
+
+void hooks::Detach()
+{
+	SetWindowLongPtr(FindWindowA(NULL, WINDOW_NAME), GWLP_WNDPROC, (LONG_PTR)(hooks::oWndProc));
+
+	MH_DisableHook(MH_ALL_HOOKS);
+	Sleep(100);
+	MH_RemoveHook(MH_ALL_HOOKS);
+
+	POLY_MARKER;
+
+	hooks::pOverlay->Detach();
+	MH_Uninitialize();
 }
 
 

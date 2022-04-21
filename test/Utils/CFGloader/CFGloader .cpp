@@ -1,5 +1,7 @@
+#pragma once
 #include "CFGloader.h"
-
+#include <fstream>
+#include "nlohmann/json.hpp"
 
 void CConfigLoader::DumpConfigFile(std::string path)
 {

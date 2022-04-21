@@ -1,7 +1,11 @@
+#pragma once
 #include "CAboutWindow.h"
 #include <shellapi.h>
 #include "../../Globals/GlobalVars.h"
 #include "../../RawData/RAVhookLogo.h"
+#include "../../resource.h"
+#include <d3dx9.h>
+#include "../../Utils/Marker.h"
 
 UI::CAboutWindow::CAboutWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule) : CBaseWindow(pDevice, hModule)
 {
@@ -17,7 +21,7 @@ void UI::CAboutWindow::Render()
 		ImGui::SetWindowSize(ImVec2(400, 150));
 		DrawIconAndTittle(xorstr("About program"));
 
-		POLY_MARKER
+		POLY_MARKER;
 
 		DrawCloseWindowButton();
 		

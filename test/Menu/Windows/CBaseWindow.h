@@ -1,5 +1,7 @@
 #pragma once
 #include "../IBaseDrawObject.h"
+#include <d3d9.h>
+#include "../../imgui/imgui.h"
 
 /*
 Use as base class for others UI windows

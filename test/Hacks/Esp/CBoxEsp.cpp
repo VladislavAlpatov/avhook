@@ -1,8 +1,13 @@
+#pragma once
+
 #include "CBoxEsp.h"
 #include "../../imgui/imgui_internal.h"
 #include <algorithm>
+#include "../../Globals/GlobalVars.h"
 
+#include "../../SDK/CBaseEntity.h"
 using namespace Esp;
+using namespace SSDK;
 
 void CBoxEsp::InternalRenderAt(CBaseEntity* pEntity)
 {

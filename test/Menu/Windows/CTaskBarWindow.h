@@ -1,6 +1,5 @@
 #pragma once
 #include "CBaseWindow.h"
-#include "../Settings.h"
 #include <string>
 
 namespace UI

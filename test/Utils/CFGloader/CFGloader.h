@@ -1,7 +1,5 @@
 #pragma once
 #include "../../Menu/Settings.h"
-#include <fstream>
-#include "nlohmann/json.hpp"
 
 class CConfigLoader
 {

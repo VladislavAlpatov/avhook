@@ -1,4 +1,12 @@
+#pragma once
+
 #include "CBaseWindow.h"
+
+#include "../../imgui/misc/freetype/imgui_freetype.h"
+#include "../../imgui/imgui_internal.h"
+
+#include "../../Utils/xorstr.h"
+#include "../../Utils/Marker.h"
 
 UI::CBaseWindow::CBaseWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule)
 {

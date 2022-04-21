@@ -1,8 +1,8 @@
 #pragma once 
 #include "CBaseWindow.h"
-#include "../../Utils/CFGloader/CFGloader.h"
 #include  "../Routines/BindListener.h"
 #include "../MessageLine/CMessageLine.h"
+#include "../Settings.h"
 
 namespace UI
 {

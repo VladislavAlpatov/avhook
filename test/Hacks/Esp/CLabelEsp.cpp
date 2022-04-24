@@ -28,7 +28,7 @@ void Esp::CLabelEsp::DrawLabelsAtLeftSide(const CBaseEntity* pEntity, const std:
             continue;
 
         if (pLabel->Render(bottomLeft, pEntity))
-            bottomLeft.y -= 13.f;
+            bottomLeft.y += 13.f;
     }
 }
 

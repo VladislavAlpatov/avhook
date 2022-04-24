@@ -39,25 +39,25 @@ void UI::CBaseWindow::Toggle()
 
 void UI::CBaseWindow::KeepWindowInSreenArea()
 {
-	ImVec2 imgui_window_pos     = ImGui::GetWindowPos();
-	ImVec2 imgui_window_size    = ImGui::GetWindowSize();
-	ImVec2 game_window_size     = ImGui::GetMainViewport()->Size;
-	ImVec2 new_imgui_window_pos = ImGui::GetWindowPos();
+	ImVec2 windowPos     = ImGui::GetWindowPos();
+	ImVec2 windowSize    = ImGui::GetWindowSize();
+	ImVec2 screenSize     = ImGui::GetMainViewport()->Size;
+	ImVec2 newWindowPos = ImGui::GetWindowPos();
 
-	if (imgui_window_pos.x + imgui_window_size.x > game_window_size.x)
-		new_imgui_window_pos.x = game_window_size.x - imgui_window_size.x;
+	if (windowPos.x + windowSize.x > screenSize.x)
+		newWindowPos.x = screenSize.x - windowSize.x;
 
-	// 33 is a heigh of tak bar
-	else if (imgui_window_pos.y + imgui_window_size.y > game_window_size.y - 33)
-		new_imgui_window_pos.y = game_window_size.y - imgui_window_size.y  - 33;
+	else if (windowPos.y + windowSize.y > screenSize.y)
+		newWindowPos.y = screenSize.y - windowSize.y;
 
-	else if (imgui_window_pos.x < 0)
-		new_imgui_window_pos.x = 0;
+	else if (windowPos.x < 0)
+		newWindowPos.x = 0;
 
-	else if (imgui_window_pos.y < 0)
-		new_imgui_window_pos.y = 0;
+	else if (windowPos.y < 0)
+		newWindowPos.y = 0;
 
-	ImGui::SetWindowPos(new_imgui_window_pos);
+	
+	ImGui::SetWindowPos(newWindowPos);
 }
 void UI::CBaseWindow::DrawIconAndTittle(const char* tittle)
 {

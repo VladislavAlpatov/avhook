@@ -1,6 +1,7 @@
 #pragma once
 #include "AimBot.h"
 #include "../Globals/GlobalVars.h"
+#include "../Utils/Math/Math.h"
 
 using namespace Hacks;
 
@@ -178,8 +179,8 @@ ImVec3 CAimBot::CalcAimViewAngles(const CBaseEntity* pEntity, const int bone) co
 
 	float distance = GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(pEntity);
 
-	calculated.x = -asinf((targetPosition.z - localCameraPosition.z) / distance) * (180.f / 3.1415926f);
-	calculated.y = atan2f(targetPosition.y - localCameraPosition.y, targetPosition.x - localCameraPosition.x) * (180.f / 3.1415926f);
+	calculated.x = - Utils::RadiansToDegrees(asinf((targetPosition.z - localCameraPosition.z) / distance));
+	calculated.y =   Utils::RadiansToDegrees(atan2f(targetPosition.y - localCameraPosition.y, targetPosition.x - localCameraPosition.x));
 
 	return calculated;
 }

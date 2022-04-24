@@ -57,14 +57,16 @@ Esp::EntityBox CBaseEsp::CalcEspBox(const CBaseEntity* pEntity)
     for (auto& bone : bones)
     {
         if (bone.Length() == 0) continue;
-        mostRight = (((bone.x) > (mostRight.x)) ? (bone) : (mostRight));
-        mostLeft = (((bone.x) < (mostLeft.x)) ? (bone) : (mostLeft));
-        mostTop = (((bone.y) < (mostTop.y)) ? (bone) : (mostTop));
+
+        mostRight  = (((bone.x) > (mostRight.x))  ? (bone) : (mostRight));
+        mostLeft   = (((bone.x) < (mostLeft.x))   ? (bone) : (mostLeft));
+
+        mostTop    = (((bone.y) < (mostTop.y))    ? (bone) : (mostTop));
         mostBottom = (((bone.y) > (mostBottom.y)) ? (bone) : (mostBottom));
     }
     box.m_vecBottom = mostBottom;
-    box.m_vecTop = mostTop;
-    box.m_Width = abs(mostLeft.x - mostRight.x);
+    box.m_vecTop    = mostTop;
+    box.m_Width     = abs(mostLeft.x - mostRight.x);
 
     return box;
 }

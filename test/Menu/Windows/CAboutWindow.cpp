@@ -6,6 +6,7 @@
 #include "../../resource.h"
 #include <d3dx9.h>
 #include "../../Utils/Marker.h"
+#include "../../imgui/imgui_internal.h"
 
 UI::CAboutWindow::CAboutWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule) : CBaseWindow(pDevice, hModule)
 {
@@ -30,14 +31,14 @@ void UI::CAboutWindow::Render()
 		auto windowPos = ImGui::GetWindowPos();
 		auto cursorPos = ImGui::GetCursorPos();
 
-		auto ImageBorderPos = ImVec2(windowPos.x + cursorPos.x - 1, windowPos.y + cursorPos.y - 1);
+		auto ImageBorderPos = windowPos + cursorPos - ImVec2(1, 1);
 
-		drawList->AddRectFilled(ImageBorderPos, ImVec2(ImageBorderPos.x + 100 + 2, ImageBorderPos.y + 100 + 2), (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Border]);
+		drawList->AddRectFilled(ImageBorderPos, ImageBorderPos + ImVec2(102, 102), (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Border]);
 
 		ImGui::Image(m_pTexureCheatLogo, ImVec2(100, 100));
 
 		ImGui::SameLine();
-		ImGui::Text(xorstr("Compilation date: %s\nCompilation time: %s\nPowered by LSS, all rights reserved."), xorstr(__DATE__), xorstr(__TIME__));
+		ImGui::Text(xorstr(u8"Compilation date: %s\nCompilation time: %s\nCopyright © 2022 Alpatov SoftWorks"), xorstr(__DATE__), xorstr(__TIME__));
 
 		POLY_MARKER
 

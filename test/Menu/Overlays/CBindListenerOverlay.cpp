@@ -4,6 +4,9 @@
 
 void CBindListenerOverlay::Show()
 {
+	POLY_MARKER;
+
+
 	ImGui::PushFont(m_pFont);
 	Render();
 	ImGui::PopFont();

@@ -39,7 +39,7 @@ void CBoxEsp::InternalRenderAt(CBaseEntity* pEntity)
     }
 }
 
-void CBoxEsp::DrawSolidBox(CBaseEntity* pEntity, const ImColor& drawColor, int thickness)
+void CBoxEsp::DrawSolidBox(const CBaseEntity* pEntity, const ImColor& drawColor, int thickness)
 {
     auto pDrawList = ImGui::GetBackgroundDrawList();
 

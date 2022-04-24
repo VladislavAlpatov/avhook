@@ -5,6 +5,8 @@
 
 ImVec2 UI::CRadarWindow::WorldToRadar(const ImVec3& EntityOrigin, const ImVec3& LocalPlayerOrigin, const ImVec3& LocalPlayerViewAngles, int width, float scale = 16.f)
 {
+	POLY_MARKER;
+
 	float x_diff = EntityOrigin.x - LocalPlayerOrigin.x;
 	float y_diff = EntityOrigin.y - LocalPlayerOrigin.y;
 
@@ -54,6 +56,8 @@ ImVec2 UI::CRadarWindow::WorldToRadar(const ImVec3& EntityOrigin, const ImVec3& 
 }
 void UI::CRadarWindow::KeepWindowInSreenArea()
 {
+	POLY_MARKER;
+
 	ImVec2 currentWindowPosition      = ImGui::GetWindowPos();
 	ImVec2 currentWindowSize          = ImGui::GetWindowSize();
 	ImVec2 viewPortSize               = ImGui::GetMainViewport()->Size;
@@ -98,6 +102,8 @@ void UI::CRadarWindow::UseGameRadar() const
 
 void UI::CRadarWindow::RenderCustomRadar()
 {
+	POLY_MARKER;
+
 	if (m_pRadarSettings->m_bDrawBorders)
 		ImGui::Begin(xorstr("###Radar"), NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
 	else
@@ -125,7 +131,7 @@ void UI::CRadarWindow::RenderCustomRadar()
 			ImGui::End();
 			return;
 		}
-
+		POLY_MARKER;
 		for (int i = 1; i < 33; ++i)
 		{
 			auto pEnt = GlobalVars::pIEntityList->GetClientEntity(i);
@@ -135,14 +141,14 @@ void UI::CRadarWindow::RenderCustomRadar()
 			auto windowPosition = ImGui::GetWindowPos();
 
 			auto vecEntityRadarPosition = WorldToRadar(pEnt->m_vecOrigin, GlobalVars::pClient->pLocalPlayer->m_vecOrigin, GlobalVars::veLocalPlayerViewAngles, 256);
-
+			POLY_MARKER;
 			ImColor enemyColor = ImColor(255, 255, 255);
 			if (GlobalVars::settings.m_AimBotSettings.m_pCurrentTarget == pEnt)
 				enemyColor = ImColor(255, 0, 255);
 			pDrawList->AddCircleFilled(ImVec2(windowPosition.x + vecEntityRadarPosition.x + 384.f / 6.0f, windowPosition.y + vecEntityRadarPosition.y), 4, ImColor(0, 0, 0));
 			pDrawList->AddCircleFilled(ImVec2(windowPosition.x + vecEntityRadarPosition.x + 384.f / 6.0f, windowPosition.y + vecEntityRadarPosition.y), 3, enemyColor);
 		}
-
+		POLY_MARKER;
 		KeepWindowInSreenArea();
 		ImGui::End();
 	}

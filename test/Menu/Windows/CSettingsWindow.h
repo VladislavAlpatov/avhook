@@ -9,7 +9,7 @@ namespace UI
 	class CSettingsWindow : public CBaseWindow
 	{
 	public:
-		CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CMessageLineList* pMessageLineList, Settings::CAllSettings* pAllSetting, bool* pShowKeyBinderDialog);
+		CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList, Settings::CAllSettings* pAllSetting, bool* pShowKeyBinderDialog);
 		virtual void Render();
 	private:
 		char m_pMenuCfgName[32] = {};

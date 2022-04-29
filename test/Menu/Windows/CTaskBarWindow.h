@@ -7,7 +7,7 @@ namespace UI
 	class CTaskBarWindow : public CBaseWindow
 	{
 	public:
-		CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule);
+		CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice);
 		virtual void Render();
 	private:
 		std::string GetLocalTime();

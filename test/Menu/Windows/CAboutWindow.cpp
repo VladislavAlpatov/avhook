@@ -3,15 +3,16 @@
 #include <shellapi.h>
 #include "../../Globals/GlobalVars.h"
 #include "../../RawData/RAVhookLogo.h"
-#include "../../resource.h"
+#include "../../RawData/Images.h"
 #include <d3dx9.h>
 #include "../../Utils/Marker.h"
 #include "../../imgui/imgui_internal.h"
+#include "../../RawData/Images.h"
 
-UI::CAboutWindow::CAboutWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule) : CBaseWindow(pDevice, hModule)
+UI::CAboutWindow::CAboutWindow(LPDIRECT3DDEVICE9 pDevice) : CBaseWindow(pDevice)
 {
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP1), &m_pTextureIcon);
-	D3DXCreateTextureFromFileInMemory(pDevice, RawData::AVhookLogoData, sizeof(RawData::AVhookLogoData), &m_pTexureCheatLogo);
+	D3DXCreateTextureFromFileInMemory(pDevice,    Images::AVhookLogo, sizeof(RawData::AVhookLogoData), &m_pTexureCheatLogo);
+	D3DXCreateTextureFromFileInMemory(m_pDevice,  Images::AboutIcon, sizeof(Images::AboutIcon), &m_pTextureIcon);
 }
 
 void UI::CAboutWindow::Render()
@@ -27,7 +28,7 @@ void UI::CAboutWindow::Render()
 		DrawCloseWindowButton();
 		
 		POLY_MARKER;
-		auto drawList = ImGui::GetWindowDrawList();
+		auto drawList  = ImGui::GetWindowDrawList();
 		auto windowPos = ImGui::GetWindowPos();
 		auto cursorPos = ImGui::GetCursorPos();
 

@@ -4,15 +4,17 @@
 #include <thread>
 #include "../../Globals/GlobalVars.h"
 #include <fmt/format.h>
-#include "../../resource.h"
+#include "../../RawData/Images.h"
+
 #include <d3dx9.h>
 #include "../../Utils/Marker.h"
 
-UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CMessageLineList* pMessageLineList) : CBaseWindow(pDevice, hModule)
+UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList) : CBaseWindow(pDevice)
 {
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP12), &m_pTexureDefaulteAvatar);
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP13), &m_pTextureIcon);
+	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::DefaultAvatar, sizeof(Images::DefaultAvatar), &m_pTexureDefaulteAvatar);
+	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::ProfileIcon,   sizeof(Images::ProfileIcon),   &m_pTextureIcon);
 
+	
 	m_pMessageLineList = pMessageLineList;
 	auto avatarRawData = m_ApiClient.GetRawAvatarData();
 

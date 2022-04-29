@@ -36,7 +36,7 @@ void Esp::CLabelEsp::DrawLabelsAtTop(const CBaseEntity* pEntity, const std::vect
 {
     auto box = CalcEspBox(pEntity);
 
-    ImVec2 bottomLeft  = box.m_vecTop - ImVec2(box.m_Width / 2.f,13);
+    ImVec2 bottomLeft  = box.m_vecTop - ImVec2(box.m_Width / 2.f, 13);
 
     for (auto pLabel : labels)
     {

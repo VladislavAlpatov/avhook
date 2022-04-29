@@ -159,9 +159,6 @@
     <ClInclude Include="imgui\imconfig.h">
       <Filter>Render\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>header</Filter>
-    </ClInclude>
     <ClInclude Include="DirectX\DX9ColorFix.h">
       <Filter>Render\DirectX\DX9ColorFix</Filter>
     </ClInclude>
@@ -342,6 +339,9 @@
     <ClInclude Include="Utils\Math\Math.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="RawData\Images.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_draw.cpp">
@@ -482,11 +482,6 @@
     <ClCompile Include="Utils\Math\Math.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="test.rc">
-      <Filter>source</Filter>
-    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\about.bmp">

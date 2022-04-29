@@ -3,7 +3,7 @@
 #include "../../Globals/GlobalVars.h"
 
 
-UI::CTaskBarWindow::CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule) : CBaseWindow(pDevice, hModule)
+UI::CTaskBarWindow::CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice) : CBaseWindow(pDevice)
 {
 	m_bForceShow = true;
 }
@@ -42,7 +42,7 @@ std::string UI::CTaskBarWindow::GetLocalTime()
 	localtime_s(&tm, &t);
 	std::ostringstream oss;
 	std::string timeString = "";
-	oss << std::put_time(&tm, "%H:%M:%S");
+	oss << std::put_time(&tm, xorstr("%H:%M:%S"));
 	return oss.str();
 }
 

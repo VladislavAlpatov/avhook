@@ -8,7 +8,7 @@ namespace UI
 	class CNetWorkWindow : public CBaseWindow
 	{
 	public:
-		CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CMessageLineList* pMessageLineList);
+		CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList);
 		virtual void Render();
 		virtual void OnOpen();
 		virtual void OnClose();

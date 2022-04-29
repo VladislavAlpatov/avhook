@@ -5,7 +5,8 @@
 #include "../../imgui/imgui_internal.h"
 #include "../../Utils/CFGloader/CFGloader.h"
 #include <fmt/format.h>
-#include "../../resource.h"
+#include "../../RawData/Images.h"
+
 #include <fstream>
 #include <d3dx9.h>
 
@@ -24,18 +25,17 @@ public:
 	int*			m_pPriority;
 	ImColor*		m_pColor;
 };
-UI::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CMessageLineList* pMessageLineList, Settings::CAllSettings* pAllSetting, bool* pShowKeyBinderDialog) : CBaseWindow(pDevice, hModule)
+UI::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList, Settings::CAllSettings* pAllSetting, bool* pShowKeyBinderDialog) : CBaseWindow(pDevice)
 {
 	m_pAllSettings          = pAllSetting;
 	m_pShowKeyBinderDialog  = pShowKeyBinderDialog;
 	m_pMessageLineList      = pMessageLineList;
 	m_BindListener          = Routines::CBindListener(&m_pAllSettings->m_AimBotSettings.m_iBindKey, m_pShowKeyBinderDialog);
-
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP5),  &m_pTextureIcon);
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP9),  &m_pTexureAimBotIcon);
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP10), &m_pTexureEspIcon);
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP11), &m_pTexureMiscIcon);
-	D3DXCreateTextureFromResourceA(m_pDevice, m_hModule, MAKEINTRESOURCEA(IDB_BITMAP8),  &m_pTexureAtomaticColorIcon);
+	
+	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::SettingsIcon,  sizeof(Images::SettingsIcon),  &m_pTextureIcon);
+	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::AimbotIcon,    sizeof(Images::AimbotIcon),    &m_pTexureAimBotIcon);
+	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::EspIcon,       sizeof(Images::EspIcon),       &m_pTexureEspIcon);
+	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::AutoColorIcon, sizeof(Images::AutoColorIcon), &m_pTexureAtomaticColorIcon);
 }
 std::string UI::CSettingsWindow::VirtualKeyNumberToString(int keyNumber)
 {
@@ -271,10 +271,12 @@ void UI::CSettingsWindow::DrawEspChild()
 		for (int i = 0; i < m_pAllSettings->m_LabelEspSettings.m_Labels.size(); ++i)
 		{
 			auto& style = ImGui::GetStyle();
-			auto backUp = style.WindowPadding;
+			auto backUp  = style.WindowPadding;
 			auto backUp2 = style.ItemSpacing;
+
 			style.WindowPadding = ImVec2(2, 2);
-			style.ItemSpacing = ImVec2(2, 2);
+			style.ItemSpacing   = ImVec2(2, 2);
+
 			auto pCurrentLabel = m_pAllSettings->m_LabelEspSettings.m_Labels[i];
 			ImGui::BeginChild((std::string(xorstr("###Child")) + pCurrentLabel->m_sName).c_str(), ImVec2(160, 25), true, m_iImGuiStyle);
 			{

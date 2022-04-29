@@ -14,7 +14,7 @@ namespace UI
 	{
 	public:
 
-		CBaseWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule);
+		CBaseWindow(LPDIRECT3DDEVICE9 pDevice);
 		CBaseWindow() {};
 		virtual ~CBaseWindow() { };
 
@@ -28,7 +28,6 @@ namespace UI
 		bool m_bForceShow = false;
 
 		LPDIRECT3DDEVICE9 m_pDevice = nullptr;
-		HMODULE           m_hModule = nullptr;
 
 		// Global style for all windows
 		const int m_iImGuiStyle = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;

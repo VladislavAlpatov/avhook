@@ -2,7 +2,7 @@
 #include "CDockWindow.h"
 #include "../../Utils/xorstr.h"
 
-UI::CDockWindow::CDockWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule, CBaseWindow* pAboutWindow, CBaseWindow* pPlayerListWindow, CBaseWindow* pSettingsWindow) : CBaseWindow(pDevice, hModule)
+UI::CDockWindow::CDockWindow(LPDIRECT3DDEVICE9 pDevice, CBaseWindow* pAboutWindow, CBaseWindow* pPlayerListWindow, CBaseWindow* pSettingsWindow) : CBaseWindow(pDevice)
 {
 	m_bForceShow        = true;
 	m_pPlayerListWindow = pPlayerListWindow;

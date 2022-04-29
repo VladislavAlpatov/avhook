@@ -8,10 +8,9 @@
 #include "../../Utils/xorstr.h"
 #include "../../Utils/Marker.h"
 
-UI::CBaseWindow::CBaseWindow(LPDIRECT3DDEVICE9 pDevice, HMODULE  hModule)
+UI::CBaseWindow::CBaseWindow(LPDIRECT3DDEVICE9 pDevice)
 {
 	m_pDevice = pDevice;
-	m_hModule = hModule;
 
 	ImFontConfig fontBUilderConfig;
 	fontBUilderConfig.FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_Monochrome | ImGuiFreeTypeBuilderFlags_MonoHinting;

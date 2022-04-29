@@ -298,6 +298,7 @@
     <ClInclude Include="Menu\Windows\CSettingsWindow.h" />
     <ClInclude Include="Menu\Windows\CDockWindow.h" />
     <ClInclude Include="Menu\Windows\CTaskBarWindow.h" />
+    <ClInclude Include="RawData\Images.h" />
     <ClInclude Include="RawData\RAVhookLogo.h" />
     <ClInclude Include="RazerSDK\CRazer.h" />
     <ClInclude Include="RazerSDK\CRazerExceptions.h" />
@@ -305,7 +306,6 @@
     <ClInclude Include="RazerSDK\RzChromaSDKDefines.h" />
     <ClInclude Include="RazerSDK\RzChromaSDKTypes.h" />
     <ClInclude Include="RazerSDK\RzErrors.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="SDK\AbstractInterface.h" />
     <ClInclude Include="SDK\CBaseEntity.h" />
     <ClInclude Include="SDK\ClientBase.h" />
@@ -381,9 +381,6 @@
     <ClCompile Include="Utils\memory.cpp" />
     <ClCompile Include="Utils\VMThook.cpp" />
     <ClCompile Include="Web\CAVhookServerApi.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="test.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\about.bmp" />

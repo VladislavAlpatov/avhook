@@ -45,35 +45,38 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSet
 	style.AntiAliasedLinesUseTex = false;
 	style.AntiAliasedLines       = false;
 	style.AntiAliasedFill        = false;
-	style.ScrollbarRounding = 0.f;
-	style.WindowMinSize = ImVec2(10, 10);
-	theme[ImGuiCol_WindowBg] = ImColor(24, 31, 35, 255);
-	theme[ImGuiCol_Button] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_Tab] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_SeparatorActive] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_Border] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_Text] = ImVec4(1.f, 1.f, 1.f, 1.f);
-	theme[ImGuiCol_ButtonActive] = ImVec4(1.f, 0.57f, 0.57f, 1.f);
-	theme[ImGuiCol_ButtonHovered] = ImVec4(1.f, 0.4f, 0.4f, 1.f);
-	theme[ImGuiCol_CheckMark] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_TextSelectedBg] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_FrameBg] = ImVec4(0.31f, 0.31f, 0.31f, 1.f);
-	theme[ImGuiCol_FrameBgActive] = ImVec4(1.f, 0.57f, 0.57f, 1.f);
-	theme[ImGuiCol_FrameBgHovered] = ImVec4(0.41f, 0.41f, 0.41f, 1.f);
-	theme[ImGuiCol_PopupBg] = ImColor(24, 31, 35, 255);
-	theme[ImGuiCol_ScrollbarBg] = ImVec4(1.f, 0.372f, 0.372f, 0.f);
-	theme[ImGuiCol_ScrollbarGrab] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_SliderGrab] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
+	style.ScrollbarRounding      = 0.f;
+	style.WindowMinSize          = ImVec2(10, 10);
+
+
+
+	theme[ImGuiCol_WindowBg]		 = ImColor(24, 31, 35, 255);
+	theme[ImGuiCol_Button]			 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
+	theme[ImGuiCol_Tab]				 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
+	theme[ImGuiCol_SeparatorActive]  = ImVec4(1.f, 0.372f, 0.372f, 1.f);
+	theme[ImGuiCol_Border]			 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
+	theme[ImGuiCol_Text]			 = ImVec4(1.f, 1.f, 1.f, 1.f);
+	theme[ImGuiCol_ButtonActive]	 = ImVec4(1.f, 0.57f, 0.57f, 1.f);
+	theme[ImGuiCol_ButtonHovered]    = ImVec4(1.f, 0.4f, 0.4f, 1.f);
+	theme[ImGuiCol_CheckMark]		 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
+	theme[ImGuiCol_TextSelectedBg]   = ImVec4(1.f, 0.372f, 0.372f, 1.f);
+	theme[ImGuiCol_FrameBg]			 = ImVec4(0.31f, 0.31f, 0.31f, 1.f);
+	theme[ImGuiCol_FrameBgActive]    = ImVec4(1.f, 0.57f, 0.57f, 1.f);
+	theme[ImGuiCol_FrameBgHovered]   = ImVec4(0.41f, 0.41f, 0.41f, 1.f);
+	theme[ImGuiCol_PopupBg]			 = ImColor(24, 31, 35, 255);
+	theme[ImGuiCol_ScrollbarBg]		 = ImVec4(1.f, 0.372f, 0.372f, 0.f);
+	theme[ImGuiCol_ScrollbarGrab]	 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
+	theme[ImGuiCol_SliderGrab]		 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
 	theme[ImGuiCol_SliderGrabActive] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_TabHovered] = ImVec4(1.f, 0.57f, 0.57f, 1.f);
-	theme[ImGuiCol_TabActive] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
+	theme[ImGuiCol_TabHovered]		 = ImVec4(1.f, 0.57f, 0.57f, 1.f);
+	theme[ImGuiCol_TabActive]		 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
 
 
-	m_vecWindows.push_back(new UI::CAboutWindow(m_pDevice,     hModule));
-	m_vecWindows.push_back(new UI::CSettingsWindow(m_pDevice,  hModule, &m_MessageLineList, pSettings, &m_bShowKeyBindDialog));
-	m_vecWindows.push_back(new UI::CNetWorkWindow(m_pDevice,   hModule,  &m_MessageLineList));
-	m_vecWindows.push_back(new UI::CDockWindow(m_pDevice,     hModule,    m_vecWindows[0], m_vecWindows[2], m_vecWindows[1]));
-	m_vecWindows.push_back(new UI::CTaskBarWindow(pDevice,     hModule));
+	m_vecWindows.push_back(new UI::CAboutWindow(m_pDevice));
+	m_vecWindows.push_back(new UI::CSettingsWindow(m_pDevice, &m_MessageLineList, pSettings, &m_bShowKeyBindDialog));
+	m_vecWindows.push_back(new UI::CNetWorkWindow(m_pDevice,  &m_MessageLineList));
+	m_vecWindows.push_back(new UI::CDockWindow(m_pDevice,    m_vecWindows[0], m_vecWindows[2], m_vecWindows[1]));
+	m_vecWindows.push_back(new UI::CTaskBarWindow(pDevice));
 
 	m_vecEspPayload = {
 		new Esp::CBoxEsp(&GlobalVars::settings.m_BoxEspSettings), 

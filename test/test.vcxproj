@@ -318,7 +318,6 @@
     <ClInclude Include="SDK\IInput.h" />
     <ClInclude Include="SDK\IVEngineClient013\IVEngineClient013.h" />
     <ClInclude Include="SDK\SDK.h" />
-    <ClInclude Include="Server\Server.h" />
     <ClInclude Include="Utils\CFGloader\CFGloader.h" />
     <ClInclude Include="Utils\Marker.h" />
     <ClInclude Include="Utils\Math\Math.h" />
@@ -375,7 +374,6 @@
     <ClCompile Include="SDK\ClientBase.cpp" />
     <ClCompile Include="SDK\ICCvar.cpp" />
     <ClCompile Include="SDK\IVEngineClient013\IVEngineClient013.cpp" />
-    <ClCompile Include="Server\Server.cpp" />
     <ClCompile Include="Utils\CFGloader\CFGloader .cpp" />
     <ClCompile Include="Utils\Math\Math.cpp" />
     <ClCompile Include="Utils\memory.cpp" />
@@ -406,9 +404,6 @@
       <DeploymentContent>true</DeploymentContent>
     </None>
     <None Include="Scripts\vckg-auto-install.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="sound\killsound.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

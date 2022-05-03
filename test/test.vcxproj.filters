@@ -231,9 +231,6 @@
     <ClInclude Include="Hacks\Hooks\Hooks.h">
       <Filter>Hacking features\Hooks</Filter>
     </ClInclude>
-    <ClInclude Include="Server\Server.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="imgui\misc\freetype\imgui_freetype.h">
       <Filter>Render\imgui\misc</Filter>
     </ClInclude>
@@ -404,9 +401,6 @@
     <ClCompile Include="Hacks\Hooks\Hooks.cpp">
       <Filter>Hacking features\Hooks</Filter>
     </ClCompile>
-    <ClCompile Include="Server\Server.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="imgui\misc\freetype\imgui_freetype.cpp">
       <Filter>Render\imgui\misc</Filter>
     </ClCompile>
@@ -541,10 +535,5 @@
     <None Include="Scripts\vckg-auto-install.bat">
       <Filter>Core</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="sound\killsound.wav">
-      <Filter>source\Sound</Filter>
-    </Media>
   </ItemGroup>
 </Project>

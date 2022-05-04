@@ -14,8 +14,6 @@ namespace Hacks
 
 		bool                      IfEntityInFov(const CBaseEntity* pEntity, const int bone) const;
 		ImVec3                    CalcAimViewAngles(const CBaseEntity* pEntity, const int bone) const;
-		static ImVec3             ClampViewAngles(ImVec3 vecViewAngles);
-		static ImVec3             NormalizeViewAngles(ImVec3 vecViewAngle);
 		void                      AimSmooth(const CBaseEntity* pEntity, int iBoneId);
 		void                      AimPlain(const  CBaseEntity* pEntity, int iBoneId);
 		CBaseEntity*              GetClosestTargetByDistance(int bone);

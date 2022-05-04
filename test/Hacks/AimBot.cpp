@@ -4,6 +4,7 @@
 #include "../Utils/Math/Math.h"
 #include "../Utils/Marker.h"
 
+
 using namespace Hacks;
 
 CAimBot::CAimBot(Settings::CAimBotSettings* pSettings, CUserCmd* ppUsrCmd) : CHackingFeature(pSettings)
@@ -84,7 +85,7 @@ void CAimBot::Work()
 		{
 			AimPlain(pEnt, aimBone);
 			if (pAimBotSettings->m_bRcsControle)
-				m_pCUsrCmd->viewangles = NormalizeViewAngles(m_pCUsrCmd->viewangles - GlobalVars::pClient->pLocalPlayer->m_vecAimPuchAngle * 2.f);
+				m_pCUsrCmd->viewangles = Utils::NormalizeViewAngles(m_pCUsrCmd->viewangles - GlobalVars::pClient->pLocalPlayer->m_vecAimPuchAngle * 2.f);
 		}
 	}
 	
@@ -118,7 +119,7 @@ void CAimBot::AimSmooth(const CBaseEntity* pEnt, int iBoneId)
 
 	ImVec3 diff = targetViewAngle - currentAngle;
 
-	diff = ClampViewAngles(NormalizeViewAngles(diff));
+	diff = Utils::ClampViewAngles(Utils::NormalizeViewAngles(diff));
 
 	ImVec3 angle = currentAngle;
 
@@ -127,7 +128,7 @@ void CAimBot::AimSmooth(const CBaseEntity* pEnt, int iBoneId)
 
 	POLY_MARKER;
 
-	angle = ClampViewAngles(NormalizeViewAngles(angle));
+	angle = Utils::ClampViewAngles(Utils::NormalizeViewAngles(angle));
 	
 	if (fabs(angle.x) <= 89.f and fabs(angle.y) <= 180.f)
 	{
@@ -207,42 +208,6 @@ ImVec3 CAimBot::CalcAimViewAngles(const CBaseEntity* pEntity, const int bone) co
 	calculated.y =   Utils::RadiansToDegrees(atan2f(targetPosition.y - localCameraPosition.y, targetPosition.x - localCameraPosition.x));
 
 	return calculated;
-}
-
-ImVec3 CAimBot::NormalizeViewAngles(ImVec3 vecViewAngle)
-{
-	if (vecViewAngle.x > 180)
-		vecViewAngle.x -= 360.0f;
-
-	if (vecViewAngle.x < 180)
-		vecViewAngle.x += 360.0f;
-
-	if (vecViewAngle.y > 180)
-		vecViewAngle.y -= 360.0f;
-
-	if (vecViewAngle.y < 180)
-		vecViewAngle.y += 360.0f;
-
-	return vecViewAngle;
-}
-ImVec3 CAimBot::ClampViewAngles(ImVec3 vecViewAngles)
-{
-	if (vecViewAngles.x > 89.0f && vecViewAngles.x <= 180.0f)
-		vecViewAngles.x = 89.0f;
-
-	if (vecViewAngles.x > 180.0f)
-		vecViewAngles.x = vecViewAngles.x - 360.0f;
-
-	if (vecViewAngles.x < -89.0f)
-		vecViewAngles.x = -89.0f;
-
-	if (vecViewAngles.y > 180.0f)
-		vecViewAngles.y = vecViewAngles.y - 360.0f;
-
-	if (vecViewAngles.y < -180.0f)
-		vecViewAngles.y = vecViewAngles.y + 360.0f;
-
-	return vecViewAngles;
 }
 
 std::vector<CBaseEntity*> CAimBot::GetValidEntities(const int boneId) const

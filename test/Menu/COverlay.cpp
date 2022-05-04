@@ -25,6 +25,7 @@
 
 COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSettings* pSettings)
 {
+	POLY_MARKER;
 	m_pDevice      = pDevice;
 	m_pAllSettings = pSettings;
 	ImGui::CreateContext();
@@ -48,7 +49,7 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSet
 	style.ScrollbarRounding      = 0.f;
 	style.WindowMinSize          = ImVec2(10, 10);
 
-
+	POLY_MARKER;
 	
 	theme[ImGuiCol_WindowBg]		 = ImColor(24, 31, 35, 255);
 	theme[ImGuiCol_Button]			 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
@@ -71,12 +72,15 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSet
 	theme[ImGuiCol_TabHovered]		 = ImVec4(1.f, 0.57f, 0.57f, 1.f);
 	theme[ImGuiCol_TabActive]		 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
 
+	POLY_MARKER;
 
 	m_vecWindows.push_back(new UI::CAboutWindow(m_pDevice));
 	m_vecWindows.push_back(new UI::CSettingsWindow(m_pDevice, &m_MessageLineList, pSettings, &m_bShowKeyBindDialog));
 	m_vecWindows.push_back(new UI::CNetWorkWindow(m_pDevice,  &m_MessageLineList));
 	m_vecWindows.push_back(new UI::CDockWindow(m_pDevice,    m_vecWindows[0], m_vecWindows[2], m_vecWindows[1]));
 	m_vecWindows.push_back(new UI::CTaskBarWindow(pDevice));
+
+	POLY_MARKER;
 
 	m_vecEspPayload = {
 		new Esp::CBoxEsp(&GlobalVars::settings.m_BoxEspSettings), 
@@ -89,13 +93,14 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSet
 	{
 		m_vecSnow.push_back(SnowFlake(ImVec2(0, 2), 1920));
 	}
+	POLY_MARKER;
 
-	m_MessageLineList.Add((const char*)"User controle initiated. Focus.Plan.Attack", 3000);
+	m_MessageLineList.Add(xorstr("User controle initiated. Focus.Plan.Attack"), 3000);
 }
 
 void COverlay::Render()
 {
-
+	POLY_MARKER;
 	DX9ColorFix color_fix(m_pDevice);
 	color_fix.RemoveColorFilter();
 
@@ -179,7 +184,9 @@ void COverlay::Render()
 	{
 		CBindListenerOverlay(m_pFontEsp).Show();
 	}
+
 	POLY_MARKER;
+
 	color_fix.RestoreRenderState();
 
 	ImGui::Render();

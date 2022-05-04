@@ -13,6 +13,7 @@
 
 #include "MinHook.h"
 #include "../../Globals/GlobalVars.h"
+#include <stdexcept>
 
 using namespace hooks;
 
@@ -46,6 +47,9 @@ bool __stdcall hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 	{
 		return false;
 	}
+
+	POLY_MARKER;
+
 	GlobalVars::veLocalPlayerViewAngles = pUserCmd->viewangles;
 
 	GlobalVars::pClient->pLocalPlayer->m_iDefaultFOV = GlobalVars::settings.m_MiscSettings.m_iCustomFov;
@@ -113,15 +117,27 @@ void hooks::Attach(HMODULE ihModule)
 	MH_Initialize();
 
 	auto  presentAddr = CMemory::FindPattern(xorstr("d3d9.dll"), xorstr("?? ?? ?? ?? ?? 83 E4 F8 51 51 56 8B 75 08 8B CE F7 D9 57 1B C9 8D 46 04 23 C8 6A ?? 51 8D 4C 24 10 E8 ?? ?? ?? ?? F7 46 ?? ?? ?? ?? ?? 74 07 BF ?? ?? ?? ?? EB 17"));
+	
+	if (!presentAddr)
+		throw std::runtime_error(xorstr("DirectX 9 initialization failure"));
+	
 	MH_CreateHook((LPVOID)presentAddr, &hkPresent, reinterpret_cast<LPVOID*>(&hooks::oPresent));
+
+	POLY_MARKER;
 
 	//Hook CreateMove
 	auto createMoveAddr = CMemory::FindPattern(xorstr("client.dll"), xorstr("55 8B EC 56 8D 75 04 8B"));
+
+	if (!presentAddr)
+		throw std::runtime_error(xorstr("CSGO initialization failure"));
+
 	MH_CreateHook((LPVOID*)createMoveAddr, &hCreateMove, (LPVOID*)&oCreateMove);
 	POLY_MARKER;
-	uintptr_t DrawIndexedPrimitiveAddr = (uintptr_t)(GetModuleHandleA(xorstr("d3d9.dll"))) + 0x627b0;
+
+	//uintptr_t DrawIndexedPrimitiveAddr = (uintptr_t)(GetModuleHandleA(xorstr("d3d9.dll"))) + 0x627b0;
 	//MH_CreateHook((LPVOID*)DrawIndexedPrimitiveAddr, &hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
 	//MH_CreateHook(GetProcAddress(GetModuleHandle("ntdll"), xorstr("NtQueryVirtualMemory")), &hNtQueryVirtualMemory, (LPVOID*)&oNtQueryVirtualMemory);
+
 	MH_EnableHook(MH_ALL_HOOKS);
 	// Wait until overlay is ready for work.
 	while (!pOverlay)

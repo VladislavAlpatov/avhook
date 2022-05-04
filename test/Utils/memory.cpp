@@ -3,6 +3,7 @@
 #include <sstream>
 #include <boost/algorithm/string.hpp>
 #include "xorstr.h"
+#include "Marker.h"
 
 MODULEINFO CMemory::GetModuleInfo(const char* szModule)
 {
@@ -58,15 +59,16 @@ void CMemory::PatchBytes(BYTE* dst, BYTE* src, unsigned int size)
 uintptr_t CMemory::FindPattern(const char* module, const char* signature)
 {
 	MODULEINFO mInfo = GetModuleInfo(module);
-	DWORD base = (DWORD)mInfo.lpBaseOfDll;
-	DWORD size = (DWORD)mInfo.SizeOfImage;
+	uintptr_t base = (uintptr_t)mInfo.lpBaseOfDll;
+	uintptr_t size = (uintptr_t)mInfo.SizeOfImage;
 	auto pattern = ParsePattern(signature);
 
+	POLY_MARKER;
 
-	for (DWORD i = 0; i < size - pattern.data.size(); i++)
+	for (uintptr_t i = 0; i < size - pattern.data.size(); i++)
 	{
 		bool found = true;
-		for (DWORD j = 0; j < pattern.data.size(); j++)
+		for (uintptr_t j = 0; j < pattern.data.size(); j++)
 		{
 			found &= pattern.mask[j] == '?' || pattern.data[j] == *(BYTE*)(base + i + j);
 		}

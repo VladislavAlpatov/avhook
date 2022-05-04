@@ -1,11 +1,14 @@
 #pragma once
 #include "Settings.h"
 #include "../Utils/xorstr.h"
+#include "../Utils/Marker.h"
+
 using namespace Settings;
 
 json CBaseSettings::ToJson()
 {
 	json jsn;
+	POLY_MARKER;
 
 	jsn[xorstr("Active")]  = m_bActive;
 	jsn[xorstr("OnKey")]   = m_bOnKey;
@@ -17,7 +20,7 @@ json CBaseSettings::ToJson()
 json CBaseSettings::ImColorToJsn(const ImColor& color)
 {
 	json jsn;
-
+	POLY_MARKER;
 	jsn[xorstr("R")] = color.Value.x;
 	jsn[xorstr("G")] = color.Value.y;
 	jsn[xorstr("B")] = color.Value.z;
@@ -39,7 +42,7 @@ ImColor CBaseSettings::ImportImColorFromJson(const json& jsn)
 json CAimBotSettings::ToJson()
 {
 	json jsn;
-
+	POLY_MARKER;
 	jsn[xorstr("Active")]           = m_bActive;
 	jsn[xorstr("OnKey")]            = m_bOnKey;
 	jsn[xorstr("BindKey")]          = m_iBindKey;
@@ -57,6 +60,7 @@ json CAimBotSettings::ToJson()
 };
 CAimBotSettings::CAimBotSettings(const json& jsn)
 {	
+	POLY_MARKER;
 	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("Active"),           &m_bActive);
 	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("OnKey"),            &m_bOnKey);
 	SetValueIfFiledExistInJson<int>(jsn,   xorstr("BindKey"),          &m_iBindKey);
@@ -74,6 +78,8 @@ json SnapLinesSettings::ToJson()
 {
 	json jsn;
 
+	POLY_MARKER;
+
 	jsn[xorstr("Active")] = m_bActive;
 	jsn[xorstr("SelectedBone")] = m_iSelectedBone;
 	jsn[xorstr("Color")] = ImColorToJsn(m_Color);
@@ -84,6 +90,8 @@ json SnapLinesSettings::ToJson()
 };
 SnapLinesSettings::SnapLinesSettings(const json& jsn)
 {
+	POLY_MARKER;
+
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
 	SetValueIfFiledExistInJson<int>(jsn,  xorstr("SelectedBone"), &m_iSelectedBone);
 	SetValueIfFiledExistInJson<int>(jsn,  xorstr("DrawMode"), &m_iDrawMode);
@@ -93,6 +101,8 @@ SnapLinesSettings::SnapLinesSettings(const json& jsn)
 json BoxEspSettings::ToJson()
 {
 	json jsn;
+
+	POLY_MARKER;
 
 	jsn[xorstr("Active")] = m_bActive;
 	jsn[xorstr("Color")] = ImColorToJsn(m_Color);
@@ -105,6 +115,9 @@ json BoxEspSettings::ToJson()
 
 BoxEspSettings::BoxEspSettings(const json& jsn)
 {
+
+	POLY_MARKER;
+
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
 	SetValueIfFiledExistInJson<int>(jsn, xorstr("Style"), &m_iStyle);
 	SetValueIfFiledExistInJson(jsn, xorstr("Color"), &m_Color);
@@ -116,6 +129,8 @@ json MiscSettings::ToJson()
 {
 	json jsn;
 
+	POLY_MARKER;
+
 	jsn[xorstr("WallPaper")] = m_bWallPaper;
 	jsn[xorstr("ShowTime")] = m_bShowTime;
 	jsn[xorstr("KillSound")] = m_bKillSound;
@@ -126,6 +141,8 @@ json MiscSettings::ToJson()
 
 MiscSettings::MiscSettings(const json& jsn)
 {
+	POLY_MARKER;
+
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("WallPaper"), &m_bWallPaper);
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("ShowTime"), &m_bShowTime);
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("KillSound"), &m_bKillSound);
@@ -137,6 +154,8 @@ json TriggerBotSettings::ToJson()
 {
 	json jsn;
 
+	POLY_MARKER;
+
 	jsn[xorstr("Active")] = m_bActive;
 	jsn[xorstr("RageMode")] = m_bRageMode;
 	jsn[xorstr("iDelay")] = m_iDelay;
@@ -145,6 +164,9 @@ json TriggerBotSettings::ToJson()
 };
 TriggerBotSettings::TriggerBotSettings(const json& jsn)
 {
+
+	POLY_MARKER;
+
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("RageMode"), &m_bRageMode);
 	SetValueIfFiledExistInJson<int>(jsn, xorstr("iDelay"), &m_iDelay);
@@ -153,6 +175,8 @@ TriggerBotSettings::TriggerBotSettings(const json& jsn)
 json BarEspSettings::ToJson()
 {
 	json jsn;
+
+	POLY_MARKER;
 
 	jsn[xorstr("Active")] = m_bActive;
 	jsn[xorstr("DrawHealthBar")] = m_bDrawHealthBar;
@@ -165,6 +189,8 @@ json BarEspSettings::ToJson()
 };
 BarEspSettings::BarEspSettings(const json& jsn)
 {
+	POLY_MARKER;
+
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"),          &m_bActive);
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawHealthBar"),   &m_bDrawHealthBar);
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawArmorBar"),    &m_bDrawArmorBar);
@@ -176,6 +202,8 @@ BarEspSettings::BarEspSettings(const json& jsn)
 json CRadarSettings::ToJson()
 {
 	json jsn;
+
+	POLY_MARKER;
 
 	jsn[xorstr("Active")] = m_bActive;
 	jsn[xorstr("ActiveFeatureColor")] = ImColorToJsn(m_ActiveFeatureColor);
@@ -191,8 +219,13 @@ json CRadarSettings::ToJson()
 json CLabelEspSettings::ToJson()
 {
 	json jsn;
+
+	POLY_MARKER;
+
 	std::vector<json> lablesJson;
 	jsn[xorstr("iDrawPos")] = m_iDrawPos;
+
+	POLY_MARKER;
 
 	for (auto pLabel : m_Labels)
 	{
@@ -211,6 +244,7 @@ json CLabelEspSettings::ToJson()
 };
 CLabelEspSettings::CLabelEspSettings(const json& jsn) : CLabelEspSettings()
 {
+	POLY_MARKER;
 	SetValueIfFiledExistInJson<int>(jsn, xorstr("iDrawPos"), &m_iDrawPos);
 
 	if (!jsn.contains(xorstr("Labels")))
@@ -221,6 +255,8 @@ CLabelEspSettings::CLabelEspSettings(const json& jsn) : CLabelEspSettings()
 		delete pLabel;
 	}
 	m_Labels.clear();
+
+	POLY_MARKER;
 
 	for (auto& jsnLabel : jsn[xorstr("Labels")].get<std::vector<json>>())
 	{
@@ -268,10 +304,13 @@ json CBunnyHopSettings::ToJson()
 };
 CBunnyHopSettings::CBunnyHopSettings(const json& jsn) : CBunnyHopSettings::CBunnyHopSettings()
 {
+	POLY_MARKER;
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
 }
 Settings::CAllSettings::CAllSettings(const json& jsn)
 {
+
+	POLY_MARKER;
 	m_AimBotSettings     = Settings::CAimBotSettings(jsn[xorstr("AimBot")].get<nlohmann::json>());
 	m_BarEspSettings     = Settings::BarEspSettings(jsn[xorstr("BarEsp")].get<nlohmann::json>());
 	m_BoxEspSettings     = Settings::BoxEspSettings(jsn[xorstr("BoxEsp")].get<nlohmann::json>());
@@ -281,12 +320,17 @@ Settings::CAllSettings::CAllSettings(const json& jsn)
 	m_RadarSettings      = Settings::CRadarSettings(jsn[xorstr("Radar")].get<nlohmann::json>());
 	m_SnapLinesSettings  = Settings::SnapLinesSettings(jsn[xorstr("SnapLinesEsp")].get<nlohmann::json>());
 	m_TriggerBotSettings = Settings::TriggerBotSettings(jsn[xorstr("TriggerBot")].get<nlohmann::json>());
+
+	POLY_MARKER;
 	auto tmp = jsn[xorstr("CfgName")].get<std::string>();
 	m_Name = std::string(tmp.c_str(), 32);
 }
 json CAllSettings::ToJson()
 {
 	json jsn;
+
+	POLY_MARKER;
+
 	jsn[xorstr("CfgName")]      = m_Name.c_str();
 	jsn[xorstr("AimBot")]       = m_AimBotSettings.ToJson();
 	jsn[xorstr("BarEsp")]       = m_BarEspSettings.ToJson();
@@ -301,6 +345,9 @@ json CAllSettings::ToJson()
 }
 CRadarSettings::CRadarSettings(const json& jsn)
 {
+
+	POLY_MARKER;
+
 	SetValueIfFiledExistInJson<int>(jsn, xorstr("Style"), &m_iStyle);
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
 

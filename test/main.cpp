@@ -19,11 +19,12 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 		wcscpy_s(appInfo.Description, L"CSGO");
 
 		wcscpy_s(appInfo.Author.Name, L"CSGO");
+		POLY_MARKER;
 		wcscpy_s(appInfo.Author.Contact, L"CSGO");
-
+		POLY_MARKER;
 		appInfo.SupportedDevice = (0x01 | 0x02);
 		appInfo.Category = 1;
-
+		POLY_MARKER;
 		razer.Init();
 		razer.InitSDK(&appInfo);
 
@@ -31,7 +32,9 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 	}
 	else
 	{
+		POLY_MARKER;
 		GlobalVars::bChromaSupport = false;
+		POLY_MARKER;
 	}
 	
 	while (!GetModuleHandleA(xorstr("serverbrowser.dll")))
@@ -39,7 +42,8 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 
 	GlobalVars::Init(hModule);
 	hooks::Attach(hModule);
-	
+	POLY_MARKER;
+
 	while (!GetAsyncKeyState(VK_END))
 	{
 		Sleep(100);
@@ -71,6 +75,7 @@ BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 		}
 		if (!WebApi::CAVHookServerApi().AuthByToken(GlobalVars::authToken))
 		{
+			POLY_MARKER;
 			MessageBoxA(NULL, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);
 			exit(-1);
 		}

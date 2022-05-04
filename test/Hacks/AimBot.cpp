@@ -2,6 +2,7 @@
 #include "AimBot.h"
 #include "../Globals/GlobalVars.h"
 #include "../Utils/Math/Math.h"
+#include "../Utils/Marker.h"
 
 using namespace Hacks;
 
@@ -30,6 +31,8 @@ void CAimBot::Work()
 {
 	using namespace GlobalVars;
 
+	POLY_MARKER;
+
 	auto pAimBotSettings = (Settings::CAimBotSettings*)m_pSettings;
 
 	if (!IsShouldBeActivated())
@@ -43,6 +46,8 @@ void CAimBot::Work()
 	int aimBone = GetBoneIDBySelectedTab(reinterpret_cast<Settings::CAimBotSettings*>(m_pSettings)->m_iSelectedHitBox);
 
 	CBaseEntity* pEnt = nullptr;
+
+	POLY_MARKER;
 
 	switch (pAimBotSettings->m_iPriorityType)
 	{
@@ -58,6 +63,8 @@ void CAimBot::Work()
 		pEnt = GetClosestTargetByFov(aimBone);
 		break;
 	}
+
+	POLY_MARKER;
 
 	if (!pEnt)
 	{
@@ -84,9 +91,12 @@ void CAimBot::Work()
 	if (pAimBotSettings->m_bAutoShot)
 		pClient->SendAttackCode();
 
+	POLY_MARKER;
 }
 void CAimBot::AimPlain(const CBaseEntity* pEnt, int iBoneId)
 {
+	POLY_MARKER;
+
 	auto calcedAngles = CalcAimViewAngles(pEnt, iBoneId);
 
 	if (fabs(calcedAngles.x) <= 89.f and fabs(calcedAngles.y) <= 180.f)
@@ -97,6 +107,8 @@ void CAimBot::AimPlain(const CBaseEntity* pEnt, int iBoneId)
 void CAimBot::AimSmooth(const CBaseEntity* pEnt, int iBoneId)
 {
 	using namespace GlobalVars;
+
+	POLY_MARKER;
 
 	auto pAimBotSettings = (Settings::CAimBotSettings*)m_pSettings;
 
@@ -113,6 +125,8 @@ void CAimBot::AimSmooth(const CBaseEntity* pEnt, int iBoneId)
 	angle.x += diff.x / pAimBotSettings->m_fSmooth;
 	angle.y += diff.y / pAimBotSettings->m_fSmooth;
 
+	POLY_MARKER;
+
 	angle = ClampViewAngles(NormalizeViewAngles(angle));
 	
 	if (fabs(angle.x) <= 89.f and fabs(angle.y) <= 180.f)
@@ -125,19 +139,24 @@ bool CAimBot::IfEntityInFov(const CBaseEntity* entity, const int iBoneId) const
 	using namespace GlobalVars;
 	auto pAimBotSettings = (Settings::CAimBotSettings*)m_pSettings;
 
+	POLY_MARKER;
+
 	ImVec3  pLocalPlayerAngles   = m_pCUsrCmd->viewangles;
 	ImVec3  targetAngles         = CalcAimViewAngles(entity, iBoneId);
 	ImVec3  deltaFov             = pLocalPlayerAngles - targetAngles;
+
+	POLY_MARKER;
 
 	return fabs(deltaFov.x) <= pAimBotSettings->m_fFov and fabs(deltaFov.y) <= pAimBotSettings->m_fFov;
 }
 CBaseEntity* CAimBot::GetClosestTargetByDistance(int bone)
 {
+	POLY_MARKER;
 	std::vector<CBaseEntity*> validEntities = GetValidEntities(bone);
 	
 	if (validEntities.size() == 0)
 		return NULL;
-
+	POLY_MARKER;
 	std::sort(validEntities.begin(), validEntities.end(),
 
 		[](CBaseEntity* first, CBaseEntity* second)
@@ -150,9 +169,12 @@ CBaseEntity* CAimBot::GetClosestTargetByDistance(int bone)
 CBaseEntity* CAimBot::GetClosestTargetByFov(int bone)
 {
 	std::vector<CBaseEntity*> validEntities = GetValidEntities(bone);
+	POLY_MARKER;
 
 	if (validEntities.size() == 0)
 		return NULL;
+
+	POLY_MARKER;
 
 	auto localPlayer = GlobalVars::pClient->pLocalPlayer;
 
@@ -176,6 +198,8 @@ ImVec3 CAimBot::CalcAimViewAngles(const CBaseEntity* pEntity, const int bone) co
 	ImVec3 targetPosition = pEntity->GetBonePosition(bone);
 
 	ImVec3 localCameraPosition = GlobalVars::pClient->pLocalPlayer->GetCameraPosition();
+
+	POLY_MARKER;
 
 	float distance = GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(pEntity);
 
@@ -226,6 +250,7 @@ std::vector<CBaseEntity*> CAimBot::GetValidEntities(const int boneId) const
 	std::vector<CBaseEntity*> validEntities;
 	const auto localPlayer = GlobalVars::pClient->pLocalPlayer;
 
+	POLY_MARKER;
 
 	for (int i = 1; i < 33; i++)
 	{
@@ -245,7 +270,7 @@ std::vector<CBaseEntity*> CAimBot::GetValidEntities(const int boneId) const
 int Hacks::CAimBot::GetBoneIdByEntityHealth(const CBaseEntity* pEntiy) const
 {
 	auto pSettings = (Settings::CAimBotSettings*)m_pSettings;
-
+	POLY_MARKER;
 	if (pEntiy->GetHealthPercent() > pSettings->m_iHealthBorder)
 		return CBaseEntity::Bone::HEAD;
 	

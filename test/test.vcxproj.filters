@@ -213,9 +213,6 @@
     <ClInclude Include="SDK\IVEngineClient013\IVEngineClient013.h">
       <Filter>SDK\IVEngineClient013</Filter>
     </ClInclude>
-    <ClInclude Include="DirectX\CustomDirectX9Device.h">
-      <Filter>Render\DirectX\CustomDevice</Filter>
-    </ClInclude>
     <ClInclude Include="SDK\CUserCMD.h">
       <Filter>SDK</Filter>
     </ClInclude>
@@ -385,9 +382,6 @@
     </ClCompile>
     <ClCompile Include="SDK\IVEngineClient013\IVEngineClient013.cpp">
       <Filter>SDK\IVEngineClient013</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectX\CustomDirectX9Device.cpp">
-      <Filter>Render\DirectX\CustomDevice</Filter>
     </ClCompile>
     <ClCompile Include="Utils\VMThook.cpp">
       <Filter>Utils</Filter>

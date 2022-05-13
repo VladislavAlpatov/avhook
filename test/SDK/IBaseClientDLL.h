@@ -3,7 +3,7 @@
 
 namespace SSDK
 {
-	class IBaseClientDLL1 : public AbstractInterface
+	class IBaseClientDLL1 : public CAbstractInterface
 	{
 	public:
 		void* GetAllClasses()

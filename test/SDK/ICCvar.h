@@ -4,7 +4,7 @@
 
 namespace SSDK
 {
-	class ICCvar : public AbstractInterface
+	class ICCvar : public CAbstractInterface
 	{
 	public:
 		void ConsolePrint(const ImColor& col, const char* text);

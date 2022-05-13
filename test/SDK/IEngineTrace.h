@@ -264,7 +264,7 @@ namespace SSDK
         return fraction > 0.97f;
     }
 
-    class IEngineTrace : public AbstractInterface
+    class IEngineTrace : public CAbstractInterface
     {
     public:
         void  TraceRay(Ray_t& ray, unsigned int fMask, CTraceFilter* pTraceFilter, CGameTrace* pTrace)

@@ -6,16 +6,16 @@
 
 
 
-class viewmatrix
+class matrix4x4
 {
 public:
 	float* operator[ ](int index)
 	{
-		return this->data[index];
+		return m_RawData[index];
 	}
 
 private:
-	float data[4][4];
+	float m_RawData[4][4];
 };
 namespace SSDK
 {
@@ -26,7 +26,7 @@ namespace SSDK
 		{
 			DEFINE_MEMBER_N(int, dwForceJump, signatures::dwForceJump);
 			DEFINE_MEMBER_N(int, dwForceAttack, signatures::dwForceAttack);
-			DEFINE_MEMBER_N(viewmatrix, dwViewmatrix, signatures::dwViewMatrix);
+			DEFINE_MEMBER_N(matrix4x4, dwViewmatrix, signatures::dwViewMatrix);
 			DEFINE_MEMBER_N(CBaseEntity*, pLocalPlayer, signatures::dwLocalPlayer);
 			DEFINE_MEMBER_N(DWORD, dwGlowObjectManager, signatures::dwGlowObjectManager);
 		};

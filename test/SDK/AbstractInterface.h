@@ -4,7 +4,7 @@
 
 namespace SSDK
 {
-	class AbstractInterface
+	class CAbstractInterface
 	{
 	protected:
 		template<typename FuncType>

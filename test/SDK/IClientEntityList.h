@@ -5,7 +5,7 @@
 
 namespace SSDK
 {
-	class IClientEntityList : public AbstractInterface
+	class IClientEntityList : public CAbstractInterface
 	{
 	public:
 		CBaseEntity* GetClientEntity(int entnum)

@@ -18,7 +18,7 @@ namespace SSDK
 		unsigned char           uszFilesDownloader;
 	} player_info_t;
 
-	class IVEngineClient013 : AbstractInterface
+	class IVEngineClient013 : CAbstractInterface
 	{
 	public:
 		// Get player information: name etc...

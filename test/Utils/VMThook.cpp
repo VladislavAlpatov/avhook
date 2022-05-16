@@ -1,32 +1,32 @@
 #include "VMThook.h"
 
-VMThook::VMThook(void* class_ptr)
+VMThook::VMThook(void* pClassPtr)
 {
-	this->m_pVft = *reinterpret_cast<uintptr_t**>(class_ptr);
+	m_pVft = *reinterpret_cast<uintptr_t**>(pClassPtr);
 }
 
-void VMThook::HookVirtualMethod(int vm_index, uintptr_t hook_func_ptr)
+void VMThook::HookVirtualMethod(int index, uintptr_t pDetour)
 {
-	m_mOriginalFunctionAddrs.emplace(vm_index, this->m_pVft[vm_index]);
-	DWORD old_proc;
+	m_mOriginalFunctionAddrs.emplace(index, this->m_pVft[index]);
+	DWORD oldProc;
 
-	VirtualProtect(&m_pVft[vm_index], sizeof(uintptr_t), PAGE_EXECUTE_READWRITE, &old_proc);
-	m_pVft[vm_index] = (uintptr_t)hook_func_ptr;
-	VirtualProtect(&m_pVft[vm_index], sizeof(uintptr_t), old_proc, &old_proc);
+	VirtualProtect(&m_pVft[index], sizeof(pDetour), PAGE_EXECUTE_READWRITE, &oldProc);
+	m_pVft[index] = (uintptr_t)pDetour;
+	VirtualProtect(&m_pVft[index], sizeof(pDetour), oldProc, &oldProc);
 }
 
-void VMThook::RemoveHook(int vm_index)
+void VMThook::RemoveHook(int index)
 {
-	DWORD old_proc;
+	DWORD oldProc;
 
-	VirtualProtect(&m_pVft[vm_index], sizeof(uintptr_t), PAGE_EXECUTE_READWRITE, &old_proc);
-	m_pVft[vm_index] = (uintptr_t)m_mOriginalFunctionAddrs.at(vm_index);
-	VirtualProtect(&m_pVft[vm_index], sizeof(uintptr_t), old_proc, &old_proc);
+	VirtualProtect(&m_pVft[index], sizeof(uintptr_t), PAGE_EXECUTE_READWRITE, &oldProc);
+	m_pVft[index] = (uintptr_t)m_mOriginalFunctionAddrs.at(index);
+	VirtualProtect(&m_pVft[index], sizeof(uintptr_t), oldProc, &oldProc);
 
-	m_mOriginalFunctionAddrs.erase(vm_index);
+	m_mOriginalFunctionAddrs.erase(index);
 }
 
-unsigned int VMThook::GetOriginalVMptr(int vm_index)
+uintptr_t VMThook::GetOriginalVMptr(int index)
 {
-	return this->m_mOriginalFunctionAddrs.at(vm_index);
+	return this->m_mOriginalFunctionAddrs.at(index);
 }

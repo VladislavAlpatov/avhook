@@ -7,13 +7,13 @@
 class VMThook
 {
 public:
-	VMThook(void* class_ptr);
+	VMThook(void* pClassPtr);
 	VMThook() {};
-	void         HookVirtualMethod(int vm_index, uintptr_t hook_func_ptr);
-	void         RemoveHook(int vm_index);
-	uintptr_t GetOriginalVMptr(int vm_index);
+	void         HookVirtualMethod(int index, uintptr_t pDetour);
+	void         RemoveHook(int index);
+	uintptr_t GetOriginalVMptr(int index);
 
 private:
 	uintptr_t* m_pVft;
-	std::map<unsigned int, uintptr_t> m_mOriginalFunctionAddrs;
+	std::map<int, uintptr_t> m_mOriginalFunctionAddrs;
 };

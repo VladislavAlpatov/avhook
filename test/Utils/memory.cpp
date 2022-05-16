@@ -70,12 +70,11 @@ uintptr_t CMemory::FindPattern(const char* module, const char* signature)
 		bool found = true;
 		for (uintptr_t j = 0; j < pattern.data.size(); j++)
 		{
-			found &= pattern.mask[j] == '?' || pattern.data[j] == *(BYTE*)(base + i + j);
+			found &= pattern.mask[j] == '?' or pattern.data[j] == *(BYTE*)(base + i + j);
+
+			if (not found) break;
 		}
-		if (found)
-		{
-			return base + i;
-		}
+		if (found) return base + i;
 	}
 
 	return NULL;

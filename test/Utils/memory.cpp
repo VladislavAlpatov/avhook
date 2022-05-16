@@ -65,7 +65,7 @@ uintptr_t CMemory::FindPattern(const char* module, const char* signature)
 
 	POLY_MARKER;
 
-	for (uintptr_t i = 0; i < size - pattern.data.size(); i++)
+	for (uintptr_t i = 0; i < size - pattern.data.size()+1; i++)
 	{
 		bool found = true;
 		for (uintptr_t j = 0; j < pattern.data.size(); j++)

@@ -24,6 +24,7 @@ namespace SSDK
 			DEFINE_MEMBER_N(int,    m_ArmorValue, netvars::m_ArmorValue);
 			DEFINE_MEMBER_N(bool,   m_bSpotted, netvars::m_bSpotted);
 			DEFINE_MEMBER_N(int,    m_iCrosshairId, netvars::m_iCrosshairId);
+			DEFINE_MEMBER_N(int,    m_iMaxHealth, 0x3640);
 			DEFINE_MEMBER_N(ImVec3, m_vecViewOffset, netvars::m_vecViewOffset);
 			DEFINE_MEMBER_N(ImVec3, m_vecOrigin, netvars::m_vecOrigin);
 			DEFINE_MEMBER_N(DWORD,  m_pBoneMatrix, netvars::m_dwBoneMatrix);

@@ -13,6 +13,8 @@ ImVec3 CBaseEsp::WorldToScreen(const ImVec3& vecPosition)
 
     auto client = GlobalVars::pClient;
 
+    POLY_MARKER;
+
     float _x = client->dwViewmatrix[0][0] * vecPosition.x + client->dwViewmatrix[0][1] * vecPosition.y + client->dwViewmatrix[0][2] * vecPosition.z + client->dwViewmatrix[0][3];
     float _y = client->dwViewmatrix[1][0] * vecPosition.x + client->dwViewmatrix[1][1] * vecPosition.y + client->dwViewmatrix[1][2] * vecPosition.z + client->dwViewmatrix[1][3];
     // Dont need z cuz we need only x,y and w
@@ -35,6 +37,8 @@ ImVec3 CBaseEsp::WorldToScreen(const ImVec3& vecPosition)
 
 Esp::EntityBox CBaseEsp::CalcEspBox(const CBaseEntity* pEntity)
 {
+    POLY_MARKER;
+
     std::array<ImVec3, 93> bones;
 
     for (BYTE i = 0; i < bones.size(); ++i)
@@ -53,6 +57,8 @@ Esp::EntityBox CBaseEsp::CalcEspBox(const CBaseEntity* pEntity)
     ImVec3 mostTop = ImVec3(90000, 90000, 90000);
     ImVec3 mostBottom;
 
+    POLY_MARKER;
+
     for (auto& bone : bones)
     {
         if (bone.Length() == 0) continue;
@@ -65,9 +71,12 @@ Esp::EntityBox CBaseEsp::CalcEspBox(const CBaseEntity* pEntity)
 
     EntityBox clacledBox;
 
+    POLY_MARKER;
+
     clacledBox.m_vecTopLeft =  mostTop - ImVec2(offset, 0);
     clacledBox.m_vecTopRight = mostTop + ImVec2(offset, 0);
 
+    POLY_MARKER;
 
     clacledBox.m_vecBottomLeft = clacledBox.m_vecTopLeft  + ImVec2(0, boxHeight);
 

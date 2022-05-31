@@ -383,8 +383,7 @@ void UI::CSettingsWindow::DrawCfgChild()
 			{
 
 				std::ofstream file(std::string(m_pMenuCfgName) + xorstr(".avmcfg"), std::ios::binary);
-				// 52 - Length of imgui color theme
-				file.write((const char*)ImGui::GetStyle().Colors, 52 * sizeof(ImVec4));
+				file.write((const char*)ImGui::GetStyle().Colors, sizeof(ImGui::GetStyle().Colors));
 				file.close();
 				m_pMessageLineList->Add(xorstr("Config successfully exported."), 2000, ImColor(0, 255, 0));
 			}

@@ -9,8 +9,8 @@ namespace Esp
 		CBoxEsp(Settings::BoxEspSettings* pSettings) : CBaseEsp(pSettings) {};
 
 	private:
-		void	DrawSolidBox(const CBaseEntity* pEntity, const ImColor& drawColor, int thickness);
-		void	DrawCorneredBox(const CBaseEntity* pEntity, const ImColor& drawColor,const  int thickness);
+		void	DrawSolidBox(const CBaseEntity* pEntity, const ImColor& drawColor, const  float thickness);
+		void	DrawCorneredBox(const CBaseEntity* pEntity, const ImColor& drawColor,const  float thickness);
 
 		virtual void InternalRenderAt(CBaseEntity* pEntity);
 	};

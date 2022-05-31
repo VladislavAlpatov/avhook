@@ -1,4 +1,5 @@
 #include "CBaseEntity.h"
+#include <math.h>
 using namespace SSDK;
 
 ImVec3 CBaseEntity::GetBonePosition(const int bone) const
@@ -20,17 +21,12 @@ float CBaseEntity::CalcDistaceToEntity(const CBaseEntity* entity) const
 
 ImColor CBaseEntity::GetColorBasedOnHealth() const
 {
+	auto healthRatio = GetHealthPercent() / 100.f;
 
-	if (20 >= m_iHealth)
-		return ImColor(255, 0, 0);
+	if (healthRatio >= 0.5f)
+		return ImColor(1.f - (healthRatio - 0.5f) * 2.f, 1.f, 0.f);
 
-	else if (60 >= m_iHealth)
-		return ImColor(255, 255, 0);
-
-	else if (m_iHealth >= 60)
-		return ImColor(0, 255, 0);
-
-	return ImColor(221, 0, 255);
+	return ImColor(1.f, healthRatio / 2.f,  0.f);
 }
 
 ImVec3 CBaseEntity::GetCameraPosition() const
@@ -44,5 +40,5 @@ bool CBaseEntity::IsAlive() const
 
 float SSDK::CBaseEntity::GetHealthPercent() const
 {
-	return m_iHealth;
+	return 100.f * m_iHealth / m_iMaxHealth;
 }

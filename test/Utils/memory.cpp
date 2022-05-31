@@ -4,6 +4,7 @@
 #include <boost/algorithm/string.hpp>
 #include <Psapi.h>
 #include "xorstr.h"
+#include "Marker.h"
 
 
 MODULEINFO GetModuleInfo(const char* szModule)
@@ -28,6 +29,8 @@ UINT StrHexToByte(const std::string& str)
 
 std::vector<BYTE> GetSignatureBytes(const std::string& str)
 {
+	POLY_MARKER;
+
 	std::vector<std::string> strs;
 	std::vector<BYTE> bytes;
 	boost::split(strs, str, boost::is_any_of(" "));
@@ -49,8 +52,13 @@ std::vector<BYTE> GetSignatureBytes(const std::string& str)
 
 uintptr_t Memory::FindPattern(const char* moduleName, const char* signature)
 {
+	POLY_MARKER;
+
 	MODULEINFO mInfo = GetModuleInfo(moduleName);
 	uintptr_t base = (uintptr_t)mInfo.lpBaseOfDll;
+
+	POLY_MARKER;
+
 	uintptr_t size = (uintptr_t)mInfo.SizeOfImage;
 
 	auto pattern = GetSignatureBytes(signature);

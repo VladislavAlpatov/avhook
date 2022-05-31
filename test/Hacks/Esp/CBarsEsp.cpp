@@ -34,6 +34,7 @@ void CBarsEsp::InternalRenderAt(CBaseEntity* pEntity)
     auto pDrawList = ImGui::GetBackgroundDrawList();
 
     ImVec2 barStart = box.m_vecBottomLeft - ImVec2(pSettings->m_iThickness+GlobalVars::settings.m_BoxEspSettings.m_iThickness+2, 0);
+
     for (auto& line : lines)
     {
         pDrawList->AddRectFilled(barStart, barStart + ImVec2(pSettings->m_iThickness, -maxBarLength), pSettings->m_BackGroundColor);

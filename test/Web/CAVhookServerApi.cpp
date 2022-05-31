@@ -3,7 +3,7 @@ using namespace WebApi;
 
 CAVHookServerApi::CAVHookServerApi()
 {
-	m_pClient =  new httplib::Client(AVHOOK_SERVER_URL);
+	m_pClient = std::unique_ptr<httplib::Client>(new httplib::Client(AVHOOK_SERVER_URL));
 }
 CUserInfo CAVHookServerApi::GetUserInfo()
 {
@@ -41,10 +41,6 @@ bool WebApi::CAVHookServerApi::UpdateConfig(const int cfgIid, const json& data)
 	auto respJsn = json::parse(m_pClient->Post(xorstr("/api/profile/configs/update"), postJsn.dump(), xorstr("application/json")).value().body);
 
 	return respJsn[xorstr("Status")].get<bool>();
-}
-CAVHookServerApi::~CAVHookServerApi()
-{
-	delete m_pClient;
 }
 std::string CAVHookServerApi::GetRawAvatarData()
 {

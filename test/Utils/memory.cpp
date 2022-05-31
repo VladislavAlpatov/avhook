@@ -2,10 +2,11 @@
 #include "memory.h"
 #include <sstream>
 #include <boost/algorithm/string.hpp>
+#include <Psapi.h>
 #include "xorstr.h"
-#include "Marker.h"
 
-MODULEINFO CMemory::GetModuleInfo(const char* szModule)
+
+MODULEINFO GetModuleInfo(const char* szModule)
 {
 	MODULEINFO modinfo = { 0 };
 	HMODULE hModule = GetModuleHandleA(szModule);
@@ -16,65 +17,55 @@ MODULEINFO CMemory::GetModuleInfo(const char* szModule)
 	return modinfo;
 }
 
-unsigned int CMemory::HexdecimalStringToInt(const std::string& str)
+UINT StrHexToByte(const std::string& str)
 {
-	unsigned int iOutNumber;
+	UINT iOutNumber;
 	std::stringstream ss;
 	ss << std::hex << str;
 	ss >> iOutNumber;
 	return iOutNumber;
 }
 
-SPattern CMemory::ParsePattern(const std::string& str)
+std::vector<BYTE> GetSignatureBytes(const std::string& str)
 {
-	auto pattern = SPattern();
 	std::vector<std::string> strs;
-
+	std::vector<BYTE> bytes;
 	boost::split(strs, str, boost::is_any_of(" "));
-	
+
 	for (auto& strHex : strs)
 	{
 		if (strHex == xorstr("??"))
 		{
-			pattern.data.push_back(NULL);
-			pattern.mask += xorstr("?");
+			bytes.push_back('\?');
 			continue;
 		}
 
-		pattern.data.push_back(HexdecimalStringToInt(strHex));
-		pattern.mask += xorstr("x");
+		bytes.push_back(StrHexToByte(strHex));
 
 	}
-	return pattern;
+
+	return bytes;
 }
 
-void CMemory::PatchBytes(BYTE* dst, BYTE* src, unsigned int size)
+uintptr_t Memory::FindPattern(const char* moduleName, const char* signature)
 {
-	DWORD oproc;
-	VirtualProtect(dst, size, PAGE_EXECUTE_READWRITE, &oproc);
-	memcpy(dst, src, size);
-	VirtualProtect(dst, size, oproc, &oproc);
-}
-
-uintptr_t CMemory::FindPattern(const char* module, const char* signature)
-{
-	MODULEINFO mInfo = GetModuleInfo(module);
+	MODULEINFO mInfo = GetModuleInfo(moduleName);
 	uintptr_t base = (uintptr_t)mInfo.lpBaseOfDll;
 	uintptr_t size = (uintptr_t)mInfo.SizeOfImage;
-	auto pattern = ParsePattern(signature);
 
-	POLY_MARKER;
+	auto pattern = GetSignatureBytes(signature);
 
-	for (uintptr_t i = 0; i < size - pattern.data.size()+1; i++)
+	for (uintptr_t i = 0; i < size - pattern.size(); i++)
 	{
 		bool found = true;
-		for (uintptr_t j = 0; j < pattern.data.size(); j++)
+		for (uintptr_t j = 0; j < pattern.size(); j++)
 		{
-			found &= pattern.mask[j] == '?' or pattern.data[j] == *(BYTE*)(base + i + j);
-
-			if (not found) break;
+			found &= pattern[j] == '\?' or pattern[j] == *(BYTE*)(base + i + j);
+			if (not found)
+				break;
 		}
-		if (found) return base + i;
+		if (found)
+			return base + i;
 	}
 
 	return NULL;

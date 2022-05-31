@@ -3,6 +3,8 @@
 #include <nlohmann/json.hpp>
 #include "../Globals/GlobalVars.h"
 #include <Windows.h>
+#include <memory>
+
 namespace WebApi
 {
 	using namespace nlohmann;
@@ -46,23 +48,31 @@ namespace WebApi
 		int         m_iUid;
 		Settings::CAllSettings m_Settings;
 	};
+
+	class CMenuThemeConfig
+	{
+	public:
+		CMenuThemeConfig(const json jsn)
+		{
+
+		}
+		int m_iUID;
+
+	};
 	class CAVHookServerApi
 	{
 	public:
 		CAVHookServerApi();
-		~CAVHookServerApi();
 		CUserInfo GetUserInfo();
 		void ChangeUserNameAndStatus(const char* name, const char* status) const;
 		std::vector<CConfig> GetListOfConfigs();
 		bool UpdateConfig(const int cfgIid,const json& data);
-		bool DeleteConfig(int cfgIid);
-		bool GetConfig(int cfgId);
 
 		bool AuthByToken(const char* authToken) const;
 		AvatarUploadStatus SetUserAvatar(const std::string& rawDatas) const;
 		std::string GetRawAvatarData();
 	private:
-		httplib::Client* m_pClient;
+		std::unique_ptr<httplib::Client> m_pClient;
 	};
 
 }

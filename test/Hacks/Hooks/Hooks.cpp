@@ -116,7 +116,7 @@ void hooks::Attach(HMODULE ihModule)
 	hooks::hmodule = ihModule;
 	MH_Initialize();
 
-	auto  presentAddr = CMemory::FindPattern(xorstr("d3d9.dll"), xorstr("?? ?? ?? ?? ?? 83 E4 F8 51 51 56 8B 75 08 8B CE F7 D9 57 1B C9 8D 46 04 23 C8 6A ?? 51 8D 4C 24 10 E8 ?? ?? ?? ?? F7 46 ?? ?? ?? ?? ?? 74 07 BF ?? ?? ?? ?? EB 17"));
+	auto  presentAddr = Memory::FindPattern(xorstr("d3d9.dll"), xorstr("?? ?? ?? ?? ?? 83 E4 F8 51 51 56 8B 75 08 8B CE F7 D9 57 1B C9 8D 46 04 23 C8 6A ?? 51 8D 4C 24 10 E8 ?? ?? ?? ?? F7 46 ?? ?? ?? ?? ?? 74 07 BF ?? ?? ?? ?? EB 17"));
 	
 	if (!presentAddr)
 		throw std::runtime_error(xorstr("DirectX 9 initialization failure"));
@@ -126,7 +126,7 @@ void hooks::Attach(HMODULE ihModule)
 	POLY_MARKER;
 
 	//Hook CreateMove
-	auto createMoveAddr = CMemory::FindPattern(xorstr("client.dll"), xorstr("55 8B EC 56 8D 75 04 8B"));
+	auto createMoveAddr = Memory::FindPattern(xorstr("client.dll"), xorstr("55 8B EC 56 8D 75 04 8B"));
 
 	if (!presentAddr)
 		throw std::runtime_error(xorstr("CSGO initialization failure"));

@@ -1,5 +1,6 @@
 #include "CLabelEsp.h"
 #include "../../imgui/imgui_internal.h"
+#include "../../Globals/GlobalVars.h"
 
 using namespace Esp;
 
@@ -18,32 +19,33 @@ void CLabelEsp::InternalRenderAt(CBaseEntity* pEntity)
 
 void Esp::CLabelEsp::DrawLabelsAtLeftSide(const CBaseEntity* pEntity, const std::vector<CLabels::CBaseLabel*>& labels)
 {
-    auto box = CalcEspBox(pEntity);
+    const float textPadding = ImGui::CalcTextSize(xorstr("x")).y;
+    auto textPos = CalcEspBox(pEntity).m_vecTopRight + ImVec2(GlobalVars::settings.m_BoxEspSettings.m_iThickness + 2, 0);
 
-    ImVec2 bottomLeft = box.m_vecTop + ImVec2(box.m_Width / 2.f + 4, 0);
 
     for (auto pLabel : labels)
     {
         if (!pLabel->m_bActive)
             continue;
 
-        if (pLabel->Render(bottomLeft, pEntity))
-            bottomLeft.y += 13.f;
+        if (pLabel->Render(textPos, pEntity))
+            textPos.y += textPadding;
     }
 }
 
 void Esp::CLabelEsp::DrawLabelsAtTop(const CBaseEntity* pEntity, const std::vector<CLabels::CBaseLabel*>& labels)
 {
-    auto box = CalcEspBox(pEntity);
+    auto pSettings = GetSettings<Settings::CLabelEspSettings>();
+    const float textPadding = ImGui::CalcTextSize(xorstr("x")).y;
 
-    ImVec2 bottomLeft  = box.m_vecTop - ImVec2(box.m_Width / 2.f, 13);
+    auto textPos = CalcEspBox(pEntity).m_vecTopLeft - ImVec2(0, 13+GlobalVars::settings.m_BoxEspSettings.m_iThickness);
 
     for (auto pLabel : labels)
     {
         if (!pLabel->m_bActive)
             continue;
 
-        if (pLabel->Render(bottomLeft, pEntity))
-            bottomLeft.y -= 13.f;
+        if (pLabel->Render(textPos, pEntity))
+            textPos.y -= textPadding;
     }
 }

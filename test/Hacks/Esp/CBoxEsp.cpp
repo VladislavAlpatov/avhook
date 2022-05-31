@@ -43,51 +43,32 @@ void CBoxEsp::DrawSolidBox(const CBaseEntity* pEntity, const ImColor& drawColor,
 {
     auto pDrawList = ImGui::GetBackgroundDrawList();
 
-    auto box = CalcEspBox(pEntity);
+    const auto box = CalcEspBox(pEntity);
 
-    ImVec2 topLeft = box.m_vecTop - ImVec3(box.m_Width / 2.f, 0, 0);
-    ImVec2 topRight = box.m_vecTop + ImVec3(box.m_Width / 2.f, 0, 0);
+    pDrawList->AddLine(box.m_vecTopLeft, box.m_vecTopRight, drawColor, (float)thickness);
+    pDrawList->AddLine(box.m_vecTopLeft, box.m_vecBottomLeft, drawColor, (float)thickness);
 
-
-    ImVec2 bottomRight = ImVec3(box.m_vecTop.x, box.m_vecBottom.y, 0) + ImVec3(box.m_Width / 2.f, 0, 0);
-
-    ImVec2 bottomLeft = ImVec3(box.m_vecTop.x, box.m_vecBottom.y, 0) - ImVec3(box.m_Width / 2.f, 0, 0);
-
-
-    pDrawList->AddLine(topLeft, topRight, drawColor, (float)thickness);
-    pDrawList->AddLine(topLeft, bottomLeft, drawColor, (float)thickness);
-
-    pDrawList->AddLine(bottomLeft, bottomRight, drawColor, (float)thickness);
-    pDrawList->AddLine(topRight, bottomRight, drawColor, (float)thickness);
+    pDrawList->AddLine(box.m_vecBottomLeft, box.m_vecBottomRight, drawColor, (float)thickness);
+    pDrawList->AddLine(box.m_vecTopRight, box.m_vecBottomRight, drawColor, (float)thickness);
 
 }
 void CBoxEsp::DrawCorneredBox(const CBaseEntity* pEntity, const ImColor& drawColor,const  int thickness)
 {
     auto pDrawList = ImGui::GetBackgroundDrawList();
 
-    auto box = CalcEspBox(pEntity);
+    const auto box = CalcEspBox(pEntity);
+    const auto offset = box.GetSize().y / 7.f;
 
-    ImVec2 topLeft  = box.m_vecTop - ImVec3(box.m_Width / 2.f, 0, 0);
-    ImVec2 topRight = box.m_vecTop + ImVec3(box.m_Width / 2.f, 0, 0);
+    pDrawList->AddLine(box.m_vecTopLeft, box.m_vecTopLeft + ImVec2(offset, 0), drawColor, (float)thickness);
+    pDrawList->AddLine(box.m_vecTopLeft, box.m_vecTopLeft + ImVec2(0, offset), drawColor, (float)thickness);
 
+    pDrawList->AddLine(box.m_vecTopRight, box.m_vecTopRight - ImVec2(offset, 0), drawColor, (float)thickness);
+    pDrawList->AddLine(box.m_vecTopRight, box.m_vecTopRight + ImVec2(0, offset), drawColor, (float)thickness);
 
+    pDrawList->AddLine(box.m_vecBottomLeft, box.m_vecBottomLeft + ImVec2(offset, 0), drawColor, (float)thickness);
+    pDrawList->AddLine(box.m_vecBottomLeft, box.m_vecBottomLeft - ImVec2(0, offset), drawColor, (float)thickness);
 
-    ImVec2 bottomRight = ImVec3(box.m_vecTop.x, box.m_vecBottom.y, 0) + ImVec3(box.m_Width / 2.f, 0, 0);
-
-    ImVec2 bottomLeft  = ImVec3(box.m_vecTop.x, box.m_vecBottom.y, 0) - ImVec3(box.m_Width / 2.f, 0, 0);
-
-    auto offset = abs(box.m_vecTop.y - box.m_vecBottom.y) / 7.f;
-
-    pDrawList->AddLine(topLeft, topLeft + ImVec2(offset, 0), drawColor, (float)thickness);
-    pDrawList->AddLine(topLeft, topLeft + ImVec2(0, offset), drawColor, (float)thickness);
-
-    pDrawList->AddLine(topRight, topRight - ImVec2(offset, 0), drawColor, (float)thickness);
-    pDrawList->AddLine(topRight, topRight + ImVec2(0, offset), drawColor, (float)thickness);
-
-    pDrawList->AddLine(bottomLeft, bottomLeft + ImVec2(offset, 0), drawColor, (float)thickness);
-    pDrawList->AddLine(bottomLeft, bottomLeft - ImVec2(0, offset), drawColor, (float)thickness);
-
-    pDrawList->AddLine(bottomRight, bottomRight - ImVec2(offset, 0), drawColor, (float)thickness);
-    pDrawList->AddLine(bottomRight, bottomRight - ImVec2(0, offset), drawColor, (float)thickness);
+    pDrawList->AddLine(box.m_vecBottomRight, box.m_vecBottomRight - ImVec2(offset, 0), drawColor, (float)thickness);
+    pDrawList->AddLine(box.m_vecBottomRight, box.m_vecBottomRight - ImVec2(0, offset), drawColor, (float)thickness);
 
 }

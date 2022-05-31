@@ -326,9 +326,9 @@ void UI::CSettingsWindow::DrawCfgChild()
 			CConfigLoader cfg(m_pAllSettings->m_Name.c_str(), &GlobalVars::settings);
 
 			if (cfg.LoadConfigFile(m_pAllSettings->m_Name.c_str()))
-				m_pMessageLineList->Add(fmt::format(xorstr("Loaded config: \"{}\""), m_pAllSettings->m_Name.c_str()), 2000);
+				m_pMessageLineList->Add(fmt::format(xorstr("Loaded settings config: \"{}\""), m_pAllSettings->m_Name.c_str()), 2000);
 			else
-				m_pMessageLineList->Add(fmt::format(xorstr("Loading error."), m_pAllSettings->m_Name.c_str()), 2000);
+				m_pMessageLineList->Add(fmt::format(xorstr("\"{}\" does not exist."), m_pAllSettings->m_Name.c_str()), 2000);
 
 		}
 		ImGui::SameLine();
@@ -359,10 +359,17 @@ void UI::CSettingsWindow::DrawCfgChild()
 			if (m_pMenuCfgName[0] != NULL)
 			{
 				std::ifstream file(std::string(m_pMenuCfgName) + xorstr(".avmcfg"), std::ios::binary);
-				file.read((char*)ImGui::GetStyle().Colors, 52 * sizeof(ImVec4));
-				file.close();
 
-				m_pMessageLineList->Add(xorstr("Config successfully imported."), 2000, ImColor(0, 255, 0));
+				if (file.is_open())
+				{
+					file.read((char*)ImGui::GetStyle().Colors, sizeof(ImGui::GetStyle().Colors));
+					m_pMessageLineList->Add(fmt::format(xorstr("Loaded menu config: \"{}\""), m_pMenuCfgName), 2000);
+					
+				}
+				else
+				{
+					m_pMessageLineList->Add( fmt::format( xorstr("\"{}.avmcfg\" does not exist."), m_pMenuCfgName), 2000);
+				}
 			}
 			else
 			{

@@ -14,12 +14,11 @@ void CBarsEsp::InternalRenderAt(CBaseEntity* pEntity)
 
     auto box = CalcEspBox(pEntity);
 
-    float maxBarLength = abs(box.m_vecTop.y - box.m_vecBottom.y);
+    float maxBarLength = box.GetSize().y;
+
 
     POLY_MARKER;
 
-
-    ImVec2 bottomLeft = ImVec2(box.m_vecTop.x, box.m_vecBottom.y) - ImVec2(box.m_Width / 2.f + pSettings->m_iThickness + 3, 0);
 
     std::list<LineData> lines;
 
@@ -28,10 +27,11 @@ void CBarsEsp::InternalRenderAt(CBaseEntity* pEntity)
 
     if (pSettings->m_bDrawArmorBar)
         lines.push_back(LineData(pSettings->m_ArmorColor, maxBarLength * (pEntity->m_ArmorValue / 100.f)));
+
     POLY_MARKER;
     auto pDrawList = ImGui::GetBackgroundDrawList();
 
-    ImVec2 barStart = bottomLeft;
+    ImVec2 barStart = box.m_vecBottomLeft - ImVec2(pSettings->m_iThickness, 0);
     for (auto& line : lines)
     {
         pDrawList->AddRectFilled(barStart, barStart + ImVec2(pSettings->m_iThickness, -maxBarLength), pSettings->m_BackGroundColor);

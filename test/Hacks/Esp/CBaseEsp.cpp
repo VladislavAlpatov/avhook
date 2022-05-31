@@ -1,5 +1,6 @@
 #pragma once
 #include "../../Globals/GlobalVars.h"
+#include "../../imgui/imgui_internal.h"
 
 #include "CBaseEsp.h"
 
@@ -35,7 +36,7 @@ ImVec3 CBaseEsp::WorldToScreen(const ImVec3& vecPosition)
 Esp::EntityBox CBaseEsp::CalcEspBox(const CBaseEntity* pEntity)
 {
     std::array<ImVec3, 93> bones;
-    EntityBox box;
+
     for (BYTE i = 0; i < bones.size(); ++i)
     {
         ImVec3 tmp;
@@ -51,22 +52,31 @@ Esp::EntityBox CBaseEsp::CalcEspBox(const CBaseEntity* pEntity)
     }
     ImVec3 mostTop = ImVec3(90000, 90000, 90000);
     ImVec3 mostBottom;
-    ImVec3 mostRight;
-    ImVec3 mostLeft = ImVec3(90000, 90000, 90000);
 
     for (auto& bone : bones)
     {
         if (bone.Length() == 0) continue;
 
-        mostRight  = (((bone.x) > (mostRight.x))  ? (bone) : (mostRight));
-        mostLeft   = (((bone.x) < (mostLeft.x))   ? (bone) : (mostLeft));
-
         mostTop    = (((bone.y) < (mostTop.y))    ? (bone) : (mostTop));
         mostBottom = (((bone.y) > (mostBottom.y)) ? (bone) : (mostBottom));
     }
-    box.m_vecBottom = mostBottom;
-    box.m_vecTop    = mostTop;
-    box.m_Width     = abs(mostLeft.x - mostRight.x);
+    const float boxHeight = abs(mostTop.y - mostBottom.y);
+    const float offset = boxHeight / 4.f;
 
-    return box;
+    EntityBox clacledBox;
+
+    clacledBox.m_vecTopLeft =  mostTop - ImVec2(offset, 0);
+    clacledBox.m_vecTopRight = mostTop + ImVec2(offset, 0);
+
+
+    clacledBox.m_vecBottomLeft = clacledBox.m_vecTopLeft  + ImVec2(0, boxHeight);
+
+    clacledBox.m_vecBottomRight  = clacledBox.m_vecTopRight + ImVec2(0, boxHeight);
+
+    return clacledBox;
+}
+
+ImVec2 Esp::EntityBox::GetSize() const
+{
+    return m_vecBottomRight - m_vecTopLeft;
 }

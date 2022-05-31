@@ -5,11 +5,17 @@
 namespace Esp
 {
 
-	struct EntityBox
+	class EntityBox
 	{
-		ImVec2 m_vecTop;
-		ImVec2 m_vecBottom;
-		float  m_Width;
+	public:
+
+		ImVec2 m_vecTopLeft;
+		ImVec2 m_vecTopRight;
+
+		ImVec2 m_vecBottomLeft;
+		ImVec2 m_vecBottomRight;
+
+		ImVec2 GetSize() const;
 	};
 
 	using namespace SSDK;

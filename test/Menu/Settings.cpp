@@ -5,7 +5,7 @@
 
 using namespace Settings;
 
-json CBaseSettings::ToJson()
+json CBaseSettings::ToJson() const
 {
 	json jsn;
 	POLY_MARKER;
@@ -17,29 +17,7 @@ json CBaseSettings::ToJson()
 	return jsn;
 };
 
-json CBaseSettings::ImColorToJsn(const ImColor& color)
-{
-	json jsn;
-	POLY_MARKER;
-	jsn[xorstr("R")] = color.Value.x;
-	jsn[xorstr("G")] = color.Value.y;
-	jsn[xorstr("B")] = color.Value.z;
-	jsn[xorstr("A")] = color.Value.w;
-
-	return jsn;
-}
-
-ImColor CBaseSettings::ImportImColorFromJson(const json& jsn)
-{
-	return ImColor(
-		jsn[xorstr("R")].get<float>(),
-		jsn[xorstr("G")].get<float>(),
-		jsn[xorstr("B")].get<float>(),
-		jsn[xorstr("A")].get<float>()
-	);
-}
-
-json CAimBotSettings::ToJson()
+json CAimBotSettings::ToJson() const
 {
 	json jsn;
 	POLY_MARKER;
@@ -74,7 +52,7 @@ CAimBotSettings::CAimBotSettings(const json& jsn)
 	SetValueIfFiledExistInJson<int>(jsn,   xorstr("HealthBorder"),     &m_iHealthBorder);
 	SetValueIfFiledExistInJson<int>(jsn,   xorstr("HitBoxFilrerMode"), &m_iHitBoxFilterMode);
 }
-json SnapLinesSettings::ToJson()
+json SnapLinesSettings::ToJson() const
 {
 	json jsn;
 
@@ -98,7 +76,7 @@ SnapLinesSettings::SnapLinesSettings(const json& jsn)
 	SetValueIfFiledExistInJson<int>(jsn, xorstr("Thickness"), &m_iThickness);
 	SetValueIfFiledExistInJson(jsn, xorstr("Color"), &m_Color);
 }
-json BoxEspSettings::ToJson()
+json BoxEspSettings::ToJson() const
 {
 	json jsn;
 
@@ -125,7 +103,7 @@ BoxEspSettings::BoxEspSettings(const json& jsn)
 	SetValueIfFiledExistInJson<int>(jsn, xorstr("Thickness"), &m_iThickness);
 }
 
-json MiscSettings::ToJson()
+json MiscSettings::ToJson() const
 {
 	json jsn;
 
@@ -150,7 +128,7 @@ MiscSettings::MiscSettings(const json& jsn)
 	SetValueIfFiledExistInJson<int>(jsn, xorstr("CustomFov"), &m_iCustomFov);
 }
 
-json TriggerBotSettings::ToJson()
+json TriggerBotSettings::ToJson() const
 {
 	json jsn;
 
@@ -172,7 +150,7 @@ TriggerBotSettings::TriggerBotSettings(const json& jsn)
 	SetValueIfFiledExistInJson<int>(jsn, xorstr("iDelay"), &m_iDelay);
 }
 
-json BarEspSettings::ToJson()
+json BarEspSettings::ToJson() const
 {
 	json jsn;
 
@@ -199,7 +177,7 @@ BarEspSettings::BarEspSettings(const json& jsn)
 	SetValueIfFiledExistInJson(jsn,       xorstr("BackGroundColor"), &m_BackGroundColor);
 }
 
-json CRadarSettings::ToJson()
+json CRadarSettings::ToJson() const
 {
 	json jsn;
 
@@ -216,7 +194,7 @@ json CRadarSettings::ToJson()
 	return jsn;
 };
 
-json CLabelEspSettings::ToJson()
+json CLabelEspSettings::ToJson() const
 {
 	json jsn;
 
@@ -294,7 +272,7 @@ CLabelEspSettings::CLabelEspSettings(const json& jsn) : CLabelEspSettings()
 	}
 }
 
-json CBunnyHopSettings::ToJson()
+json CBunnyHopSettings::ToJson() const
 {
 	json jsn;
 

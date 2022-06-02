@@ -336,6 +336,9 @@
     <ClInclude Include="RawData\Images.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="Web\IWebObject.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_draw.cpp">
@@ -468,6 +471,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Utils\Math\Math.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Web\IWebObject.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

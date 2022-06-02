@@ -20,8 +20,8 @@ namespace UI
 		char                      m_AvatarPath[128]       = { 0 };
 		char                      m_cfgName[32]           = { 0 };
 		// Uses as backup from server
-		WebApi::CUserInfo          m_OldUserData;
-		WebApi::CUserInfo          m_CurrentUserData;
+		WebApi::CUserInfo          m_UserData;
+		WebApi::CLoaderTheme	   m_LoaderTheme;
 		WebApi::CAVHookServerApi   m_ApiClient;
 		std::vector<WebApi::CConfig> m_ConfgsList;
 		CMessageLineList*          m_pMessageLineList;
@@ -34,15 +34,13 @@ namespace UI
 
 		void DrawConfigCombo(const char* label, int* CurrentItem, const std::vector<WebApi::CConfig>& list)
 		{
-			const char** tmpArr = new const char*[list.size()];
+			auto tmpArr = std::unique_ptr<const char*[]>(new const char* [list.size()]);
 
 			for (int i = 0; i < list.size(); ++i)
 			{
 				tmpArr[i] = list[i].m_Settings.m_Name.c_str();
 			};
-			ImGui::Combo(label, CurrentItem, tmpArr, list.size());
-
-			delete[] tmpArr;
+			ImGui::Combo(label, CurrentItem, tmpArr.get(), list.size());
 		}
 	};
 }

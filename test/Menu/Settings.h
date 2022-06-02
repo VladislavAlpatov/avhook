@@ -5,6 +5,7 @@
 #include "../SDK/CBaseEntity.h"
 #include <nlohmann/json.hpp>
 #include "../Hacks/Esp/CLabel/CLabel.h"
+#include "../Web/IWebObject.h"
 
 namespace Settings
 {
@@ -15,17 +16,15 @@ namespace Settings
 		CUSTOM,
 		AUTO
 	};
-	class CBaseSettings
+	class CBaseSettings : public WebApi::IWebObject
 	{
 	public:
 		bool m_bActive = false;
 		bool m_bOnKey  = false;
 		int m_iBindKey = 0;
+		json ToJson() const override;
 
-		virtual json ToJson();
 	protected:
-		json    ImColorToJsn(const ImColor& color);
-		ImColor ImportImColorFromJson(const json& jsn);
 
 		template<typename T>
 		bool SetValueIfFiledExistInJson(const json& jsn,const char* filedName, T* var)
@@ -74,7 +73,7 @@ namespace Settings
 			Static = 0,
 			Dynamic
 		};
-		virtual json ToJson();
+		json ToJson() const override;
 		CAimBotSettings(const json& jsn);
 	};
 	class SnapLinesSettings : public CBaseSettings
@@ -87,7 +86,7 @@ namespace Settings
 		int			m_iDrawMode = 0;
 		int			m_iThickness = 1;
 
-		virtual json ToJson();
+		json ToJson() const override;
 	};
 	class BoxEspSettings : public CBaseSettings
 	{
@@ -97,7 +96,7 @@ namespace Settings
 		int			m_iDrawMode = 0;
 		int			m_iThickness = 1;
 		int			m_iStyle = 0;
-		virtual json ToJson();
+		json ToJson() const override;
 		enum  Style
 		{
 			Solid = 0,
@@ -116,7 +115,7 @@ namespace Settings
 		int  m_iCustomFov       = 90;
 		char killSoundPath[100] = { 0 };
 
-		virtual json ToJson();
+		json ToJson() const override;
 		MiscSettings(const json& jsn);
 	};
 
@@ -127,7 +126,7 @@ namespace Settings
 		bool m_bRageMode = false;
 		int  m_iDelay    = 0;
 
-		virtual json ToJson();
+		json ToJson() const override;
 		TriggerBotSettings(const json& jsn);
 	};
 	class BarEspSettings : public CBaseSettings
@@ -144,7 +143,7 @@ namespace Settings
 		ImColor m_ArmorColor      = ImColor(56, 122, 255);
 		ImColor m_BackGroundColor = ImColor(0, 0, 0, 0);
 
-		virtual json ToJson();
+		json ToJson() const override;
 		BarEspSettings(const json& jsn);
 	};
 	class CRadarSettings : public CBaseSettings
@@ -160,7 +159,7 @@ namespace Settings
 		ImColor m_CrossColor           = ImColor(255, 95, 95);
 		ImColor m_CyrcleBorderColor    = ImColor(255, 95, 95);
 
-		virtual json ToJson();
+		json ToJson() const override;
 
 		enum RADAR_STYLE : int
 		{
@@ -230,7 +229,7 @@ namespace Settings
 		}
 		int  m_iDrawPos  = 0;
 		std::vector<CLabels::CBaseLabel*> m_Labels;
-		virtual json ToJson();
+		json ToJson() const override;
 		CLabelEspSettings(const json& jsn);
 		//void Restore() override {};
 		enum LABELS_ALLIGN
@@ -269,7 +268,7 @@ namespace Settings
 		bool m_bLegitMode = false;
 		int  m_iPerfectJumps = 0;
 
-		virtual json ToJson();
+		json ToJson() const override;
 		CBunnyHopSettings(const json& jsn);
 	private:
 

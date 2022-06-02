@@ -4,6 +4,7 @@
 #include "../Globals/GlobalVars.h"
 #include <Windows.h>
 #include <memory>
+#include "IWebObject.h"
 
 namespace WebApi
 {
@@ -30,6 +31,19 @@ namespace WebApi
 			BetaTester,
 			Developer,
 		};
+	};
+
+	class CLoaderTheme : public IWebObject
+	{
+	public:
+		CLoaderTheme() {};
+		CLoaderTheme(const json& jsn);
+		ImColor m_IconColor       = { 112, 112, 112, 255 };
+		ImColor m_ActiveIconColor = { 255, 84, 84, 255 };
+		ImColor m_LoadingColor    = { 255, 84, 84, 255 };
+		ImColor m_InjectedColor   = { 108, 255, 94, 255 };
+
+		json ToJson() const override;
 	};
 
 	struct AvatarUploadStatus
@@ -71,6 +85,9 @@ namespace WebApi
 		bool AuthByToken(const char* authToken) const;
 		AvatarUploadStatus SetUserAvatar(const std::string& rawDatas) const;
 		std::string GetRawAvatarData();
+		CLoaderTheme GetLoaderTheme();
+		void UpdateLoaderTheme(const CLoaderTheme& theme);
+
 	private:
 		std::unique_ptr<httplib::Client> m_pClient;
 	};

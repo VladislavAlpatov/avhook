@@ -331,6 +331,7 @@
     <ClInclude Include="Utils\VMThook.h" />
     <ClInclude Include="Utils\xorstr.h" />
     <ClInclude Include="Web\CAVhookServerApi.h" />
+    <ClInclude Include="Web\IWebObject.h" />
     <ClInclude Include="Web\httplib.h" />
   </ItemGroup>
   <ItemGroup>
@@ -382,6 +383,7 @@
     <ClCompile Include="Utils\memory.cpp" />
     <ClCompile Include="Utils\VMThook.cpp" />
     <ClCompile Include="Web\CAVhookServerApi.cpp" />
+    <ClCompile Include="Web\IWebObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\about.bmp" />

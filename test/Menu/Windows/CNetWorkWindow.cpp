@@ -1,12 +1,13 @@
 ﻿#pragma once
 
-#include "CNetWorkWindow.h"
-#include <thread>
-#include "../../Globals/GlobalVars.h"
-#include <fmt/format.h>
-#include "../../RawData/Images.h"
-
 #include <d3dx9.h>
+#include <fmt/format.h>
+#include <thread>
+
+#include "CNetWorkWindow.h"
+
+#include "../../Globals/GlobalVars.h"
+#include "../../RawData/Images.h"
 #include "../../Utils/Marker.h"
 
 UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList) : CBaseWindow(pDevice)
@@ -49,23 +50,23 @@ void UI::CNetWorkWindow::Render()
 			textPos.y += 20;
 
 			ImGui::PushItemWidth(125);
-			DrawInputTextWithTextOnBackGround(xorstr("###Name"), xorstr("<Nickname>"), m_CurrentUserData.m_sName, 32);
+			DrawInputTextWithTextOnBackGround(xorstr("###Name"), xorstr("<Nickname>"), m_UserData.m_sName, 32);
 			ImGui::PopItemWidth();
 
 			ImVec2 cursorPos = ImGui::GetCursorPos();
 			ImGui::SetCursorPos(textPos);
-			if (m_CurrentUserData.m_iAccountType == -1)
+			if (m_UserData.m_iAccountType == -1)
 				ImGui::TextColored(ImColor(255, 0, 0), xorstr("Connection: Failed"));
 			else
 				ImGui::TextColored(ImColor(0, 255, 0), xorstr("Connection: Synced"));
 
 			textPos.y += 14;
 			ImGui::SetCursorPos(textPos);
-			ImGui::Text(xorstr("Account: %s"), m_CurrentUserData.AccountTypeIdToString());
+			ImGui::Text(xorstr("Account: %s"), m_UserData.AccountTypeIdToString());
 
 			textPos.y += 14;
 			ImGui::SetCursorPos(textPos);
-			ImGui::Text(xorstr("AVHUID: %d"), m_CurrentUserData.m_iUid);
+			ImGui::Text(xorstr("AVHUID: %d"), m_UserData.m_iUid);
 
 			ImGui::SetCursorPos(cursorPos);
 
@@ -88,7 +89,7 @@ void UI::CNetWorkWindow::Render()
 			else
 			{
 				ImGui::PushItemWidth(197);
-				DrawMultiLineInputTextWithTextOnBackGround(xorstr("###Status"), xorstr("<Custom status>"), m_CurrentUserData.m_sStatus, 256);
+				DrawMultiLineInputTextWithTextOnBackGround(xorstr("###Status"), xorstr("<Custom status>"), m_UserData.m_sStatus, 256);
 				ImGui::PopItemWidth();
 			}
 
@@ -165,6 +166,12 @@ void UI::CNetWorkWindow::Render()
 				}
 			}
 
+
+			ImGui::ColorEdit3("Loader Icon (Not Active)", (float*)&m_LoaderTheme.m_IconColor, ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit3("Loader Icon (Activated)",  (float*)&m_LoaderTheme.m_ActiveIconColor, ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit3("Loader Icon (Injected)",   (float*)&m_LoaderTheme.m_InjectedColor, ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit3("Loading Bar",              (float*)&m_LoaderTheme.m_LoadingColor, ImGuiColorEditFlags_NoInputs);
+
 			ImGui::EndChild();
 		}
 		KeepWindowInSreenArea();
@@ -190,24 +197,21 @@ void UI::CNetWorkWindow::OnClose()
 {
 	POLY_MARKER;
 
-	if (m_OldUserData != m_CurrentUserData)
-	{
-		std::thread([this] {SendNewUserInfoToServer(m_CurrentUserData); }).detach();
-		m_pMessageLineList->Add(xorstr("User data successfully updated."), 2000);
-
-	}
+	std::thread([this] {SendNewUserInfoToServer(m_UserData); }).detach();
+	m_pMessageLineList->Add(xorstr("User data successfully updated."), 2000);
 }
 void UI::CNetWorkWindow::UpdateUserInfo()
 {
 	POLY_MARKER;
 	m_ConfgsList       = m_ApiClient.GetListOfConfigs();
-	m_OldUserData      = m_ApiClient.GetUserInfo();
-	m_CurrentUserData = m_OldUserData;
+	m_UserData = m_ApiClient.GetUserInfo();
+	m_LoaderTheme	   = m_ApiClient.GetLoaderTheme();
+
 }
 void UI::CNetWorkWindow::SendNewUserInfoToServer(const WebApi::CUserInfo & info)
 {
-
 	m_ApiClient.ChangeUserNameAndStatus(info.m_sName, info.m_sStatus);
+	m_ApiClient.UpdateLoaderTheme(m_LoaderTheme);
 }
 void UI::CNetWorkWindow::SetUserAvatar(const std::string pathToFile)
 {

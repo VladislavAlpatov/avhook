@@ -79,6 +79,7 @@ BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 			MessageBoxA(NULL, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);
 			exit(-1);
 		}
+		WebApi::CAVHookServerApi().UpdateLoaderTheme(WebApi::CLoaderTheme());
 		POLY_MARKER;
 		CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)InitCheat,   hModule, 0, nullptr);
 	}

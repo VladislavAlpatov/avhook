@@ -46,6 +46,16 @@ std::string CAVHookServerApi::GetRawAvatarData()
 {
 	return m_pClient->Get(xorstr("/api/profile/get_avatar")).value().body;
 }
+CLoaderTheme WebApi::CAVHookServerApi::GetLoaderTheme()
+{
+	const auto jsn = nlohmann::json::parse(m_pClient->Get(xorstr("/api/loader/get/theme")).value().body);
+
+	return CLoaderTheme(jsn);
+}
+void WebApi::CAVHookServerApi::UpdateLoaderTheme(const CLoaderTheme& theme)
+{
+	m_pClient->Post(xorstr("/api/loader/update/theme"), theme.ToJson().dump(), xorstr("application/json"));
+}
 const char* CUserInfo::AccountTypeIdToString()
 {
 #ifndef _DEBUG
@@ -117,4 +127,25 @@ CUserInfo::CUserInfo(nlohmann::json jsn)
 	m_bIsPremium   = jsn[xorstr("premium")].get<bool>();
 	m_iUid         = jsn[xorstr("uid")].get<int>();
 
+}
+
+WebApi::CLoaderTheme::CLoaderTheme(const json& jsn)
+{
+	m_IconColor       = ImportImColorFromJson(jsn[xorstr("icon_color")].get<json>());
+	m_ActiveIconColor = ImportImColorFromJson(jsn[xorstr("active_icon_color")].get<json>());
+	m_LoadingColor    = ImportImColorFromJson(jsn[xorstr("loading_color")].get<json>());
+	m_InjectedColor   = ImportImColorFromJson(jsn[xorstr("injected_color")].get<json>());
+
+}
+
+nlohmann::json WebApi::CLoaderTheme::ToJson() const
+{
+	json outJsn;
+	
+	outJsn[xorstr("icon_color")]        = ImColorToJsn(m_IconColor);
+	outJsn[xorstr("active_icon_color")] = ImColorToJsn(m_ActiveIconColor);
+	outJsn[xorstr("loading_color")]     = ImColorToJsn(m_LoadingColor);
+	outJsn[xorstr("injected_color")]    = ImColorToJsn(m_InjectedColor);
+
+	return outJsn;
 }

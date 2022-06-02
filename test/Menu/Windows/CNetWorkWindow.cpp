@@ -167,10 +167,10 @@ void UI::CNetWorkWindow::Render()
 			}
 
 
-			ImGui::ColorEdit3("Loader Icon (Not Active)", (float*)&m_LoaderTheme.m_IconColor, ImGuiColorEditFlags_NoInputs);
-			ImGui::ColorEdit3("Loader Icon (Activated)",  (float*)&m_LoaderTheme.m_ActiveIconColor, ImGuiColorEditFlags_NoInputs);
-			ImGui::ColorEdit3("Loader Icon (Injected)",   (float*)&m_LoaderTheme.m_InjectedColor, ImGuiColorEditFlags_NoInputs);
-			ImGui::ColorEdit3("Loading Bar",              (float*)&m_LoaderTheme.m_LoadingColor, ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit3(xorstr("Loader Icon (Not Active)"), (float*)&m_LoaderTheme.m_IconColor, ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit3(xorstr("Loader Icon (Activated)"),  (float*)&m_LoaderTheme.m_ActiveIconColor, ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit3(xorstr("Loader Icon (Injected)"),   (float*)&m_LoaderTheme.m_InjectedColor, ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit3(xorstr("Loading Bar"),              (float*)&m_LoaderTheme.m_LoadingColor, ImGuiColorEditFlags_NoInputs);
 
 			ImGui::EndChild();
 		}

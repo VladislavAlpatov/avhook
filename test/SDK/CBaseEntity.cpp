@@ -26,7 +26,7 @@ ImColor CBaseEntity::GetColorBasedOnHealth() const
 	if (healthRatio >= 0.5f)
 		return ImColor(1.f - (healthRatio - 0.5f) * 2.f, 1.f, 0.f);
 
-	return ImColor(1.f, healthRatio / 2.f,  0.f);
+	return ImColor(1.f, healthRatio * 2.f,  0.f);
 }
 
 ImVec3 CBaseEntity::GetCameraPosition() const

@@ -284,12 +284,12 @@ void UI::CSettingsWindow::DrawEspChild()
 				ImGui::SameLine();
 				if (ImGui::Button(u8"Λ", ImVec2(20, 20)) and i > 0)
 				{
-					std::swap<CLabels::CBaseLabel*>(m_pAllSettings->m_LabelEspSettings.m_Labels[i], m_pAllSettings->m_LabelEspSettings.m_Labels[i - 1]);
+					std::swap<std::shared_ptr<CLabels::CBaseLabel>>(m_pAllSettings->m_LabelEspSettings.m_Labels[i], m_pAllSettings->m_LabelEspSettings.m_Labels[i - 1]);
 				}
 				ImGui::SameLine();
 				if (ImGui::Button(u8"V", ImVec2(20, 20)) and i < m_pAllSettings->m_LabelEspSettings.m_Labels.size() - 1 )
 				{
-					std::swap<CLabels::CBaseLabel*>(m_pAllSettings->m_LabelEspSettings.m_Labels[i+1], m_pAllSettings->m_LabelEspSettings.m_Labels[i]);
+					std::swap<std::shared_ptr<CLabels::CBaseLabel>>(m_pAllSettings->m_LabelEspSettings.m_Labels[i+1], m_pAllSettings->m_LabelEspSettings.m_Labels[i]);
 				}
 				ImGui::SameLine();
 				ImGui::Checkbox(pCurrentLabel->m_sName.c_str(), &pCurrentLabel->m_bActive);

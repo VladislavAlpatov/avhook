@@ -37,7 +37,7 @@ std::vector<BYTE> GetSignatureBytes(const std::string& str)
 
 	for (auto& strHex : strs)
 	{
-		if (strHex == xorstr("??"))
+		if (strHex == xorstr("??") or strHex == xorstr("?"))
 		{
 			bytes.push_back('\?');
 			continue;

@@ -220,19 +220,13 @@ json CLabelEspSettings::ToJson() const
 
 	return jsn;
 };
-CLabelEspSettings::CLabelEspSettings(const json& jsn) : CLabelEspSettings()
+CLabelEspSettings::CLabelEspSettings(const json& jsn)
 {
 	POLY_MARKER;
 	SetValueIfFiledExistInJson<int>(jsn, xorstr("iDrawPos"), &m_iDrawPos);
 
 	if (!jsn.contains(xorstr("Labels")))
 		return;
-
-	for (auto pLabel : m_Labels)
-	{
-		delete pLabel;
-	}
-	m_Labels.clear();
 
 	POLY_MARKER;
 
@@ -268,7 +262,7 @@ CLabelEspSettings::CLabelEspSettings(const json& jsn) : CLabelEspSettings()
 			break;
 		}
 		if (pLabel)
-			m_Labels.push_back(pLabel);
+			m_Labels.push_back(std::shared_ptr<CLabels::CBaseLabel>(pLabel));
 	}
 }
 

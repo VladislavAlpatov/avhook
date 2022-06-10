@@ -118,9 +118,9 @@ void UI::CBaseWindow::DrawImageWithBorder(ImTextureID textureID, const ImVec2& s
 	auto windowPos = ImGui::GetWindowPos();
 	auto cursorPos = ImGui::GetCursorPos();
 
-	auto ImageBorderPos = ImVec2(windowPos.x + cursorPos.x - 1, windowPos.y + cursorPos.y - 1);
+	auto ImageBorderPos = windowPos + cursorPos - ImVec2(1, 1);
 
-	drawList->AddRect(ImageBorderPos, ImVec2(ImageBorderPos.x + size.x + 2, ImageBorderPos.y + size.y + 2), (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Border]);
+	drawList->AddRect(ImageBorderPos, ImageBorderPos + size + ImVec2(2, 2), (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Border]);
 
 	ImGui::Image(textureID, size);
 }

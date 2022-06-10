@@ -19,7 +19,6 @@ public:
 	void Render();
 	bool IsShowUI();
 	void ToggleUI();
-	void Detach();
 private:
 	std::vector<SnowFlake> m_vecSnow;
 	std::vector<Esp::CBaseEsp*> m_vecEspPayload;
@@ -30,7 +29,7 @@ private:
 	bool    m_bShowKeyBindDialog = false;
 
 	Settings::CAllSettings*       m_pAllSettings = nullptr;
-	std::vector<UI::CBaseWindow*> m_vecWindows;
+	std::vector<std::shared_ptr<UI::CBaseWindow>> m_vecWindows;
 	UI::CMessageLineList	      m_MessageLineList;
 
 	LPDIRECT3DDEVICE9 m_pDevice;

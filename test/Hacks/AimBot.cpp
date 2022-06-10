@@ -192,7 +192,7 @@ CBaseEntity* CAimBot::GetClosestTargetByFov(int bone)
 	return validEntities[0];
 }
 
-ImVec3 CAimBot::CalcAimViewAngles(const CBaseEntity* pEntity, const int bone) const 
+ImVec3 CAimBot::CalcAimViewAngles(const CBaseEntity* pEntity, const int bone) 
 {
 	ImVec3 calculated;
 

@@ -173,12 +173,12 @@ namespace Settings
 		CLabelEspSettings()
 		{
 			m_bActive = true;
-			m_Labels.push_back(new CLabels::CNameLabel(xorstr("Name"),                  false,ImColor(255, 255, 255)));
-			m_Labels.push_back(new CLabels::CHealthLabel(xorstr("Health"),				false));
-			m_Labels.push_back(new CLabels::CDistanceLabel(xorstr("Distance"),			false, ImColor(255, 255, 255)));
-			m_Labels.push_back(new CLabels::CArmorLabel(xorstr("Armor"),				false, ImColor(255, 255, 255)));
-			m_Labels.push_back(new CLabels::CVisibilityLabel(xorstr("Visibility"),      false, ImColor(255, 255, 255)));
-			m_Labels.push_back(new CLabels::CAimBotTargetLabel(xorstr("Locked"),		false, ImColor(255, 255, 255)));
+			m_Labels.push_back(std::shared_ptr<CLabels::CNameLabel>(new CLabels::CNameLabel(xorstr("Name"),false,ImColor(255, 255, 255) )));
+			m_Labels.push_back(std::shared_ptr<CLabels::CHealthLabel>(new CLabels::CHealthLabel(xorstr("Health"), false)));
+			m_Labels.push_back(std::shared_ptr<CLabels::CArmorLabel>(new CLabels::CArmorLabel(xorstr("Armor"), false, ImColor(255, 255, 255))));
+			m_Labels.push_back(std::shared_ptr<CLabels::CDistanceLabel>(new CLabels::CDistanceLabel(xorstr("Distance"), false, ImColor(255, 255, 255))));
+			m_Labels.push_back(std::shared_ptr<CLabels::CVisibilityLabel>(new CLabels::CVisibilityLabel(xorstr("Visibility"), false, ImColor(255, 255, 255))));
+			m_Labels.push_back(std::shared_ptr<CLabels::CAimBotTargetLabel>(new CLabels::CAimBotTargetLabel(xorstr("Locked"), false, ImColor(255, 255, 255))));
 		}
 		CLabelEspSettings& operator=(const CLabelEspSettings& other)
 		{
@@ -186,22 +186,18 @@ namespace Settings
 				return *this;
 
 			m_iDrawPos = other.m_iDrawPos;
-			m_bActive  = other.m_bActive;
+			m_bActive = true;
 
-			for (auto pLabel : m_Labels)
-			{
-				delete pLabel;
-			}
 			m_Labels.clear();
 
 			for (auto pLabel : other.m_Labels)
 			{
-				auto pTmpLabel = new CLabels::CBaseLabel();
-				*pTmpLabel = *pLabel;
+				auto pTmpLabel = std::make_shared<CLabels::CBaseLabel>();
+				*pTmpLabel.get() = *pLabel.get();
 
 				// We also must copy vft table to safe original functions! 
-				// if we will not do this object will get base class vft tabls
-				((uintptr_t*)pTmpLabel)[0] = ((uintptr_t*)pLabel)[0];
+				// if we will not do this object will get base class vft tables
+				((uintptr_t*)pTmpLabel.get())[0] = ((uintptr_t*)pLabel.get())[0];
 
 				m_Labels.push_back(pTmpLabel);
 			}
@@ -211,24 +207,23 @@ namespace Settings
 		
 		CLabelEspSettings(const CLabelEspSettings& other)
 		{
-			m_bActive = other.m_bActive;
+			m_bActive = true;
 			m_iDrawPos = other.m_iDrawPos;
-			if (other.m_Labels.empty())
-				return;
-			
+			m_Labels.clear();
 			for (auto pLabel : other.m_Labels)
 			{
-				auto lableCopy = new CLabels::CBaseLabel();
-				*lableCopy     = *pLabel;
+				auto pTmpLabel = std::make_shared<CLabels::CBaseLabel>();
+				*pTmpLabel.get() = *pLabel.get();
 
 				// We also must copy vft table to safe original functions! 
 				// if we will not do this object will get base class vft tabls
-				((uintptr_t*)lableCopy)[0] = ((uintptr_t*)pLabel)[0];
-				m_Labels.push_back(lableCopy);
+				((uintptr_t*)pTmpLabel.get())[0] = ((uintptr_t*)pLabel.get())[0];
+
+				m_Labels.push_back(pTmpLabel);
 			}
 		}
 		int  m_iDrawPos  = 0;
-		std::vector<CLabels::CBaseLabel*> m_Labels;
+		std::vector<std::shared_ptr<CLabels::CBaseLabel>> m_Labels;
 		json ToJson() const override;
 		CLabelEspSettings(const json& jsn);
 		//void Restore() override {};
@@ -237,16 +232,6 @@ namespace Settings
 			LEFT = 0,
 			TOP
 		};
-		~CLabelEspSettings()
-		{
-			if (m_Labels.empty())
-				return;
-
-			for (auto pLabel : m_Labels)
-			{
-				delete pLabel;
-			}
-		}
 	};
 	class ChromaSettings
 	{

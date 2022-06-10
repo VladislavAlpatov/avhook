@@ -74,11 +74,11 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSet
 
 	POLY_MARKER;
 
-	m_vecWindows.push_back(new UI::CAboutWindow(m_pDevice));
-	m_vecWindows.push_back(new UI::CSettingsWindow(m_pDevice, &m_MessageLineList, pSettings, &m_bShowKeyBindDialog));
-	m_vecWindows.push_back(new UI::CNetWorkWindow(m_pDevice,  &m_MessageLineList));
-	m_vecWindows.push_back(new UI::CDockWindow(m_pDevice,    m_vecWindows[0], m_vecWindows[2], m_vecWindows[1]));
-	m_vecWindows.push_back(new UI::CTaskBarWindow(pDevice));
+	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CAboutWindow(m_pDevice)));
+	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CSettingsWindow(m_pDevice, &m_MessageLineList, pSettings, &m_bShowKeyBindDialog)));
+	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CNetWorkWindow(m_pDevice,  &m_MessageLineList)));
+	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CDockWindow(m_pDevice,    m_vecWindows[0], m_vecWindows[2], m_vecWindows[1])));
+	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CTaskBarWindow(pDevice)));
 
 	POLY_MARKER;
 
@@ -200,15 +200,4 @@ bool COverlay::IsShowUI()
 void COverlay::ToggleUI()
 {
 	m_bShowUI = !m_bShowUI;
-}
-void COverlay::Detach()
-{
-	for (auto pWindow : m_vecWindows)
-	{
-		delete pWindow;
-	}
-	for (auto pEsp : m_vecEspPayload)
-	{
-		delete pEsp;
-	}
 }

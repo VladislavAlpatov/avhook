@@ -25,7 +25,7 @@ int __stdcall  hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a4, int 
 
 	if (pOverlay == nullptr)
 	{
-		pOverlay = new COverlay(pDevice, hmodule, &GlobalVars::settings);
+		pOverlay = std::unique_ptr<COverlay>(new COverlay(pDevice, hmodule, &GlobalVars::settings));
 	}
 
 	if (GetAsyncKeyState(VK_INSERT) & 1)
@@ -158,7 +158,6 @@ void hooks::Detach()
 
 	POLY_MARKER;
 
-	hooks::pOverlay->Detach();
 	MH_Uninitialize();
 }
 

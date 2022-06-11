@@ -63,12 +63,12 @@ uintptr_t Memory::FindPattern(const char* moduleName, const char* signature)
 
 	auto pattern = GetSignatureBytes(signature);
 
-	for (uintptr_t i = 0; i < size - pattern.size(); i++)
+	for (uintptr_t i = 0; i < size - pattern.size()+1; i++)
 	{
 		bool found = true;
 		for (uintptr_t j = 0; j < pattern.size(); j++)
 		{
-			found &= pattern[j] == '\?' or pattern[j] == *(BYTE*)(base + i + j);
+			found = pattern[j] == '\?' or pattern[j] == *(BYTE*)(base + i + j);
 			if (not found)
 				break;
 		}

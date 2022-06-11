@@ -2,12 +2,12 @@
 
 VMThook::VMThook(void* pClassPtr)
 {
-	m_pVft = *reinterpret_cast<uintptr_t**>(pClassPtr);
+	m_pVft = *(uintptr_t**)(pClassPtr);
 }
 
 void VMThook::HookVirtualMethod(int index, uintptr_t pDetour)
 {
-	m_mOriginalFunctionAddrs.emplace(index, this->m_pVft[index]);
+	m_mOriginalFunctionAddrs.emplace(index, m_pVft[index]);
 	DWORD oldProc;
 
 	VirtualProtect(&m_pVft[index], sizeof(pDetour), PAGE_EXECUTE_READWRITE, &oldProc);

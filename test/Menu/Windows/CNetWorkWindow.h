@@ -30,7 +30,7 @@ namespace UI
 		
 		void UpdateUserInfo();
 		void SendNewUserInfoToServer(const WebApi::CUserInfo& info);
-		void SetUserAvatar(const std::string pathToFile);
+		void SetUserAvatar(const std::string& pathToFile);
 
 		void DrawConfigCombo(const char* label, int* CurrentItem, const std::vector<WebApi::CConfig>& list)
 		{

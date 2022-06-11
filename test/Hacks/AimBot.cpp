@@ -172,7 +172,7 @@ CBaseEntity* CAimBot::GetClosestTargetByFov(int bone)
 	std::vector<CBaseEntity*> validEntities = GetValidEntities(bone);
 	POLY_MARKER;
 
-	if (validEntities.size() == 0)
+	if (!validEntities.size())
 		return NULL;
 
 	POLY_MARKER;

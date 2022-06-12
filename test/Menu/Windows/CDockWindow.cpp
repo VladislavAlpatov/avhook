@@ -18,9 +18,6 @@ void UI::CDockWindow::Render()
 		ImVec2 screenSize = ImGui::GetMainViewport()->Size;
 		ImGui::SetWindowPos(ImVec2( (screenSize.x - ImGui::GetWindowWidth()) / 2.f , screenSize.y - ImGui::GetWindowHeight()));
 
-		if (ImGui::Button(xorstr("NETWORK"), ImVec2(100, 25)))
-			m_pPlayerListWindow->Toggle();
-		ImGui::SameLine();
 		if (ImGui::Button(xorstr("SETTINGS"),    ImVec2(100, 25)))
 			m_pSettingsWindow->Toggle();
 		ImGui::SameLine();

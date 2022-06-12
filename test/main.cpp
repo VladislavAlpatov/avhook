@@ -65,7 +65,7 @@ BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 
 	if (dwReason == DLL_PROCESS_ATTACH)
 	{
-		auto client = httplib::Client(AVHOOK_SERVER_URL);
+		/*auto client = httplib::Client(AVHOOK_SERVER_URL);
 
 		if (client.Get(xorstr("/")).error() != httplib::Error::Success)
 		{
@@ -78,7 +78,8 @@ BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 			POLY_MARKER;
 			MessageBoxA(NULL, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);
 			exit(-1);
-		}
+		}*/
+
 		POLY_MARKER;
 		CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)InitCheat,   hModule, 0, nullptr);
 	}

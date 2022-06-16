@@ -21,7 +21,7 @@ public:
 	void ToggleUI();
 private:
 	std::vector<SnowFlake> m_vecSnow;
-	std::vector<Esp::CBaseEsp*> m_vecEspPayload;
+	std::vector<std::shared_ptr<Esp::CBaseEsp>> m_vecEspPayload;
 
 	ImFont* m_pFontMenu;
 	ImFont* m_pFontEsp;

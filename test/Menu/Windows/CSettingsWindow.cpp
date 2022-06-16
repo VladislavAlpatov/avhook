@@ -267,37 +267,38 @@ void UI::CSettingsWindow::DrawEspChild()
 		const char* positions[] = { "Left alligned", "Top alligned" };
 		ImGui::Combo(xorstr("###LabelDrawPos"), &m_pAllSettings->m_LabelEspSettings.m_iDrawPos, positions, IM_ARRAYSIZE(positions));
 
+		auto& style = ImGui::GetStyle();
+		auto backUp = style.WindowPadding;
+		auto backUp2 = style.ItemSpacing;
+
+		style.WindowPadding = ImVec2(2, 2);
+		style.ItemSpacing = ImVec2(2, 2);
 
 		for (int i = 0; i < m_pAllSettings->m_LabelEspSettings.m_Labels.size(); ++i)
 		{
-			auto& style = ImGui::GetStyle();
-			auto backUp  = style.WindowPadding;
-			auto backUp2 = style.ItemSpacing;
-
-			style.WindowPadding = ImVec2(2, 2);
-			style.ItemSpacing   = ImVec2(2, 2);
-
-			auto pCurrentLabel = m_pAllSettings->m_LabelEspSettings.m_Labels[i];
+			auto& pCurrentLabel = m_pAllSettings->m_LabelEspSettings.m_Labels[i];
 			ImGui::BeginChild((std::string(xorstr("###Child")) + pCurrentLabel->m_sName).c_str(), ImVec2(160, 25), true, m_iImGuiStyle);
 			{
 				ImGui::ColorEdit4((std::string(xorstr("###Color")) + pCurrentLabel->m_sName).c_str(), (float*)&pCurrentLabel->m_Color, ImGuiColorEditFlags_NoInputs);
 				ImGui::SameLine();
 				if (ImGui::Button(u8"Λ", ImVec2(20, 20)) and i > 0)
 				{
-					std::swap<std::shared_ptr<CLabels::CBaseLabel>>(m_pAllSettings->m_LabelEspSettings.m_Labels[i], m_pAllSettings->m_LabelEspSettings.m_Labels[i - 1]);
+					m_pAllSettings->m_LabelEspSettings.m_Labels[i].swap(m_pAllSettings->m_LabelEspSettings.m_Labels[i-1]);
 				}
 				ImGui::SameLine();
 				if (ImGui::Button(u8"V", ImVec2(20, 20)) and i < m_pAllSettings->m_LabelEspSettings.m_Labels.size() - 1 )
 				{
-					std::swap<std::shared_ptr<CLabels::CBaseLabel>>(m_pAllSettings->m_LabelEspSettings.m_Labels[i+1], m_pAllSettings->m_LabelEspSettings.m_Labels[i]);
+					m_pAllSettings->m_LabelEspSettings.m_Labels[i].swap(m_pAllSettings->m_LabelEspSettings.m_Labels[i+1]);
 				}
 				ImGui::SameLine();
 				ImGui::Checkbox(pCurrentLabel->m_sName.c_str(), &pCurrentLabel->m_bActive);
+
 				ImGui::EndChild();
-				style.WindowPadding = backUp;
-				style.ItemSpacing = backUp2;
+
 			}
 		}
+		style.WindowPadding = backUp;
+		style.ItemSpacing = backUp2;
 
 		ImGui::EndChild();
 	}

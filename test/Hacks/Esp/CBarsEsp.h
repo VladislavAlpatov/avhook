@@ -6,7 +6,7 @@ namespace Esp
 	{
 	public:
 		CBarsEsp(Settings::BarEspSettings* pSettings) : CBaseEsp(pSettings) {};
-
+		
 	private:
 		virtual void InternalRenderAt(CBaseEntity* pEntity);
 		struct LineData

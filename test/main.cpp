@@ -10,6 +10,14 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 {
 	POLY_MARKER;
 
+	if (!WebApi::CAVHookServerApi().AuthByToken(GlobalVars::authToken))
+	{
+		POLY_MARKER;
+		MessageBoxA(NULL, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);
+		exit(-1);
+	}
+
+
 	CRazer razer = CRazer();
 	if (razer.isSupported())
 	{
@@ -65,20 +73,6 @@ BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 
 	if (dwReason == DLL_PROCESS_ATTACH)
 	{
-		auto client = httplib::Client(AVHOOK_SERVER_URL);
-
-		if (client.Get(xorstr("/")).error() != httplib::Error::Success)
-		{
-			POLY_MARKER;
-			MessageBoxA(NULL, xorstr("I can't connect to the AVhook servers, check your internet connection, the game will be closed."), xorstr("Connection error"), MB_ICONERROR | MB_OK);
-			exit(-1);
-		}
-		if (!WebApi::CAVHookServerApi().AuthByToken(GlobalVars::authToken))
-		{
-			POLY_MARKER;
-			MessageBoxA(NULL, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);
-			exit(-1);
-		}
 		POLY_MARKER;
 		CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)InitCheat,   hModule, 0, nullptr);
 	}

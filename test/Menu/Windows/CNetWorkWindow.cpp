@@ -213,7 +213,7 @@ void UI::CNetWorkWindow::SendNewUserInfoToServer(const WebApi::CUserInfo & info)
 	m_ApiClient.ChangeUserNameAndStatus(info.m_sName, info.m_sStatus);
 	m_ApiClient.UpdateLoaderTheme(m_LoaderTheme);
 }
-void UI::CNetWorkWindow::SetUserAvatar(const std::string& pathToFile)
+void UI::CNetWorkWindow::SetUserAvatar(const std::string pathToFile)
 {
 
 	std::ifstream file(pathToFile, std::ios::binary | std::ios::ate);

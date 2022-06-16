@@ -22,8 +22,8 @@ void CBindListenerOverlay::Render()
 	auto screenSize = ImGui::GetMainViewport()->Size;
 	const char* text = xorstr("Press Any Key Or ESC To Cancel");
 
-	const auto textSize = ImGui::CalcTextSize(text);
-	ImVec2 textPos = ImVec2( (screenSize.x - textSize.x) / 2.f, (screenSize.y - textSize.y) / 2.f);
+	float textWidth = ImGui::CalcTextSize(text).x;
+	ImVec2 textPos = ImVec2((screenSize.x / 2.f) - (textWidth / 2.f), screenSize.y / 2.f - 6);
 
 	pForeGraundDrawList->AddText(textPos, (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Text], text);
 }

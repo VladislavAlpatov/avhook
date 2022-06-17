@@ -23,7 +23,7 @@ void CBindListenerOverlay::Render()
 	const char* text = xorstr("Press Any Key Or ESC To Cancel");
 
 	float textWidth = ImGui::CalcTextSize(text).x;
-	ImVec2 textPos = ImVec2((screenSize.x / 2.f) - (textWidth / 2.f), screenSize.y / 2.f - 6);
+	ImVec2 textPos = ImVec2((screenSize.x - textWidth) / 2.f, screenSize.y / 2.f - 6);
 
 	pForeGraundDrawList->AddText(textPos, (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Text], text);
 }

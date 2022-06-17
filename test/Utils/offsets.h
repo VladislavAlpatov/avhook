@@ -145,7 +145,7 @@ namespace signatures {
 	constexpr ::std::ptrdiff_t dwSensitivity = 0xDC1174;
 	constexpr ::std::ptrdiff_t dwSensitivityPtr = 0xDC1148;
 	constexpr ::std::ptrdiff_t dwSetClanTag = 0x8A320;
-	constexpr ::std::ptrdiff_t dwViewMatrix = 0x4DC9434;
+	constexpr ::std::ptrdiff_t dwViewMatrix = 0x4DC9404;
 	constexpr ::std::ptrdiff_t dwWeaponTable = 0x5229BB4;
 	constexpr ::std::ptrdiff_t dwWeaponTableIndex = 0x326C;
 	constexpr ::std::ptrdiff_t dwYawPtr = 0xDC0F38;

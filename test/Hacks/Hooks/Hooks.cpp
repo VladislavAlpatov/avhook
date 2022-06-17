@@ -128,7 +128,7 @@ void hooks::Attach(HMODULE ihModule)
 	//Hook CreateMove
 	auto createMoveAddr = Memory::FindPattern(xorstr("client.dll"), xorstr("55 8B EC 56 8D 75 04 8B"));
 
-	if (!presentAddr)
+	if (!createMoveAddr)
 		throw std::runtime_error(xorstr("CSGO initialization failure"));
 
 	MH_CreateHook((LPVOID*)createMoveAddr, &hCreateMove, (LPVOID*)&oCreateMove);

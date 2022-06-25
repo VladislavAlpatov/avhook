@@ -55,6 +55,11 @@ void UI::CAboutWindow::Render()
 	}
 }
 
+std::string UI::CAboutWindow::GetAlias()
+{
+	return xorstr("About");
+}
+
 UI::CAboutWindow::~CAboutWindow()
 {
 	m_pTexureCheatLogo->Release();

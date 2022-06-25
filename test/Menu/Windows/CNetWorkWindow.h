@@ -11,6 +11,7 @@ namespace UI
 		CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList);
 		virtual void Render();
 		virtual void OnOpen();
+		std::string GetAlias() override;
 		virtual void OnClose();
 		virtual ~CNetWorkWindow();
 	private:

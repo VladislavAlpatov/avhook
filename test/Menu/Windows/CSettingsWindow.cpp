@@ -116,12 +116,16 @@ void UI::CSettingsWindow::Render()
 		ImGui::End();
 	}
 }
+std::string UI::CSettingsWindow::GetAlias()
+{
+	return xorstr("Settings");
+}
 void UI::CSettingsWindow::DrawAimbotChild()
 {
 	ImGui::SetWindowSize(ImVec2(555, 400));
-	const char* hitboxes[]      = { "Head",   "Chest", "Pelvis" };
-	const char* priorities[]    = { "FoV",    "Distance" };
-	const char* hitboxFilters[] = { "Static", "Dynamic" };
+	static const char* hitboxes[]      = { "Head",   "Chest", "Pelvis" };
+	static const char* priorities[]    = { "FoV",    "Distance" };
+	static const char* hitboxFilters[] = { "Static", "Dynamic" };
 
 	ImGui::Text(xorstr("Automatic Target Acquisition System"));
 

@@ -267,6 +267,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Menu\Windows\CConsoleWindow.h" />
     <ClInclude Include="Hacks\Esp\CLabel\CLabel.h" />
     <ClInclude Include="Menu\MessageLine\CMessageLine.h" />
     <ClInclude Include="DirectX\DX9ColorFix.h" />
@@ -335,6 +336,7 @@
     <ClInclude Include="Web\httplib.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Menu\Windows\CConsoleWindow.cpp" />
     <ClCompile Include="Hacks\Esp\CLabel\CLabel.cpp" />
     <ClCompile Include="Menu\MessageLine\CMessageLine.cpp" />
     <ClCompile Include="DirectX\DX9ColorFix.cpp" />

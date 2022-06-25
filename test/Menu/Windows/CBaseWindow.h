@@ -2,6 +2,7 @@
 #include "../IBaseDrawObject.h"
 #include <d3d9.h>
 #include "../../imgui/imgui.h"
+#include <string>
 
 /*
 Use as base class for others UI windows
@@ -19,6 +20,8 @@ namespace UI
 		virtual ~CBaseWindow() { };
 
 		virtual void Show();
+
+		virtual std::string GetAlias();
 		void Toggle();
 		void SetShowState(bool isShow) { m_bIsShow = isShow; };
 	protected:

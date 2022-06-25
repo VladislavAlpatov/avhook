@@ -184,11 +184,15 @@ void UI::CNetWorkWindow::OnOpen()
 	m_bAvatarSetWindow = false;
 	std::thread([this] {UpdateUserInfo(); }).detach();
 }
+std::string UI::CNetWorkWindow::GetAlias()
+{
+	return xorstr("Network");
+}
 UI::CNetWorkWindow::~CNetWorkWindow()
 {
 	POLY_MARKER;
 
-	if (m_pTextureUserAvatar != nullptr)
+	if (m_pTextureUserAvatar)
 		m_pTextureUserAvatar->Release();
 
 	m_pTexureDefaulteAvatar->Release();

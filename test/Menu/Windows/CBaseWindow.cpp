@@ -89,6 +89,10 @@ void UI::CBaseWindow::Show()
 		ImGui::PopFont();
 	}
 }
+std::string UI::CBaseWindow::GetAlias()
+{
+	return xorstr("Window");
+}
 void UI::CBaseWindow::DrawInputTextWithTextOnBackGroundEx(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, const ImColor& bgLabelCol, ImGuiInputTextFlags flags)
 {
 	
@@ -99,13 +103,7 @@ void UI::CBaseWindow::DrawInputTextWithTextOnBackGroundEx(const char* label, con
 	}
 	auto textPos = ImGui::GetCursorPos();
 	ImGui::InputText(label, text, bufferSize, flags);
-	auto oldCursorPos = ImGui::GetCursorPos();
-
-	textPos += ImVec2(7, 2);
-
-	ImGui::SetCursorPos(textPos);
-	ImGui::TextColored(bgLabelCol, backGroundLabel);
-	ImGui::SetCursorPos(oldCursorPos);
+	ImGui::GetWindowDrawList()->AddText(ImGui::GetWindowPos() + textPos + ImVec2(7, 2), bgLabelCol, backGroundLabel);
 }
 
 void UI::CBaseWindow::DrawInputTextWithTextOnBackGround(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, ImGuiInputTextFlags flags)

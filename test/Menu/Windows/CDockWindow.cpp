@@ -1,15 +1,12 @@
 ﻿#pragma once
 #include "CDockWindow.h"
 #include "../../Utils/xorstr.h"
+#include <boost/algorithm/string.hpp>
 
-
-UI::CDockWindow::CDockWindow(LPDIRECT3DDEVICE9 pDevice, const std::shared_ptr<CBaseWindow>& pAboutWindow, const std::shared_ptr<CBaseWindow>& pPlayerListWindow, const std::shared_ptr<CBaseWindow>& pSettingsWindow) : CBaseWindow(pDevice)
+UI::CDockWindow::CDockWindow(LPDIRECT3DDEVICE9 pDevice, const std::vector<std::shared_ptr<CBaseWindow>>& windowList) : CBaseWindow(pDevice)
 {
-	m_bForceShow        = true;
-	m_pPlayerListWindow = pPlayerListWindow;
-	m_pAboutWindow      = pAboutWindow;
-	m_pSettingsWindow   = pSettingsWindow;
-
+	m_WindowList = windowList;
+	m_bForceShow = true;
 }
 void UI::CDockWindow::Render()
 {
@@ -18,15 +15,16 @@ void UI::CDockWindow::Render()
 		ImVec2 screenSize = ImGui::GetMainViewport()->Size;
 		ImGui::SetWindowPos(ImVec2( (screenSize.x - ImGui::GetWindowWidth()) / 2.f , screenSize.y - ImGui::GetWindowHeight()));
 
-		if (ImGui::Button(xorstr("NETWORK"), ImVec2(100, 25)))
-			m_pPlayerListWindow->Toggle();
-		ImGui::SameLine();
-		if (ImGui::Button(xorstr("SETTINGS"),    ImVec2(100, 25)))
-			m_pSettingsWindow->Toggle();
-		ImGui::SameLine();
-		if (ImGui::Button(xorstr("ABOUT"),       ImVec2(100, 25)))
-			m_pAboutWindow->Toggle();
+		for (auto& pWindow : m_WindowList)
+		{
+			auto windowAlias = pWindow->GetAlias();
+			boost::to_upper(windowAlias);
 
+			if (ImGui::Button(windowAlias.c_str(), ImVec2(100, 25)))
+				pWindow->Toggle();
+			ImGui::SameLine();
+
+		}
 		ImGui::End();
 	}
 }

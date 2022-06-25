@@ -9,6 +9,8 @@
 #include "Windows/CTaskBarWindow.h"
 #include "Windows/CNetWorkWindow.h"
 #include "Windows/CRadarWindow.h"
+#include "Windows/CConsoleWindow.h"
+
 
 #include "../Hacks/Esp/CBarsEsp.h"
 #include "../Hacks/Esp/CBoxEsp.h"
@@ -77,7 +79,8 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSet
 	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CAboutWindow(m_pDevice)));
 	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CSettingsWindow(m_pDevice, &m_MessageLineList, pSettings, &m_bShowKeyBindDialog)));
 	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CNetWorkWindow(m_pDevice,  &m_MessageLineList)));
-	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CDockWindow(m_pDevice,    m_vecWindows[0], m_vecWindows[2], m_vecWindows[1])));
+	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CConsoleWindow(m_pDevice)));
+	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CDockWindow(m_pDevice, {m_vecWindows[0], m_vecWindows[1], m_vecWindows[2], m_vecWindows[3] })));
 	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CTaskBarWindow(pDevice)));
 
 	POLY_MARKER;

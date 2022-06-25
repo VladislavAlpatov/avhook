@@ -339,6 +339,9 @@
     <ClInclude Include="Web\IWebObject.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="Menu\Windows\CConsoleWindow.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_draw.cpp">
@@ -474,6 +477,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Web\IWebObject.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu\Windows\CConsoleWindow.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

@@ -11,6 +11,7 @@ namespace UI
 	public:
 		CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList, Settings::CAllSettings* pAllSetting, bool* pShowKeyBinderDialog);
 		virtual void Render();
+		std::string GetAlias() override;
 	private:
 		char m_pMenuCfgName[32] = {};
 		bool* m_pShowKeyBinderDialog;

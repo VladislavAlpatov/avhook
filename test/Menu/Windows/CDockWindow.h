@@ -1,18 +1,16 @@
 #pragma once 
 #include "CBaseWindow.h"
 #include <memory>
-
+#include <vector>
 
 namespace UI
 {
 	class CDockWindow : public CBaseWindow
 	{
 	public:
-		CDockWindow(LPDIRECT3DDEVICE9 pDevice, const std::shared_ptr<CBaseWindow>& pAboutWindow, const std::shared_ptr<CBaseWindow>& pPlayerListWindow, const std::shared_ptr<CBaseWindow>& pSettingsWindow);
+		CDockWindow(LPDIRECT3DDEVICE9 pDevice, const std::vector<std::shared_ptr<CBaseWindow>>& windowList);
 		virtual void Render();
 	private:
-		std::shared_ptr<CBaseWindow> m_pPlayerListWindow;
-		std::shared_ptr<CBaseWindow> m_pAboutWindow;
-		std::shared_ptr<CBaseWindow> m_pSettingsWindow;
+		std::vector<std::shared_ptr<CBaseWindow>> m_WindowList;
 	};
 }

@@ -8,7 +8,10 @@ void CLabelEsp::InternalRenderAt(CBaseEntity* pEntity)
 {
 	auto pSettings = GetSettings<Settings::CLabelEspSettings>();
 
-    // Rednder labels
+    if (GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(pEntity) > pSettings->m_fMaxDrawDistance)
+        return;
+
+
     if(pSettings->m_iDrawPos == Settings::CLabelEspSettings::LABELS_ALLIGN::LEFT)
         DrawLabelsAtLeftSide(pEntity, pSettings->m_Labels);
     else

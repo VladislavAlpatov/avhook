@@ -269,6 +269,7 @@ void UI::CSettingsWindow::DrawEspChild()
 
 		static const char* positions[] = { "Left alligned", "Top alligned" };
 		ImGui::Combo(xorstr("###LabelDrawPos"), &m_pAllSettings->m_LabelEspSettings.m_iDrawPos, positions, IM_ARRAYSIZE(positions));
+		ImGui::InputInt(xorstr("Draw Distance"), &m_pAllSettings->m_LabelEspSettings.m_fMaxDrawDistance, 0);
 
 		auto& style = ImGui::GetStyle();
 		auto backUp = style.WindowPadding;

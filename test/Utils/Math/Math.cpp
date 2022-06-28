@@ -49,3 +49,8 @@ ImVec3 Utils::ClampViewAngles(ImVec3 vecViewAngles)
 
 	return vecViewAngles;
 }
+
+float Utils::HamToMet(float hamunit)
+{
+	return hamunit * 2.54f / 100.f;
+}

@@ -1,7 +1,7 @@
 #include "CLabel.h"
 #include "../../../Globals/GlobalVars.h"
 #include <fmt/format.h>
-
+#include "../../../Utils/Math/Math.h"
 
 using namespace CLabels;
 
@@ -30,7 +30,8 @@ bool CArmorLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEn
 bool CDistanceLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity)
 {
 	auto pDrawList = ImGui::GetBackgroundDrawList();
-	pDrawList->AddText(vecPosition, m_Color, fmt::format(xorstr("Distance: {}m"), (int)(GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(pEntity) * 2.54f / 100.f)).c_str());
+	const auto distance = GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(pEntity);
+	pDrawList->AddText(vecPosition, m_Color, fmt::format(xorstr("Distance: {}m"), (int)Utils::HamToMet(distance)).c_str());
 
 	return true;
 }

@@ -28,6 +28,7 @@ void UI::CAboutWindow::Render()
 		DrawCloseWindowButton();
 		
 		POLY_MARKER;
+
 		auto drawList  = ImGui::GetWindowDrawList();
 		auto windowPos = ImGui::GetWindowPos();
 		auto cursorPos = ImGui::GetCursorPos();

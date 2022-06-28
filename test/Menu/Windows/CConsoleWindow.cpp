@@ -27,7 +27,7 @@ void UI::CConsoleWindow::Render()
 			m_logHistory.push_back({ "Unknown command!", ImColor(255, 0, 0) });
 		}
 
-		ImGui::BeginChild("###ConsoleLog", ImVec2(240, 420), true);
+		ImGui::BeginChild(xorstr("###ConsoleLog"), ImVec2(240, 420), true);
 		{
 			for (const auto& log : m_logHistory)
 			{

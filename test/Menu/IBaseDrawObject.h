@@ -1,10 +1,14 @@
 #pragma once
 
-class IBaseDrawObject
+
+namespace UI
 {
-public:
-	virtual void Show()   = 0;
-protected:
-	virtual void Render()        = 0;
-	virtual void KeepWindowInSreenArea() {} ;
-};
+	class IBaseDrawObject
+	{
+	public:
+		virtual void Show() = 0;
+	protected:
+		virtual void Render() = 0;
+		virtual void KeepWindowInSreenArea() {};
+	};
+}

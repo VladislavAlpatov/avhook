@@ -23,15 +23,11 @@ int __stdcall  hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a4, int 
 {
 	POLY_MARKER;
 
-	if (pOverlay == nullptr)
-	{
+	if (!pOverlay)
 		pOverlay = std::unique_ptr<COverlay>(new COverlay(pDevice, hmodule, &GlobalVars::settings));
-	}
 
 	if (GetAsyncKeyState(VK_INSERT) & 1)
-	{
 		pOverlay->ToggleUI();
-	}
 	pOverlay->Render();		
 
 	typedef int(__stdcall* Present)(LPDIRECT3DDEVICE9, int, int, int, int);
@@ -81,7 +77,8 @@ bool __stdcall hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 		return false;
 	}
 
-	Hacks::CHackingFeature* features[] = {
+	Hacks::CHackingFeature* features[] = 
+	{
 		new Hacks::CBunnyHop(&GlobalVars::settings.m_BunnyHopSettings),
 		new Hacks::CAimBot(&GlobalVars::settings.m_AimBotSettings, pUserCmd)
 	};

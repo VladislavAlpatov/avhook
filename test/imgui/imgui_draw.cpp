@@ -1603,38 +1603,17 @@ void ImDrawList::AddText(const ImFont* font, float font_size, const ImVec2& pos,
     auto tempPosition = pos;
     auto outlineColor = ImColor(0, 0, 0);
 
-    tempPosition.x = pos.x + 1;
-    tempPosition.y = pos.y + 1;
-    font->RenderText(this, font_size, tempPosition, outlineColor, clip_rect, text_begin, text_end, wrap_width, cpu_fine_clip_rect != NULL);
 
-    tempPosition.x = pos.x - 1;
-    tempPosition.y = pos.y - 1;
-    font->RenderText(this, font_size, tempPosition, outlineColor, clip_rect, text_begin, text_end, wrap_width, cpu_fine_clip_rect != NULL);
+    for (int x = -1; x <= 1; ++x)
+    {
+        for (int y = -1; y <= 1; ++y)
+        {
+            if (!x and !y)
+                continue;
 
-    tempPosition.x = pos.x + 1;
-    tempPosition.y = pos.y - 1;
-    font->RenderText(this, font_size, tempPosition, outlineColor, clip_rect, text_begin, text_end, wrap_width, cpu_fine_clip_rect != NULL);
-
-    tempPosition.x = pos.x - 1;
-    tempPosition.y = pos.y + 1;
-    font->RenderText(this, font_size, tempPosition, outlineColor, clip_rect, text_begin, text_end, wrap_width, cpu_fine_clip_rect != NULL);
-
-    tempPosition.x = pos.x;
-    tempPosition.y = pos.y + 1;
-    font->RenderText(this, font_size, tempPosition, outlineColor, clip_rect, text_begin, text_end, wrap_width, cpu_fine_clip_rect != NULL);
-
-    tempPosition.x = pos.x;
-    tempPosition.y = pos.y - 1;
-    font->RenderText(this, font_size, tempPosition, outlineColor, clip_rect, text_begin, text_end, wrap_width, cpu_fine_clip_rect != NULL);
-
-    tempPosition.x = pos.x + 1;
-    tempPosition.y = pos.y;
-    font->RenderText(this, font_size, tempPosition, outlineColor, clip_rect, text_begin, text_end, wrap_width, cpu_fine_clip_rect != NULL);
-
-    tempPosition.x = pos.x - 1;
-    tempPosition.y = pos.y;
-    font->RenderText(this, font_size, tempPosition, outlineColor, clip_rect, text_begin, text_end, wrap_width, cpu_fine_clip_rect != NULL);
-
+            font->RenderText(this, font_size, pos + ImVec2(x,y), outlineColor, clip_rect, text_begin, text_end, wrap_width, cpu_fine_clip_rect != NULL);
+        }
+    }
     font->RenderText(this, font_size, pos, col, clip_rect, text_begin, text_end, wrap_width, cpu_fine_clip_rect != NULL);
 
 }

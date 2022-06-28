@@ -2,7 +2,7 @@
 #include "../../imgui/imgui.h"
 
 
-class CBindListenerOverlay : public IBaseDrawObject
+class CBindListenerOverlay : public UI::IBaseDrawObject
 {
 public:
 	CBindListenerOverlay(ImFont* pFont)

@@ -148,8 +148,7 @@ void UI::CSettingsWindow::DrawAimbotChild()
 		if (GlobalVars::pClient->pLocalPlayer != nullptr and ImGui::IsItemHovered())
 		{
 			auto screenSize = ImGui::GetMainViewport()->Size;
-
-			float fovScreenRatio = sqrtf(screenSize.x * screenSize.x + screenSize.y * screenSize.y) / (float)GlobalVars::pClient->pLocalPlayer->m_iDefaultFOV / 2.f;
+			float fovScreenRatio = std::hypotf(screenSize.x, screenSize.y) / (float)GlobalVars::pClient->pLocalPlayer->m_iDefaultFOV / 2.f;
 
 			ImGui::GetBackgroundDrawList()->AddCircle(screenSize / 2.f,
 				fovScreenRatio * m_pAllSettings->m_AimBotSettings.m_fFov,
@@ -194,9 +193,9 @@ void UI::CSettingsWindow::DrawEspChild()
 	ImGui::SameLine();
 	ImGui::Text(xorstr("Extra Sensory Perception"));
 
-	const char* hitboxes[3]   = { "Head", "Body", "Legs" };
-	const char* drawOptions[] = { "Custom", "Health" };
-	const ImVec2 blockSize    = ImVec2(170, 145);
+	static const char* hitboxes[3]   = { "Head", "Body", "Legs" };
+	static const char* drawOptions[] = { "Custom", "Health" };
+	static const ImVec2 blockSize    = ImVec2(170, 145);
 
 	ImGui::BeginChild(xorstr("###SnapLinesESP"), blockSize, true);
 	{
@@ -214,7 +213,7 @@ void UI::CSettingsWindow::DrawEspChild()
 	ImGui::SameLine();
 	ImGui::BeginChild(xorstr("###Boxes"), blockSize, true);
 	{
-		const char* styles[] = {"Solid", "Cornered"};
+		static const char* styles[] = {"Solid", "Cornered"};
 		ImGui::Text(xorstr("Boxes"));
 		ImGui::ColorEdit4(xorstr("###boxcolor"),       (float*)&m_pAllSettings->m_BoxEspSettings.m_Color, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
@@ -250,7 +249,7 @@ void UI::CSettingsWindow::DrawEspChild()
 	{
 		ImGui::Text(xorstr("Radar"));
 		ImGui::Checkbox(xorstr("Active"), &m_pAllSettings->m_RadarSettings.m_bActive);
-		const char* style[] = { "Embedded", "Custom" };
+		static const char* style[] = { "Embedded", "Custom" };
 
 		ImGui::Combo(xorstr("Style###RStyle"), &m_pAllSettings->m_RadarSettings.m_iStyle, style, IM_ARRAYSIZE(style));
 		DrawToolTip(xorstr("Embedded - the standard game radar will be used.\nCustom - avhook radar will be used, which you can\ncustomize yourself, for example, change the color"));
@@ -268,7 +267,7 @@ void UI::CSettingsWindow::DrawEspChild()
 	{
 		ImGui::Text(xorstr("Labels"));
 
-		const char* positions[] = { "Left alligned", "Top alligned" };
+		static const char* positions[] = { "Left alligned", "Top alligned" };
 		ImGui::Combo(xorstr("###LabelDrawPos"), &m_pAllSettings->m_LabelEspSettings.m_iDrawPos, positions, IM_ARRAYSIZE(positions));
 
 		auto& style = ImGui::GetStyle();

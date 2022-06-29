@@ -186,7 +186,7 @@ namespace Settings
 				return *this;
 
 			m_iDrawPos = other.m_iDrawPos;
-			m_fMaxDrawDistance = other.m_fMaxDrawDistance;
+			m_iMaxDrawDistance = other.m_iMaxDrawDistance;
 
 			m_bActive = true;
 
@@ -211,7 +211,7 @@ namespace Settings
 		{
 			m_bActive = true;
 			m_iDrawPos = other.m_iDrawPos;
-			m_fMaxDrawDistance = other.m_fMaxDrawDistance;
+			m_iMaxDrawDistance = other.m_iMaxDrawDistance;
 
 			m_Labels.clear();
 			for (auto pLabel : other.m_Labels)
@@ -227,7 +227,7 @@ namespace Settings
 			}
 		}
 		int  m_iDrawPos  = 0;
-		int  m_fMaxDrawDistance = 2048;
+		int  m_iMaxDrawDistance = 2048;
 		std::vector<std::shared_ptr<CLabels::CBaseLabel>> m_Labels;
 		json ToJson() const override;
 		CLabelEspSettings(const json& jsn);

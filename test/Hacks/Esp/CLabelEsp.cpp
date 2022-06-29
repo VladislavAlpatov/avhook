@@ -8,7 +8,7 @@ void CLabelEsp::InternalRenderAt(CBaseEntity* pEntity)
 {
 	auto pSettings = GetSettings<Settings::CLabelEspSettings>();
 
-    if (GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(pEntity) > pSettings->m_fMaxDrawDistance)
+    if (GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(pEntity) > pSettings->m_iMaxDrawDistance)
         return;
 
 

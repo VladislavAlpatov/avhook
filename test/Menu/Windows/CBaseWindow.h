@@ -51,6 +51,7 @@ namespace UI
 		void DrawImageWithBorder(ImTextureID textureID, const ImVec2& size);
 		void DrawTextCentered(const char* text);
 		void DrawInputTextWithTextOnBackGround(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, ImGuiInputTextFlags flags = 0);
+		void DrawInputIntWithTextOnBackGroundEx(const char* label, const char* backGroundLabel, int* pVal, size_t bufferSize, const ImColor& bgLabelCol, ImGuiInputTextFlags flags = 0);
 		void DrawInputTextWithTextOnBackGroundEx(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, const ImColor& bgLabelCol, ImGuiInputTextFlags flags = 0);
 		void DrawMultiLineInputTextWithTextOnBackGround(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, ImGuiInputTextFlags flags = 0);
 		void DrawToolTip(const char* text);

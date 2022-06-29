@@ -31,17 +31,8 @@ namespace UI
 		
 		void UpdateUserInfo();
 		void SendNewUserInfoToServer(const WebApi::CUserInfo& info);
-		void SetUserAvatar(const std::string pathToFile);
+		void SetUserAvatar(const std::string& pathToFile);
 
-		void DrawConfigCombo(const char* label, int* CurrentItem, const std::vector<WebApi::CConfig>& list)
-		{
-			auto tmpArr = std::unique_ptr<const char*[]>(new const char* [list.size()]);
-
-			for (int i = 0; i < list.size(); ++i)
-			{
-				tmpArr[i] = list[i].m_Settings.m_Name.c_str();
-			};
-			ImGui::Combo(label, CurrentItem, tmpArr.get(), list.size());
-		}
+		void DrawConfigCombo(const char* label, int* CurrentItem, const std::vector<WebApi::CConfig>& list);
 	};
 }

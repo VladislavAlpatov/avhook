@@ -263,13 +263,16 @@ void UI::CSettingsWindow::DrawEspChild()
 		ImGui::EndChild();
 	}
 	ImGui::SameLine();
-	ImGui::BeginChild(xorstr("###LabelEsp"), blockSize + ImVec2(20, 80), true, m_iImGuiStyle);
+	ImGui::BeginChild(xorstr("###LabelEsp"), blockSize + ImVec2(30, 105), true, m_iImGuiStyle);
 	{
 		ImGui::Text(xorstr("Labels"));
 
 		static const char* positions[] = { "Left alligned", "Top alligned" };
 		ImGui::Combo(xorstr("###LabelDrawPos"), &m_pAllSettings->m_LabelEspSettings.m_iDrawPos, positions, IM_ARRAYSIZE(positions));
-		ImGui::InputInt(xorstr("Draw Distance"), &m_pAllSettings->m_LabelEspSettings.m_fMaxDrawDistance, 0);
+		DrawToolTip(xorstr("Determine where the labels will be displayed."));
+
+		ImGui::InputInt(xorstr("Limit"), &m_pAllSettings->m_LabelEspSettings.m_iMaxDrawDistance, 0);
+		DrawToolTip(xorstr("Determine the distance the minimum distance\nwhen the labels should be displayed."));
 
 		auto& style = ImGui::GetStyle();
 		auto backUp = style.WindowPadding;

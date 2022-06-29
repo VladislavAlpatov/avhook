@@ -110,6 +110,10 @@ void UI::CBaseWindow::DrawInputTextWithTextOnBackGround(const char* label, const
 {
 	DrawInputTextWithTextOnBackGroundEx(label, backGroundLabel, text, bufferSize,ImGui::GetStyle().Colors[ImGuiCol_TextDisabled], flags);
 }
+void UI::CBaseWindow::DrawInputIntWithTextOnBackGroundEx(const char* label, const char* backGroundLabel, int* pVal, size_t bufferSize, const ImColor& bgLabelCol, ImGuiInputTextFlags flags)
+{
+
+}
 void UI::CBaseWindow::DrawImageWithBorder(ImTextureID textureID, const ImVec2& size)
 {
 	auto drawList  = ImGui::GetWindowDrawList();

@@ -217,34 +217,43 @@ void UI::CNetWorkWindow::SendNewUserInfoToServer(const WebApi::CUserInfo & info)
 	m_ApiClient.ChangeUserNameAndStatus(info.m_sName, info.m_sStatus);
 	m_ApiClient.UpdateLoaderTheme(m_LoaderTheme);
 }
-void UI::CNetWorkWindow::SetUserAvatar(const std::string pathToFile)
+void UI::CNetWorkWindow::SetUserAvatar(const std::string& pathToFile)
 {
 
 	std::ifstream file(pathToFile, std::ios::binary | std::ios::ate);
 
-
-	int fileSize = file.tellg();
 	if (!file.is_open())
 	{
 		m_pMessageLineList->Add(xorstr("Could not open the file!"), 2000, ImColor(255, 0, 0));
 		return;
 	}
-	else if (fileSize > 20 * 1024)
+
+	int fileSize = file.tellg();
+
+	if (fileSize > 20 * 1024)
 	{
 		m_pMessageLineList->Add(xorstr("The file size is too large.\nMaximum file size: 20 kilobytes!"), 2000, ImColor(255, 0, 0));
 		return;
 	}
 
-	char* tmpFileData = new char[fileSize];
+	auto tmpFileData = std::unique_ptr<char[]>(new char[fileSize]);
 	file.seekg(0, std::ios::beg);
-	file.read(tmpFileData, fileSize);
-	m_avatarUploadStatus =  m_ApiClient.SetUserAvatar(std::string(tmpFileData, fileSize));
+	file.read(tmpFileData.get(), fileSize);
+	m_avatarUploadStatus =  m_ApiClient.SetUserAvatar(std::string(tmpFileData.get(), fileSize));
 
 	auto avatarRawData = m_ApiClient.GetRawAvatarData();
 
 	D3DXCreateTextureFromFileInMemory(m_pDevice, avatarRawData.c_str(), avatarRawData.size(), &m_pTextureUserAvatar);
 	m_pMessageLineList->Add(xorstr("The avatar has been uploaded successfully."), 2000);
+}
 
-	delete[] tmpFileData;
+void UI::CNetWorkWindow::DrawConfigCombo(const char* label, int* CurrentItem, const std::vector<WebApi::CConfig>& list)
+{
+	auto tmpArr = std::unique_ptr<const char* []>(new const char* [list.size()]);
 
+	for (int i = 0; i < list.size(); ++i)
+	{
+		tmpArr[i] = list[i].m_Settings.m_Name.c_str();
+	};
+	ImGui::Combo(label, CurrentItem, tmpArr.get(), list.size());
 }

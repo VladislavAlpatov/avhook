@@ -25,6 +25,20 @@
 
 #include "Overlays/CBindListenerOverlay.h"
 
+#include <d3dx9.h>
+#include <fmt/format.h>
+#include "../Web/CAVhookServerApi.h"
+
+
+std::string GetCurrentWindowsUserName()
+{
+	DWORD buffSize = MAX_PATH;
+	auto buffer = std::unique_ptr<char[]>(new char[buffSize]);
+	GetUserNameA(buffer.get(), &buffSize);
+	
+	return std::string(buffer.get());
+}
+
 COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSettings* pSettings)
 {
 	POLY_MARKER;
@@ -96,9 +110,20 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSet
 	{
 		m_vecSnow.push_back(SnowFlake(ImVec2(0, 2), 1920));
 	}
+
+
+	std::string pathToWallpaper = fmt::format(xorstr("C:\\Users\\{}\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper"), GetCurrentWindowsUserName());
+	D3DXCreateTextureFromFileA(m_pDevice, pathToWallpaper.c_str(), &m_pWallpaper);
+
 	POLY_MARKER;
 
-	m_MessageLineList.Add(xorstr("User controle initiated. Focus.Plan.Attack"), 3000);
+	m_MessageLineList.Add(fmt::format(xorstr("{}, the systems are yours.\nWe are stronger united."), WebApi::CAVHookServerApi().GetUserInfo().m_sName ), 3000);
+}
+
+COverlay::~COverlay()
+{
+	if (m_pWallpaper)
+		m_pWallpaper->Release();
 }
 
 void COverlay::Render()
@@ -121,7 +146,7 @@ void COverlay::Render()
 		{
 			auto pEntity = GlobalVars::pIEntityList->GetClientEntity(i);
 
-			if (pEntity == nullptr or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::pClient->pLocalPlayer->m_iTeamNum or pEntity->m_bDormant)
+			if (!pEntity or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::pClient->pLocalPlayer->m_iTeamNum or pEntity->m_bDormant)
 				continue;
 
 			validEntities.push_back(pEntity);
@@ -152,7 +177,10 @@ void COverlay::Render()
 
 		auto windowSize = ImGui::GetMainViewport()->Size;
 
-		pDrawList->AddRectFilled(ImVec2(), windowSize, ImColor(0, 0, 0, 90));
+		if (m_pAllSettings->m_MiscSettings.m_bWallPaper)
+			pDrawList->AddImage(m_pWallpaper, ImVec2(), ImGui::GetMainViewport()->Size);
+		else
+			pDrawList->AddRectFilled(ImVec2(), windowSize, ImColor(0, 0, 0, 90));
 
 		for (auto window : m_vecWindows)
 		{

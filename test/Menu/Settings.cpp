@@ -202,7 +202,7 @@ json CLabelEspSettings::ToJson() const
 
 	std::vector<json> lablesJson;
 	jsn[xorstr("iDrawPos")] = m_iDrawPos;
-
+	jsn[xorstr("iDrawDistance")] = m_iMaxDrawDistance;
 	POLY_MARKER;
 
 	for (auto pLabel : m_Labels)
@@ -224,6 +224,7 @@ CLabelEspSettings::CLabelEspSettings(const json& jsn)
 {
 	POLY_MARKER;
 	SetValueIfFiledExistInJson<int>(jsn, xorstr("iDrawPos"), &m_iDrawPos);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("iDrawDistance"), &m_iMaxDrawDistance);
 
 	if (!jsn.contains(xorstr("Labels")))
 		return;

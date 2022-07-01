@@ -379,6 +379,7 @@
     <ClCompile Include="SDK\CBaseEntity.cpp" />
     <ClCompile Include="SDK\ClientBase.cpp" />
     <ClCompile Include="SDK\ICCvar.cpp" />
+    <ClCompile Include="SDK\IClientEntityList.cpp" />
     <ClCompile Include="SDK\IVEngineClient013\IVEngineClient013.cpp" />
     <ClCompile Include="Utils\CFGloader\CFGloader .cpp" />
     <ClCompile Include="Utils\Math\Math.cpp" />

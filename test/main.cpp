@@ -35,6 +35,7 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 		POLY_MARKER;
 		razer.Init();
 		razer.InitSDK(&appInfo);
+	
 
 		GlobalVars::bChromaSupport = true;
 	}

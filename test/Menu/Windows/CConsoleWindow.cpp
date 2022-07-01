@@ -26,23 +26,9 @@ void UI::CConsoleWindow::Render()
 		if (ImGui::Button(xorstr("SET")))
 		{
 
-			m_logHistory.push_back({ fmt::format(xorstr(">> {}"), buff), ImColor(255, 255, 255)});
+			if (!ConsoleExecute(buff))
+				AddConsoleLog(fmt::format(xorstr("Unknow command: \"{}\""), buff));
 
-			std::vector<std::string> rawData;
-			boost::split(rawData, buff, boost::is_any_of(xorstr(" ")));
-			
-			if (rawData.size() == 2 and m_Convars.find(rawData[0]) != m_Convars.end())
-			{
-				if (CanBeCovertedToInt(rawData[1]))
-				{
-					*m_Convars[rawData[0]] = (bool)std::stoi(rawData[1]);
-					m_logHistory.push_back({ xorstr("Done"), ImColor(0, 255, 0) });
-				}
-			}
-			else
-				m_logHistory.push_back({ xorstr("Unknown command!"), ImColor(255, 0, 0) });
-
-			ZeroMemory(buff, sizeof(buff));
 		}
 
 		ImGui::BeginChild(xorstr("###ConsoleLog"), ImVec2(240, 420), true);
@@ -90,4 +76,35 @@ bool UI::CConsoleWindow::CanBeCovertedToInt(const std::string& str)
 		return false;
 
 	return true;
+}
+
+bool UI::CConsoleWindow::ConsoleExecute(const std::string& text)
+{
+	AddConsoleLog(xorstr(">> ")+text);
+
+	std::vector<std::string> rawData;
+	boost::split(rawData, text, boost::is_any_of(xorstr(" ")));
+
+	if (rawData.size() == 2 and m_Convars.find(rawData[0]) != m_Convars.end())
+	{
+		*m_Convars[rawData[0]] = (bool)std::stoi(rawData[1]);
+		AddConsoleLog(xorstr("Done"), ImColor(0, 255, 0));
+		return true;
+	}
+
+	if (!rawData.empty() and rawData[0] == xorstr("cvar_list"))
+	{
+		for (const auto& cvar : m_Convars)
+		{
+			AddConsoleLog(fmt::format(xorstr("{}: {}"), cvar.first, (int)*cvar.second));
+		}
+		return true;
+	}
+
+	return false;
+}
+
+void UI::CConsoleWindow::AddConsoleLog(const std::string& text, const ImColor& col)
+{
+	m_logHistory.push_back({ text, col });
 }

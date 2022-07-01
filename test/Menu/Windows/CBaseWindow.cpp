@@ -112,7 +112,7 @@ void UI::CBaseWindow::DrawInputTextWithTextOnBackGround(const char* label, const
 }
 void UI::CBaseWindow::DrawInputIntWithTextOnBackGroundEx(const char* label, const char* backGroundLabel, int* pVal, size_t bufferSize, const ImColor& bgLabelCol, ImGuiInputTextFlags flags)
 {
-
+	// TODO: Finish this shit up.
 }
 void UI::CBaseWindow::DrawImageWithBorder(ImTextureID textureID, const ImVec2& size)
 {

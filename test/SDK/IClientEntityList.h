@@ -2,6 +2,7 @@
 #include "CBaseEntity.h"
 #include "AbstractInterface.h"
 #include "../Utils/memory.h"
+#include <vector>
 
 namespace SSDK
 {
@@ -13,5 +14,6 @@ namespace SSDK
 			typedef CBaseEntity* (__thiscall* GetEntityFunc)(void*, int);
 			return GetVirtualFunction<GetEntityFunc>(3)(this, entnum);
 		}
+		std::vector<CBaseEntity*> GetEntityList();
 	};
 }

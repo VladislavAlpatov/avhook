@@ -482,6 +482,9 @@
     <ClCompile Include="Menu\Windows\CConsoleWindow.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="SDK\IClientEntityList.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\about.bmp">

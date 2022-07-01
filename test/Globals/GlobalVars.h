@@ -9,7 +9,7 @@
 #ifndef _DEBUG
 	#define AVHOOK_SERVER_URL xorstr("http://server.avhook.ru")
 #else
-	#define AVHOOK_SERVER_URL xorstr("http://192.168.0.16:5000")
+	#define AVHOOK_SERVER_URL xorstr("http://server.avhook.ru")
 #endif // !_DEBUG
 
 namespace GlobalVars

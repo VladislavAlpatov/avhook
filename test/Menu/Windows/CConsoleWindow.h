@@ -17,6 +17,8 @@ private:
     std::vector<std::pair<std::string, ImColor>> m_logHistory;
 
     bool CanBeCovertedToInt(const std::string& str);
+    bool ConsoleExecute(const std::string& text);
+    void AddConsoleLog(const std::string& text, const ImColor& col = ImColor(255, 255, 255));
     };
 }
 

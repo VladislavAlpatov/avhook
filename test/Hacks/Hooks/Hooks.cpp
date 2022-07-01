@@ -14,6 +14,8 @@
 #include "MinHook.h"
 #include "../../Globals/GlobalVars.h"
 #include <stdexcept>
+#include <array>
+
 
 using namespace hooks;
 
@@ -39,7 +41,7 @@ bool __stdcall hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 
 	// GlobalVars::pClient->pLocalPlayer->m_Index > 33 prevent from bug when you can peek team
-	if (GlobalVars::pClient->pLocalPlayer == nullptr or pOverlay == nullptr or GlobalVars::pClient->pLocalPlayer->m_Index > 33)
+	if (!GlobalVars::pClient->pLocalPlayer or !pOverlay or GlobalVars::pClient->pLocalPlayer->m_Index > 33)
 	{
 		return false;
 	}
@@ -51,11 +53,10 @@ bool __stdcall hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 	GlobalVars::pClient->pLocalPlayer->m_iDefaultFOV = GlobalVars::settings.m_MiscSettings.m_iCustomFov;
 
 	// Looking for "visible" players
-	for (int i = 1; i < 33; ++i)
+	for (const auto pEnt : GlobalVars::pIEntityList->GetEntityList())
 	{
-		SSDK::CBaseEntity* entity = reinterpret_cast<SSDK::CBaseEntity*>(GlobalVars::pIEntityList->GetClientEntity(i));
 
-		if (!entity or entity->m_iTeamNum == GlobalVars::pClient->pLocalPlayer->m_iTeamNum or !entity->IsAlive())
+		if (pEnt->m_iTeamNum == GlobalVars::pClient->pLocalPlayer->m_iTeamNum or !pEnt->IsAlive())
 			continue;
 
 		auto pLocalPlayer = GlobalVars::pClient->pLocalPlayer;
@@ -65,11 +66,11 @@ bool __stdcall hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 		SSDK::CTraceFilter tracefilter;
 		tracefilter.pSkip = (void*)pLocalPlayer;
 
-		ray.Init(pLocalPlayer->m_vecOrigin + pLocalPlayer->m_vecViewOffset, entity->GetBonePosition(Hacks::CAimBot::GetBoneIDBySelectedTab(GlobalVars::settings.m_AimBotSettings.m_iSelectedHitBox)));
+		ray.Init(pLocalPlayer->m_vecOrigin + pLocalPlayer->m_vecViewOffset, pEnt->GetBonePosition(Hacks::CAimBot::GetBoneIDBySelectedTab(GlobalVars::settings.m_AimBotSettings.m_iSelectedHitBox)));
 
 		GlobalVars::pIEngineTrace->TraceRay(ray, MASK_SHOT | CONTENTS_GRATE, &tracefilter, &trace);
 
-		entity->m_IsVisible = trace.hit_entity == entity;
+		pEnt->m_IsVisible = trace.hit_entity == pEnt;
 	}
 
 	if (pOverlay->IsShowUI() or !GlobalVars::pClient->pLocalPlayer->IsAlive())
@@ -77,16 +78,15 @@ bool __stdcall hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 		return false;
 	}
 
-	Hacks::CHackingFeature* features[] = 
+	std::array<std::unique_ptr<Hacks::CHackingFeature>, 2> features =
 	{
-		new Hacks::CBunnyHop(&GlobalVars::settings.m_BunnyHopSettings),
-		new Hacks::CAimBot(&GlobalVars::settings.m_AimBotSettings, pUserCmd)
+		std::unique_ptr<Hacks::CHackingFeature>(new Hacks::CBunnyHop(&GlobalVars::settings.m_BunnyHopSettings)),
+		std::unique_ptr<Hacks::CHackingFeature>(new Hacks::CAimBot(&GlobalVars::settings.m_AimBotSettings, pUserCmd))
 	};
 
-	for (int i = 0; i < IM_ARRAYSIZE(features); ++i)
+	for (auto& pFeature : features)
 	{
-		features[i]->Work();
-		delete features[i];
+		pFeature->Work();
 	}
 
 	return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);

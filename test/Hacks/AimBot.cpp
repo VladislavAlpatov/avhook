@@ -1,6 +1,6 @@
 #pragma once
 #include "AimBot.h"
-#include "../Globals/GlobalVars.h"
+#include "../Globals/Interfaces.h"
 #include "../Utils/Math/Math.h"
 #include "../Utils/Marker.h"
 
@@ -85,12 +85,12 @@ void CAimBot::Work()
 		{
 			AimPlain(pEnt, aimBone);
 			if (pAimBotSettings->m_bRcsControle)
-				m_pCUsrCmd->viewangles = Utils::NormalizeViewAngles(m_pCUsrCmd->viewangles - GlobalVars::pClient->pLocalPlayer->m_vecAimPuchAngle * 2.f);
+				m_pCUsrCmd->viewangles = Utils::NormalizeViewAngles(m_pCUsrCmd->viewangles - GlobalVars::g_pClient->pLocalPlayer->m_vecAimPuchAngle * 2.f);
 		}
 	}
 	
 	if (pAimBotSettings->m_bAutoShot)
-		pClient->SendAttackCode();
+		g_pClient->SendAttackCode();
 
 	POLY_MARKER;
 }
@@ -162,7 +162,7 @@ CBaseEntity* CAimBot::GetClosestTargetByDistance(int bone)
 
 		[](CBaseEntity* first, CBaseEntity* second)
 		{
-			return GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(first) < GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(second);
+			return GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(first) < GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(second);
 		});
 	return validEntities[0];
 }
@@ -177,7 +177,7 @@ CBaseEntity* CAimBot::GetClosestTargetByFov(int bone)
 
 	POLY_MARKER;
 
-	auto localPlayer = GlobalVars::pClient->pLocalPlayer;
+	auto localPlayer = GlobalVars::g_pClient->pLocalPlayer;
 
 	std::sort(validEntities.begin(), validEntities.end(),
 
@@ -198,11 +198,11 @@ ImVec3 CAimBot::CalcAimViewAngles(const CBaseEntity* pEntity, const int bone)
 
 	ImVec3 targetPosition = pEntity->GetBonePosition(bone);
 
-	ImVec3 localCameraPosition = GlobalVars::pClient->pLocalPlayer->GetCameraPosition();
+	ImVec3 localCameraPosition = GlobalVars::g_pClient->pLocalPlayer->GetCameraPosition();
 
 	POLY_MARKER;
 
-	float distance = GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(pEntity);
+	float distance = GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(pEntity);
 
 	calculated.x = - Utils::RadiansToDegrees(asinf((targetPosition.z - localCameraPosition.z) / distance));
 	calculated.y =   Utils::RadiansToDegrees(atan2f(targetPosition.y - localCameraPosition.y, targetPosition.x - localCameraPosition.x));
@@ -213,13 +213,13 @@ ImVec3 CAimBot::CalcAimViewAngles(const CBaseEntity* pEntity, const int bone)
 std::vector<CBaseEntity*> CAimBot::GetValidEntities(const int boneId) const
 {
 	std::vector<CBaseEntity*> validEntities;
-	const auto localPlayer = GlobalVars::pClient->pLocalPlayer;
+	const auto localPlayer = GlobalVars::g_pClient->pLocalPlayer;
 
 	POLY_MARKER;
 
 	for (int i = 1; i < 33; i++)
 	{
-		CBaseEntity* pEntites = reinterpret_cast<CBaseEntity*>(GlobalVars::pIEntityList->GetClientEntity(i));
+		CBaseEntity* pEntites = reinterpret_cast<CBaseEntity*>(GlobalVars::g_pIEntityList->GetClientEntity(i));
 
 		if (!pEntites or !pEntites->m_IsVisible)
 			continue;

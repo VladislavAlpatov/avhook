@@ -28,6 +28,8 @@
 #include <d3dx9.h>
 #include <fmt/format.h>
 #include "../Web/CAVhookServerApi.h"
+#include "../Globals/Settings.h"
+#include "../Globals/Interfaces.h"
 
 
 std::string GetCurrentWindowsUserName()
@@ -39,11 +41,10 @@ std::string GetCurrentWindowsUserName()
 	return std::string(buffer.get());
 }
 
-COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSettings* pSettings)
+COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 {
 	POLY_MARKER;
 	m_pDevice      = pDevice;
-	m_pAllSettings = pSettings;
 	ImGui::CreateContext();
 	ImGui_ImplWin32_Init(FindWindowA(NULL, WINDOW_NAME));
 	ImGui_ImplDX9_Init(m_pDevice);
@@ -91,7 +92,7 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSet
 	POLY_MARKER;
 
 	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CAboutWindow(m_pDevice)));
-	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CSettingsWindow(m_pDevice, &m_MessageLineList, pSettings, &m_bShowKeyBindDialog)));
+	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CSettingsWindow(m_pDevice, &m_MessageLineList, &m_bShowKeyBindDialog)));
 	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CNetWorkWindow(m_pDevice,  &m_MessageLineList)));
 	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CConsoleWindow(m_pDevice)));
 	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CDockWindow(m_pDevice, {m_vecWindows[0], m_vecWindows[1], m_vecWindows[2], m_vecWindows[3] })));
@@ -100,10 +101,10 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSet
 	POLY_MARKER;
 
 	m_vecEspPayload = {
-		std::shared_ptr<Esp::CBaseEsp>(new Esp::CBoxEsp(&GlobalVars::settings.m_BoxEspSettings)), 
-		std::shared_ptr<Esp::CBaseEsp>(new Esp::CBarsEsp(&GlobalVars::settings.m_BarEspSettings)),
-		std::shared_ptr<Esp::CBaseEsp>(new Esp::CLabelEsp(&GlobalVars::settings.m_LabelEspSettings)),
-		std::shared_ptr<Esp::CBaseEsp>(new Esp::CSnapLinesEsp(&GlobalVars::settings.m_SnapLinesSettings))
+		std::shared_ptr<Esp::CBaseEsp>(new Esp::CBoxEsp(&GlobalVars::g_AllSettings.m_BoxEspSettings)), 
+		std::shared_ptr<Esp::CBaseEsp>(new Esp::CBarsEsp(&GlobalVars::g_AllSettings.m_BarEspSettings)),
+		std::shared_ptr<Esp::CBaseEsp>(new Esp::CLabelEsp(&GlobalVars::g_AllSettings.m_LabelEspSettings)),
+		std::shared_ptr<Esp::CBaseEsp>(new Esp::CSnapLinesEsp(&GlobalVars::g_AllSettings.m_SnapLinesSettings))
 	};
 
 	for (int i = 0; i < 100; ++i)
@@ -117,7 +118,7 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice, HMODULE hModule, Settings::CAllSet
 
 	POLY_MARKER;
 
-	m_MessageLineList.Add(fmt::format(xorstr("{}, the systems are yours.\nWe are stronger united."), WebApi::CAVHookServerApi().GetUserInfo().m_sName ), 3000);
+	m_MessageLineList.Add(fmt::format(xorstr("{}, the systems are yours. \nWe are stronger united."), WebApi::CAVHookServerApi().GetUserInfo().m_sName ), 3000);
 }
 
 COverlay::~COverlay()
@@ -138,15 +139,15 @@ void COverlay::Render()
 
 	auto pDrawList = ImGui::GetBackgroundDrawList();
 
-	if (GlobalVars::pIEngineClient->IsInGame() and GlobalVars::pClient->pLocalPlayer != nullptr)
+	if (GlobalVars::g_pIEngineClient->IsInGame() and GlobalVars::g_pClient->pLocalPlayer != nullptr)
 	{
 		std::vector<SSDK::CBaseEntity*> validEntities;
 
 		for (int i = 1; i < 33; ++i)
 		{
-			auto pEntity = GlobalVars::pIEntityList->GetClientEntity(i);
+			auto pEntity = GlobalVars::g_pIEntityList->GetClientEntity(i);
 
-			if (!pEntity or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::pClient->pLocalPlayer->m_iTeamNum or pEntity->m_bDormant)
+			if (!pEntity or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::g_pClient->pLocalPlayer->m_iTeamNum or pEntity->m_bDormant)
 				continue;
 
 			validEntities.push_back(pEntity);
@@ -157,7 +158,7 @@ void COverlay::Render()
 
 			[](SSDK::CBaseEntity* first, SSDK::CBaseEntity* second)
 			{
-				return GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(first) > GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(second);
+				return GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(first) > GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(second);
 			});
 		// Render Esp
 		for (auto pEntity : validEntities)
@@ -177,7 +178,7 @@ void COverlay::Render()
 
 		auto windowSize = ImGui::GetMainViewport()->Size;
 
-		if (m_pAllSettings->m_MiscSettings.m_bWallPaper)
+		if (GlobalVars::g_AllSettings.m_MiscSettings.m_bWallPaper)
 			pDrawList->AddImage(m_pWallpaper, ImVec2(), ImGui::GetMainViewport()->Size);
 		else
 			pDrawList->AddRectFilled(ImVec2(), windowSize, ImColor(0, 0, 0, 90));
@@ -187,7 +188,7 @@ void COverlay::Render()
 			window->Show();
 		}
 
-		if (m_pAllSettings->m_MiscSettings.m_bSnowFlakes)
+		if (GlobalVars::g_AllSettings.m_MiscSettings.m_bSnowFlakes)
 		{
 
 			for (auto& snowflake : m_vecSnow)
@@ -205,10 +206,10 @@ void COverlay::Render()
 	}
 	m_MessageLineList.Render(ImVec2());
 
-	if (m_bShowUI or GlobalVars::pIEngineClient->IsInGame())
+	if (m_bShowUI or GlobalVars::g_pIEngineClient->IsInGame())
 	{
-		m_pAllSettings->m_RadarSettings.m_bDrawBorders = m_bShowUI;
-		UI::CRadarWindow(&m_pAllSettings->m_RadarSettings).Show();
+		GlobalVars::g_AllSettings.m_RadarSettings.m_bDrawBorders = m_bShowUI;
+		UI::CRadarWindow(&GlobalVars::g_AllSettings.m_RadarSettings).Show();
 	}
 
 	if (m_bShowKeyBindDialog)

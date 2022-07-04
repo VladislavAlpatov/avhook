@@ -1,6 +1,6 @@
 #include "CTaskBarWindow.h"
 #include <sstream>
-#include "../../Globals/GlobalVars.h"
+#include "../../Globals/Settings.h"
 
 
 UI::CTaskBarWindow::CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice) : CBaseWindow(pDevice)
@@ -21,7 +21,7 @@ void UI::CTaskBarWindow::Render()
 		DrawTextCentered(xorstr("AVhook Project"));
 		ImGui::PopFont();
 
-		if (GlobalVars::settings.m_MiscSettings.m_bShowTime)
+		if (GlobalVars::g_AllSettings.m_MiscSettings.m_bShowTime)
 		{
 			std::string time = GetLocalTime();
 			ImGui::PushFont(m_pFontMediumBold);

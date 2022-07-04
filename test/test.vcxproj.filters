@@ -342,6 +342,21 @@
     <ClInclude Include="Menu\Windows\CConsoleWindow.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="Hacks\Esp\CTextureOverride\CTextureOverride.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\ICvar.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals\Interfaces.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals\Settings.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals\DirectX9.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_draw.cpp">
@@ -483,6 +498,12 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="SDK\IClientEntityList.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Hacks\Esp\CTextureOverride\CTextureOverride.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\ICvar.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

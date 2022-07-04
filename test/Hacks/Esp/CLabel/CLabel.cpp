@@ -1,5 +1,7 @@
+#pragma once
 #include "CLabel.h"
-#include "../../../Globals/GlobalVars.h"
+#include "../../../Globals/Settings.h"
+#include "../../../Globals/Interfaces.h"
 #include <fmt/format.h>
 #include "../../../Utils/Math/Math.h"
 
@@ -10,7 +12,7 @@ using namespace CLabels;
 bool CNameLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity)
 {
 	auto pDrawList = ImGui::GetBackgroundDrawList();
-	pDrawList->AddText(vecPosition, m_Color, GlobalVars::pIEngineClient->GetPlayerInfo(pEntity->m_Index).szName);
+	pDrawList->AddText(vecPosition, m_Color, GlobalVars::g_pIEngineClient->GetPlayerInfo(pEntity->m_Index).szName);
 	return true;
 }
 bool CHealthLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity)
@@ -30,7 +32,7 @@ bool CArmorLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEn
 bool CDistanceLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity)
 {
 	auto pDrawList = ImGui::GetBackgroundDrawList();
-	const auto distance = GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(pEntity);
+	const auto distance = GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(pEntity);
 	pDrawList->AddText(vecPosition, m_Color, fmt::format(xorstr("Distance: {}m"), (int)Utils::HamToMet(distance)).c_str());
 
 	return true;
@@ -47,7 +49,7 @@ bool CVisibilityLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity
 }
 bool CAimBotTargetLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity)
 {
-	if (pEntity != GlobalVars::settings.m_AimBotSettings.m_pCurrentTarget)
+	if (pEntity != GlobalVars::g_AllSettings.m_AimBotSettings.m_pCurrentTarget)
 		return false;
 
 	auto pDrawList = ImGui::GetBackgroundDrawList();

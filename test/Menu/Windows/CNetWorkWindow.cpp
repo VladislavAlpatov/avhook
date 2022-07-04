@@ -6,7 +6,7 @@
 
 #include "CNetWorkWindow.h"
 
-#include "../../Globals/GlobalVars.h"
+#include "../../Globals/Settings.h"
 #include "../../RawData/Images.h"
 #include "../../Utils/Marker.h"
 
@@ -106,9 +106,9 @@ void UI::CNetWorkWindow::Render()
 					auto payload = [this]
 					{
 						auto pSelectedCfg           = &m_ConfgsList[selectedCfgId];
-						GlobalVars::settings.m_Name = pSelectedCfg->m_Settings.m_Name;
+						GlobalVars::g_AllSettings.m_Name = pSelectedCfg->m_Settings.m_Name;
 
-						bool status = m_ApiClient.UpdateConfig(pSelectedCfg->m_iUid, GlobalVars::settings.ToJson());
+						bool status = m_ApiClient.UpdateConfig(pSelectedCfg->m_iUid, GlobalVars::g_AllSettings.ToJson());
 
 						if (!status)
 						{
@@ -117,7 +117,7 @@ void UI::CNetWorkWindow::Render()
 						}
 
 						m_pMessageLineList->Add(xorstr("Config has been successfully updated."), 3000);
-						pSelectedCfg->m_Settings = GlobalVars::settings;
+						pSelectedCfg->m_Settings = GlobalVars::g_AllSettings;
 					};
 
 					std::thread(payload).detach();
@@ -133,7 +133,7 @@ void UI::CNetWorkWindow::Render()
 
 				if (ImGui::Button(xorstr("Import"), ImVec2(70, 20)))
 				{
-					GlobalVars::settings = m_ConfgsList[selectedCfgId].m_Settings;
+					GlobalVars::g_AllSettings = m_ConfgsList[selectedCfgId].m_Settings;
 					m_pMessageLineList->Add(fmt::format(xorstr("Config is loaded from the cloud: {}"), m_ConfgsList[selectedCfgId].m_Settings.m_Name), 3000);
 				}
 				ImGui::SameLine();
@@ -159,7 +159,7 @@ void UI::CNetWorkWindow::Render()
 						m_pMessageLineList->Add(xorstr("Config was successfully restored to the default settings."), 3000);
 
 						m_ConfgsList[selectedCfgId].m_Settings = defaultSettings;
-						GlobalVars::settings                   = defaultSettings;
+						GlobalVars::g_AllSettings = defaultSettings;
 						
 					};
 					std::thread(payload).detach();

@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Globals/GlobalVars.h"
+#include "../../Globals/Interfaces.h"
 #include "../../imgui/imgui_internal.h"
 
 #include "CBaseEsp.h"
@@ -11,7 +11,7 @@ ImVec3 CBaseEsp::WorldToScreen(const ImVec3& vecPosition)
     // Screen size 
     ImVec2 viewPorstSize = ImGui::GetMainViewport()->Size;
 
-    auto client = GlobalVars::pClient;
+    auto client = GlobalVars::g_pClient;
 
     POLY_MARKER;
 

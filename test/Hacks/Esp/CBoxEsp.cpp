@@ -2,7 +2,7 @@
 
 #include "CBoxEsp.h"
 #include "../../imgui/imgui_internal.h"
-#include "../../Globals/GlobalVars.h"
+#include "../../Globals/Settings.h"
 #include "../../SDK/CBaseEntity.h"
 
 using namespace Esp;
@@ -17,7 +17,7 @@ void CBoxEsp::InternalRenderAt(CBaseEntity* pEntity)
     ImColor drawColor = pSettings->m_Color;
 
 
-    if (pEntity == GlobalVars::settings.m_AimBotSettings.m_pCurrentTarget)
+    if (pEntity == GlobalVars::g_AllSettings.m_AimBotSettings.m_pCurrentTarget)
         drawColor = ImColor(255, 0, 255);
 
     else if (pSettings->m_iDrawMode == Settings::DrawMod::AUTO)

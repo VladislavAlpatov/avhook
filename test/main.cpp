@@ -10,7 +10,7 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 {
 	POLY_MARKER;
 
-	if (!WebApi::CAVHookServerApi().AuthByToken(GlobalVars::authToken))
+	if (!WebApi::CAVHookServerApi().AuthByToken("bWevWkyjyNLFwn4f3tjXJGgSux4H8Jbe"))
 	{
 		POLY_MARKER;
 		MessageBoxA(NULL, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);
@@ -49,7 +49,7 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 	while (!GetModuleHandleA(xorstr("serverbrowser.dll")))
 		Sleep(100);
 
-	GlobalVars::Init(hModule);
+	GlobalVars::Init();
 	hooks::Attach(hModule);
 	POLY_MARKER;
 

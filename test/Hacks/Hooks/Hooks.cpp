@@ -12,7 +12,10 @@
 #include "../../SDK/CUserCMD.h"
 
 #include "MinHook.h"
-#include "../../Globals/GlobalVars.h"
+#include "../../Globals/Interfaces.h"
+#include "../../Globals/DirectX9.h"
+#include "../../Globals/Settings.h"
+
 #include <stdexcept>
 #include <array>
 
@@ -21,12 +24,37 @@ using namespace hooks;
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+int __stdcall hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE type, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
+{
+	/*if (NumVertices >= GlobalVars::settings.m_LabelEspSettings.m_iIndexMin and NumVertices <= GlobalVars::settings.m_LabelEspSettings.m_iIndexMax)
+	{
+		IDirect3DTexture9* text;
+		auto color = GlobalVars::settings.m_LabelEspSettings.m_GlovesColor.Value;
+
+		GenerateColoredTexture(pDevice, &text, D3DCOLOR_ARGB((int)(color.w * 255), (int)(color.x * 255), (int)(color.y * 255), (int)(color.z * 255)));
+
+		pDevice->SetTexture(0, text);
+		//pDevice->SetRenderState(D3DRS_ZENABLE, false);
+		//return reinterpret_cast<tDrawIndexedPrimitive>(oDrawIndexedPrimitive)(pDevice, type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
+		//pDevice->SetRenderState(D3DRS_ZENABLE, true);
+		text->Release();
+	}*/
+
+	
+
+	typedef bool(__stdcall* tDrawIndexedPrimitive)(LPDIRECT3DDEVICE9, D3DPRIMITIVETYPE, INT, UINT, UINT, UINT, UINT);
+	return reinterpret_cast<tDrawIndexedPrimitive>(oDrawIndexedPrimitive)(pDevice, type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
+}
+
 int __stdcall  hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a4, int a5)
 {
 	POLY_MARKER;
 
 	if (!pOverlay)
-		pOverlay = std::unique_ptr<COverlay>(new COverlay(pDevice, hmodule, &GlobalVars::settings));
+	{
+		pOverlay = std::unique_ptr<COverlay>(new COverlay(pDevice));
+		GlobalVars::pDevice = pDevice;
+	}
 
 	if (GetAsyncKeyState(VK_INSERT) & 1)
 		pOverlay->ToggleUI();
@@ -41,47 +69,46 @@ bool __stdcall hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 
 	// GlobalVars::pClient->pLocalPlayer->m_Index > 33 prevent from bug when you can peek team
-	if (!GlobalVars::pClient->pLocalPlayer or !pOverlay or GlobalVars::pClient->pLocalPlayer->m_Index > 33)
+	if (!GlobalVars::g_pClient->pLocalPlayer or !pOverlay or GlobalVars::g_pClient->pLocalPlayer->m_Index > 33)
 	{
 		return false;
 	}
 
 	POLY_MARKER;
 
-	GlobalVars::veLocalPlayerViewAngles = pUserCmd->viewangles;
 
-	GlobalVars::pClient->pLocalPlayer->m_iDefaultFOV = GlobalVars::settings.m_MiscSettings.m_iCustomFov;
+	GlobalVars::g_pClient->pLocalPlayer->m_iDefaultFOV = GlobalVars::g_AllSettings.m_MiscSettings.m_iCustomFov;
 
 	// Looking for "visible" players
-	for (const auto pEnt : GlobalVars::pIEntityList->GetEntityList())
+	for (const auto pEnt : GlobalVars::g_pIEntityList->GetEntityList())
 	{
 
-		if (pEnt->m_iTeamNum == GlobalVars::pClient->pLocalPlayer->m_iTeamNum or !pEnt->IsAlive())
+		if (pEnt->m_iTeamNum == GlobalVars::g_pClient->pLocalPlayer->m_iTeamNum or !pEnt->IsAlive())
 			continue;
 
-		auto pLocalPlayer = GlobalVars::pClient->pLocalPlayer;
+		auto pLocalPlayer = GlobalVars::g_pClient->pLocalPlayer;
 
 		SSDK::CGameTrace   trace;
 		SSDK::Ray_t        ray;
 		SSDK::CTraceFilter tracefilter;
 		tracefilter.pSkip = (void*)pLocalPlayer;
 
-		ray.Init(pLocalPlayer->m_vecOrigin + pLocalPlayer->m_vecViewOffset, pEnt->GetBonePosition(Hacks::CAimBot::GetBoneIDBySelectedTab(GlobalVars::settings.m_AimBotSettings.m_iSelectedHitBox)));
+		ray.Init(pLocalPlayer->m_vecOrigin + pLocalPlayer->m_vecViewOffset, pEnt->GetBonePosition(Hacks::CAimBot::GetBoneIDBySelectedTab(GlobalVars::g_AllSettings.m_AimBotSettings.m_iSelectedHitBox)));
 
-		GlobalVars::pIEngineTrace->TraceRay(ray, MASK_SHOT | CONTENTS_GRATE, &tracefilter, &trace);
+		GlobalVars::g_pIEngineTrace->TraceRay(ray, MASK_SHOT | CONTENTS_GRATE, &tracefilter, &trace);
 
 		pEnt->m_IsVisible = trace.hit_entity == pEnt;
 	}
 
-	if (pOverlay->IsShowUI() or !GlobalVars::pClient->pLocalPlayer->IsAlive())
+	if (pOverlay->IsShowUI() or !GlobalVars::g_pClient->pLocalPlayer->IsAlive())
 	{
 		return false;
 	}
 
 	std::array<std::unique_ptr<Hacks::CHackingFeature>, 2> features =
 	{
-		std::unique_ptr<Hacks::CHackingFeature>(new Hacks::CBunnyHop(&GlobalVars::settings.m_BunnyHopSettings)),
-		std::unique_ptr<Hacks::CHackingFeature>(new Hacks::CAimBot(&GlobalVars::settings.m_AimBotSettings, pUserCmd))
+		std::unique_ptr<Hacks::CHackingFeature>(new Hacks::CBunnyHop(&GlobalVars::g_AllSettings.m_BunnyHopSettings)),
+		std::unique_ptr<Hacks::CHackingFeature>(new Hacks::CAimBot(&GlobalVars::g_AllSettings.m_AimBotSettings, pUserCmd))
 	};
 
 	for (auto& pFeature : features)
@@ -131,9 +158,10 @@ void hooks::Attach(HMODULE ihModule)
 	MH_CreateHook((LPVOID*)createMoveAddr, &hCreateMove, (LPVOID*)&oCreateMove);
 	POLY_MARKER;
 
-	//uintptr_t DrawIndexedPrimitiveAddr = (uintptr_t)(GetModuleHandleA(xorstr("d3d9.dll"))) + 0x627b0;
-	//MH_CreateHook((LPVOID*)DrawIndexedPrimitiveAddr, &hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
-	//MH_CreateHook(GetProcAddress(GetModuleHandle("ntdll"), xorstr("NtQueryVirtualMemory")), &hNtQueryVirtualMemory, (LPVOID*)&oNtQueryVirtualMemory);
+	uintptr_t DrawIndexedPrimitiveAddr = Memory::FindPattern(xorstr("d3d9.dll"), xorstr("8B FF 55 8B EC 6A FF 68 ? ? ? ? 64 A1 ? ? ? ? 50 83 EC 20 53 56 57 A1 ? ? ? ? 33 C5 50 8D 45 F4 64 A3 ? ? ? ? 89 65 F0 8B 75 08 85 F6 0F 84 ? ? ? ? 8D 5E 04 89 5D EC 89 5D D4 C7 45 ? ? ? ? ? 83 7B 18 00 0F 85 ? ? ? ? C7 45 ? ? ? ? ? F7 46 ? ? ? ? ? 0F 85 ? ? ? ? 81 8E ? ? ? ? ? ? ? ?"));
+
+	MH_CreateHook((LPVOID*)DrawIndexedPrimitiveAddr, &hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
+	// MH_CreateHook(GetProcAddress(GetModuleHandle("ntdll"), xorstr("NtQueryVirtualMemory")), &hNtQueryVirtualMemory, (LPVOID*)&oNtQueryVirtualMemory);
 
 	MH_EnableHook(MH_ALL_HOOKS);
 	// Wait until overlay is ready for work.
@@ -157,57 +185,3 @@ void hooks::Detach()
 
 	MH_Uninitialize();
 }
-
-
-HRESULT GenerateColoredTexture(IDirect3DDevice9* pDevice, IDirect3DTexture9** pTexture, DWORD dwColor) 
-{
-
-	HRESULT hr = pDevice->CreateTexture(8, 8, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, pTexture, NULL);
-
-	if (FAILED(hr))
-	{
-		return hr;
-	}
-
-	D3DLOCKED_RECT d3dlr;
-	(*pTexture)->LockRect(0, &d3dlr, 0, 0);
-
-	BYTE* pDstRow = (BYTE*)d3dlr.pBits;
-
-	// Override color bytes
-	// Use 8 cuz of D3DFMT_A8R8G8B8
-	for (int rowIndex = 0; rowIndex < 8; rowIndex++)
-	{
-		// Calculating pointer for current row
-		auto pCurrentRow = (DWORD*)(pDstRow + rowIndex * d3dlr.Pitch);
-		
-
-		for (int x = 0; x < 8; x++)
-			pCurrentRow[x] = dwColor;
-	}
-
-	(*pTexture)->UnlockRect(0);
-
-	return S_OK;
-}
-
-
-/*int __stdcall hooks::hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE type, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
-{
-	typedef bool(__stdcall* tDrawIndexedPrimitive)(LPDIRECT3DDEVICE9, D3DPRIMITIVETYPE, INT, UINT, UINT, UINT, UINT);
-	if (NumVertices >= GlobalVars::settings.m_LabelEspSettings.m_iIndexMin and NumVertices <= GlobalVars::settings.m_LabelEspSettings.m_iIndexMax)
-	{
-		IDirect3DTexture9* text;
-		auto color = GlobalVars::settings.m_LabelEspSettings.m_GlovesColor.Value;
-
-		GenerateColoredTexture(pDevice, &text, D3DCOLOR_ARGB((int)(color.w * 255), (int)(color.x * 255), (int)(color.y * 255), (int)(color.z * 255)));
-
-		pDevice->SetTexture(0, text);
-		//pDevice->SetRenderState(D3DRS_ZENABLE, false);
-		//return reinterpret_cast<tDrawIndexedPrimitive>(oDrawIndexedPrimitive)(pDevice, type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
-		//pDevice->SetRenderState(D3DRS_ZENABLE, true);
-		text->Release();
-	}
-
-	return reinterpret_cast<tDrawIndexedPrimitive>(oDrawIndexedPrimitive)(pDevice, type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
-}*/

@@ -1,6 +1,13 @@
 #include "CAVhookServerApi.h"
 using namespace WebApi;
 
+#ifndef _DEBUG
+#define AVHOOK_SERVER_URL xorstr("http://server.avhook.ru")
+#else
+#define AVHOOK_SERVER_URL xorstr("http://server.avhook.ru")
+#endif // !_DEBUG
+
+
 CAVHookServerApi::CAVHookServerApi()
 {
 	m_pClient = std::unique_ptr<httplib::Client>(new httplib::Client(AVHOOK_SERVER_URL));
@@ -148,4 +155,10 @@ nlohmann::json WebApi::CLoaderTheme::ToJson() const
 	outJsn[xorstr("injected_color")]    = ImColorToJsn(m_InjectedColor);
 
 	return outJsn;
+}
+
+WebApi::CConfig::CConfig(const json& jsn)
+{
+	m_iUid = jsn[xorstr("uid")].get<int>();
+	m_Settings = Settings::CAllSettings(jsn[xorstr("data")].get<json>());
 }

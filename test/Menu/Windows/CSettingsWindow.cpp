@@ -1,8 +1,10 @@
 ﻿#pragma once
 
 #include "CSettingsWindow.h"
-#include "../../Globals/GlobalVars.h"
 #include "../../imgui/imgui_internal.h"
+#include "../../Globals/Settings.h"
+#include "../../Globals/Interfaces.h"
+
 #include "../../Utils/CFGloader/CFGloader.h"
 #include <fmt/format.h>
 #include "../../RawData/Images.h"
@@ -10,27 +12,12 @@
 #include <fstream>
 #include <d3dx9.h>
 
-class CLabelSettings
+
+UI::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList, bool* pShowKeyBinderDialog) : CBaseWindow(pDevice)
 {
-public:
-	CLabelSettings(std::string& name, bool* pActive, int* pPriority, ImColor* color)
-	{
-		m_sName     = name;
-		m_pActive   = pActive;
-		m_pPriority = pPriority;
-		m_pColor    = color;
-	};
-	std::string		m_sName;
-	bool*			m_pActive;
-	int*			m_pPriority;
-	ImColor*		m_pColor;
-};
-UI::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList, Settings::CAllSettings* pAllSetting, bool* pShowKeyBinderDialog) : CBaseWindow(pDevice)
-{
-	m_pAllSettings          = pAllSetting;
 	m_pShowKeyBinderDialog  = pShowKeyBinderDialog;
 	m_pMessageLineList      = pMessageLineList;
-	m_BindListener          = Routines::CBindListener(&m_pAllSettings->m_AimBotSettings.m_iBindKey, m_pShowKeyBinderDialog);
+	m_BindListener          = Routines::CBindListener(&GlobalVars::g_AllSettings.m_AimBotSettings.m_iBindKey, m_pShowKeyBinderDialog);
 	
 	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::SettingsIcon,  sizeof(Images::SettingsIcon),  &m_pTextureIcon);
 	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::AimbotIcon,    sizeof(Images::AimbotIcon),    &m_pTexureAimBotIcon);
@@ -132,54 +119,54 @@ void UI::CSettingsWindow::DrawAimbotChild()
 	ImGui::BeginChild(xorstr("###General"), ImVec2(230, 235), true, m_iImGuiStyle);
 	{
 		ImGui::PushItemWidth(112.f);
-		ImGui::Combo(xorstr("Hit-Box"), &m_pAllSettings->m_AimBotSettings.m_iSelectedHitBox, hitboxes, IM_ARRAYSIZE(hitboxes));
+		ImGui::Combo(xorstr("Hit-Box"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_iSelectedHitBox, hitboxes, IM_ARRAYSIZE(hitboxes));
 		DrawToolTip(xorstr("Set target Hit-Box."));
 
-		ImGui::Combo(xorstr("Priority"), &m_pAllSettings->m_AimBotSettings.m_iPriorityType, priorities, IM_ARRAYSIZE(priorities));
+		ImGui::Combo(xorstr("Priority"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_iPriorityType, priorities, IM_ARRAYSIZE(priorities));
 		DrawToolTip(xorstr("Defines the target priority.\n\nFOV: The enemy closest to the crosshair is chosen first.\nDistance : The enemy closest to you is chosen first."));
 
-		ImGui::Combo(xorstr("Hitbox filter"), &m_pAllSettings->m_AimBotSettings.m_iHitBoxFilterMode, hitboxFilters, IM_ARRAYSIZE(hitboxFilters));
+		ImGui::Combo(xorstr("Hitbox filter"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_iHitBoxFilterMode, hitboxFilters, IM_ARRAYSIZE(hitboxFilters));
 		DrawToolTip(xorstr("Static: Aimbot will only aim at the hitbox of the player that you have chosen yourself.\n\nDynamic: Aimbot will change the target hitbox depending on the opponent's health percentage."));
 
-		ImGui::InputInt(xorstr("Health border"), &m_pAllSettings->m_AimBotSettings.m_iHealthBorder);
-		ImGui::InputFloat(xorstr("FoV"), &m_pAllSettings->m_AimBotSettings.m_fFov);
+		ImGui::InputInt(xorstr("Health border"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_iHealthBorder);
+		ImGui::InputFloat(xorstr("FoV"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_fFov);
 		DrawToolTip(xorstr("Define the field of view.\n\nNote: Enemy will be force-ignore if\nhe not in selected fov.\nSet FoV to 360 to disable it."));
 
-		if (GlobalVars::pClient->pLocalPlayer != nullptr and ImGui::IsItemHovered())
+		if (GlobalVars::g_pClient->pLocalPlayer != nullptr and ImGui::IsItemHovered())
 		{
 			auto screenSize = ImGui::GetMainViewport()->Size;
-			float fovScreenRatio = std::hypotf(screenSize.x, screenSize.y) / (float)GlobalVars::pClient->pLocalPlayer->m_iDefaultFOV / 2.f;
+			float fovScreenRatio = std::hypotf(screenSize.x, screenSize.y) / (float)GlobalVars::g_pClient->pLocalPlayer->m_iDefaultFOV / 2.f;
 
 			ImGui::GetBackgroundDrawList()->AddCircle(screenSize / 2.f,
-				fovScreenRatio * m_pAllSettings->m_AimBotSettings.m_fFov,
+				fovScreenRatio * GlobalVars::g_AllSettings.m_AimBotSettings.m_fFov,
 				(ImColor)ImGui::GetStyle().Colors[ImGuiCol_Border]);
 
 		}
 		
-		ImGui::InputFloat(xorstr("Smooth Factor"), &m_pAllSettings->m_AimBotSettings.m_fSmooth);
+		ImGui::InputFloat(xorstr("Smooth Factor"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_fSmooth);
 		ImGui::PopItemWidth();
 		DrawToolTip(xorstr("Make aimbot act more like human.\n\nNote: Set \"Smooth\" value to \"0\" if\nyou want to completely disable it."));
 
-		ImGui::Checkbox(xorstr("Auto Recoil Control"), &m_pAllSettings->m_AimBotSettings.m_bRcsControle);
+		ImGui::Checkbox(xorstr("Auto Recoil Control"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_bRcsControle);
 		DrawToolTip(xorstr("Provide automatic recoil control when aimbot\naimed on enemy."));
 
-		ImGui::Checkbox(xorstr("Auto shoot"), &m_pAllSettings->m_AimBotSettings.m_bAutoShot);
+		ImGui::Checkbox(xorstr("Auto shoot"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_bAutoShot);
 		DrawToolTip(xorstr("Provide automatic shoot when aimbot\naimed on enemy."));
 
-		ImGui::Checkbox(xorstr("Active"), &m_pAllSettings->m_AimBotSettings.m_bActive);
+		ImGui::Checkbox(xorstr("Active"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_bActive);
 		ImGui::EndChild();
 	}
 	ImGui::SameLine();
 	ImGui::BeginChild(xorstr("###Binds"), ImVec2(232, 55), true, m_iImGuiStyle);
 	{
-		ImGui::Checkbox(xorstr("Activate on key"), &m_pAllSettings->m_AimBotSettings.m_bOnKey);
+		ImGui::Checkbox(xorstr("Activate on key"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_bOnKey);
 		DrawToolTip(xorstr("Set AimBot avtivation key."));
 		ImGui::SameLine();
 		if (ImGui::Button(xorstr("Set Key")))
 		{
 			m_BindListener.Listen();
 		}
-		ImGui::Text(xorstr("Binded to: %s"), VirtualKeyNumberToString(m_pAllSettings->m_AimBotSettings.m_iBindKey).c_str());
+		ImGui::Text(xorstr("Binded to: %s"), VirtualKeyNumberToString(GlobalVars::g_AllSettings.m_AimBotSettings.m_iBindKey).c_str());
 
 		ImGui::EndChild();
 	}
@@ -193,85 +180,87 @@ void UI::CSettingsWindow::DrawEspChild()
 	ImGui::SameLine();
 	ImGui::Text(xorstr("Extra Sensory Perception"));
 
-	static const char* hitboxes[3]   = { "Head", "Body", "Legs" };
+	static const char* hitboxes[3] = { "Head", "Body", "Legs" };
 	static const char* drawOptions[] = { "Custom", "Health" };
-	static const ImVec2 blockSize    = ImVec2(170, 145);
+	static const ImVec2 blockSize = ImVec2(140, 135);
 
 	ImGui::BeginChild(xorstr("###SnapLinesESP"), blockSize, true);
 	{
 		ImGui::Text(xorstr("Snap Lines"));
-		ImGui::ColorEdit4(xorstr("###lineColor"),     (float*)&m_pAllSettings->m_SnapLinesSettings.m_Color, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("###lineColor"), (float*)&GlobalVars::g_AllSettings.m_SnapLinesSettings.m_Color, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Active###Drawlines"), &m_pAllSettings->m_SnapLinesSettings.m_bActive);
+		ImGui::Checkbox(xorstr("Active###Drawlines"), &GlobalVars::g_AllSettings.m_SnapLinesSettings.m_bActive);
 
-		ImGui::InputInt(xorstr("###lineThickness"),   &m_pAllSettings->m_SnapLinesSettings.m_iThickness);
-		ImGui::Combo(xorstr("###LinePoint"),          &m_pAllSettings->m_SnapLinesSettings.m_iSelectedBone, hitboxes,    IM_ARRAYSIZE(hitboxes));
-		ImGui::Combo(xorstr("###LineEspDrawMode"),    &m_pAllSettings->m_SnapLinesSettings.m_iDrawMode,     drawOptions, IM_ARRAYSIZE(drawOptions));
+		ImGui::InputInt(xorstr("###lineThickness"), &GlobalVars::g_AllSettings.m_SnapLinesSettings.m_iThickness);
+		ImGui::Combo(xorstr("###LinePoint"), &GlobalVars::g_AllSettings.m_SnapLinesSettings.m_iSelectedBone, hitboxes, IM_ARRAYSIZE(hitboxes));
+		ImGui::Combo(xorstr("###LineEspDrawMode"), &GlobalVars::g_AllSettings.m_SnapLinesSettings.m_iDrawMode, drawOptions, IM_ARRAYSIZE(drawOptions));
 		ImGui::EndChild();
 	}
 
 	ImGui::SameLine();
+	auto pos = ImGui::GetCursorPos();
+	ImGui::NewLine();
 	ImGui::BeginChild(xorstr("###Boxes"), blockSize, true);
 	{
-		static const char* styles[] = {"Solid", "Cornered"};
+		static const char* styles[] = { "Solid", "Cornered" };
 		ImGui::Text(xorstr("Boxes"));
-		ImGui::ColorEdit4(xorstr("###boxcolor"),       (float*)&m_pAllSettings->m_BoxEspSettings.m_Color, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("###boxcolor"), (float*)&GlobalVars::g_AllSettings.m_BoxEspSettings.m_Color, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Active###Draw boxes"), &m_pAllSettings->m_BoxEspSettings.m_bActive);
+		ImGui::Checkbox(xorstr("Active###Draw boxes"), &GlobalVars::g_AllSettings.m_BoxEspSettings.m_bActive);
 
-		ImGui::InputInt(xorstr("###boxThickness"),     &m_pAllSettings->m_BoxEspSettings.m_iThickness);
-		ImGui::Combo(xorstr("###BoxEspDrawMode"),      &m_pAllSettings->m_BoxEspSettings.m_iDrawMode, drawOptions, IM_ARRAYSIZE(drawOptions));
-		ImGui::Combo(xorstr("###BoxStyle"),            &m_pAllSettings->m_BoxEspSettings.m_iStyle, styles, IM_ARRAYSIZE(styles));
+		ImGui::InputInt(xorstr("###boxThickness"), &GlobalVars::g_AllSettings.m_BoxEspSettings.m_iThickness);
+		ImGui::Combo(xorstr("###BoxEspDrawMode"), &GlobalVars::g_AllSettings.m_BoxEspSettings.m_iDrawMode, drawOptions, IM_ARRAYSIZE(drawOptions));
+		ImGui::Combo(xorstr("###BoxStyle"), &GlobalVars::g_AllSettings.m_BoxEspSettings.m_iStyle, styles, IM_ARRAYSIZE(styles));
 		ImGui::EndChild();
 	}
 
-	ImGui::SameLine();
+	//ImGui::SameLine();
 	ImGui::BeginChild(xorstr("###BaResp"), blockSize, true);
 	{
 		ImGui::Text(xorstr("Bars"));
 		ImGui::Image(m_pTexureAtomaticColorIcon, ImVec2(21, 21));
 		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Health bar"), &m_pAllSettings->m_BarEspSettings.m_bDrawHealthBar);
+		ImGui::Checkbox(xorstr("Health bar"), &GlobalVars::g_AllSettings.m_BarEspSettings.m_bDrawHealthBar);
 
-		ImGui::ColorEdit4(xorstr("###ArmorBarColor"), (float*)&m_pAllSettings->m_BarEspSettings.m_ArmorColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("###ArmorBarColor"), (float*)&GlobalVars::g_AllSettings.m_BarEspSettings.m_ArmorColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Armor bar"), &m_pAllSettings->m_BarEspSettings.m_bDrawArmorBar);
+		ImGui::Checkbox(xorstr("Armor bar"), &GlobalVars::g_AllSettings.m_BarEspSettings.m_bDrawArmorBar);
 
-		ImGui::ColorEdit4(xorstr("###BgCol"), (float*)&m_pAllSettings->m_BarEspSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("###BgCol"), (float*)&GlobalVars::g_AllSettings.m_BarEspSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
 		ImGui::Text(xorstr("Background fill"));
 
-		ImGui::InputInt(xorstr("###barsthiccness"), &m_pAllSettings->m_BarEspSettings.m_iThickness);
+		ImGui::InputInt(xorstr("###barsthiccness"), &GlobalVars::g_AllSettings.m_BarEspSettings.m_iThickness);
 		ImGui::EndChild();
 	}
 
 	ImGui::BeginChild(xorstr("###Radar"), blockSize + ImVec2(0, 80), true);
 	{
 		ImGui::Text(xorstr("Radar"));
-		ImGui::Checkbox(xorstr("Active"), &m_pAllSettings->m_RadarSettings.m_bActive);
+		ImGui::Checkbox(xorstr("Active"), &GlobalVars::g_AllSettings.m_RadarSettings.m_bActive);
 		static const char* style[] = { "Embedded", "Custom" };
 
-		ImGui::Combo(xorstr("Style###RStyle"), &m_pAllSettings->m_RadarSettings.m_iStyle, style, IM_ARRAYSIZE(style));
+		ImGui::Combo(xorstr("Style###RStyle"), &GlobalVars::g_AllSettings.m_RadarSettings.m_iStyle, style, IM_ARRAYSIZE(style));
 		DrawToolTip(xorstr("Embedded - the standard game radar will be used.\nCustom - avhook radar will be used, which you can\ncustomize yourself, for example, change the color"));
 
 
-		ImGui::ColorEdit4(xorstr("Inactive Color"), (float*)&m_pAllSettings->m_RadarSettings.m_InactiveFeatureColor, ImGuiColorEditFlags_NoInputs);
-		ImGui::ColorEdit4(xorstr("Active Color"), (float*)&m_pAllSettings->m_RadarSettings.m_ActiveFeatureColor, ImGuiColorEditFlags_NoInputs);
-		ImGui::ColorEdit4(xorstr("Border Color"), (float*)&m_pAllSettings->m_RadarSettings.m_CyrcleBorderColor, ImGuiColorEditFlags_NoInputs);
-		ImGui::ColorEdit4(xorstr("Cross Color"), (float*)&m_pAllSettings->m_RadarSettings.m_CrossColor, ImGuiColorEditFlags_NoInputs);
-		ImGui::ColorEdit4(xorstr("Background Color"), (float*)&m_pAllSettings->m_RadarSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("Inactive Color"), (float*)&GlobalVars::g_AllSettings.m_RadarSettings.m_InactiveFeatureColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("Active Color"), (float*)&GlobalVars::g_AllSettings.m_RadarSettings.m_ActiveFeatureColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("Border Color"), (float*)&GlobalVars::g_AllSettings.m_RadarSettings.m_CyrcleBorderColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("Cross Color"), (float*)&GlobalVars::g_AllSettings.m_RadarSettings.m_CrossColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("Background Color"), (float*)&GlobalVars::g_AllSettings.m_RadarSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::EndChild();
 	}
-	ImGui::SameLine();
-	ImGui::BeginChild(xorstr("###LabelEsp"), blockSize + ImVec2(30, 105), true, m_iImGuiStyle);
+	ImGui::SetCursorPos(pos);
+	ImGui::BeginChild(xorstr("###LabelEsp"), blockSize + ImVec2(40, 105), true, m_iImGuiStyle);
 	{
 		ImGui::Text(xorstr("Labels"));
 
 		static const char* positions[] = { "Left alligned", "Top alligned" };
-		ImGui::Combo(xorstr("###LabelDrawPos"), &m_pAllSettings->m_LabelEspSettings.m_iDrawPos, positions, IM_ARRAYSIZE(positions));
+		ImGui::Combo(xorstr("###LabelDrawPos"), &GlobalVars::g_AllSettings.m_LabelEspSettings.m_iDrawPos, positions, IM_ARRAYSIZE(positions));
 		DrawToolTip(xorstr("Determine where the labels will be displayed."));
 
-		ImGui::InputInt(xorstr("Limit"), &m_pAllSettings->m_LabelEspSettings.m_iMaxDrawDistance, 0);
+		ImGui::InputInt(xorstr("Limit"), &GlobalVars::g_AllSettings.m_LabelEspSettings.m_iMaxDrawDistance, 0);
 		DrawToolTip(xorstr("Determine the distance the minimum distance\nwhen the labels should be displayed."));
 
 		auto& style = ImGui::GetStyle();
@@ -281,21 +270,21 @@ void UI::CSettingsWindow::DrawEspChild()
 		style.WindowPadding = ImVec2(2, 2);
 		style.ItemSpacing = ImVec2(2, 2);
 
-		for (int i = 0; i < m_pAllSettings->m_LabelEspSettings.m_Labels.size(); ++i)
+		for (int i = 0; i < GlobalVars::g_AllSettings.m_LabelEspSettings.m_Labels.size(); ++i)
 		{
-			auto& pCurrentLabel = m_pAllSettings->m_LabelEspSettings.m_Labels[i];
+			auto& pCurrentLabel = GlobalVars::g_AllSettings.m_LabelEspSettings.m_Labels[i];
 			ImGui::BeginChild((std::string(xorstr("###Child")) + pCurrentLabel->m_sName).c_str(), ImVec2(160, 25), true, m_iImGuiStyle);
 			{
 				ImGui::ColorEdit4((std::string(xorstr("###Color")) + pCurrentLabel->m_sName).c_str(), (float*)&pCurrentLabel->m_Color, ImGuiColorEditFlags_NoInputs);
 				ImGui::SameLine();
 				if (ImGui::Button(u8"Λ", ImVec2(20, 20)) and i > 0)
 				{
-					m_pAllSettings->m_LabelEspSettings.m_Labels[i].swap(m_pAllSettings->m_LabelEspSettings.m_Labels[i-1]);
+					GlobalVars::g_AllSettings.m_LabelEspSettings.m_Labels[i].swap(GlobalVars::g_AllSettings.m_LabelEspSettings.m_Labels[i - 1]);
 				}
 				ImGui::SameLine();
-				if (ImGui::Button(u8"V", ImVec2(20, 20)) and i < m_pAllSettings->m_LabelEspSettings.m_Labels.size() - 1 )
+				if (ImGui::Button(u8"V", ImVec2(20, 20)) and i < GlobalVars::g_AllSettings.m_LabelEspSettings.m_Labels.size() - 1)
 				{
-					m_pAllSettings->m_LabelEspSettings.m_Labels[i].swap(m_pAllSettings->m_LabelEspSettings.m_Labels[i+1]);
+					GlobalVars::g_AllSettings.m_LabelEspSettings.m_Labels[i].swap(GlobalVars::g_AllSettings.m_LabelEspSettings.m_Labels[i + 1]);
 				}
 				ImGui::SameLine();
 				ImGui::Checkbox(pCurrentLabel->m_sName.c_str(), &pCurrentLabel->m_bActive);
@@ -309,14 +298,78 @@ void UI::CSettingsWindow::DrawEspChild()
 
 		ImGui::EndChild();
 	}
+	ImGui::SameLine();
+	ImGui::BeginChild(xorstr("###TextureOverrideEsp"), blockSize + ImVec2(60, 105), true, m_iImGuiStyle);
+	{
+		static ImColor col = ImColor(255, 255, 255);
+		static char newTextureName[128] = { NULL };
+		static int newTextureId = 0;
+		ImGui::Text(xorstr("Texture override"));
+
+		auto& style = ImGui::GetStyle();
+		auto backUp = style.WindowPadding;
+		auto backUp2 = style.ItemSpacing;
+
+		style.WindowPadding = ImVec2(2, 2);
+		style.ItemSpacing = ImVec2(2, 2);
+
+		auto pTexutreList = &GlobalVars::g_AllSettings.m_TextureOverrideSettings.m_overridedTextures;
+
+		ImGui::BeginChild(xorstr("###Textures"), ImVec2(180, 180), true, m_iImGuiStyle);
+		{
+
+			for (int i = 0; i < pTexutreList->size(); ++i)
+			{
+				auto  textureListBegin = GlobalVars::g_AllSettings.m_TextureOverrideSettings.m_overridedTextures;
+				auto  pCurrentLabel = pTexutreList->begin();
+				std::advance(pCurrentLabel, i);
+				ImGui::BeginChild((std::string(xorstr("###TextureChild")) + pCurrentLabel->m_sName).c_str(), ImVec2(160, 25), true, m_iImGuiStyle);
+				{
+					auto tmpColor = pCurrentLabel->GetColor();
+					ImGui::ColorEdit4( (xorstr("###Txt") + pCurrentLabel->m_sName).c_str(), (float*)&tmpColor, ImGuiColorEditFlags_NoInputs);
+					ImGui::SameLine();
+					ImGui::Text(fmt::format(xorstr("[{}] {}"),pCurrentLabel->m_iUid, pCurrentLabel->m_sName).c_str());
+
+
+
+					ImGui::EndChild();
+				}
+			}
+			ImGui::EndChild();
+
+		}
+		ImGui::ColorEdit3(xorstr("###NewTexureColor"), (float*)&col, ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
+		ImGui::PushItemWidth(40);
+		ImGui::InputInt(xorstr("###newuid"), &newTextureId, 0);
+		ImGui::PopItemWidth();
+		ImGui::SameLine();
+
+		ImGui::PushItemWidth(80);
+		DrawInputTextWithTextOnBackGround(xorstr("###newtext"), xorstr("<name>"), newTextureName, sizeof(newTextureName));
+		ImGui::PopItemWidth();
+
+		ImGui::SameLine();
+		if (ImGui::Button(xorstr("ADD")))
+		{
+			pTexutreList->push_back(Esp::CTextureOverride(newTextureId, col, newTextureName, false));
+			
+		}
+		style.WindowPadding = backUp;
+		style.ItemSpacing   = backUp2;
+
+		ImGui::EndChild();
+
+	}
 
 }
+
 void UI::CSettingsWindow::DrawMiscChild()
 {
-	ImGui::Checkbox(xorstr("Bunny hop"), &m_pAllSettings->m_BunnyHopSettings.m_bActive);
+	ImGui::Checkbox(xorstr("Bunny hop"), &GlobalVars::g_AllSettings.m_BunnyHopSettings.m_bActive);
 	DrawToolTip(xorstr("Provide an automatic bunny hop.\n\nNote: Use to gain more speed than 250 hu/s."));
 
-	ImGui::SliderInt(xorstr("Field of view"), &GlobalVars::settings.m_MiscSettings.m_iCustomFov, 1, 120);
+	ImGui::SliderInt(xorstr("Field of view"), &GlobalVars::g_AllSettings.m_MiscSettings.m_iCustomFov, 1, 120);
 }
 void UI::CSettingsWindow::DrawCfgChild()
 {
@@ -328,24 +381,24 @@ void UI::CSettingsWindow::DrawCfgChild()
 	{
 		ImGui::Text(xorstr("Feature Config Section"));
 
-		DrawInputTextWithTextOnBackGround(xorstr("###Fname"), xorstr("<Config name>"), (char*)m_pAllSettings->m_Name.c_str(), m_pAllSettings->m_Name.size());
+		DrawInputTextWithTextOnBackGround(xorstr("###Fname"), xorstr("<Config name>"), (char*)GlobalVars::g_AllSettings.m_Name.c_str(), GlobalVars::g_AllSettings.m_Name.size());
 		if (ImGui::Button(xorstr("Import###fi")))
 		{
-			CConfigLoader cfg(m_pAllSettings->m_Name.c_str(), &GlobalVars::settings);
+			CConfigLoader cfg(GlobalVars::g_AllSettings.m_Name.c_str(), &GlobalVars::g_AllSettings);
 
-			if (cfg.LoadConfigFile(m_pAllSettings->m_Name.c_str()))
-				m_pMessageLineList->Add(fmt::format(xorstr("Loaded settings config: \"{}\""), m_pAllSettings->m_Name.c_str()), 2000);
+			if (cfg.LoadConfigFile(GlobalVars::g_AllSettings.m_Name.c_str()))
+				m_pMessageLineList->Add(fmt::format(xorstr("Loaded settings config: \"{}\""), GlobalVars::g_AllSettings.m_Name.c_str()), 2000);
 			else
-				m_pMessageLineList->Add(fmt::format(xorstr("\"{}\" does not exist."), m_pAllSettings->m_Name.c_str()), 2000);
+				m_pMessageLineList->Add(fmt::format(xorstr("\"{}\" does not exist."), GlobalVars::g_AllSettings.m_Name.c_str()), 2000);
 
 		}
 		ImGui::SameLine();
 		if (ImGui::Button(xorstr("Export###fb")))
 		{
-			if (!m_pAllSettings->m_Name.empty())
+			if (!GlobalVars::g_AllSettings.m_Name.empty())
 			{
-				CConfigLoader cfgOnSave = CConfigLoader(m_pAllSettings->m_Name.c_str(), m_pAllSettings);
-				cfgOnSave.DumpConfigFile(m_pAllSettings->m_Name.c_str());
+				CConfigLoader cfgOnSave = CConfigLoader(GlobalVars::g_AllSettings.m_Name.c_str(), &GlobalVars::g_AllSettings);
+				cfgOnSave.DumpConfigFile(GlobalVars::g_AllSettings.m_Name.c_str());
 				m_pMessageLineList->Add(xorstr("Config successfully imported."), 2000);
 
 			}
@@ -407,12 +460,12 @@ void UI::CSettingsWindow::DrawCfgChild()
 	{
 		ImGui::Text(xorstr("Misc Settings"));
 
-		ImGui::Checkbox(xorstr("Snow"), &m_pAllSettings->m_MiscSettings.m_bSnowFlakes);
+		ImGui::Checkbox(xorstr("Snow"), &GlobalVars::g_AllSettings.m_MiscSettings.m_bSnowFlakes);
 		DrawToolTip(xorstr("Draw snowflakes while menu is opened."));
 
-		ImGui::Checkbox(xorstr("Wallpaper"), &m_pAllSettings->m_MiscSettings.m_bWallPaper);
+		ImGui::Checkbox(xorstr("Wallpaper"), &GlobalVars::g_AllSettings.m_MiscSettings.m_bWallPaper);
 
-		ImGui::Checkbox(xorstr("Local Time"), &m_pAllSettings->m_MiscSettings.m_bShowTime);
+		ImGui::Checkbox(xorstr("Local Time"), &GlobalVars::g_AllSettings.m_MiscSettings.m_bShowTime);
 		DrawToolTip(xorstr("Show local time."));
 
 		ImGui::EndChild();
@@ -504,7 +557,7 @@ void UI::CSettingsWindow::DrawCfgChild()
 		ImGui::SameLine();
 		ImGui::Text(xorstr("Text (Selected)"));
 
-		ImGui::ColorEdit4(xorstr("###19"), reinterpret_cast<float*>(&m_pAllSettings->m_ChromaSettings.m_KillGlowColor), ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("###19"), reinterpret_cast<float*>(&GlobalVars::g_AllSettings.m_ChromaSettings.m_KillGlowColor), ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
 		ImGui::Text(xorstr("Kill glow (chroma)"));
 

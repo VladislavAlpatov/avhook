@@ -2,7 +2,7 @@
 
 #include "CBarsEsp.h"
 #include "../../imgui/imgui_internal.h"
-#include "../../Globals/GlobalVars.h"
+#include "../../Globals/Settings.h"
 
 #include <list>
 
@@ -33,7 +33,7 @@ void CBarsEsp::InternalRenderAt(CBaseEntity* pEntity)
     POLY_MARKER;
     auto pDrawList = ImGui::GetBackgroundDrawList();
 
-    ImVec2 barStart = box.m_vecBottomLeft - ImVec2(pSettings->m_iThickness+GlobalVars::settings.m_BoxEspSettings.m_iThickness+2, 0);
+    ImVec2 barStart = box.m_vecBottomLeft - ImVec2(pSettings->m_iThickness+GlobalVars::g_AllSettings.m_BoxEspSettings.m_iThickness+2, 0);
 
     for (auto& line : lines)
     {

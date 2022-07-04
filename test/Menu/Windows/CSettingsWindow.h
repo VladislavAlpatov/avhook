@@ -2,14 +2,14 @@
 #include "CBaseWindow.h"
 #include  "../Routines/BindListener.h"
 #include "../MessageLine/CMessageLine.h"
-#include "../Settings.h"
 
 namespace UI
 {
 	class CSettingsWindow : public CBaseWindow
 	{
 	public:
-		CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList, Settings::CAllSettings* pAllSetting, bool* pShowKeyBinderDialog);
+		
+		CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList, bool* pShowKeyBinderDialog);
 		virtual void Render();
 		std::string GetAlias() override;
 	private:
@@ -25,7 +25,6 @@ namespace UI
 		PDIRECT3DTEXTURE9               m_pTexureEspIcon = nullptr;
 		PDIRECT3DTEXTURE9               m_pTexureMiscIcon = nullptr;
 		PDIRECT3DTEXTURE9               m_pTexureAtomaticColorIcon = nullptr;
-		Settings::CAllSettings*         m_pAllSettings = nullptr;
 		CMessageLineList*               m_pMessageLineList;
 		Routines::CBindListener			m_BindListener;
 		int               m_iTab = 0;

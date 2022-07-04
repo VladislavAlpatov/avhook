@@ -1,14 +1,14 @@
 #include "CLabelEsp.h"
 #include "../../imgui/imgui_internal.h"
-#include "../../Globals/GlobalVars.h"
-
+#include "../../Globals/Settings.h"
+#include "../../Globals/Interfaces.h"
 using namespace Esp;
 
 void CLabelEsp::InternalRenderAt(CBaseEntity* pEntity)
 {
 	auto pSettings = GetSettings<Settings::CLabelEspSettings>();
 
-    if (GlobalVars::pClient->pLocalPlayer->CalcDistaceToEntity(pEntity) > pSettings->m_iMaxDrawDistance)
+    if (GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(pEntity) > pSettings->m_iMaxDrawDistance)
         return;
 
 
@@ -21,7 +21,7 @@ void CLabelEsp::InternalRenderAt(CBaseEntity* pEntity)
 void Esp::CLabelEsp::DrawLabelsAtLeftSide(const CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels)
 {
     const float textPadding = ImGui::CalcTextSize(xorstr("x")).y;
-    auto textPos = CalcEspBox(pEntity).m_vecTopRight + ImVec2(GlobalVars::settings.m_BoxEspSettings.m_iThickness + 2, 0);
+    auto textPos = CalcEspBox(pEntity).m_vecTopRight + ImVec2(GlobalVars::g_AllSettings.m_BoxEspSettings.m_iThickness + 2, 0);
 
 
     for (const auto pLabel : labels)
@@ -39,7 +39,7 @@ void Esp::CLabelEsp::DrawLabelsAtTop(const CBaseEntity* pEntity, const std::vect
     auto pSettings = GetSettings<Settings::CLabelEspSettings>();
     const float textPadding = ImGui::CalcTextSize(xorstr("x")).y;
 
-    auto textPos = CalcEspBox(pEntity).m_vecTopLeft - ImVec2(0, textPadding+GlobalVars::settings.m_BoxEspSettings.m_iThickness);
+    auto textPos = CalcEspBox(pEntity).m_vecTopLeft - ImVec2(0, textPadding+GlobalVars::g_AllSettings.m_BoxEspSettings.m_iThickness);
 
     for (auto pLabel : labels)
     {

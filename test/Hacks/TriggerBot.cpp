@@ -1,5 +1,5 @@
 #include "TriggerBot.h"
-#include "../Globals/GlobalVars.h"
+#include "../Globals/Interfaces.h"
 
 using namespace Hacks;
 
@@ -13,8 +13,8 @@ void TriggerBot::Work()
 {
 
 	auto pTriggerBotSettings  = (Settings::TriggerBotSettings*)m_pSettings;
-	CBaseEntity* localplayer  = GlobalVars::pClient->pLocalPlayer;
-	CBaseEntity*  entity      = GlobalVars::pIEntityList->GetClientEntity(localplayer->m_iCrosshairId);
+	CBaseEntity* localplayer  = GlobalVars::g_pClient->pLocalPlayer;
+	CBaseEntity*  entity      = GlobalVars::g_pIEntityList->GetClientEntity(localplayer->m_iCrosshairId);
 
 
 	if ((localplayer->m_iTeamNum == entity->m_iTeamNum or !entity->IsAlive()) or !localplayer->m_iCrosshairId)
@@ -24,7 +24,7 @@ void TriggerBot::Work()
 	if (pTriggerBotSettings->m_bRageMode)
 		//localplayer->AimAt(entity, NULL, this->bone);
 
-	GlobalVars::pClient->dwForceAttack = 6;
+	GlobalVars::g_pClient->dwForceAttack = 6;
 	Sleep(20);
 
 }

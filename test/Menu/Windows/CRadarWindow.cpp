@@ -1,7 +1,8 @@
 #pragma once
 #include "CRadarWindow.h"
-#include "../../Globals/GlobalVars.h"
+#include "../../Globals/Interfaces.h"
 #include "../../imgui/imgui_internal.h"
+#include "../../Globals/Settings.h"
 
 ImVec2 UI::CRadarWindow::WorldToRadar(const ImVec3& EntityOrigin, const ImVec3& LocalPlayerOrigin, const ImVec3& LocalPlayerViewAngles, int width, float scale = 16.f)
 {
@@ -90,9 +91,9 @@ void UI::CRadarWindow::UseGameRadar() const
 {
 	for (int i = 1; i < 32; ++i)
 	{
-		const auto pEntity = GlobalVars::pIEntityList->GetClientEntity(i);
+		const auto pEntity = GlobalVars::g_pIEntityList->GetClientEntity(i);
 		
-		if (!GlobalVars::pClient->pLocalPlayer or !pEntity or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::pClient->pLocalPlayer->m_iTeamNum or pEntity->m_bSpotted)
+		if (!GlobalVars::g_pClient->pLocalPlayer or !pEntity or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::g_pClient->pLocalPlayer->m_iTeamNum or pEntity->m_bSpotted)
 			continue;
 
 		pEntity->m_bSpotted = true;
@@ -125,7 +126,7 @@ void UI::CRadarWindow::RenderCustomRadar()
 		pDrawList->AddCircle(windowCenter, 254.f / 2.f, m_pRadarSettings->m_CyrcleBorderColor, 0, 2.f);
 
 		// if player not in game then dont draw
-		if (!GlobalVars::pIEngineClient->IsInGame() or !GlobalVars::pIEngineClient->IsConnected() or !GlobalVars::pClient->pLocalPlayer)
+		if (!GlobalVars::g_pIEngineClient->IsInGame() or !GlobalVars::g_pIEngineClient->IsConnected() or !GlobalVars::g_pClient->pLocalPlayer)
 		{
 			KeepWindowInSreenArea();
 			ImGui::End();
@@ -134,16 +135,16 @@ void UI::CRadarWindow::RenderCustomRadar()
 		POLY_MARKER;
 		for (int i = 1; i < 33; ++i)
 		{
-			auto pEnt = GlobalVars::pIEntityList->GetClientEntity(i);
+			auto pEnt = GlobalVars::g_pIEntityList->GetClientEntity(i);
 
-			if (!pEnt or !pEnt->IsAlive() or pEnt->m_iTeamNum == GlobalVars::pClient->pLocalPlayer->m_iTeamNum or pEnt->m_bDormant)
+			if (!pEnt or !pEnt->IsAlive() or pEnt->m_iTeamNum == GlobalVars::g_pClient->pLocalPlayer->m_iTeamNum or pEnt->m_bDormant)
 				continue;
 			auto windowPosition = ImGui::GetWindowPos();
 
-			auto vecEntityRadarPosition = WorldToRadar(pEnt->m_vecOrigin, GlobalVars::pClient->pLocalPlayer->m_vecOrigin, GlobalVars::veLocalPlayerViewAngles, 256);
+			auto vecEntityRadarPosition = WorldToRadar(pEnt->m_vecOrigin, GlobalVars::g_pClient->pLocalPlayer->m_vecOrigin, GlobalVars::g_pClient->pLocalPlayer->m_vecViewAngles, 256);
 			POLY_MARKER;
 			ImColor enemyColor = ImColor(255, 255, 255);
-			if (GlobalVars::settings.m_AimBotSettings.m_pCurrentTarget == pEnt)
+			if (GlobalVars::g_AllSettings.m_AimBotSettings.m_pCurrentTarget == pEnt)
 				enemyColor = ImColor(255, 0, 255);
 			pDrawList->AddCircleFilled(ImVec2(windowPosition.x + vecEntityRadarPosition.x + 384.f / 6.0f, windowPosition.y + vecEntityRadarPosition.y), 4, ImColor(0, 0, 0));
 			pDrawList->AddCircleFilled(ImVec2(windowPosition.x + vecEntityRadarPosition.x + 384.f / 6.0f, windowPosition.y + vecEntityRadarPosition.y), 3, enemyColor);

@@ -5,11 +5,7 @@ namespace Routines
 	class CBindListener
 	{
 	public:
-		CBindListener()
-		{
-			m_pVirtualKeyValue = nullptr;
-			m_pShowKeyBinderDialog = nullptr;
-		}
+		CBindListener() {};
 		CBindListener(int* pVirtualKeyValue, bool* pShowKeyBinderDialog);
 		int* m_pVirtualKeyValue;
 		bool* m_pShowKeyBinderDialog;

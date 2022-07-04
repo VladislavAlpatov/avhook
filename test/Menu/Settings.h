@@ -6,6 +6,7 @@
 #include <nlohmann/json.hpp>
 #include "../Hacks/Esp/CLabel/CLabel.h"
 #include "../Web/IWebObject.h"
+#include "../Hacks/Esp/CTextureOverride/CTextureOverride.h"
 
 namespace Settings
 {
@@ -27,25 +28,9 @@ namespace Settings
 	protected:
 
 		template<typename T>
-		bool SetValueIfFiledExistInJson(const json& jsn,const char* filedName, T* var)
-		{
-			if (jsn.contains(filedName))
-			{
-				*var = jsn[filedName].get<T>();
-				return true;
-			}
-			return false;
-		}
+		bool SetValueIfFiledExistInJson(const json& jsn, const char* filedName, T* var);
 
-		bool SetValueIfFiledExistInJson(const json& jsn, const char* filedName, ImColor* var)
-		{
-			if (jsn.contains(filedName))
-			{
-				*var = ImportImColorFromJson(jsn[filedName].get<json>());
-				return true;
-			}
-			return false;
-		}
+		bool SetValueIfFiledExistInJson(const json& jsn, const char* filedName, ImColor* var);
 	};
 	class CAimBotSettings : public CBaseSettings
 	{
@@ -170,62 +155,10 @@ namespace Settings
 	class CLabelEspSettings : public CBaseSettings
 	{
 	public:
-		CLabelEspSettings()
-		{
-			m_bActive = true;
-			m_Labels.push_back(std::shared_ptr<CLabels::CNameLabel>(new CLabels::CNameLabel(xorstr("Name"),false,ImColor(255, 255, 255) )));
-			m_Labels.push_back(std::shared_ptr<CLabels::CHealthLabel>(new CLabels::CHealthLabel(xorstr("Health"), false)));
-			m_Labels.push_back(std::shared_ptr<CLabels::CArmorLabel>(new CLabels::CArmorLabel(xorstr("Armor"), false, ImColor(255, 255, 255))));
-			m_Labels.push_back(std::shared_ptr<CLabels::CDistanceLabel>(new CLabels::CDistanceLabel(xorstr("Distance"), false, ImColor(255, 255, 255))));
-			m_Labels.push_back(std::shared_ptr<CLabels::CVisibilityLabel>(new CLabels::CVisibilityLabel(xorstr("Visibility"), false, ImColor(255, 255, 255))));
-			m_Labels.push_back(std::shared_ptr<CLabels::CAimBotTargetLabel>(new CLabels::CAimBotTargetLabel(xorstr("Locked"), false, ImColor(255, 255, 255))));
-		}
-		CLabelEspSettings& operator=(const CLabelEspSettings& other)
-		{
-			if (this == &other)
-				return *this;
-
-			m_iDrawPos = other.m_iDrawPos;
-			m_iMaxDrawDistance = other.m_iMaxDrawDistance;
-
-			m_bActive = true;
-
-			m_Labels.clear();
-
-			for (auto pLabel : other.m_Labels)
-			{
-				auto pTmpLabel = std::make_shared<CLabels::CBaseLabel>();
-				*pTmpLabel.get() = *pLabel.get();
-
-				// We also must copy vft table to safe original functions! 
-				// if we will not do this object will get base class vft tables
-				((uintptr_t*)pTmpLabel.get())[0] = ((uintptr_t*)pLabel.get())[0];
-
-				m_Labels.push_back(pTmpLabel);
-			}
-				
-			return *this;
-		}
+		CLabelEspSettings();
+		CLabelEspSettings& operator=(const CLabelEspSettings& other);
 		
-		CLabelEspSettings(const CLabelEspSettings& other)
-		{
-			m_bActive = true;
-			m_iDrawPos = other.m_iDrawPos;
-			m_iMaxDrawDistance = other.m_iMaxDrawDistance;
-
-			m_Labels.clear();
-			for (auto pLabel : other.m_Labels)
-			{
-				auto pTmpLabel = std::make_shared<CLabels::CBaseLabel>();
-				*pTmpLabel.get() = *pLabel.get();
-
-				// We also must copy vft table to safe original functions! 
-				// if we will not do this object will get base class vft tabls
-				((uintptr_t*)pTmpLabel.get())[0] = ((uintptr_t*)pLabel.get())[0];
-
-				m_Labels.push_back(pTmpLabel);
-			}
-		}
+		CLabelEspSettings(const CLabelEspSettings& other);
 		int  m_iDrawPos  = 0;
 		int  m_iMaxDrawDistance = 2048;
 		std::vector<std::shared_ptr<CLabels::CBaseLabel>> m_Labels;
@@ -263,7 +196,12 @@ namespace Settings
 	private:
 
 	};
+	class CTextureOverrideSettings : public CBaseSettings
+	{
+	public:
+		std::list<Esp::CTextureOverride> m_overridedTextures;
 
+	};
 	class CAllSettings
 	{
 	public:
@@ -281,7 +219,17 @@ namespace Settings
 		BarEspSettings        m_BarEspSettings;
 		ChromaSettings		  m_ChromaSettings;
 		CBunnyHopSettings     m_BunnyHopSettings;
-
+		CTextureOverrideSettings m_TextureOverrideSettings;
 		json ToJson();
 	};
+	template<typename T>
+	inline bool CBaseSettings::SetValueIfFiledExistInJson(const json& jsn, const char* filedName, T* var)
+	{
+		if (jsn.contains(filedName))
+		{
+			*var = jsn[filedName].get<T>();
+			return true;
+		}
+		return false;
+	}
 }

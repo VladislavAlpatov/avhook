@@ -15,7 +15,16 @@ json CBaseSettings::ToJson() const
 	jsn[xorstr("BindKey")] = m_iBindKey;
 
 	return jsn;
-};
+}
+bool Settings::CBaseSettings::SetValueIfFiledExistInJson(const json& jsn, const char* filedName, ImColor* var)
+{
+	if (jsn.contains(filedName))
+	{
+		*var = ImportImColorFromJson(jsn[filedName].get<json>());
+		return true;
+	}
+	return false;
+}
 
 json CAimBotSettings::ToJson() const
 {
@@ -193,6 +202,64 @@ json CRadarSettings::ToJson() const
 
 	return jsn;
 };
+
+Settings::CLabelEspSettings::CLabelEspSettings()
+{
+	m_bActive = true;
+	m_Labels.push_back(std::shared_ptr<CLabels::CNameLabel>(new CLabels::CNameLabel(xorstr("Name"), false, ImColor(255, 255, 255))));
+	m_Labels.push_back(std::shared_ptr<CLabels::CHealthLabel>(new CLabels::CHealthLabel(xorstr("Health"), false)));
+	m_Labels.push_back(std::shared_ptr<CLabels::CArmorLabel>(new CLabels::CArmorLabel(xorstr("Armor"), false, ImColor(255, 255, 255))));
+	m_Labels.push_back(std::shared_ptr<CLabels::CDistanceLabel>(new CLabels::CDistanceLabel(xorstr("Distance"), false, ImColor(255, 255, 255))));
+	m_Labels.push_back(std::shared_ptr<CLabels::CVisibilityLabel>(new CLabels::CVisibilityLabel(xorstr("Visibility"), false, ImColor(255, 255, 255))));
+	m_Labels.push_back(std::shared_ptr<CLabels::CAimBotTargetLabel>(new CLabels::CAimBotTargetLabel(xorstr("Locked"), false, ImColor(255, 255, 255))));
+}
+
+CLabelEspSettings& Settings::CLabelEspSettings::operator=(const CLabelEspSettings& other)
+{
+	if (this == &other)
+		return *this;
+
+	m_iDrawPos = other.m_iDrawPos;
+	m_iMaxDrawDistance = other.m_iMaxDrawDistance;
+
+	m_bActive = true;
+
+	m_Labels.clear();
+
+	for (auto pLabel : other.m_Labels)
+	{
+		auto pTmpLabel = std::make_shared<CLabels::CBaseLabel>();
+		*pTmpLabel.get() = *pLabel.get();
+
+		// We also must copy vft table to safe original functions! 
+		// if we will not do this object will get base class vft tables
+		((uintptr_t*)pTmpLabel.get())[0] = ((uintptr_t*)pLabel.get())[0];
+
+		m_Labels.push_back(pTmpLabel);
+	}
+
+	return *this;
+}
+
+Settings::CLabelEspSettings::CLabelEspSettings(const CLabelEspSettings& other)
+{
+	m_bActive = true;
+	m_iDrawPos = other.m_iDrawPos;
+	m_iMaxDrawDistance = other.m_iMaxDrawDistance;
+
+	m_Labels.clear();
+	for (auto pLabel : other.m_Labels)
+	{
+		auto pTmpLabel = std::make_shared<CLabels::CBaseLabel>();
+		*pTmpLabel.get() = *pLabel.get();
+
+		// We also must copy vft table to safe original functions! 
+		// if we will not do this object will get base class vft tabls
+		((uintptr_t*)pTmpLabel.get())[0] = ((uintptr_t*)pLabel.get())[0];
+
+		m_Labels.push_back(pTmpLabel);
+	}
+}
 
 json CLabelEspSettings::ToJson() const
 {

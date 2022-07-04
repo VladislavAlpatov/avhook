@@ -1,10 +1,10 @@
 #pragma once
 #include "httplib.h"
 #include <nlohmann/json.hpp>
-#include "../Globals/GlobalVars.h"
 #include <Windows.h>
 #include <memory>
 #include "IWebObject.h"
+#include "../Menu/Settings.h"
 
 namespace WebApi
 {
@@ -49,16 +49,12 @@ namespace WebApi
 	struct AvatarUploadStatus
 	{
 		bool m_isSucced = false;
-		std::string m_sErrorMessage = xorstr("Not uploaded");
+		std::string m_sErrorMessage = "Not uploaded";
 	};
 	class CConfig
 	{
 	public:
-		CConfig(const json& jsn)
-		{
-			m_iUid     = jsn[xorstr("uid")].get<int>();
-			m_Settings = Settings::CAllSettings(jsn[xorstr("data")].get<json>());
-		}
+		CConfig(const json& jsn);
 		int         m_iUid;
 		Settings::CAllSettings m_Settings;
 	};

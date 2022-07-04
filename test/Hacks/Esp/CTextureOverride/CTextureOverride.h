@@ -15,11 +15,11 @@ namespace Esp
 		void UpdateColor(const ImColor& newColor);
 		void OverrideColor();
 		ImColor GetColor();
+		IDirect3DTexture9* m_pTexture = NULL;
 		~CTextureOverride();
 	private:
 		bool GenerateColoredTexture(IDirect3DTexture9** pTexture, const ImColor& color);
 		ImColor            m_Color;
-		IDirect3DTexture9* m_pTexture = NULL;
 	};
 
 }

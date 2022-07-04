@@ -16,10 +16,10 @@ namespace UI
 		char m_pMenuCfgName[32] = {};
 		bool* m_pShowKeyBinderDialog;
 
-		inline void DrawAimbotChild();
-		inline void DrawEspChild();
-		inline void DrawMiscChild();
-		inline void DrawCfgChild();
+		void DrawAimbotChild();
+		void DrawESPChild();
+		void DrawMiscChild();
+		void DrawCfgChild();
 
 		PDIRECT3DTEXTURE9               m_pTexureAimBotIcon = nullptr;
 		PDIRECT3DTEXTURE9               m_pTexureEspIcon = nullptr;
@@ -28,15 +28,6 @@ namespace UI
 		CMessageLineList*               m_pMessageLineList;
 		Routines::CBindListener			m_BindListener;
 		int               m_iTab = 0;
-
-		enum TAB
-		{
-			AimBot,
-			TriggerBot,
-			Visuals,
-			Misc,
-			Menu,
-		};
 	protected:
 		std::string VirtualKeyNumberToString(int keyNumber);
 	};

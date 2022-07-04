@@ -26,22 +26,15 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam
 
 int __stdcall hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE type, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
 {
-	/*if (NumVertices >= GlobalVars::settings.m_LabelEspSettings.m_iIndexMin and NumVertices <= GlobalVars::settings.m_LabelEspSettings.m_iIndexMax)
+
+	for (const auto& texture : GlobalVars::g_AllSettings.m_TextureOverrideSettings.m_overridedTextures)
 	{
-		IDirect3DTexture9* text;
-		auto color = GlobalVars::settings.m_LabelEspSettings.m_GlovesColor.Value;
+		if (NumVertices != texture.m_iUid)
+			continue;
 
-		GenerateColoredTexture(pDevice, &text, D3DCOLOR_ARGB((int)(color.w * 255), (int)(color.x * 255), (int)(color.y * 255), (int)(color.z * 255)));
-
-		pDevice->SetTexture(0, text);
-		//pDevice->SetRenderState(D3DRS_ZENABLE, false);
-		//return reinterpret_cast<tDrawIndexedPrimitive>(oDrawIndexedPrimitive)(pDevice, type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
-		//pDevice->SetRenderState(D3DRS_ZENABLE, true);
-		text->Release();
-	}*/
-
-	
-
+		pDevice->SetTexture(0, texture.m_pTexture);
+		
+	}
 	typedef bool(__stdcall* tDrawIndexedPrimitive)(LPDIRECT3DDEVICE9, D3DPRIMITIVETYPE, INT, UINT, UINT, UINT, UINT);
 	return reinterpret_cast<tDrawIndexedPrimitive>(oDrawIndexedPrimitive)(pDevice, type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
 }

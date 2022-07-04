@@ -54,6 +54,7 @@ void CTextureOverride::UpdateColor(const ImColor& newColor)
 {
 	if (m_Color == newColor)
 		return;
+	m_Color = newColor;
 
 	m_pTexture->Release();
 	GenerateColoredTexture(&m_pTexture, m_Color);

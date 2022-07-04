@@ -342,6 +342,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Hacks\Esp\CTextureOverride\CTextureOverride.cpp" />
+    <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\AimbotSubMenu.cpp" />
+    <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\CfgSubMenu.cpp" />
+    <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\EspSubMenu.cpp" />
+    <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\MiscSubMenu.cpp" />
+    <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\TriggerBotSubMenu.cpp" />
     <ClCompile Include="SDK\ICvar.cpp" />
     <ClCompile Include="Menu\Windows\CConsoleWindow.cpp" />
     <ClCompile Include="Hacks\Esp\CLabel\CLabel.cpp" />

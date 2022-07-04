@@ -506,6 +506,21 @@
     <ClCompile Include="SDK\ICvar.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\AimbotSubMenu.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\TriggerBotSubMenu.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\MiscSubMenu.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\CfgSubMenu.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\EspSubMenu.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\about.bmp">

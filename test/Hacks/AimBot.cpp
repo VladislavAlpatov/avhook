@@ -142,13 +142,12 @@ bool CAimBot::IfEntityInFov(const CBaseEntity* entity, const int iBoneId) const
 
 	POLY_MARKER;
 
-	ImVec3  pLocalPlayerAngles   = m_pCUsrCmd->viewangles;
-	ImVec3  targetAngles         = CalcAimViewAngles(entity, iBoneId);
-	ImVec3  deltaFov             = pLocalPlayerAngles - targetAngles;
-
+	ImVec3  pLocalPlayerAngles = m_pCUsrCmd->viewangles;
+	ImVec3  targetAngles = CalcAimViewAngles(entity, iBoneId);
+	ImVec3  deltaFov = (pLocalPlayerAngles - targetAngles).Abs();
 	POLY_MARKER;
 
-	return fabs(deltaFov.x) <= pAimBotSettings->m_fFov and fabs(deltaFov.y) <= pAimBotSettings->m_fFov;
+	return  pAimBotSettings->m_fFov >= deltaFov.Length2D();
 }
 CBaseEntity* CAimBot::GetClosestTargetByDistance(int bone)
 {

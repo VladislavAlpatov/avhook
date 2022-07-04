@@ -323,13 +323,12 @@ void UI::CSettingsWindow::DrawEspChild()
 				auto  textureListBegin = GlobalVars::g_AllSettings.m_TextureOverrideSettings.m_overridedTextures;
 				auto  pCurrentLabel = pTexutreList->begin();
 				std::advance(pCurrentLabel, i);
-				ImGui::BeginChild((std::string(xorstr("###TextureChild")) + pCurrentLabel->m_sName).c_str(), ImVec2(160, 25), true, m_iImGuiStyle);
+				ImGui::BeginChild((xorstr("###TextureChild") + pCurrentLabel->m_sName).c_str(), ImVec2(160, 25), true, m_iImGuiStyle);
 				{
 					auto tmpColor = pCurrentLabel->GetColor();
 					ImGui::ColorEdit4( (xorstr("###Txt") + pCurrentLabel->m_sName).c_str(), (float*)&tmpColor, ImGuiColorEditFlags_NoInputs);
 					ImGui::SameLine();
 					ImGui::Text(fmt::format(xorstr("[{}] {}"),pCurrentLabel->m_iUid, pCurrentLabel->m_sName).c_str());
-
 
 
 					ImGui::EndChild();

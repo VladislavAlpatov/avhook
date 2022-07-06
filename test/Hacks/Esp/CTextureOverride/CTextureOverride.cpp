@@ -83,11 +83,6 @@ CTextureOverride& Esp::CTextureOverride::operator=(const CTextureOverride& other
 
 }
 
-void CTextureOverride::OverrideColor()
-{
-	GlobalVars::pDevice->SetTexture(0, m_pTexture);
-}
-
 ImColor CTextureOverride::GetColor() const
 {
 	return m_Color;

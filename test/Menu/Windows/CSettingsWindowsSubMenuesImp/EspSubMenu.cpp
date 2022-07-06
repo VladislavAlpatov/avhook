@@ -1,7 +1,8 @@
-﻿#include "../CSettingsWindow.h"
-#include "../../../Globals/Settings.h"
+﻿#pragma once
+#include "../CSettingsWindow.h"
 #include <fmt/format.h>
 #include "../../imgui/imgui_internal.h"
+#include "../../../Globals/Settings.h"
 
 void UI::CSettingsWindow::DrawESPChild()
 {
@@ -10,7 +11,7 @@ void UI::CSettingsWindow::DrawESPChild()
 	ImGui::Image(m_pTexureEspIcon, ImVec2(16, 16));
 	ImGui::SameLine();
 	ImGui::Text(xorstr("Extra Sensory Perception"));
-
+	
 	static const char* hitboxes[3] = { "Head", "Body", "Legs" };
 	static const char* drawOptions[] = { "Custom", "Health" };
 	static const ImVec2 blockSize = ImVec2(140, 135);
@@ -148,22 +149,26 @@ void UI::CSettingsWindow::DrawESPChild()
 
 		ImGui::BeginChild(xorstr("###Textures"), ImVec2(180, 180), true, m_iImGuiStyle);
 		{
-
 			for (int i = 0; i < pTexutreList->size(); ++i)
 			{
 				auto  textureListBegin = GlobalVars::g_AllSettings.m_TextureOverrideSettings.m_overridedTextures;
 				auto  pCurrentTexture = pTexutreList->begin();
 				std::advance(pCurrentTexture, i);
-				ImGui::BeginChild((xorstr("###TextureChild") + pCurrentTexture->m_sName).c_str(), ImVec2(160, 25), true, m_iImGuiStyle);
+				ImGui::BeginChild((xorstr("###TextureChild") + pCurrentTexture->m_sName).c_str(), ImVec2(175, 25), true, m_iImGuiStyle);
 				{
 					auto tmpColor = pCurrentTexture->GetColor();
 					ImGui::ColorEdit3((xorstr("###Texture") + pCurrentTexture->m_sName).c_str(), (float*)&tmpColor, ImGuiColorEditFlags_NoInputs);
-					pCurrentTexture->UpdateColor(tmpColor);
 					ImGui::SameLine();
-					ImGui::Text(fmt::format(xorstr("[{}] {}"), pCurrentTexture->m_iUid, pCurrentTexture->m_sName).c_str());
+					ImGui::Checkbox((xorstr("###checkBox") + pCurrentTexture->m_sName).c_str(), &pCurrentTexture->m_bEnableZ);
 
+					pCurrentTexture->UpdateColor(tmpColor);
+					DrawToolTip(xorstr("Make texture top-most. "));
 
+					ImGui::SameLine();
+					ImGui::Text(pCurrentTexture->m_sName.c_str());
+					DrawToolTip(fmt::format(xorstr("Texture id: \"{}\" "), pCurrentTexture->m_iUid).c_str());
 					ImGui::EndChild();
+					
 				}
 			}
 			ImGui::EndChild();
@@ -193,6 +198,7 @@ void UI::CSettingsWindow::DrawESPChild()
 
 
 		}
+		
 		style.WindowPadding = backUp;
 		style.ItemSpacing = backUp2;
 

@@ -57,3 +57,10 @@ bool CAimBotTargetLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEnti
 
 	return true;
 }
+
+CLabels::CBaseLabel::CBaseLabel(const std::string& name, bool bActive, const ImColor& color)
+{
+	m_sName = name;
+	m_bActive = bActive;
+	m_Color = color;
+}

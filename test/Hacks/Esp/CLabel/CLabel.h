@@ -23,12 +23,7 @@ namespace CLabels
 		{
 
 		}
-		CBaseLabel(const std::string& name, bool bActive, const ImColor& color)
-		{
-			m_sName     = name;
-			m_bActive   = bActive;
-			m_Color     = color;
-		};
+		CBaseLabel(const std::string& name, bool bActive, const ImColor& color);
 		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) { return false; };
 		virtual int  GetTypeId() { return LabelTypeId::Base; }
 		std::string		m_sName;

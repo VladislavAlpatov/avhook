@@ -47,7 +47,7 @@ namespace SSDK
     class IConVar : public IBaseInterface
     {
     public:
-        bool SetValue(int nValue);
+        bool SetValue(float nValue);
     };
 
 	class ICvar : public IBaseInterface

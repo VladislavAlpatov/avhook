@@ -26,16 +26,24 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam
 
 int __stdcall hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE type, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
 {
-
+	POLY_MARKER;
+	typedef bool(__stdcall* tDrawIndexedPrimitive)(LPDIRECT3DDEVICE9, D3DPRIMITIVETYPE, INT, UINT, UINT, UINT, UINT);
 	for (const auto& texture : GlobalVars::g_AllSettings.m_TextureOverrideSettings.m_overridedTextures)
 	{
 		if (NumVertices != texture.m_iUid)
 			continue;
 
+
 		pDevice->SetTexture(0, texture.m_pTexture);
-		
+		if (texture.m_bEnableZ)
+		{
+			pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+			auto res = reinterpret_cast<tDrawIndexedPrimitive>(oDrawIndexedPrimitive)(pDevice, type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
+			pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+			return res;
+		}
+		break;
 	}
-	typedef bool(__stdcall* tDrawIndexedPrimitive)(LPDIRECT3DDEVICE9, D3DPRIMITIVETYPE, INT, UINT, UINT, UINT, UINT);
 	return reinterpret_cast<tDrawIndexedPrimitive>(oDrawIndexedPrimitive)(pDevice, type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
 }
 
@@ -60,7 +68,7 @@ int __stdcall  hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a4, int 
 bool __stdcall hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 {
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
-
+	POLY_MARKER;
 	// GlobalVars::pClient->pLocalPlayer->m_Index > 33 prevent from bug when you can peek team
 	if (!GlobalVars::g_pClient->pLocalPlayer or !pOverlay or GlobalVars::g_pClient->pLocalPlayer->m_Index > 33)
 	{
@@ -68,7 +76,6 @@ bool __stdcall hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 	}
 
 	POLY_MARKER;
-
 
 	GlobalVars::g_pClient->pLocalPlayer->m_iDefaultFOV = GlobalVars::g_AllSettings.m_MiscSettings.m_iCustomFov;
 

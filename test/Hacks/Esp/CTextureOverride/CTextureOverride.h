@@ -17,7 +17,6 @@ namespace Esp
 		std::string m_sName;
 		void UpdateColor(const ImColor& newColor);
 		CTextureOverride& operator=(const CTextureOverride& other);
-		void OverrideColor();
 		ImColor GetColor() const;
 		IDirect3DTexture9* m_pTexture = NULL;
 		~CTextureOverride();

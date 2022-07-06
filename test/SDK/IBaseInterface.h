@@ -1,16 +1,16 @@
 #pragma once
-#include <Windows.h>
 #include "../Utils/xorstr.h"
+#include <Windows.h>
 
 namespace SSDK
 {
-	class CAbstractInterface
+	class IBaseInterface
 	{
 	protected:
 		template<typename FuncType>
-		FuncType GetVirtualFunction(unsigned int index)
+		FuncType GetVirtualFunction(unsigned int index) const
 		{
-			return reinterpret_cast<FuncType>( (*(uintptr_t**)this)[index] );
+			return reinterpret_cast<FuncType>((*(uintptr_t**)this)[index]);
 		}
 
 	};
@@ -24,7 +24,6 @@ namespace SSDK
 		int returnCode = 0;
 
 		return reinterpret_cast<T*>(CreateInterFace(interfacename, &returnCode));
-
 	}
 
 }

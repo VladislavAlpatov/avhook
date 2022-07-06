@@ -5,6 +5,7 @@
 
 using namespace Settings;
 
+
 json CBaseSettings::ToJson() const
 {
 	json jsn;
@@ -16,16 +17,6 @@ json CBaseSettings::ToJson() const
 
 	return jsn;
 }
-bool Settings::CBaseSettings::SetValueIfFiledExistInJson(const json& jsn, const char* filedName, ImColor* var)
-{
-	if (jsn.contains(filedName))
-	{
-		*var = ImportImColorFromJson(jsn[filedName].get<json>());
-		return true;
-	}
-	return false;
-}
-
 json CAimBotSettings::ToJson() const
 {
 	json jsn;
@@ -347,40 +338,44 @@ CBunnyHopSettings::CBunnyHopSettings(const json& jsn) : CBunnyHopSettings::CBunn
 	POLY_MARKER;
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
 }
-Settings::CAllSettings::CAllSettings(const json& jsn)
+CAllSettings::CAllSettings(const json& jsn)
 {
 
 	POLY_MARKER;
-	m_AimBotSettings     = Settings::CAimBotSettings(jsn[xorstr("AimBot")].get<nlohmann::json>());
-	m_BarEspSettings     = Settings::BarEspSettings(jsn[xorstr("BarEsp")].get<nlohmann::json>());
-	m_BoxEspSettings     = Settings::BoxEspSettings(jsn[xorstr("BoxEsp")].get<nlohmann::json>());
-	m_BunnyHopSettings   = Settings::CBunnyHopSettings(jsn[xorstr("BunnyHop")].get<nlohmann::json>());
-	m_LabelEspSettings   = Settings::CLabelEspSettings(jsn[xorstr("LabelEsp")].get<nlohmann::json>());
-	m_MiscSettings       = Settings::MiscSettings(jsn[xorstr("Misc")].get<nlohmann::json>());
-	m_RadarSettings      = Settings::CRadarSettings(jsn[xorstr("Radar")].get<nlohmann::json>());
-	m_SnapLinesSettings  = Settings::SnapLinesSettings(jsn[xorstr("SnapLinesEsp")].get<nlohmann::json>());
-	m_TriggerBotSettings = Settings::TriggerBotSettings(jsn[xorstr("TriggerBot")].get<nlohmann::json>());
+	m_AimBotSettings          = Settings::CAimBotSettings(jsn[xorstr("AimBot")].get<nlohmann::json>());
+	m_BarEspSettings          = Settings::BarEspSettings(jsn[xorstr("BarEsp")].get<nlohmann::json>());
+	m_BoxEspSettings          = Settings::BoxEspSettings(jsn[xorstr("BoxEsp")].get<nlohmann::json>());
+	m_BunnyHopSettings        = Settings::CBunnyHopSettings(jsn[xorstr("BunnyHop")].get<nlohmann::json>());
+	m_LabelEspSettings        = Settings::CLabelEspSettings(jsn[xorstr("LabelEsp")].get<nlohmann::json>());
+	m_MiscSettings            = Settings::MiscSettings(jsn[xorstr("Misc")].get<nlohmann::json>());
+	m_RadarSettings           = Settings::CRadarSettings(jsn[xorstr("Radar")].get<nlohmann::json>());
+	m_SnapLinesSettings       = Settings::SnapLinesSettings(jsn[xorstr("SnapLinesEsp")].get<nlohmann::json>());
+	m_TriggerBotSettings      = Settings::TriggerBotSettings(jsn[xorstr("TriggerBot")].get<nlohmann::json>());
+
+	if (jsn.contains(xorstr("TextureOverried")))
+		m_TextureOverrideSettings = Settings::CTextureOverrideSettings(jsn[xorstr("TextureOverried")].get<nlohmann::json>());
 
 	POLY_MARKER;
 	auto tmp = jsn[xorstr("CfgName")].get<std::string>();
 	m_Name = std::string(tmp.c_str(), 32);
 }
-json CAllSettings::ToJson()
+json CAllSettings::ToJson() const
 {
 	json jsn;
 
 	POLY_MARKER;
 
-	jsn[xorstr("CfgName")]      = m_Name.c_str();
-	jsn[xorstr("AimBot")]       = m_AimBotSettings.ToJson();
-	jsn[xorstr("BarEsp")]       = m_BarEspSettings.ToJson();
-	jsn[xorstr("BoxEsp")]       = m_BoxEspSettings.ToJson();
-	jsn[xorstr("BunnyHop")]     = m_BunnyHopSettings.ToJson();
-	jsn[xorstr("LabelEsp")]     = m_LabelEspSettings.ToJson();
-	jsn[xorstr("Misc")]         = m_MiscSettings.ToJson();
-	jsn[xorstr("Radar")]        = m_RadarSettings.ToJson();
-	jsn[xorstr("SnapLinesEsp")] = m_SnapLinesSettings.ToJson();
-	jsn[xorstr("TriggerBot")]   = m_TriggerBotSettings.ToJson();
+	jsn[xorstr("CfgName")]         = m_Name.c_str();
+	jsn[xorstr("AimBot")]          = m_AimBotSettings.ToJson();
+	jsn[xorstr("BarEsp")]          = m_BarEspSettings.ToJson();
+	jsn[xorstr("BoxEsp")]          = m_BoxEspSettings.ToJson();
+	jsn[xorstr("BunnyHop")]        = m_BunnyHopSettings.ToJson();
+	jsn[xorstr("LabelEsp")]        = m_LabelEspSettings.ToJson();
+	jsn[xorstr("Misc")]            = m_MiscSettings.ToJson();
+	jsn[xorstr("Radar")]           = m_RadarSettings.ToJson();
+	jsn[xorstr("SnapLinesEsp")]    = m_SnapLinesSettings.ToJson();
+	jsn[xorstr("TriggerBot")]      = m_TriggerBotSettings.ToJson();
+	jsn[xorstr("TextureOverried")] = m_TextureOverrideSettings.ToJson();
 	return jsn;
 }
 CRadarSettings::CRadarSettings(const json& jsn)
@@ -388,12 +383,53 @@ CRadarSettings::CRadarSettings(const json& jsn)
 
 	POLY_MARKER;
 
-	SetValueIfFiledExistInJson<int>(jsn, xorstr("Style"), &m_iStyle);
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
+	SetValueIfFiledExistInJson(jsn, xorstr("Style"),                &m_iStyle);
+	SetValueIfFiledExistInJson(jsn, xorstr("Active"),               &m_bActive);
 
-	SetValueIfFiledExistInJson(jsn, xorstr("ActiveFeatureColor"), &m_ActiveFeatureColor);
-	SetValueIfFiledExistInJson(jsn, xorstr("InactiveFeatureColor"), &m_InactiveFeatureColor);
-	SetValueIfFiledExistInJson(jsn, xorstr("BackGroundColor"), &m_BackGroundColor);
-	SetValueIfFiledExistInJson(jsn, xorstr("CrossColor"), &m_CrossColor);
-	SetValueIfFiledExistInJson(jsn, xorstr("CyrcleBorderColor"), &m_CyrcleBorderColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("ActiveFeatureColor"),    &m_ActiveFeatureColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("InactiveFeatureColor"),  &m_InactiveFeatureColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("BackGroundColor"),       &m_BackGroundColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("CrossColor"),            &m_CrossColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("CyrcleBorderColor"),     &m_CyrcleBorderColor);
+}
+
+Settings::CTextureOverrideSettings::CTextureOverrideSettings(const json& jsn)
+{
+	POLY_MARKER;
+
+	for (const auto& jsonTexture : jsn[xorstr("Textures")].get<std::list<json>>())
+	{
+		auto tmp = Esp::CTextureOverride(jsonTexture[xorstr("uid")].get<int>(),
+			ImportImColorFromJson(jsonTexture[xorstr("Color")].get<json>()),
+			jsonTexture[xorstr("Name")].get<std::string>(), jsonTexture[xorstr("EnableZ")].get<bool>());
+
+
+		m_overridedTextures.push_back(tmp);
+	}
+	POLY_MARKER;
+
+}
+
+json Settings::CTextureOverrideSettings::ToJson() const
+{
+	POLY_MARKER;
+
+	json outJsn;
+
+	std::list<json> textureList;
+
+	for (const auto& texture : m_overridedTextures)
+	{
+		json textureJson;
+		textureJson[xorstr("uid")] = texture.m_iUid;
+		textureJson[xorstr("EnableZ")] = texture.m_bEnableZ;
+		textureJson[xorstr("Name")] = texture.m_sName;
+		textureJson[xorstr("Color")] = ImColorToJsn(texture.GetColor());
+		textureList.push_back(textureJson);
+
+	}
+
+	outJsn[xorstr("Textures")] = textureList;
+
+	return outJsn;
 }

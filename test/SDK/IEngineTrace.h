@@ -1,8 +1,8 @@
 #pragma once
-#include <Windows.h>
-
-#include "AbstractInterface.h"
+#include "IBaseInterface.h"
 #include "../Utils/Vec3.h"
+#include <cstdint>
+
 
 #define DECL_ALIGN(x) __declspec(align(x))
 #define ALIGN16 DECL_ALIGN(16)
@@ -32,7 +32,7 @@ namespace SSDK
     class ALIGN16 VectorAligned : public ImVec3
     {
     public:
-        inline VectorAligned(void) {};
+        VectorAligned() {};
 
         void Init(float ix = 0.0f, float iy = 0.0f, float iz = 0.0f)
         {
@@ -81,53 +81,11 @@ namespace SSDK
 
         Ray_t() : m_pWorldAxisTransform(NULL) {}
 
-        void Init(ImVec3 const& start, ImVec3 const& end)
-        {
-            m_Delta = end - start;
+        void Init(ImVec3 const& start, ImVec3 const& end);
 
-            m_IsSwept = (m_Delta.LengthSqr() != 0);
+        void Init(ImVec3 const& start, ImVec3 const& end, ImVec3 const& mins, ImVec3 const& maxs);
 
-            m_Extents.Init();
-
-            m_pWorldAxisTransform = NULL;
-            m_IsRay = true;
-
-            // Offset m_Start to be in the center of the box...
-            m_StartOffset.Init();
-            m_Start = start;
-        }
-
-        void Init(ImVec3 const& start, ImVec3 const& end, ImVec3 const& mins, ImVec3 const& maxs)
-        {
-            m_Delta = end - start;
-
-            m_pWorldAxisTransform = NULL;
-            m_IsSwept = (m_Delta.LengthSqr() != 0);
-
-            m_Extents = maxs - mins;
-            m_Extents *= 0.5f;
-            m_IsRay = (m_Extents.LengthSqr() < 1e-6);
-
-            // Offset m_Start to be in the center of the box...
-            m_StartOffset = maxs + mins;
-            m_StartOffset *= 0.5f;
-            m_Start = start + m_StartOffset;
-            m_StartOffset *= -1.0f;
-        }
-
-        ImVec3 InvDelta() const
-        {
-            ImVec3 vecInvDelta;
-            for (int iAxis = 0; iAxis < 3; ++iAxis) {
-                if (m_Delta[iAxis] != 0.0f) {
-                    vecInvDelta[iAxis] = 1.0f / m_Delta[iAxis];
-                }
-                else {
-                    vecInvDelta[iAxis] = FLT_MAX;
-                }
-            }
-            return vecInvDelta;
-        }
+        ImVec3 InvDelta() const;
     };
 
 
@@ -193,9 +151,9 @@ namespace SSDK
     class CGameTrace : public CBaseTrace
     {
     public:
-        bool DidHitWorld() const;
-        bool DidHitNonWorldEntity() const;
-        int GetEntityIndex() const;
+        //bool DidHitWorld() const;
+        //bool DidHitNonWorldEntity() const;
+        //int GetEntityIndex() const;
         bool DidHit() const;
         bool IsVisible() const;
 
@@ -264,7 +222,7 @@ namespace SSDK
         return fraction > 0.97f;
     }
 
-    class IEngineTrace : public CAbstractInterface
+    class IEngineTrace : public IBaseInterface
     {
     public:
         void  TraceRay(Ray_t& ray, unsigned int fMask, CTraceFilter* pTraceFilter, CGameTrace* pTrace)

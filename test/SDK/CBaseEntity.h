@@ -1,6 +1,4 @@
 #pragma once
-#include <Windows.h>
-
 #include "../Utils/offsets.h"
 #include "../Utils/Vec3.h"
 #include "../imgui/imgui.h"

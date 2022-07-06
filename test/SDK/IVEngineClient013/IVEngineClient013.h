@@ -1,6 +1,6 @@
 #pragma once
-#include <Windows.h>
-#include "../AbstractInterface.h"
+#include "../IBaseInterface.h"
+
 namespace SSDK
 {
 	typedef struct player_info_s
@@ -18,7 +18,7 @@ namespace SSDK
 		unsigned char           uszFilesDownloader;
 	} player_info_t;
 
-	class IVEngineClient013 : CAbstractInterface
+	class IVEngineClient013 : public IBaseInterface
 	{
 	public:
 		// Get player information: name etc...

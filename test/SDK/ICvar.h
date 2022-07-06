@@ -1,5 +1,5 @@
 #pragma once
-#include "AbstractInterface.h"
+#include "IBaseInterface.h"
 
 #define FCVAR_NONE                0 
 
@@ -44,13 +44,13 @@
 namespace SSDK
 {
 
-    class IConVar : public CAbstractInterface
+    class IConVar : public IBaseInterface
     {
     public:
         bool SetValue(int nValue);
     };
 
-	class ICvar : public CAbstractInterface
+	class ICvar : public IBaseInterface
 	{
 	public:
         IConVar* FindCvar(const char* cvarName);

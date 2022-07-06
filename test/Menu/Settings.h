@@ -25,12 +25,6 @@ namespace Settings
 		int m_iBindKey = 0;
 		json ToJson() const override;
 
-	protected:
-
-		template<typename T>
-		bool SetValueIfFiledExistInJson(const json& jsn, const char* filedName, T* var);
-
-		bool SetValueIfFiledExistInJson(const json& jsn, const char* filedName, ImColor* var);
 	};
 	class CAimBotSettings : public CBaseSettings
 	{
@@ -171,14 +165,6 @@ namespace Settings
 			TOP
 		};
 	};
-	class ChromaSettings
-	{
-	public:
-		ChromaSettings() {}
-		bool    m_bKillGlow = false;
-		ImColor m_KillGlowColor = ImColor(255, 0, 0);
-
-	};
 	class CBunnyHopSettings : public CBaseSettings
 	{
 	public:
@@ -196,13 +182,17 @@ namespace Settings
 	private:
 
 	};
+
+
 	class CTextureOverrideSettings : public CBaseSettings
 	{
 	public:
+		CTextureOverrideSettings(const json& jsn);
+		CTextureOverrideSettings() {};
 		std::list<Esp::CTextureOverride> m_overridedTextures;
-
+		json ToJson() const override;
 	};
-	class CAllSettings
+	class CAllSettings : public WebApi::IWebObject
 	{
 	public:
 		CAllSettings(const json& jsn);
@@ -217,19 +207,8 @@ namespace Settings
 		CRadarSettings        m_RadarSettings;
 		CLabelEspSettings     m_LabelEspSettings;
 		BarEspSettings        m_BarEspSettings;
-		ChromaSettings		  m_ChromaSettings;
 		CBunnyHopSettings     m_BunnyHopSettings;
 		CTextureOverrideSettings m_TextureOverrideSettings;
-		json ToJson();
+		json ToJson() const override;
 	};
-	template<typename T>
-	inline bool CBaseSettings::SetValueIfFiledExistInJson(const json& jsn, const char* filedName, T* var)
-	{
-		if (jsn.contains(filedName))
-		{
-			*var = jsn[filedName].get<T>();
-			return true;
-		}
-		return false;
-	}
 }

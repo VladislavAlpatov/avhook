@@ -1,8 +1,6 @@
 #pragma once
 #include "GlobalVars.h"
 #include "Interfaces.h"
-#include "Settings.h"
-#include "DirectX9.h"
 
 void GlobalVars::Init()
 {

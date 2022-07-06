@@ -14,6 +14,16 @@ CTextureOverride::CTextureOverride(const int uid, const ImColor& col, const std:
 
 	GenerateColoredTexture(&m_pTexture, m_Color);
 }
+Esp::CTextureOverride::CTextureOverride(const CTextureOverride& other)
+{
+	m_bEnableZ = other.m_bEnableZ;
+	m_iUid = other.m_iUid;
+	m_sName = other.m_sName;
+	m_Color = other.m_Color;
+
+	GenerateColoredTexture(&m_pTexture, m_Color);
+
+}
 bool CTextureOverride::GenerateColoredTexture(IDirect3DTexture9** pTexture, const ImColor& color)
 {
 
@@ -60,18 +70,31 @@ void CTextureOverride::UpdateColor(const ImColor& newColor)
 	GenerateColoredTexture(&m_pTexture, m_Color);
 }
 
+CTextureOverride& Esp::CTextureOverride::operator=(const CTextureOverride& other)
+{
+	if (this == &other)
+		return *this;
+
+	m_bEnableZ = other.m_bEnableZ;
+	m_iUid     = other.m_iUid;
+	m_sName    = other.m_sName;
+
+	UpdateColor(other.m_Color);
+
+}
+
 void CTextureOverride::OverrideColor()
 {
 	GlobalVars::pDevice->SetTexture(0, m_pTexture);
 }
 
-ImColor CTextureOverride::GetColor()
+ImColor CTextureOverride::GetColor() const
 {
 	return m_Color;
 }
 
 CTextureOverride::~CTextureOverride()
 {
-	if (!m_pTexture)
+	if (m_pTexture)
 		m_pTexture->Release();
 }

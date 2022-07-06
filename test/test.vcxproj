@@ -316,7 +316,7 @@
     <ClInclude Include="RazerSDK\RzChromaSDKDefines.h" />
     <ClInclude Include="RazerSDK\RzChromaSDKTypes.h" />
     <ClInclude Include="RazerSDK\RzErrors.h" />
-    <ClInclude Include="SDK\AbstractInterface.h" />
+    <ClInclude Include="SDK\IBaseInterface.h" />
     <ClInclude Include="SDK\CBaseEntity.h" />
     <ClInclude Include="SDK\ClientBase.h" />
     <ClInclude Include="SDK\ICCvar.h" />
@@ -327,7 +327,6 @@
     <ClInclude Include="SDK\IClientEntityList.h" />
     <ClInclude Include="SDK\IInput.h" />
     <ClInclude Include="SDK\IVEngineClient013\IVEngineClient013.h" />
-    <ClInclude Include="SDK\SDK.h" />
     <ClInclude Include="Utils\CFGloader\CFGloader.h" />
     <ClInclude Include="Utils\Marker.h" />
     <ClInclude Include="Utils\Math\Math.h" />
@@ -347,6 +346,7 @@
     <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\EspSubMenu.cpp" />
     <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\MiscSubMenu.cpp" />
     <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\TriggerBotSubMenu.cpp" />
+    <ClCompile Include="SDK\IBaseInterface.cpp" />
     <ClCompile Include="SDK\ICvar.cpp" />
     <ClCompile Include="Menu\Windows\CConsoleWindow.cpp" />
     <ClCompile Include="Hacks\Esp\CLabel\CLabel.cpp" />
@@ -392,6 +392,7 @@
     <ClCompile Include="SDK\ClientBase.cpp" />
     <ClCompile Include="SDK\ICCvar.cpp" />
     <ClCompile Include="SDK\IClientEntityList.cpp" />
+    <ClCompile Include="SDK\IEngineTrace.cpp" />
     <ClCompile Include="SDK\IVEngineClient013\IVEngineClient013.cpp" />
     <ClCompile Include="Utils\CFGloader\CFGloader .cpp" />
     <ClCompile Include="Utils\Math\Math.cpp" />

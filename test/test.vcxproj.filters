@@ -177,7 +177,7 @@
     <ClInclude Include="Hacks\TriggerBot.h">
       <Filter>Hacking features\Trigger bot</Filter>
     </ClInclude>
-    <ClInclude Include="SDK\AbstractInterface.h">
+    <ClInclude Include="SDK\IBaseInterface.h">
       <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="SDK\CBaseEntity.h">
@@ -196,9 +196,6 @@
       <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="SDK\IInput.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\SDK.h">
       <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="Utils\offsets.h">
@@ -519,6 +516,12 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\EspSubMenu.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\IEngineTrace.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\IBaseInterface.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

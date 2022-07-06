@@ -190,10 +190,6 @@ void UI::CSettingsWindow::DrawCfgChild()
 		ImGui::SameLine();
 		ImGui::Text(xorstr("Text (Selected)"));
 
-		ImGui::ColorEdit4(xorstr("###19"), reinterpret_cast<float*>(&GlobalVars::g_AllSettings.m_ChromaSettings.m_KillGlowColor), ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		ImGui::Text(xorstr("Kill glow (chroma)"));
-
 		ImGui::ColorEdit4(xorstr("##21"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_SliderGrab]), ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
 		ImGui::Text(xorstr("Slider grab"));

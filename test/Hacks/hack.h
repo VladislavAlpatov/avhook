@@ -1,7 +1,5 @@
 #pragma once
 #include <Windows.h>
-
-#include "../SDK/SDK.h"
 #include "../Menu/Settings.h"
 
 namespace Hacks

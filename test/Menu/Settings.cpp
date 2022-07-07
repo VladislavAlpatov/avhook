@@ -239,7 +239,6 @@ CLabelEspSettings& Settings::CLabelEspSettings::operator=(const CLabelEspSetting
 	{
 		auto pTmpLabel = std::make_shared<CLabels::CBaseLabel>();
 		*pTmpLabel.get() = *pLabel.get();
-
 		// We also must copy vft table to safe original functions! 
 		// if we will not do this object will get base class vft tables
 		((uintptr_t*)pTmpLabel.get())[0] = ((uintptr_t*)pLabel.get())[0];

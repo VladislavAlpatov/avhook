@@ -81,6 +81,7 @@ CTextureOverride& Esp::CTextureOverride::operator=(const CTextureOverride& other
 
 	UpdateColor(other.m_Color);
 
+	return *this;
 }
 
 ImColor CTextureOverride::GetColor() const

@@ -321,9 +321,6 @@
     <ClInclude Include="Menu\MessageLine\CMessageLine.h">
       <Filter>header</Filter>
     </ClInclude>
-    <ClInclude Include="SDK\ICCvar.h">
-      <Filter>header</Filter>
-    </ClInclude>
     <ClInclude Include="Hacks\Esp\CLabel\CLabel.h">
       <Filter>header</Filter>
     </ClInclude>
@@ -342,9 +339,6 @@
     <ClInclude Include="Hacks\Esp\CTextureOverride\CTextureOverride.h">
       <Filter>header</Filter>
     </ClInclude>
-    <ClInclude Include="SDK\ICvar.h">
-      <Filter>header</Filter>
-    </ClInclude>
     <ClInclude Include="Globals\Interfaces.h">
       <Filter>header</Filter>
     </ClInclude>
@@ -352,6 +346,9 @@
       <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="Globals\DirectX9.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\ICvar.h">
       <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>
@@ -479,9 +476,6 @@
     <ClCompile Include="Menu\MessageLine\CMessageLine.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="SDK\ICCvar.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Hacks\Esp\CLabel\CLabel.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -498,9 +492,6 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Hacks\Esp\CTextureOverride\CTextureOverride.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="SDK\ICvar.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\AimbotSubMenu.cpp">
@@ -522,6 +513,15 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="SDK\IBaseInterface.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\ICvar.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Globals\GSettings.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Vec3.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

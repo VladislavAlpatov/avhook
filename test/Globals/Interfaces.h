@@ -4,7 +4,6 @@
 #include "../SDK/IEngineTrace.h"
 #include "../SDK/ClientBase.h"
 #include "../SDK/IClientEntityList.h"
-#include "../SDK/ICvar.h"
 
 namespace GlobalVars
 {
@@ -12,6 +11,5 @@ namespace GlobalVars
 	inline SSDK::IClientEntityList* g_pIEntityList;
 	inline SSDK::IVEngineClient013* g_pIEngineClient;
 	inline SSDK::IEngineTrace*		g_pIEngineTrace;
-	inline SSDK::ICvar*				g_pICvar;
 	inline ImVec3				    g_veLocalPlayerViewAngles;
 }

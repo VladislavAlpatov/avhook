@@ -168,7 +168,6 @@ void UI::CSettingsWindow::DrawESPChild()
 					ImGui::Text(pCurrentTexture->m_sName.c_str());
 					DrawToolTip(fmt::format(xorstr("Texture id: \"{}\" "), pCurrentTexture->m_iUid).c_str());
 					ImGui::EndChild();
-					
 				}
 			}
 			ImGui::EndChild();

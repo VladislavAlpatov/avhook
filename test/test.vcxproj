@@ -319,7 +319,6 @@
     <ClInclude Include="SDK\IBaseInterface.h" />
     <ClInclude Include="SDK\CBaseEntity.h" />
     <ClInclude Include="SDK\ClientBase.h" />
-    <ClInclude Include="SDK\ICCvar.h" />
     <ClInclude Include="SDK\IEngineTrace.h" />
     <ClInclude Include="SDK\CUserCMD.h" />
     <ClInclude Include="SDK\EngineBase.h" />
@@ -340,6 +339,7 @@
     <ClInclude Include="Web\httplib.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Globals\GSettings.cpp" />
     <ClCompile Include="Hacks\Esp\CTextureOverride\CTextureOverride.cpp" />
     <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\AimbotSubMenu.cpp" />
     <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\CfgSubMenu.cpp" />
@@ -390,13 +390,13 @@
     <ClCompile Include="RazerSDK\CRazer.cpp" />
     <ClCompile Include="SDK\CBaseEntity.cpp" />
     <ClCompile Include="SDK\ClientBase.cpp" />
-    <ClCompile Include="SDK\ICCvar.cpp" />
     <ClCompile Include="SDK\IClientEntityList.cpp" />
     <ClCompile Include="SDK\IEngineTrace.cpp" />
     <ClCompile Include="SDK\IVEngineClient013\IVEngineClient013.cpp" />
     <ClCompile Include="Utils\CFGloader\CFGloader .cpp" />
     <ClCompile Include="Utils\Math\Math.cpp" />
     <ClCompile Include="Utils\memory.cpp" />
+    <ClCompile Include="Utils\Vec3.cpp" />
     <ClCompile Include="Utils\VMThook.cpp" />
     <ClCompile Include="Web\CAVhookServerApi.cpp" />
     <ClCompile Include="Web\IWebObject.cpp" />

@@ -3,5 +3,5 @@
 
 namespace GlobalVars
 {
-	inline Settings::CAllSettings g_AllSettings;
+	extern Settings::CAllSettings g_AllSettings;
 }

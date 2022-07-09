@@ -1,6 +1,5 @@
 #pragma once
 #include "../imgui/imgui.h"
-#include <cmath>
 
 
 class ImVec3 : public ImVec2
@@ -77,50 +76,13 @@ public:
         z -= fl;
         return *this;
     }
-    float DistTo(const ImVec3& vOther) const
-    {
-        ImVec3 delta;
-
-        delta.x = x - vOther.x;
-        delta.y = y - vOther.y;
-        delta.z = z - vOther.z;
-
-        return delta.Length();
-    }
-    ImVec3& Abs()
-    {
-        x = fabsf(x);
-        y = fabsf(y);
-        z = fabsf(z);
-
-        return *this;
-    }
-    float DistToSqr(const ImVec3& vOther) const
-    {
-        ImVec3 delta;
-
-        delta.x = x - vOther.x;
-        delta.y = y - vOther.y;
-        delta.z = z - vOther.z;
-
-        return delta.LengthSqr();
-    }
-    float Dot(const ImVec3& vOther) const
-    {
-        return (x * vOther.x + y * vOther.y + z * vOther.z);
-    }
-    float Length() const
-    {
-        return sqrt(x * x + y * y + z * z);
-    }
-    float LengthSqr(void) const
-    {
-        return (x * x + y * y + z * z);
-    }
-    float Length2D() const
-    {
-        return sqrt(x * x + y * y);
-    }
+    float DistTo(const ImVec3& vOther) const;
+    ImVec3& Abs();
+    float DistToSqr(const ImVec3& vOther) const;
+    float Dot(const ImVec3& vOther) const;
+    float Length() const;
+    float LengthSqr(void) const;
+    float Length2D() const;
 
     ImVec3& operator=(const ImVec3& vOther)
     {
@@ -156,13 +118,5 @@ public:
     {
         return ImVec3(x / v.x, y / v.y, z / v.z);
     }
-    ImVec3 Transform(const ImVec3& agles, const float legth) const
-    {
-        ImVec3 trasnformedVec;
-        trasnformedVec.x = x + (cosf(agles.y * (3.141592653589f / 180.f)) * legth);
-        trasnformedVec.y = y + (sinf(agles.y * (3.141592653589f / 180.f)) * legth);
-        trasnformedVec.z = z - (tanf(agles.x * (3.141592653589f / 180.f)) * legth);
-
-        return trasnformedVec;
-    }
+    ImVec3 Transform(const ImVec3& agles, const float legth) const;
 };

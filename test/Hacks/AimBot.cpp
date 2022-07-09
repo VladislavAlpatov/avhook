@@ -144,10 +144,10 @@ bool CAimBot::IfEntityInFov(const CBaseEntity* entity, const int iBoneId) const
 
 	ImVec3  pLocalPlayerAngles = m_pCUsrCmd->viewangles;
 	ImVec3  targetAngles = CalcAimViewAngles(entity, iBoneId);
-	ImVec3  deltaFov = (pLocalPlayerAngles - targetAngles).Abs();
+	ImVec3  deltaFov = (pLocalPlayerAngles - targetAngles);
 	POLY_MARKER;
 
-	return  pAimBotSettings->m_fFov >= deltaFov.Length2D();
+	return  pAimBotSettings->m_fFov >= deltaFov.Abs().Length2D();
 }
 CBaseEntity* CAimBot::GetClosestTargetByDistance(int bone)
 {
@@ -193,20 +193,20 @@ CBaseEntity* CAimBot::GetClosestTargetByFov(int bone)
 
 ImVec3 CAimBot::CalcAimViewAngles(const CBaseEntity* pEntity, const int bone) 
 {
-	ImVec3 calculated;
-
-	ImVec3 targetPosition = pEntity->GetBonePosition(bone);
-
-	ImVec3 localCameraPosition = GlobalVars::g_pClient->pLocalPlayer->GetCameraPosition();
-
 	POLY_MARKER;
+	return CalcAimViewAngles(GlobalVars::g_pClient->pLocalPlayer->GetCameraPosition(), pEntity->GetBonePosition(bone));
+}
 
-	float distance = GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(pEntity);
+ImVec3 Hacks::CAimBot::CalcAimViewAngles(const ImVec3& origin, const ImVec3& target)
+{
 
-	calculated.x = - Utils::RadiansToDegrees(asinf((targetPosition.z - localCameraPosition.z) / distance));
-	calculated.y =   Utils::RadiansToDegrees(atan2f(targetPosition.y - localCameraPosition.y, targetPosition.x - localCameraPosition.x));
+	ImVec3 out;
+	float distance = origin.DistTo(target);
 
-	return calculated;
+	out.x = -Utils::RadiansToDegrees(asinf((target.z - origin.z) / distance));
+	out.y = Utils::RadiansToDegrees(atan2f(target.y  - origin.y, target.x - origin.x));
+
+	return out;
 }
 
 std::vector<CBaseEntity*> CAimBot::GetValidEntities(const int boneId) const

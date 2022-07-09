@@ -11,9 +11,9 @@ namespace Hacks
 		virtual void Work();
 		static int         GetBoneIDBySelectedTab(const int iTabIndex);
 		static ImVec3                    CalcAimViewAngles(const CBaseEntity* pEntity, const int bone);
+		static ImVec3                    CalcAimViewAngles(const ImVec3& origin, const ImVec3& target);
 	private:
 		CUserCmd* m_pCUsrCmd = nullptr;
-
 		bool                      IfEntityInFov(const CBaseEntity* pEntity, const int bone) const;
 		void                      AimSmooth(const CBaseEntity* pEntity, int iBoneId);
 		void                      AimPlain(const  CBaseEntity* pEntity, int iBoneId);

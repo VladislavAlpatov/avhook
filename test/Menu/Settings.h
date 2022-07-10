@@ -119,6 +119,7 @@ namespace Settings
 
 		nlohmann::json ToJson() const override;
 		BarEspSettings(const nlohmann::json& jsn);
+		
 	};
 	class CRadarSettings : public CBaseSettings
 	{

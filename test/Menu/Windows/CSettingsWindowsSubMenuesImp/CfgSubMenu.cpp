@@ -3,11 +3,13 @@
 #include "../../../Globals/Settings.h"
 #include <fmt/format.h>
 #include <fstream>
+#include "../../../imgui/imgui_internal.h"
+
 
 void UI::CSettingsWindow::DrawCfgChild()
 {
 	ImGui::SetWindowSize(ImVec2(555, 450));
-
+	
 	ImGui::Text(xorstr("Menu configuration"));
 	// Provide Cheat config dump
 	ImGui::BeginChild(xorstr("###FeatureCfg"), ImVec2(180, 80), true, m_iImGuiStyle);

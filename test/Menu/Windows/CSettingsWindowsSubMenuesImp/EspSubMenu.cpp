@@ -7,7 +7,6 @@
 
 void UI::CSettingsWindow::DrawESPChild()
 {
-	
 	ImGui::SetWindowSize(ImVec2(555, 500));
 
 	ImGui::Image(m_pTexureEspIcon, ImVec2(16, 16));
@@ -158,18 +157,23 @@ void UI::CSettingsWindow::DrawESPChild()
 				std::advance(pCurrentTexture, i);
 				ImGui::BeginChild((xorstr("###TextureChild") + pCurrentTexture->m_sName).c_str(), ImVec2(175, 25), true, m_iImGuiStyle);
 				{
+
 					auto tmpColor = pCurrentTexture->GetColor();
 					ImGui::ColorEdit3((xorstr("###Texture") + pCurrentTexture->m_sName).c_str(), (float*)&tmpColor, ImGuiColorEditFlags_NoInputs);
+					pCurrentTexture->UpdateColor(tmpColor);
+					
+					
 					ImGui::SameLine();
 					ImGui::Checkbox((xorstr("###checkBox") + pCurrentTexture->m_sName).c_str(), &pCurrentTexture->m_bEnableZ);
-					pCurrentTexture->UpdateColor(tmpColor);
 					DrawToolTip(xorstr("Make texture top-most. "));
+					
+					
 					ImGui::SameLine();
 					ImGui::Text(pCurrentTexture->m_sName.c_str());
 					DrawToolTip(fmt::format(xorstr("Texture id: \"{}\" "), pCurrentTexture->m_iUid).c_str());
+
+
 					ImGui::SameLine();
-
-
 					ImGui::SetCursorPosX(152);
 					if (ImGui::Button((xorstr("X###RemoveButton") + pCurrentTexture->m_sName).c_str(), ImVec2(21.f, 21.f)))
 					{

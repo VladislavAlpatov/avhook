@@ -1,11 +1,13 @@
 ﻿#pragma once
 #include "../CSettingsWindow.h"
-#include <fmt/format.h>
 #include "../../imgui/imgui_internal.h"
 #include "../../../Globals/Settings.h"
 
+#include <fmt/format.h>
+
 void UI::CSettingsWindow::DrawESPChild()
 {
+	
 	ImGui::SetWindowSize(ImVec2(555, 500));
 
 	ImGui::Image(m_pTexureEspIcon, ImVec2(16, 16));
@@ -28,7 +30,7 @@ void UI::CSettingsWindow::DrawESPChild()
 		ImGui::Combo(xorstr("###LineEspDrawMode"), &GlobalVars::g_AllSettings.m_SnapLinesSettings.m_iDrawMode, drawOptions, IM_ARRAYSIZE(drawOptions));
 		ImGui::EndChild();
 	}
-
+	
 	ImGui::SameLine();
 	auto pos = ImGui::GetCursorPos();
 	ImGui::NewLine();
@@ -146,7 +148,7 @@ void UI::CSettingsWindow::DrawESPChild()
 		style.ItemSpacing = ImVec2(2, 2);
 
 		auto pTexutreList = &GlobalVars::g_AllSettings.m_TextureOverrideSettings.m_overridedTextures;
-
+		
 		ImGui::BeginChild(xorstr("###Textures"), ImVec2(180, 180), true, m_iImGuiStyle);
 		{
 			for (int i = 0; i < pTexutreList->size(); ++i)
@@ -160,13 +162,19 @@ void UI::CSettingsWindow::DrawESPChild()
 					ImGui::ColorEdit3((xorstr("###Texture") + pCurrentTexture->m_sName).c_str(), (float*)&tmpColor, ImGuiColorEditFlags_NoInputs);
 					ImGui::SameLine();
 					ImGui::Checkbox((xorstr("###checkBox") + pCurrentTexture->m_sName).c_str(), &pCurrentTexture->m_bEnableZ);
-
 					pCurrentTexture->UpdateColor(tmpColor);
 					DrawToolTip(xorstr("Make texture top-most. "));
-
 					ImGui::SameLine();
 					ImGui::Text(pCurrentTexture->m_sName.c_str());
 					DrawToolTip(fmt::format(xorstr("Texture id: \"{}\" "), pCurrentTexture->m_iUid).c_str());
+					ImGui::SameLine();
+
+
+					ImGui::SetCursorPosX(152);
+					if (ImGui::Button((xorstr("X###RemoveButton") + pCurrentTexture->m_sName).c_str(), ImVec2(21.f, 21.f)))
+					{
+						pTexutreList->erase(pCurrentTexture);
+					}
 					ImGui::EndChild();
 				}
 			}
@@ -193,7 +201,11 @@ void UI::CSettingsWindow::DrawESPChild()
 				isAlreadyExist = texture.m_sName == newTextureName;
 			}
 			if (not isAlreadyExist)
+			{
 				pTexutreList->push_back(Esp::CTextureOverride(newTextureId, col, newTextureName, false));
+				ZeroMemory(newTextureName, sizeof(newTextureName));
+				col = ImColor(255, 255, 255);
+			}
 
 
 		}

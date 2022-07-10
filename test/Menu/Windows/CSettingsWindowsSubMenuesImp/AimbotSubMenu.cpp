@@ -43,7 +43,7 @@ void UI::CSettingsWindow::DrawAimbotChild()
 		ImGui::InputFloat(xorstr("Smooth Factor"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_fSmooth);
 		ImGui::PopItemWidth();
 		DrawToolTip(xorstr("Make aimbot act more like human.\n\nNote: Set \"Smooth\" value to \"0\" if\nyou want to completely disable it."));
-
+		
 		ImGui::Checkbox(xorstr("Auto Recoil Control"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_bRcsControle);
 		DrawToolTip(xorstr("Provide automatic recoil control when aimbot\naimed on enemy."));
 

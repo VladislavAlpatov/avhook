@@ -2,6 +2,8 @@
 #include "hack.h"
 #include "../SDK/CUserCMD.h"
 
+
+
 namespace Hacks
 {
 	class CAimBot : public CHackingFeature
@@ -11,6 +13,7 @@ namespace Hacks
 		virtual void Work();
 		static int         GetBoneIDBySelectedTab(const int iTabIndex);
 		static ImVec3                    CalcAimViewAngles(const CBaseEntity* pEntity, const int bone);
+		
 		static ImVec3                    CalcAimViewAngles(const ImVec3& origin, const ImVec3& target);
 	private:
 		CUserCmd* m_pCUsrCmd = nullptr;

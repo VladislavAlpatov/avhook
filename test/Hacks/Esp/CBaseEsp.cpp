@@ -11,17 +11,17 @@ ImVec3 CBaseEsp::WorldToScreen(const ImVec3& vecPosition)
     // Screen size 
     ImVec2 viewPorstSize = ImGui::GetMainViewport()->Size;
 
-    auto client = GlobalVars::g_pClient;
+    auto matrix = GlobalVars::g_pClient->GetViewMatrix();
 
     POLY_MARKER;
 
-    float _x = client->dwViewmatrix[0][0] * vecPosition.x + client->dwViewmatrix[0][1] * vecPosition.y + client->dwViewmatrix[0][2] * vecPosition.z + client->dwViewmatrix[0][3];
-    float _y = client->dwViewmatrix[1][0] * vecPosition.x + client->dwViewmatrix[1][1] * vecPosition.y + client->dwViewmatrix[1][2] * vecPosition.z + client->dwViewmatrix[1][3];
+    float _x = matrix[0][0] * vecPosition.x + matrix[0][1] * vecPosition.y + matrix[0][2] * vecPosition.z + matrix[0][3];
+    float _y = matrix[1][0] * vecPosition.x + matrix[1][1] * vecPosition.y + matrix[1][2] * vecPosition.z + matrix[1][3];
     // Dont need z cuz we need only x,y and w
     //float _z = pClient->dwViewmatrix[2][0] * vecPosition.x + pClient->dwViewmatrix[2][1] * vecPosition.y + pClient->dwViewmatrix[2][2] * vecPosition.z + pClient->dwViewmatrix[2][3];
 
     // w is depth
-    float w =  client->dwViewmatrix[3][0] * vecPosition.x + client->dwViewmatrix[3][1] * vecPosition.y + client->dwViewmatrix[3][2] * vecPosition.z + client->dwViewmatrix[3][3];
+    float w =  matrix[3][0] * vecPosition.x + matrix[3][1] * vecPosition.y + matrix[3][2] * vecPosition.z + matrix[3][3];
 
     ImVec2 ndc;
 

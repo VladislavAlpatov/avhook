@@ -40,5 +40,8 @@ namespace SSDK
 		{
 			this->dwForceAttack = 6;
 		}
+		matrix4x4 GetViewMatrix();
+		CBaseEntity* GetLocalPlayer();
+
 	};
 }

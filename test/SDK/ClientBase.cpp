@@ -9,7 +9,7 @@ matrix4x4 SSDK::ClientBase::GetViewMatrix()
 		return *addr;
 
 
-	addr = *(matrix4x4**)(Memory::FindPattern(xorstr("client.dll"), "0F 10 05 ? ? ? ? 8D 85 ? ? ? ? B9 ? ? ? ?") + 3);
+	addr = *(matrix4x4**)(Memory::FindPattern(xorstr("client.dll"), xorstr("0F 10 05 ? ? ? ? 8D 85 ? ? ? ? B9 ? ? ? ?")) + 3);
 	addr = (matrix4x4*)( (uintptr_t)addr + 0xb0 );
 
 	return *addr;

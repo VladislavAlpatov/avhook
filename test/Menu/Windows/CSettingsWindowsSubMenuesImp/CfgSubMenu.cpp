@@ -1,5 +1,5 @@
 #include "../CSettingsWindow.h"
-#include "../../Utils/CFGloader/CFGloader.h"
+#include "../../../Utils/CFGloader/CFGloader.h"
 #include "../../../Globals/Settings.h"
 #include <fmt/format.h>
 #include <fstream>

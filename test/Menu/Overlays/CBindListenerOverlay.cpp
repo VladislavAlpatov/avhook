@@ -1,17 +1,17 @@
 #include "CBindListenerOverlay.h"
 #include "../../Utils/Marker.h"
 #include "../../Utils/xorstr.h"
+#include "../../imgui/imgui_internal.h"
 
-void CBindListenerOverlay::Show()
+void UI::CBindListenerOverlay::Show()
 {
 	POLY_MARKER;
-
 
 	ImGui::PushFont(m_pFont);
 	Render();
 	ImGui::PopFont();
 }
-void CBindListenerOverlay::Render()
+void UI::CBindListenerOverlay::Render()
 {
 	POLY_MARKER;
 
@@ -22,8 +22,7 @@ void CBindListenerOverlay::Render()
 	auto screenSize = ImGui::GetMainViewport()->Size;
 	const char* text = xorstr("Press Any Key Or ESC To Cancel");
 
-	float textWidth = ImGui::CalcTextSize(text).x;
-	ImVec2 textPos = ImVec2((screenSize.x - textWidth) / 2.f, screenSize.y / 2.f - 6);
+	ImVec2 textSize = ImGui::CalcTextSize(text);
 
-	pForeGraundDrawList->AddText(textPos, (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Text], text);
+	pForeGraundDrawList->AddText((screenSize - textSize) / 2.f, (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Text], text);
 }

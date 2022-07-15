@@ -6,6 +6,88 @@
 
 
 
+bool ImVec3::operator==(const ImVec3& src) const
+{
+    return (src.x == x) and (src.y == y) and (src.z == z);
+}
+
+bool ImVec3::operator!=(const ImVec3& src) const
+{
+    return (src.x != x) or (src.y != y) or (src.z != z);
+}
+
+ImVec3& ImVec3::operator+=(const ImVec3& v)
+{
+    x += v.x;
+    y += v.y;
+    z += v.z;
+
+    return *this;
+}
+
+ImVec3& ImVec3::operator-=(const ImVec3& v)
+{
+    x -= v.x;
+    y -= v.y;
+    z -= v.z;
+
+    return *this;
+}
+
+ImVec3& ImVec3::operator*=(float fl)
+{
+    x *= fl;
+    y *= fl;
+    z *= fl;
+
+    return *this;
+}
+
+ImVec3& ImVec3::operator*=(const ImVec3& v)
+{
+    x *= v.x;
+    y *= v.y;
+    z *= v.z;
+
+    return *this;
+}
+
+ImVec3& ImVec3::operator/=(const ImVec3& v)
+{
+    x /= v.x;
+    y /= v.y;
+    z /= v.z;
+
+    return *this;
+}
+
+ImVec3& ImVec3::operator+=(float fl)
+{
+    x += fl;
+    y += fl;
+    z += fl;
+
+    return *this;
+}
+
+ImVec3& ImVec3::operator/=(float fl)
+{
+    x /= fl;
+    y /= fl;
+    z /= fl;
+
+    return *this;
+}
+
+ImVec3& ImVec3::operator-=(float fl)
+{
+    x -= fl;
+    y -= fl;
+    z -= fl;
+
+    return *this;
+}
+
 float ImVec3::DistTo(const ImVec3& vOther) const
 {
     ImVec3 delta;
@@ -58,6 +140,50 @@ float ImVec3::Length2D() const
 
 }
 
+ImVec3& ImVec3::operator=(const ImVec3& vOther)
+{
+    x = vOther.x;
+    y = vOther.y;
+    z = vOther.z;
+
+    return *this;
+}
+
+ImVec3 ImVec3::operator-(void) const
+{
+    return ImVec3(-x, -y, -z);
+}
+
+ImVec3 ImVec3::operator+(const ImVec3& v) const
+{
+    return ImVec3(x + v.x, y + v.y, z + v.z);
+}
+
+ImVec3 ImVec3::operator-(const ImVec3& v) const
+{
+    return ImVec3(x - v.x, y - v.y, z - v.z);
+}
+
+ImVec3 ImVec3::operator*(float fl) const
+{
+    return ImVec3(x * fl, y * fl, z * fl);
+}
+
+ImVec3 ImVec3::operator*(const ImVec3& v) const
+{
+    return ImVec3(x * v.x, y * v.y, z * v.z);
+}
+
+ImVec3 ImVec3::operator/(float fl) const
+{
+    return ImVec3(x / fl, y / fl, z / fl);
+}
+
+ImVec3 ImVec3::operator/(const ImVec3& v) const
+{
+    return ImVec3(x / v.x, y / v.y, z / v.z);
+}
+
 ImVec3 ImVec3::Transform(const ImVec3& agles, const float legth) const
 {
     ImVec3 trasnformedVec;
@@ -66,4 +192,14 @@ ImVec3 ImVec3::Transform(const ImVec3& agles, const float legth) const
     trasnformedVec.z = z - (tanf(agles.x * (M_PI / 180.f)) * legth);
 
     return trasnformedVec;
+}
+
+float ImVec3::Sum()
+{
+    return x + y + z;
+}
+
+float ImVec3::Sum2D()
+{
+    return x + y;
 }

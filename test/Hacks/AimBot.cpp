@@ -203,6 +203,7 @@ ImVec3 Hacks::CAimBot::CalcAimViewAngles(const ImVec3& origin, const ImVec3& tar
 	ImVec3 out;
 	float distance = origin.DistTo(target);
 
+	// Make x negative since -89 is top and 89 is bottom
 	out.x = -Utils::RadiansToDegrees(asinf((target.z - origin.z) / distance));
 	out.y = Utils::RadiansToDegrees(atan2f(target.y  - origin.y, target.x - origin.x));
 

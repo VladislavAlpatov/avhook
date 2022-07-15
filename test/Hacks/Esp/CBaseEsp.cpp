@@ -11,8 +11,7 @@ ImVec3 CBaseEsp::WorldToScreen(const ImVec3& vecPosition)
     // Screen size 
     ImVec2 viewPorstSize = ImGui::GetMainViewport()->Size;
 
-    auto matrix = GlobalVars::g_pClient->GetViewMatrix();
-
+    auto matrix = GlobalVars::g_pClient->dwViewmatrix;
     POLY_MARKER;
 
     float _x = matrix[0][0] * vecPosition.x + matrix[0][1] * vecPosition.y + matrix[0][2] * vecPosition.z + matrix[0][3];

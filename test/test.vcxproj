@@ -267,10 +267,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="SDK\ConVar\ConVar.h" />
     <ClInclude Include="Globals\DirectX9.h" />
     <ClInclude Include="Globals\Interfaces.h" />
     <ClInclude Include="Globals\Settings.h" />
     <ClInclude Include="Hacks\Esp\CTextureOverride\CTextureOverride.h" />
+    <ClInclude Include="SDK\ConVar\platform.h" />
+    <ClInclude Include="SDK\ConVar\ultmemory.h" />
     <ClInclude Include="SDK\ICvar.h" />
     <ClInclude Include="Menu\Windows\CConsoleWindow.h" />
     <ClInclude Include="Hacks\Esp\CLabel\CLabel.h" />
@@ -334,11 +337,14 @@
     <ClInclude Include="Utils\Vec3.h" />
     <ClInclude Include="Utils\VMThook.h" />
     <ClInclude Include="Utils\xorstr.h" />
+    <ClInclude Include="SDK\ConVar\utlvector.h" />
+    <ClInclude Include="SDK\ConVar\utlstring.h" />
     <ClInclude Include="Web\CAVhookServerApi.h" />
     <ClInclude Include="Web\IWebObject.h" />
     <ClInclude Include="Web\httplib.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SDK\ConVar\ConVar.cpp" />
     <ClCompile Include="Globals\GSettings.cpp" />
     <ClCompile Include="Hacks\Esp\CTextureOverride\CTextureOverride.cpp" />
     <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\AimbotSubMenu.cpp" />
@@ -398,6 +404,7 @@
     <ClCompile Include="Utils\memory.cpp" />
     <ClCompile Include="Utils\Vec3.cpp" />
     <ClCompile Include="Utils\VMThook.cpp" />
+    <ClCompile Include="SDK\ConVar\utlstring.cpp" />
     <ClCompile Include="Web\CAVhookServerApi.cpp" />
     <ClCompile Include="Web\IWebObject.cpp" />
   </ItemGroup>

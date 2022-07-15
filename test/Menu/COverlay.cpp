@@ -30,7 +30,7 @@
 #include "../Web/CAVhookServerApi.h"
 #include "../Globals/Settings.h"
 #include "../Globals/Interfaces.h"
-
+#include "../imgui/imgui_internal.h"
 
 std::string GetCurrentWindowsUserName()
 {
@@ -216,6 +216,11 @@ void COverlay::Render()
 	{
 		CBindListenerOverlay(m_pFontEsp).Show();
 	}
+
+	//auto screenCenter = ImGui::GetMainViewport()->Size / 2.f;
+	//pDrawList->AddLine(screenCenter + ImVec2(0, 5), screenCenter - ImVec2(0, 5), ImColor(255, 0, 0), 2);
+	//pDrawList->AddLine(screenCenter + ImVec2(5, 0), screenCenter - ImVec2(5, 0), ImColor(255, 0, 0), 2);
+
 
 	POLY_MARKER;
 

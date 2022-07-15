@@ -351,6 +351,21 @@
     <ClInclude Include="SDK\ICvar.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="SDK\ConVar\ConVar.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\ConVar\utlvector.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\ConVar\utlstring.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\ConVar\ultmemory.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\ConVar\platform.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_draw.cpp">
@@ -522,6 +537,12 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Utils\Vec3.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\ConVar\ConVar.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\ConVar\utlstring.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

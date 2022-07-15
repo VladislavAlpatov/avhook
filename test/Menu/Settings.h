@@ -195,6 +195,8 @@ namespace Settings
 		ImColor m_Color;
 		int     m_iSize;
 		int		m_iThicness;
+		int		m_iDistance = 100;
+
 		nlohmann::json ToJson() const override;
 
 	};

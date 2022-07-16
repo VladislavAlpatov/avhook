@@ -24,6 +24,8 @@
 #include "../DirectX/DX9ColorFix.h"
 
 #include "Overlays/CBindListenerOverlay.h"
+#include "Overlays/CCrosshairOverlay.h"
+
 
 #include <d3dx9.h>
 #include <fmt/format.h>
@@ -214,13 +216,13 @@ void COverlay::Render()
 
 	if (m_bShowKeyBindDialog)
 	{
-		CBindListenerOverlay(m_pFontEsp).Show();
+		UI::CBindListenerOverlay(m_pFontEsp).Show();
 	}
 
-	//auto screenCenter = ImGui::GetMainViewport()->Size / 2.f;
-	//pDrawList->AddLine(screenCenter + ImVec2(0, 5), screenCenter - ImVec2(0, 5), ImColor(255, 0, 0), 2);
-	//pDrawList->AddLine(screenCenter + ImVec2(5, 0), screenCenter - ImVec2(5, 0), ImColor(255, 0, 0), 2);
-
+	if (GlobalVars::g_AllSettings.m_CrosshairSettings.m_bActive and GlobalVars::g_pIEngineClient->IsInGame())
+	{
+		CCrosshairOverlay().Show();
+	}
 
 	POLY_MARKER;
 

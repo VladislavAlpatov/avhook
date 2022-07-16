@@ -6,7 +6,7 @@ namespace UI
 	class IBaseDrawObject
 	{
 	public:
-		virtual void Show() = 0;
+		virtual void Show() { Render(); };
 	protected:
 		virtual void Render() = 0;
 		virtual void KeepWindowInSreenArea() {};

@@ -87,7 +87,6 @@ namespace Settings
 		bool m_bKillSound       = false;
 		bool m_bSnowFlakes      = false;
 		int  m_iCustomFov       = 90;
-		char killSoundPath[100] = { 0 };
 
 		nlohmann::json ToJson() const override;
 		MiscSettings(const nlohmann::json& jsn);
@@ -179,7 +178,6 @@ namespace Settings
 
 	};
 
-
 	class CTextureOverrideSettings : public CBaseSettings
 	{
 	public:
@@ -188,6 +186,24 @@ namespace Settings
 		std::list<Esp::CTextureOverride> m_overridedTextures;
 		nlohmann::json ToJson() const override;
 	};
+
+	class CCrosshairSettings : public CBaseSettings
+	{
+	public:
+		CCrosshairSettings();
+		CCrosshairSettings(const nlohmann::json& jsn);
+		ImColor m_Color;
+		ImColor m_SpeedBarCol = ImColor(0,0, 255);
+		int     m_iSize;
+		int		m_iThicness;
+		int		m_iDistance = 100;
+		bool	m_bDrawSensors = false;
+
+
+		nlohmann::json ToJson() const override;
+
+	};
+
 	class CAllSettings : public WebApi::IWebObject
 	{
 	public:
@@ -205,6 +221,8 @@ namespace Settings
 		BarEspSettings        m_BarEspSettings;
 		CBunnyHopSettings     m_BunnyHopSettings;
 		CTextureOverrideSettings m_TextureOverrideSettings;
+		CCrosshairSettings       m_CrosshairSettings;
+
 		nlohmann::json ToJson() const override;
 	};
 }

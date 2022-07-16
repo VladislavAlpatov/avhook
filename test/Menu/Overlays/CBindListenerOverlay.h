@@ -1,17 +1,20 @@
+#pragma once
 #include "../IBaseDrawObject.h"
 #include "../../imgui/imgui.h"
 
-
-class CBindListenerOverlay : public UI::IBaseDrawObject
+namespace UI
 {
-public:
-	CBindListenerOverlay(ImFont* pFont)
+	class CBindListenerOverlay : public UI::IBaseDrawObject
 	{
-		m_pFont = pFont;
-	}
-	virtual void Show();
+	public:
+		CBindListenerOverlay(ImFont* pFont)
+		{
+			m_pFont = pFont;
+		}
+		void Show() override;
 
-private:
-	ImFont* m_pFont = nullptr;
-	virtual void Render();
-};
+	private:
+		ImFont* m_pFont = nullptr;
+		void Render() override;
+	};
+}

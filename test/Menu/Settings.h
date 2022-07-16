@@ -193,9 +193,12 @@ namespace Settings
 		CCrosshairSettings();
 		CCrosshairSettings(const nlohmann::json& jsn);
 		ImColor m_Color;
+		ImColor m_SpeedBarCol = ImColor(0,0, 255);
 		int     m_iSize;
 		int		m_iThicness;
 		int		m_iDistance = 100;
+		bool	m_bDrawSensors = false;
+
 
 		nlohmann::json ToJson() const override;
 

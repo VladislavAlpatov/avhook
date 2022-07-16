@@ -53,7 +53,7 @@ void CCrosshairOverlay::Render()
 	
 	auto pLocalPlayer = GlobalVars::g_pClient->pLocalPlayer;
 	
-	if (!pLocalPlayer)
+	if (!pLocalPlayer or !pSettings->m_bDrawSensors)
 		return;
 
 
@@ -100,5 +100,5 @@ void CCrosshairOverlay::Render()
 
 	Update(500, currentSpeed);
 
-	DrawOutlinedLine(speedBarStart, speedBarEnd, speedRatio, ImColor(0, 0, 255), 10);
+	DrawOutlinedLine(speedBarStart, speedBarEnd, speedRatio, pSettings->m_SpeedBarCol, 10);
 }

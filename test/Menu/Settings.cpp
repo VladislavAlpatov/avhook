@@ -458,8 +458,10 @@ Settings::CCrosshairSettings::CCrosshairSettings(const nlohmann::json& jsn)
 	POLY_MARKER;
 	m_Color     = ImportImColorFromJson(jsn[xorstr("Color")].get<nlohmann::json>());
 	m_iSize     = jsn[xorstr("Size")].get<int>();
-	m_bActive   = jsn[xorstr("Active")].get<bool>();
-	m_iThicness = jsn[xorstr("Thicness")].get<int>();
+	m_bActive      = jsn[xorstr("Active")].get<bool>();
+	m_iThicness    = jsn[xorstr("Thicness")].get<int>();
+	m_SpeedBarCol = ImportImColorFromJson(jsn[xorstr("SpeedBarColor")].get<nlohmann::json>());
+	SetValueIfFiledExistInJson(jsn, xorstr("DrawSensors"), &m_bDrawSensors);
 }
 
 Settings::CCrosshairSettings::CCrosshairSettings()
@@ -476,10 +478,12 @@ nlohmann::json Settings::CCrosshairSettings::ToJson() const
 
 	nlohmann::json outJson;
 
-	outJson[xorstr("Color")]    = ImColorToJsn(m_Color);
-	outJson[xorstr("Size")]     = m_iSize;
-	outJson[xorstr("Active")]   = m_bActive;
-	outJson[xorstr("Thicness")] = m_iThicness;
+	outJson[xorstr("Color")]         = ImColorToJsn(m_Color);
+	outJson[xorstr("Size")]          = m_iSize;
+	outJson[xorstr("Active")]        = m_bActive;
+	outJson[xorstr("Thicness")]      = m_iThicness;
+	outJson[xorstr("DrawSensors")]   = m_bDrawSensors;
+	outJson[xorstr("SpeedBarColor")] = ImColorToJsn(m_SpeedBarCol);
 
 
 	return outJson;

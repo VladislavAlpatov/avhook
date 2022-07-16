@@ -18,7 +18,7 @@ void UI::CSettingsWindow::DrawMiscChild()
 
 
 		ImGui::SliderInt(xorstr("Size"),     &GlobalVars::g_AllSettings.m_CrosshairSettings.m_iSize, 1, 20);
-		// ImGui::SliderInt(xorstr("Thicness"), &GlobalVars::g_AllSettings.m_CrosshairSettings.m_iThicness, 1, 5);
+		ImGui::SliderInt(xorstr("Distance"), &GlobalVars::g_AllSettings.m_CrosshairSettings.m_iDistance, 1, 300);
 
 		ImGui::EndChild();
 	}

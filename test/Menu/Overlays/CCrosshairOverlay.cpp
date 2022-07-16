@@ -1,4 +1,4 @@
-#include "CCrosshairOverlay.h"
+﻿#include "CCrosshairOverlay.h"
 #include "../../Globals/Settings.h"
 #include "../../imgui/imgui_internal.h"
 #include "../../Globals/Interfaces.h"
@@ -24,6 +24,21 @@ void DrawTexCentered(const ImVec2& pos, ImColor col, const char* text)
 	ImGui::GetBackgroundDrawList()->AddText(textPos, col, text);
 }
 
+static float oldSpeed = 0.f;
+
+void Update(int rate, float speedVal)
+{
+	static auto oldTime = GetTickCount64();
+
+	auto newTime = GetTickCount64();
+
+	if (newTime - oldTime >= rate)
+	{
+		oldTime = newTime;
+		oldSpeed = speedVal;
+	}
+}
+
 void CCrosshairOverlay::Render()
 {
 	auto pDrawList = ImGui::GetBackgroundDrawList();
@@ -40,15 +55,50 @@ void CCrosshairOverlay::Render()
 	
 	if (!pLocalPlayer)
 		return;
-	
+
 
 	float healthRatio = pLocalPlayer->GetHealthPercent() / 100.f;
+	if (healthRatio > 1.f) healthRatio = 1.f;
 
-	DrawOutlinedLine(screenCenter - ImVec2(pSettings->m_iDistance, 100), screenCenter + ImVec2(-pSettings->m_iDistance, 100),healthRatio, pLocalPlayer->GetColorBasedOnHealth(), 10);
+	ImVec2 healthBarStart = screenCenter - ImVec2(pSettings->m_iDistance, 100);
+	ImVec2 healthBarEnd =   screenCenter + ImVec2(-pSettings->m_iDistance, 100);
+
+	DrawTexCentered(healthBarStart - ImVec2(5, 6), pLocalPlayer->GetColorBasedOnHealth(), std::to_string(pLocalPlayer->m_iHealth).c_str());
+	DrawOutlinedLine(healthBarStart, healthBarEnd, healthRatio, pLocalPlayer->GetColorBasedOnHealth(), 10);
 
 
-	auto start = screenCenter + ImVec2(100, -100);
-	DrawTexCentered(start - ImVec2(5, 6), ImColor(255, 255, 255), std::to_string((int)pLocalPlayer->m_vecVelocity.Length2D()).c_str());
+	float currentSpeed = pLocalPlayer->m_vecVelocity.Length2D();
 
-	DrawOutlinedLine(screenCenter + ImVec2(100, -100), screenCenter + ImVec2(pSettings->m_iDistance, 100), pLocalPlayer->m_vecVelocity.Length2D() / 500.f, ImColor(0, 0, 255), 10);
+	ImVec2 speedBarStart = screenCenter + ImVec2(pSettings->m_iDistance+10, -100);
+	ImVec2 speedBarEnd = screenCenter + ImVec2(pSettings->m_iDistance+10, 100);
+
+	float speedRatio = currentSpeed / 500.f;
+
+	if (speedRatio > 1.f) speedRatio = 1.f;
+
+	auto gainSpeedIndicator = xorstr(u8"Λ\nΛ\nΛ");
+	auto loosSpeedIndicator = xorstr("V\nV\nV");
+
+	ImColor speedTextCol = { 255,106,0};
+
+	if (roundf(currentSpeed) > roundf(oldSpeed))
+	{
+		pDrawList->AddText(speedBarStart + ImVec2(10, 0), ImColor(0, 255, 0), gainSpeedIndicator);
+		speedTextCol = { 0, 255, 0 };
+	}
+	else if (roundf(currentSpeed) < roundf(oldSpeed))
+	{
+		pDrawList->AddText(speedBarEnd + ImVec2(10, -ImGui::CalcTextSize(loosSpeedIndicator).y), ImColor(255, 0, 0), loosSpeedIndicator);
+		speedTextCol = { 255, 0, 0 };
+	}
+	else if (roundf(currentSpeed) == 0.f)
+	{
+		speedTextCol = { 255, 255, 255 };
+	}
+	DrawTexCentered(speedBarStart - ImVec2(5, 6), speedTextCol, std::to_string((int)roundf(currentSpeed)).c_str());
+
+
+	Update(500, currentSpeed);
+
+	DrawOutlinedLine(speedBarStart, speedBarEnd, speedRatio, ImColor(0, 0, 255), 10);
 }

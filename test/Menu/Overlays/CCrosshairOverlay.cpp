@@ -63,7 +63,12 @@ void CCrosshairOverlay::Render()
 	ImVec2 healthBarStart = screenCenter - ImVec2(pSettings->m_iDistance, 100);
 	ImVec2 healthBarEnd =   screenCenter + ImVec2(-pSettings->m_iDistance, 100);
 
-	DrawTexCentered(healthBarStart - ImVec2(5, 6), pLocalPlayer->GetColorBasedOnHealth(), std::to_string(pLocalPlayer->m_iHealth).c_str());
+	auto healthLabel = std::to_string(pLocalPlayer->m_iHealth);
+
+	if (pLocalPlayer->m_iHealth == 0)
+		healthLabel = xorstr("DEAD");
+
+	DrawTexCentered(healthBarStart - ImVec2(5, 6), pLocalPlayer->GetColorBasedOnHealth(), healthLabel.c_str());
 	DrawOutlinedLine(healthBarStart, healthBarEnd, healthRatio, pLocalPlayer->GetColorBasedOnHealth(), 10);
 
 

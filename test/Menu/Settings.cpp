@@ -460,6 +460,7 @@ Settings::CCrosshairSettings::CCrosshairSettings(const nlohmann::json& jsn)
 	m_iSize     = jsn[xorstr("Size")].get<int>();
 	m_bActive      = jsn[xorstr("Active")].get<bool>();
 	m_iThicness    = jsn[xorstr("Thicness")].get<int>();
+	m_iDistance		= jsn[xorstr("Distance")].get<int>();
 	m_SpeedBarCol = ImportImColorFromJson(jsn[xorstr("SpeedBarColor")].get<nlohmann::json>());
 	SetValueIfFiledExistInJson(jsn, xorstr("DrawSensors"), &m_bDrawSensors);
 }
@@ -483,6 +484,7 @@ nlohmann::json Settings::CCrosshairSettings::ToJson() const
 	outJson[xorstr("Active")]        = m_bActive;
 	outJson[xorstr("Thicness")]      = m_iThicness;
 	outJson[xorstr("DrawSensors")]   = m_bDrawSensors;
+	outJson[xorstr("Distance")]		 = m_iDistance;
 	outJson[xorstr("SpeedBarColor")] = ImColorToJsn(m_SpeedBarCol);
 
 

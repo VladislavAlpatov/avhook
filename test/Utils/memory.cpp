@@ -11,6 +11,7 @@ MODULEINFO GetModuleInfo(const char* szModule)
 {
 	MODULEINFO modinfo = { 0 };
 	HMODULE hModule = GetModuleHandleA(szModule);
+
 	if (hModule == NULL)
 		return modinfo;
 
@@ -24,6 +25,8 @@ UINT StrHexToByte(const std::string& str)
 	std::stringstream ss;
 	ss << std::hex << str;
 	ss >> iOutNumber;
+
+
 	return iOutNumber;
 }
 

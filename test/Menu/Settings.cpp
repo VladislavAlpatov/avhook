@@ -232,10 +232,11 @@ Settings::CLabelEspSettings& Settings::CLabelEspSettings::operator=(const CLabel
 
 	m_Labels.clear();
 
-	for (auto pLabel : other.m_Labels)
+	for (auto& pLabel : other.m_Labels)
 	{
 		auto pTmpLabel = std::make_shared<CLabels::CBaseLabel>();
 		*pTmpLabel.get() = *pLabel.get();
+
 		// We also must copy vft table to safe original functions! 
 		// if we will not do this object will get base class vft tables
 		((uintptr_t*)pTmpLabel.get())[0] = ((uintptr_t*)pLabel.get())[0];

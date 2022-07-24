@@ -20,7 +20,9 @@ void DrawOutlinedLine(const ImVec2& p1, const ImVec2& p2, float ratio, ImColor c
 
 void DrawTexCentered(const ImVec2& pos, ImColor col, const char* text)
 {
-	auto textPos = pos - ImGui::CalcTextSize(text) / 2.f;
+	auto textPos = pos;
+	textPos.x -= ImGui::CalcTextSize(text).x / 2.f;
+
 	ImGui::GetBackgroundDrawList()->AddText(textPos, col, text);
 }
 
@@ -41,38 +43,24 @@ void Update(int rate, float speedVal)
 
 void CCrosshairOverlay::Render()
 {
-	auto pDrawList = ImGui::GetBackgroundDrawList();
+	DrawCrosshair();
 
-	const auto* pSettings = &GlobalVars::g_AllSettings.m_CrosshairSettings;
-
-	auto screenCenter = ImGui::GetMainViewport()->Size / 2.f + ImVec2(1, 1);
-
-	pDrawList->AddLine(screenCenter + ImVec2(0, (float)pSettings->m_iSize), screenCenter - ImVec2(0, (float)pSettings->m_iSize), pSettings->m_Color, pSettings->m_iThicness);
-	pDrawList->AddLine(screenCenter + ImVec2((float)pSettings->m_iSize, 0), screenCenter - ImVec2((float)pSettings->m_iSize, 0), pSettings->m_Color, pSettings->m_iThicness);
-
-	
 	auto pLocalPlayer = GlobalVars::g_pClient->pLocalPlayer;
-	
+
+	auto pSettings = &GlobalVars::g_AllSettings.m_CrosshairSettings;
 	if (!pLocalPlayer or !pSettings->m_bDrawSensors)
 		return;
 
+	ImVec2 vecScreenCenter = ImGui::GetMainViewport()->Size / 2.f;
 
-	float healthRatio = pLocalPlayer->GetHealthPercent() / 100.f;
-	if (healthRatio > 1.f) healthRatio = 1.f;
 
-	ImVec2 healthBarStart = screenCenter - ImVec2(pSettings->m_iDistance, 100);
-	ImVec2 healthBarEnd =   screenCenter + ImVec2(-pSettings->m_iDistance, 100);
+	DrawHealthBar(vecScreenCenter - ImVec2(pSettings->m_iDistance, 0), pLocalPlayer->GetHealthPercent() / 100.f, 10, 200);
 
-	auto healthLabel = std::to_string(pLocalPlayer->m_iHealth);
-
-	if (pLocalPlayer->m_iHealth == 0)
-		healthLabel = xorstr("DEAD");
-
-	DrawTexCentered(healthBarStart - ImVec2(5, 6), pLocalPlayer->GetColorBasedOnHealth(), healthLabel.c_str());
+	/*DrawTexCentered(healthBarStart - ImVec2(5, 6), pLocalPlayer->GetColorBasedOnHealth(), healthLabel.c_str());
 	DrawOutlinedLine(healthBarStart, healthBarEnd, healthRatio, pLocalPlayer->GetColorBasedOnHealth(), 10);
 
 
-	float currentSpeed = pLocalPlayer->m_vecVelocity.Length2D();
+	float currentSpeed = roundf(pLocalPlayer->m_vecVelocity.Length2D());
 
 	ImVec2 speedBarStart = screenCenter + ImVec2(pSettings->m_iDistance+10, -100);
 	ImVec2 speedBarEnd = screenCenter + ImVec2(pSettings->m_iDistance+10, 100);
@@ -86,24 +74,63 @@ void CCrosshairOverlay::Render()
 
 	ImColor speedTextCol = { 255,106,0};
 
-	if (roundf(currentSpeed) > roundf(oldSpeed))
+	if (currentSpeed > oldSpeed)
 	{
 		pDrawList->AddText(speedBarStart + ImVec2(10, 0), ImColor(0, 255, 0), gainSpeedIndicator);
 		speedTextCol = { 0, 255, 0 };
 	}
-	else if (roundf(currentSpeed) < roundf(oldSpeed))
+	else if (currentSpeed < oldSpeed)
 	{
 		pDrawList->AddText(speedBarEnd + ImVec2(10, -ImGui::CalcTextSize(loosSpeedIndicator).y), ImColor(255, 0, 0), loosSpeedIndicator);
 		speedTextCol = { 255, 0, 0 };
 	}
-	else if (roundf(currentSpeed) == 0.f)
+	else if (currentSpeed == 0.f)
 	{
 		speedTextCol = { 255, 255, 255 };
 	}
-	DrawTexCentered(speedBarStart - ImVec2(5, 6), speedTextCol, std::to_string((int)roundf(currentSpeed)).c_str());
+	DrawTexCentered(speedBarStart - ImVec2(5, 6), speedTextCol, std::to_string((int)currentSpeed).c_str());
 
 
 	Update(500, currentSpeed);
 
-	DrawOutlinedLine(speedBarStart, speedBarEnd, speedRatio, pSettings->m_SpeedBarCol, 10);
+	DrawOutlinedLine(speedBarStart, speedBarEnd, speedRatio, pSettings->m_SpeedBarCol, 10);*/
+}
+
+void CCrosshairOverlay::DrawCrosshair() const
+{
+	auto pDrawList = ImGui::GetBackgroundDrawList();
+
+	const auto* pSettings = &GlobalVars::g_AllSettings.m_CrosshairSettings;
+
+	auto screenCenter = ImGui::GetMainViewport()->Size / 2.f + ImVec2(1, 1);
+
+	pDrawList->AddLine(screenCenter + ImVec2(0, (float)pSettings->m_iSize), screenCenter - ImVec2(0, (float)pSettings->m_iSize), pSettings->m_Color, pSettings->m_iThicness);
+	pDrawList->AddLine(screenCenter + ImVec2((float)pSettings->m_iSize, 0), screenCenter - ImVec2((float)pSettings->m_iSize, 0), pSettings->m_Color, pSettings->m_iThicness);
+
+
+}
+
+void CCrosshairOverlay::DrawHealthBar(const ImVec2& vecDrawPos, float fHealthRatio, float thickness, float fHight) const
+{
+	const auto pLocalPlayer = GlobalVars::g_pClient->pLocalPlayer;
+	float healthRatio = pLocalPlayer->GetHealthPercent() / 100.f;
+
+	if (healthRatio > 1.f) healthRatio = 1.f;
+
+
+	ImVec2 topLeft     = vecDrawPos - ImVec2(0, fHight / 2.f);
+	ImVec2 bottomRight = vecDrawPos + ImVec2(thickness, fHight / 2.f);
+
+	auto healthLabel = std::to_string(pLocalPlayer->m_iHealth);
+
+	if (!pLocalPlayer->IsAlive())
+		healthLabel = xorstr("[DEAD]");
+
+	auto pDrawList = ImGui::GetBackgroundDrawList();
+
+	DrawTexCentered(topLeft + ImVec2(thickness / 2.f, -15), pLocalPlayer->GetColorBasedOnHealth(), healthLabel.c_str());
+	pDrawList->AddRectFilled(topLeft+ImVec2(1,1), bottomRight-ImVec2(1, 1), pLocalPlayer->GetColorBasedOnHealth());
+
+	pDrawList->AddRect(topLeft, bottomRight, ImColor(0, 0, 0));
+
 }

@@ -162,6 +162,8 @@ void COverlay::Render()
 			{
 				return GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(first) > GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(second);
 			});
+
+
 		// Render Esp
 		for (auto pEntity : validEntities)
 		{

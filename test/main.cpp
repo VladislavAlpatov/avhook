@@ -59,8 +59,6 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 		Sleep(100);
 	}
 
-	// Clean up sounds
-
 	hooks::Detach();
 	POLY_MARKER;
 	if (GlobalVars::bChromaSupport)

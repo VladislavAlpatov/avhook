@@ -4,20 +4,6 @@
 #include "../../Globals/Interfaces.h"
 #include <fmt/format.h>
 
-void DrawOutlinedLine(const ImVec2& p1, const ImVec2& p2, float ratio, ImColor col, float thickness = 1.f)
-{
-	auto pDrawList = ImGui::GetBackgroundDrawList();
-
-	pDrawList->AddRect(p1 - ImVec2(thickness+1, 1), p2+ImVec2(1, 1), ImColor(0,0,0), 0.f, NULL);
-
-	auto pos = p2 - ImVec2(0, ratio * abs(p2.y - p1.y));
-
-
-	pDrawList->AddRectFilled(pos, p2-ImVec2(thickness, 0), col);
-	
-
-}
-
 void DrawTexCentered(const ImVec2& pos, ImColor col, const char* text)
 {
 	auto textPos = pos;
@@ -55,7 +41,7 @@ void CCrosshairOverlay::Render()
 
 
 	DrawHealthBar(vecScreenCenter - ImVec2(pSettings->m_iDistance, 0), pLocalPlayer->GetHealthPercent() / 100.f, 10, 200);
-
+	DrawSpeedBar(vecScreenCenter + ImVec2(pSettings->m_iDistance, 0), 250.f, 10, 200);
 	/*DrawTexCentered(healthBarStart - ImVec2(5, 6), pLocalPlayer->GetColorBasedOnHealth(), healthLabel.c_str());
 	DrawOutlinedLine(healthBarStart, healthBarEnd, healthRatio, pLocalPlayer->GetColorBasedOnHealth(), 10);
 
@@ -132,5 +118,41 @@ void CCrosshairOverlay::DrawHealthBar(const ImVec2& vecDrawPos, float fHealthRat
 	pDrawList->AddRectFilled(topLeft+ImVec2(1,1), bottomRight-ImVec2(1, 1), pLocalPlayer->GetColorBasedOnHealth());
 
 	pDrawList->AddRect(topLeft, bottomRight, ImColor(0, 0, 0));
+
+}
+
+void CCrosshairOverlay::DrawSpeedBar(const ImVec2& vecDrawPos, float fSpeedPerBar, float thickness, float fHeight) const
+{
+	auto pDrawList = ImGui::GetBackgroundDrawList();
+
+	ImVec2 topLeft     = vecDrawPos - ImVec2(0, fHeight / 2.f);
+	ImVec2 bottomRight = vecDrawPos + ImVec2(thickness, fHeight / 2.f);
+
+	pDrawList->AddRect(topLeft, bottomRight, ImColor(0, 0, 0));
+
+	const auto pLocalPlayer = GlobalVars::g_pClient->pLocalPlayer;
+	float fSpeed         = roundf(pLocalPlayer->m_vecVelocity.Length2D());
+	float velocityRatio  = fSpeed / fSpeedPerBar;
+	int barsCount = (int)ceilf(velocityRatio);
+	ImColor colors[] = { ImColor(255,0, 0), ImColor(0, 255, 0), ImColor(0, 0, 255) };
+
+	for (int i = 0; i < barsCount and velocityRatio > 0.f; i++)
+	{
+		float currentSpeedBarRatio = 1.f;
+
+		if (velocityRatio < 1.f)
+			currentSpeedBarRatio = velocityRatio;
+
+		float height = fHeight * (1.f - currentSpeedBarRatio);
+
+		pDrawList->AddRectFilled(topLeft+ImVec2(0.f, height) + ImVec2(1, 1), bottomRight-ImVec2(1, 1), colors[i]);
+
+		velocityRatio -= 1.f;
+	}
+
+
+
+
+
 
 }

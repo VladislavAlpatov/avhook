@@ -11,26 +11,29 @@
 #include "SnowFlakes/SnowFlake.h"
 #include "MessageLine/CMessageLine.h"
 
-class COverlay
+namespace UI
 {
-public:
-	
-	COverlay(LPDIRECT3DDEVICE9 pDevice);
-	~COverlay();
-	void Render();
-	bool IsShowUI();
-	void ToggleUI();
-private:
-	std::vector<SnowFlake> m_vecSnow;
-	std::vector<std::shared_ptr<Esp::CBaseEsp>> m_vecEspPayload;
-	PDIRECT3DTEXTURE9 m_pWallpaper = NULL;
-	ImFont* m_pFontMenu;
-	ImFont* m_pFontEsp;
-	bool    m_bShowUI            = false;
-	bool    m_bShowKeyBindDialog = false;
+	class COverlay
+	{
+	public:
 
-	std::vector<std::shared_ptr<UI::CBaseWindow>> m_vecWindows;
-	UI::CMessageLineList	      m_MessageLineList;
+		COverlay(LPDIRECT3DDEVICE9 pDevice);
+		~COverlay();
+		void Render();
+		bool IsShowUI();
+		void ToggleUI();
+	private:
+		std::vector<SnowFlake> m_vecSnow;
+		std::vector<std::shared_ptr<Esp::CBaseEsp>> m_vecEspPayload;
+		PDIRECT3DTEXTURE9 m_pWallpaper = NULL;
+		ImFont* m_pFontMenu;
+		ImFont* m_pFontEsp;
+		bool    m_bShowUI = false;
+		bool    m_bShowKeyBindDialog = false;
 
-	LPDIRECT3DDEVICE9 m_pDevice;
-};
+		std::vector<std::shared_ptr<UI::CBaseWindow>> m_vecWindows;
+		UI::CMessageLineList	      m_MessageLineList;
+
+		LPDIRECT3DDEVICE9 m_pDevice;
+	};
+}

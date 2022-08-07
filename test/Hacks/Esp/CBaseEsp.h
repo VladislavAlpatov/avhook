@@ -36,12 +36,12 @@ namespace Esp
 
 		}
 	protected:
-		EntityBox CalcEspBox(const CBaseEntity* pEntity);
-		ImVec3 WorldToScreen(const ImVec3& pos);
+		EntityBox CalcEspBox(const CBaseEntity* pEntity) const;
+		ImVec3 WorldToScreen(const ImVec3& pos) const;
 		virtual void InternalRenderAt(CBaseEntity* pEntity) = 0;
 
 		template <typename Type>
-		__forceinline Type* GetSettings()
+		__forceinline Type* GetSettings() const
 		{
 			return reinterpret_cast<Type*>(m_pSettings);
 		}
@@ -49,7 +49,7 @@ namespace Esp
 	private:
 		Settings::CBaseSettings* m_pSettings;
 
-		bool IsEntityOnScreen(CBaseEntity* pEnt)
+		bool IsEntityOnScreen(const CBaseEntity* pEnt) const 
 		{
 			if (WorldToScreen(pEnt->m_vecOrigin).z > 0.f)
 				return true;

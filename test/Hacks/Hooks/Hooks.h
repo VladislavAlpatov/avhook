@@ -12,7 +12,7 @@ namespace hooks
 	inline uintptr_t          oOnKill;
 	inline HMODULE		      hmodule;
 
-	inline std::unique_ptr<COverlay> pOverlay;
+	inline std::unique_ptr<UI::COverlay> pOverlay;
 
 	//int __stdcall  hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE type, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount);
 	void Attach(HMODULE ihModule);

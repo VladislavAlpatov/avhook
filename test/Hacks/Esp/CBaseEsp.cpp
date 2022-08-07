@@ -6,7 +6,7 @@
 
 using namespace Esp;
 
-ImVec3 CBaseEsp::WorldToScreen(const ImVec3& vecPosition)
+ImVec3 CBaseEsp::WorldToScreen(const ImVec3& vecPosition) const
 {
     // Screen size 
     ImVec2 viewPorstSize = ImGui::GetMainViewport()->Size;
@@ -34,7 +34,7 @@ ImVec3 CBaseEsp::WorldToScreen(const ImVec3& vecPosition)
     return ImVec3(x, y, w);
 }
 
-Esp::EntityBox CBaseEsp::CalcEspBox(const CBaseEntity* pEntity)
+Esp::EntityBox CBaseEsp::CalcEspBox(const CBaseEntity* pEntity) const
 {
     POLY_MARKER;
 
@@ -58,7 +58,7 @@ Esp::EntityBox CBaseEsp::CalcEspBox(const CBaseEntity* pEntity)
 
     POLY_MARKER;
 
-    for (auto& bone : bones)
+    for (const auto& bone : bones)
     {
         if (bone.Length() == 0) continue;
 

@@ -18,10 +18,11 @@ UI::CBaseWindow::CBaseWindow(LPDIRECT3DDEVICE9 pDevice)
 
 	static ImWchar ranges[] = { 0x1, 0xFFFD, 0 };
 
-	m_pFontSmall      = imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdana.ttf"),  11.f, &fontBUilderConfig, ranges);
-	m_pFontSmallBold  = imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 11.f, &fontBUilderConfig, ranges);
-	m_pFontMedium     = imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdana.ttf"),  15.f, &fontBUilderConfig, ranges);
-	m_pFontMediumBold = imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 15.f, &fontBUilderConfig, ranges);
+	m_pFontSmall      = std::unique_ptr<ImFont>(imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdana.ttf"),  11.f, &fontBUilderConfig, ranges));
+	m_pFontSmallBold  = std::unique_ptr<ImFont>(imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 11.f, &fontBUilderConfig, ranges));
+	m_pFontMedium     = std::unique_ptr<ImFont>(imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdana.ttf"),  15.f, &fontBUilderConfig, ranges));
+	m_pFontMediumBold = std::unique_ptr<ImFont>(imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 15.f, &fontBUilderConfig, ranges));
+
 }
 
 void UI::CBaseWindow::Toggle()
@@ -63,7 +64,7 @@ void UI::CBaseWindow::DrawIconAndTittle(const char* tittle)
 	ImGui::Image(m_pTextureIcon, ImVec2(16, 16));
 	ImGui::SameLine();
 
-	ImGui::PushFont(m_pFontMediumBold);
+	ImGui::PushFont(m_pFontMediumBold.get());
 	ImGui::Text(tittle);
 	ImGui::PopFont();
 }
@@ -84,7 +85,7 @@ void UI::CBaseWindow::Show()
 {
 	if (m_bIsShow or m_bForceShow)
 	{
-		ImGui::PushFont(m_pFontMedium);
+		ImGui::PushFont(m_pFontMedium.get());
 		Render();
 		ImGui::PopFont();
 	}
@@ -159,7 +160,7 @@ void UI::CBaseWindow::DrawToolTip(const char* text)
 	auto oldWindowPad   = style.WindowPadding;
 	style.WindowPadding = ImVec2(2, 2);
 
-	ImGui::PushFont(m_pFontSmall);
+	ImGui::PushFont(m_pFontSmall.get());
 	ImGui::SetTooltip(text);
 	ImGui::PopFont();
 

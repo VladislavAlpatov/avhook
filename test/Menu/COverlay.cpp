@@ -43,7 +43,7 @@ std::string GetCurrentWindowsUserName()
 	return std::string(buffer.get());
 }
 
-COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
+UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 {
 	POLY_MARKER;
 	m_pDevice      = pDevice;
@@ -123,13 +123,13 @@ COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 	m_MessageLineList.Add(fmt::format(xorstr("{}, the systems are yours. \nWe are stronger united."), WebApi::CAVHookServerApi().GetUserInfo().m_sName ), 3000);
 }
 
-COverlay::~COverlay()
+UI::COverlay::~COverlay()
 {
 	if (m_pWallpaper)
 		m_pWallpaper->Release();
 }
 
-void COverlay::Render()
+void UI::COverlay::Render()
 {
 	POLY_MARKER;
 	DX9ColorFix color_fix(m_pDevice);
@@ -234,11 +234,11 @@ void COverlay::Render()
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 	color_fix.RestoreColorFilter();
 }
-bool COverlay::IsShowUI()
+bool UI::COverlay::IsShowUI()
 {
 	return m_bShowUI;
 }
-void COverlay::ToggleUI()
+void UI::COverlay::ToggleUI()
 {
 	m_bShowUI = !m_bShowUI;
 }

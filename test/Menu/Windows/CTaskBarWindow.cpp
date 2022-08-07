@@ -15,7 +15,7 @@ void UI::CTaskBarWindow::Render()
 		ImGui::SetWindowPos(ImVec2(0, 0));
 		ImGui::SetWindowSize(ImVec2(screenSize.x, 20));
 
-		ImGui::PushFont(m_pFontMediumBold);
+		ImGui::PushFont(m_pFontMediumBold.get());
 
 		ImGui::SetCursorPosY(2);
 		DrawTextCentered(xorstr("AVhook Project"));
@@ -24,7 +24,7 @@ void UI::CTaskBarWindow::Render()
 		if (GlobalVars::g_AllSettings.m_MiscSettings.m_bShowTime)
 		{
 			std::string time = GetLocalTime();
-			ImGui::PushFont(m_pFontMediumBold);
+			ImGui::PushFont(m_pFontMediumBold.get());
 			ImGui::SetCursorPos(ImVec2(screenSize.x - ImGui::CalcTextSize(time.c_str()).x - 5, 2));
 			ImGui::Text(time.c_str());
 			ImGui::PopFont();

@@ -53,7 +53,7 @@ int __stdcall  hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a4, int 
 
 	if (!pOverlay)
 	{
-		pOverlay = std::unique_ptr<COverlay>(new COverlay(pDevice));
+		pOverlay = std::unique_ptr<UI::COverlay>(new UI::COverlay(pDevice));
 		GlobalVars::pDevice = pDevice;
 	}
 

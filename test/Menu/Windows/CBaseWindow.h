@@ -3,6 +3,10 @@
 #include "../../imgui/imgui.h"
 #include <string>
 #include <d3d9.h>
+#include <memory>
+
+
+
 /*
 Use as base class for others UI windows
 */
@@ -12,19 +16,20 @@ namespace UI
 {
 	class CBaseWindow : public IBaseDrawObject
 	{
+		friend class COverlay;
+
 	public:
 
 		CBaseWindow(LPDIRECT3DDEVICE9 pDevice);
 		CBaseWindow() {};
 		virtual ~CBaseWindow() { };
 
-		virtual void Show();
 
 		virtual std::string GetAlias();
 		void Toggle();
 		void SetShowState(bool isShow) { m_bIsShow = isShow; };
 	protected:
-
+		virtual void Show();
 		bool m_bIsShow = false;
 		// Show will be executed even if m_bIsShow is equal to false
 		bool m_bForceShow = false;
@@ -55,10 +60,10 @@ namespace UI
 		void DrawMultiLineInputTextWithTextOnBackGround(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, ImGuiInputTextFlags flags = 0);
 		void DrawToolTip(const char* text);
 
-		ImFont* m_pFontSmall      = nullptr;
-		ImFont* m_pFontSmallBold  = nullptr;
-		ImFont* m_pFontMedium     = nullptr;
-		ImFont* m_pFontMediumBold = nullptr;
+		std::unique_ptr<ImFont> m_pFontSmall;
+		std::unique_ptr<ImFont> m_pFontSmallBold;
+		std::unique_ptr<ImFont> m_pFontMedium;
+		std::unique_ptr<ImFont> m_pFontMediumBold;
 
 	};
 }

@@ -1,7 +1,7 @@
 #include "CSnapLinesEsp.h"
 using namespace Esp;
 
-void CSnapLinesEsp::InternalRenderAt(CBaseEntity* pEntity)
+void CSnapLinesEsp::InternalRenderAt(const CBaseEntity* pEntity)
 {
     auto pSettings = GetSettings<Settings::SnapLinesSettings>();
 

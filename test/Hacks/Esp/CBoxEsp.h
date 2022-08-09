@@ -12,6 +12,6 @@ namespace Esp
 		void	DrawSolidBox(const CBaseEntity* pEntity, const ImColor& drawColor, const  float thickness);
 		void	DrawCorneredBox(const CBaseEntity* pEntity, const ImColor& drawColor,const  float thickness);
 
-		virtual void InternalRenderAt(CBaseEntity* pEntity);
+		virtual void InternalRenderAt(const CBaseEntity* pEntity);
 	};
 }

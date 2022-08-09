@@ -4,7 +4,7 @@
 #include "../../Globals/Interfaces.h"
 using namespace Esp;
 
-void CLabelEsp::InternalRenderAt(CBaseEntity* pEntity)
+void CLabelEsp::InternalRenderAt(const CBaseEntity* pEntity)
 {
 	auto pSettings = GetSettings<Settings::CLabelEspSettings>();
 

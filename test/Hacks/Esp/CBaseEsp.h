@@ -35,7 +35,7 @@ namespace Esp
 		};
 	protected:
 		bool isActive() { return m_pSettings->m_bActive; }
-		__forceinline void RenderAt(CBaseEntity* pEntity)
+		__forceinline void RenderAt(const CBaseEntity* pEntity)
 		{
 			if (IsEntityOnScreen(pEntity))
 				InternalRenderAt(pEntity);
@@ -43,7 +43,7 @@ namespace Esp
 		}
 		EntityBox CalcEspBox(const CBaseEntity* pEntity) const;
 		ImVec3 WorldToScreen(const ImVec3& pos) const;
-		virtual void InternalRenderAt(CBaseEntity* pEntity) = 0;
+		virtual void InternalRenderAt(const CBaseEntity* pEntity) = 0;
 
 		template <typename Type>
 		__forceinline Type* GetSettings() const

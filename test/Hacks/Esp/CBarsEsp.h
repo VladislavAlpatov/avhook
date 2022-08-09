@@ -8,7 +8,7 @@ namespace Esp
 		CBarsEsp(Settings::BarEspSettings* pSettings) : CBaseEsp(pSettings) {};
 		
 	private:
-		virtual void InternalRenderAt(CBaseEntity* pEntity);
+		virtual void InternalRenderAt(const CBaseEntity* pEntity);
 		struct LineData
 		{
 			LineData(const ImColor& color, float fLength)

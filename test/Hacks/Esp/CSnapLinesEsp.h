@@ -7,6 +7,6 @@ namespace Esp
 	public:
 		CSnapLinesEsp(Settings::SnapLinesSettings* pSettings) : CBaseEsp(pSettings) {};
 	private:
-		virtual void InternalRenderAt(CBaseEntity* pEntity);
+		virtual void InternalRenderAt(const CBaseEntity* pEntity);
 	};
 }

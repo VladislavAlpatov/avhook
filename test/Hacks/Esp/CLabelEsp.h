@@ -14,6 +14,6 @@ namespace Esp
 		void DrawLabelsAtTop(const CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels);
 	public:
 		CLabelEsp(Settings::CLabelEspSettings* pSettings) : CBaseEsp(pSettings) {};
-		virtual void InternalRenderAt(CBaseEntity* pEntity);
+		virtual void InternalRenderAt(const CBaseEntity* pEntity);
 	};
 };

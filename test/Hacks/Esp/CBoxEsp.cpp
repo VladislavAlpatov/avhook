@@ -8,7 +8,7 @@
 using namespace Esp;
 using namespace SSDK;
 
-void CBoxEsp::InternalRenderAt(CBaseEntity* pEntity)
+void CBoxEsp::InternalRenderAt(const CBaseEntity* pEntity)
 {
     auto pSettings = GetSettings<Settings::BoxEspSettings>();
 

@@ -354,6 +354,9 @@
     <ClInclude Include="Menu\Overlays\CCrosshairOverlay.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="Hacks\Esp\CGlowEsp.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_draw.cpp">
@@ -528,6 +531,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Menu\Overlays\CCrosshairOverlay.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Hacks\Esp\CGlowEsp.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

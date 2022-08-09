@@ -22,7 +22,16 @@
 
 using namespace hooks;
 
-extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+static uintptr_t		  oPresent;
+static uintptr_t		  oDrawIndexedPrimitive;
+static uintptr_t		  oNtQueryVirtualMemory;
+static uintptr_t	      oWndProc;
+static uintptr_t	      oCreateMove;
+static uintptr_t          oOnKill;
+static HMODULE		      hmodule;
+static std::unique_ptr<UI::COverlay> pOverlay;
+
 
 int __stdcall hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE type, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
 {
@@ -62,7 +71,7 @@ int __stdcall  hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a4, int 
 	pOverlay->Render();		
 
 	typedef int(__stdcall* Present)(LPDIRECT3DDEVICE9, int, int, int, int);
-	return reinterpret_cast<Present>(hooks::oPresent)(pDevice, a2, a3, a4, a5);
+	return reinterpret_cast<Present>(oPresent)(pDevice, a2, a3, a4, a5);
 }
 
 bool __stdcall hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
@@ -125,19 +134,19 @@ LRESULT WINAPI WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	if (pOverlay->IsShowUI())
 	{
 		POLY_MARKER;
-
+		extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
 		return TRUE;
 	}
 	typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);
-	return CallWindowProc((WNDPROC)hooks::oWndProc, hWnd, uMsg, wParam, lParam);
+	return CallWindowProc((WNDPROC)oWndProc, hWnd, uMsg, wParam, lParam);
 }
 
 void hooks::Attach(HMODULE ihModule)
 {
 	POLY_MARKER;
 
-	hooks::hmodule = ihModule;
+	hmodule = ihModule;
 	MH_Initialize();
 
 	auto  presentAddr = Memory::FindPattern(xorstr("d3d9.dll"), xorstr("?? ?? ?? ?? ?? 83 E4 F8 51 51 56 8B 75 08 8B CE F7 D9 57 1B C9 8D 46 04 23 C8 6A ?? 51 8D 4C 24 10 E8 ?? ?? ?? ?? F7 46 ?? ?? ?? ?? ?? 74 07 BF ?? ?? ?? ?? EB 17"));
@@ -145,7 +154,7 @@ void hooks::Attach(HMODULE ihModule)
 	if (!presentAddr)
 		throw std::runtime_error(xorstr("DirectX 9 initialization failure"));
 	
-	MH_CreateHook((LPVOID)presentAddr, &hkPresent, reinterpret_cast<LPVOID*>(&hooks::oPresent));
+	MH_CreateHook((LPVOID)presentAddr, &hkPresent, reinterpret_cast<LPVOID*>(&oPresent));
 
 	POLY_MARKER;
 
@@ -175,7 +184,7 @@ void hooks::Attach(HMODULE ihModule)
 
 void hooks::Detach()
 {
-	SetWindowLongPtr(FindWindowA(NULL, WINDOW_NAME), GWLP_WNDPROC, (LONG_PTR)(hooks::oWndProc));
+	SetWindowLongPtr(FindWindowA(NULL, WINDOW_NAME), GWLP_WNDPROC, (LONG_PTR)(oWndProc));
 
 	MH_DisableHook(MH_ALL_HOOKS);
 	Sleep(100);

@@ -267,6 +267,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Hacks\Esp\CGlowEsp.h" />
     <ClInclude Include="Menu\Overlays\CCrosshairOverlay.h" />
     <ClInclude Include="Globals\DirectX9.h" />
     <ClInclude Include="Globals\Interfaces.h" />
@@ -340,6 +341,7 @@
     <ClInclude Include="Web\httplib.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Hacks\Esp\CGlowEsp.cpp" />
     <ClCompile Include="Menu\Overlays\CCrosshairOverlay.cpp" />
     <ClCompile Include="Globals\GSettings.cpp" />
     <ClCompile Include="Hacks\Esp\CTextureOverride\CTextureOverride.cpp" />

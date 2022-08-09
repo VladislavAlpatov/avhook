@@ -51,7 +51,7 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 		Sleep(100);
 
 	GlobalVars::Init();
-	hooks::Attach(hModule);
+	hooks::Attach();
 	POLY_MARKER;
 
 	while (!GetAsyncKeyState(VK_END))

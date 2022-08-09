@@ -29,7 +29,6 @@ static uintptr_t		  oNtQueryVirtualMemory;
 static uintptr_t	      oWndProc;
 static uintptr_t	      oCreateMove;
 static uintptr_t          oOnKill;
-static HMODULE		      hmodule;
 static std::unique_ptr<UI::COverlay> pOverlay;
 
 
@@ -142,11 +141,9 @@ LRESULT WINAPI WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return CallWindowProc((WNDPROC)oWndProc, hWnd, uMsg, wParam, lParam);
 }
 
-void hooks::Attach(HMODULE ihModule)
+void hooks::Attach()
 {
 	POLY_MARKER;
-
-	hmodule = ihModule;
 	MH_Initialize();
 
 	auto  presentAddr = Memory::FindPattern(xorstr("d3d9.dll"), xorstr("?? ?? ?? ?? ?? 83 E4 F8 51 51 56 8B 75 08 8B CE F7 D9 57 1B C9 8D 46 04 23 C8 6A ?? 51 8D 4C 24 10 E8 ?? ?? ?? ?? F7 46 ?? ?? ?? ?? ?? 74 07 BF ?? ?? ?? ?? EB 17"));

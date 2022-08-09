@@ -4,6 +4,6 @@
 
 namespace hooks
 {
-	void Attach(HMODULE ihModule);
+	void Attach();
 	void Detach();
 }

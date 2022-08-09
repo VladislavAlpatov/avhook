@@ -2,13 +2,18 @@
 #include "../../Utils/Vec3.h"
 #include "../../Menu/Settings.h"
 
+namespace UI
+{
+	class COverlay;
+}
+
 namespace Esp
 {
 
 	class EntityBox
 	{
 	public:
-
+		
 		ImVec2 m_vecTopLeft;
 		ImVec2 m_vecTopRight;
 
@@ -23,11 +28,12 @@ namespace Esp
 	class CBaseEsp
 	{
 	public:
-
+		friend UI::COverlay;
 		CBaseEsp(Settings::CBaseSettings* pSettings)
 		{
 			m_pSettings = pSettings;
 		};
+	protected:
 		bool isActive() { return m_pSettings->m_bActive; }
 		__forceinline void RenderAt(CBaseEntity* pEntity)
 		{
@@ -35,7 +41,6 @@ namespace Esp
 				InternalRenderAt(pEntity);
 
 		}
-	protected:
 		EntityBox CalcEspBox(const CBaseEntity* pEntity) const;
 		ImVec3 WorldToScreen(const ImVec3& pos) const;
 		virtual void InternalRenderAt(CBaseEntity* pEntity) = 0;
@@ -51,9 +56,7 @@ namespace Esp
 
 		bool IsEntityOnScreen(const CBaseEntity* pEnt) const 
 		{
-			if (WorldToScreen(pEnt->m_vecOrigin).z > 0.f)
-				return true;
-			return false;
+			return WorldToScreen(pEnt->m_vecOrigin).z > 0.f;
 		}
 	};
 }

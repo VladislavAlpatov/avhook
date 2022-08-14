@@ -1600,18 +1600,15 @@ void ImDrawList::AddText(const ImFont* font, float font_size, const ImVec2& pos,
         clip_rect.z = ImMin(clip_rect.z, cpu_fine_clip_rect->z);
         clip_rect.w = ImMin(clip_rect.w, cpu_fine_clip_rect->w);
     }
-    auto tempPosition = pos;
-    auto outlineColor = ImColor(0, 0, 0);
 
-
-    for (int x = -1; x <= 1; ++x)
+    for (char x = -1; x < 2; ++x)
     {
-        for (int y = -1; y <= 1; ++y)
+        for (char y = -1; y < 2; ++y)
         {
             if (!x and !y)
                 continue;
 
-            font->RenderText(this, font_size, pos + ImVec2(x,y), outlineColor, clip_rect, text_begin, text_end, wrap_width, cpu_fine_clip_rect != NULL);
+            font->RenderText(this, font_size, pos + ImVec2(x,y), ImColor(0, 0, 0), clip_rect, text_begin, text_end, wrap_width, cpu_fine_clip_rect != NULL);
         }
     }
     font->RenderText(this, font_size, pos, col, clip_rect, text_begin, text_end, wrap_width, cpu_fine_clip_rect != NULL);

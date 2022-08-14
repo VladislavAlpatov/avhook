@@ -7,7 +7,7 @@
 
 void UI::CSettingsWindow::DrawESPChild()
 {
-	ImGui::SetWindowSize(ImVec2(555, 500));
+	ImGui::SetWindowSize(ImVec2(555, 530));
 
 	ImGui::Image(m_pTexureEspIcon, ImVec2(16, 16));
 	ImGui::SameLine();
@@ -66,7 +66,7 @@ void UI::CSettingsWindow::DrawESPChild()
 		ImGui::InputInt(xorstr("###barsthiccness"), &GlobalVars::g_AllSettings.m_BarEspSettings.m_iThickness);
 		ImGui::EndChild();
 	}
-
+	ImGui::SameLine();
 	ImGui::BeginChild(xorstr("###Radar"), blockSize + ImVec2(0, 80), true);
 	{
 		ImGui::Text(xorstr("Radar"));

@@ -88,7 +88,7 @@ void UI::CSettingsWindow::DrawESPChild()
 	ImGui::BeginChild(xorstr("###LabelEsp"), blockSize + ImVec2(40, 105), true, m_iImGuiStyle);
 	{
 		ImGui::Text(xorstr("Labels"));
-
+		
 		static const char* positions[] = { "Left alligned", "Top alligned" };
 		ImGui::Combo(xorstr("###LabelDrawPos"), &GlobalVars::g_AllSettings.m_LabelEspSettings.m_iDrawPos, positions, IM_ARRAYSIZE(positions));
 		DrawToolTip(xorstr("Determine where the labels will be displayed."));

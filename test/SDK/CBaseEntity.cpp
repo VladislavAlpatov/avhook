@@ -42,3 +42,12 @@ float SSDK::CBaseEntity::GetHealthPercent() const
 {
 	return 100.f * m_iHealth / m_iMaxHealth;
 }
+
+const ClientClass* SSDK::CBaseEntity::GetClientClass() const
+{
+	typedef ClientClass* (__cdecl* GetClientClass_t)();
+
+	// Get addr of fucntion with index  2 from vtable with index 2
+	auto funcAdrr = ((GetClientClass_t**)this)[2][2];
+	return funcAdrr();
+}

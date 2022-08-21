@@ -20,7 +20,8 @@ void CLabelEsp::InternalRenderAt(const CBaseEntity* pEntity)
 
 void Esp::CLabelEsp::DrawLabelsAtLeftSide(const CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels)
 {
-    const float textPadding = ImGui::CalcTextSize(xorstr("x")).y;
+    // Using single char to calc text height for padding
+    const float textPadding = ImGui::CalcTextSize(xorstr(" ")).y;
     auto textPos = CalcEspBox(pEntity).m_vecTopRight + ImVec2(GlobalVars::g_AllSettings.m_BoxEspSettings.m_iThickness + 2, 0);
 
 
@@ -36,8 +37,9 @@ void Esp::CLabelEsp::DrawLabelsAtLeftSide(const CBaseEntity* pEntity, const std:
 
 void Esp::CLabelEsp::DrawLabelsAtTop(const CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels)
 {
+    // Using single char to calc text height for padding
     auto pSettings = GetSettings<Settings::CLabelEspSettings>();
-    const float textPadding = ImGui::CalcTextSize(xorstr("x")).y;
+    const float textPadding = ImGui::CalcTextSize(xorstr(" ")).y;
 
     auto textPos = CalcEspBox(pEntity).m_vecTopLeft - ImVec2(0, textPadding+GlobalVars::g_AllSettings.m_BoxEspSettings.m_iThickness);
 

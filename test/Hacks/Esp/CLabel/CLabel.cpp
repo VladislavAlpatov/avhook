@@ -9,27 +9,27 @@ using namespace CLabels;
 
 
 
-bool CNameLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity)
+bool CNameLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const
 {
 	auto pDrawList = ImGui::GetBackgroundDrawList();
 	pDrawList->AddText(vecPosition, m_Color, GlobalVars::g_pIEngineClient->GetPlayerInfo(pEntity->m_Index).szName);
 	return true;
 }
-bool CHealthLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity)
+bool CHealthLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const
 {
 	auto pDrawList = ImGui::GetBackgroundDrawList();
 	pDrawList->AddText(vecPosition, pEntity->GetColorBasedOnHealth(), fmt::format(xorstr("Health: {}/100"), pEntity->m_iHealth).c_str());
 
 	return true;
 }
-bool CArmorLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity)
+bool CArmorLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const
 {
 	auto pDrawList = ImGui::GetBackgroundDrawList();
 	pDrawList->AddText(vecPosition, m_Color, fmt::format(xorstr("Armor: {}/100"), pEntity->m_ArmorValue).c_str());
 
 	return true;
 }
-bool CDistanceLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity)
+bool CDistanceLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const
 {
 	auto pDrawList = ImGui::GetBackgroundDrawList();
 	const auto distance = GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(pEntity);
@@ -37,7 +37,7 @@ bool CDistanceLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* 
 
 	return true;
 }
-bool CVisibilityLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity)
+bool CVisibilityLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const
 {
 	if (!pEntity->m_IsVisible)
 		return false;
@@ -47,7 +47,7 @@ bool CVisibilityLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity
 
 	return true;
 }
-bool CAimBotTargetLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity)
+bool CAimBotTargetLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const
 {
 	if (pEntity != GlobalVars::g_AllSettings.m_AimBotSettings.m_pCurrentTarget)
 		return false;

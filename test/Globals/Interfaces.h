@@ -4,6 +4,7 @@
 #include "../SDK/IEngineTrace.h"
 #include "../SDK/ClientBase.h"
 #include "../SDK/IClientEntityList.h"
+#include "../SDK/IGlowObjectManager.h"
 
 namespace GlobalVars
 {

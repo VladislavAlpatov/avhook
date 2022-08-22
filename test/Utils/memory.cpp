@@ -69,6 +69,7 @@ uintptr_t Memory::FindPattern(const char* moduleName, const char* signature)
 	for (uintptr_t i = 0; i < size - pattern.size(); i++)
 	{
 		bool found = true;
+
 		for (uintptr_t j = 0; j < pattern.size(); j++)
 		{
 			found &= pattern[j] == '\?' or pattern[j] == *(BYTE*)(base + i + j);

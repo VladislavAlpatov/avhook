@@ -29,6 +29,8 @@ static uintptr_t		  oNtQueryVirtualMemory;
 static uintptr_t	      oWndProc;
 static uintptr_t	      oCreateMove;
 static uintptr_t          oOnKill;
+static uintptr_t		  oDoPostScreenEffects;
+
 static std::unique_ptr<UI::COverlay> pOverlay;
 
 
@@ -126,7 +128,23 @@ bool __stdcall hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 
 	return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
 }
+int __fastcall DoPostScreenSpaceEffects(void* pThis, void* edx, void* pView)
+{
+	for (int i = 0; i < GlobalVars::g_pGlowObjectManager->GetGlowEntitiesCount(); ++i)
+	{
 
+		auto& pGlowObject = GlobalVars::g_pGlowObjectManager->GetGlowObject(i);
+
+		if (!pGlowObject.m_pEntity or pGlowObject.m_pEntity->GetClientClass()->m_iClassId != SSDK::ClassIndex::CCSPlayer or pGlowObject.IsUnused())
+			continue;
+		pGlowObject.m_iGlowStyle = 3;
+		pGlowObject.SetColor(ImColor(255, 255, 255));
+	}
+
+	typedef int(__fastcall* DoPostScreenSpaceEffects_t)(void*, void*, void*);
+	return reinterpret_cast<DoPostScreenSpaceEffects_t>(oDoPostScreenEffects)(pThis, edx, pView);
+
+}
 LRESULT WINAPI WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	POLY_MARKER;
@@ -167,9 +185,13 @@ void hooks::Attach()
 	uintptr_t DrawIndexedPrimitiveAddr = Memory::FindPattern(xorstr("d3d9.dll"), xorstr("8B FF 55 8B EC 6A FF 68 ? ? ? ? 64 A1 ? ? ? ? 50 83 EC 20 53 56 57 A1 ? ? ? ? 33 C5 50 8D 45 F4 64 A3 ? ? ? ? 89 65 F0 8B 75 08 85 F6 0F 84 ? ? ? ? 8D 5E 04 89 5D EC 89 5D D4 C7 45 ? ? ? ? ? 83 7B 18 00 0F 85 ? ? ? ? C7 45 ? ? ? ? ? F7 46 ? ? ? ? ? 0F 85 ? ? ? ? 81 8E ? ? ? ? ? ? ? ?"));
 
 	MH_CreateHook((LPVOID*)DrawIndexedPrimitiveAddr, &hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
-	// MH_CreateHook(GetProcAddress(GetModuleHandle("ntdll"), xorstr("NtQueryVirtualMemory")), &hNtQueryVirtualMemory, (LPVOID*)&oNtQueryVirtualMemory);
+
+	uintptr_t DoPostScreenEffectsAddr = Memory::FindPattern(xorstr("client.dll"), xorstr("55 8B EC 8B 49 18 56 8B 35"));
+	MH_CreateHook((LPVOID*)DoPostScreenEffectsAddr, &DoPostScreenSpaceEffects, (LPVOID*)&oDoPostScreenEffects);
+
 
 	MH_EnableHook(MH_ALL_HOOKS);
+
 	// Wait until overlay is ready for work.
 	while (!pOverlay)
 		Sleep(50);

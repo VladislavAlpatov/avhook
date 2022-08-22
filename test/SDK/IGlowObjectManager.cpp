@@ -10,5 +10,6 @@ SSDK::GlowObjectDefinition& SSDK::IGlowObjectManager::GetGlowObject(size_t index
 
 int SSDK::IGlowObjectManager::GetGlowEntitiesCount() const 
 {
-	return 0;
+
+	return *(int*)( (uintptr_t)this+0xC );
 }

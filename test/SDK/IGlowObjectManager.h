@@ -7,6 +7,8 @@ namespace SSDK
 {
     class GlowObjectDefinition
     {
+    public:
+
         int nextFreeSlot;
         CBaseEntity* m_pEntity;
 
@@ -24,7 +26,7 @@ namespace SSDK
 
         inline bool IsUnused() const
         {
-            return nextFreeSlot != -1;
+            return nextFreeSlot != -2;
         }
 
         void SetColor(const ImColor& color)

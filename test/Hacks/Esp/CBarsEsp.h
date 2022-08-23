@@ -3,10 +3,10 @@
 
 namespace Esp
 {
-	class CBarsEsp : public CBaseEsp
+	class CBarsEsp : public CUIEsp
 	{
 	public:
-		CBarsEsp(Settings::BarEspSettings* pSettings) : CBaseEsp(pSettings) {};
+		CBarsEsp(Settings::BarEspSettings* pSettings) : CUIEsp(pSettings) {};
 		
 	private:
 		virtual void InternalRenderAt(const SSDK::CBaseEntity* pEntity);

@@ -12,9 +12,9 @@ void DrawTexCentered(const ImVec2& pos, ImColor col, const char* text)
 	ImGui::GetBackgroundDrawList()->AddText(textPos, col, text);
 }
 
-static float oldSpeed = 0.f;
+static int oldSpeed = 0;
 
-void Update(int rate, float speedVal)
+void Update(int rate, int speedVal)
 {
 	static auto oldTime = GetTickCount64();
 
@@ -99,9 +99,6 @@ void CCrosshairOverlay::DrawCrosshair() const
 void CCrosshairOverlay::DrawHealthBar(const ImVec2& vecDrawPos, float fHealthRatio, float thickness, float fHight) const
 {
 	const auto pLocalPlayer = GlobalVars::g_pClient->pLocalPlayer;
-	float healthRatio = pLocalPlayer->GetHealthPercent() / 100.f;
-
-	if (healthRatio > 1.f) healthRatio = 1.f;
 
 
 	ImVec2 topLeft     = vecDrawPos - ImVec2(0, fHight / 2.f);
@@ -115,7 +112,9 @@ void CCrosshairOverlay::DrawHealthBar(const ImVec2& vecDrawPos, float fHealthRat
 	auto pDrawList = ImGui::GetBackgroundDrawList();
 
 	DrawTexCentered(topLeft + ImVec2(thickness / 2.f, -15), pLocalPlayer->GetColorBasedOnHealth(), healthLabel.c_str());
-	pDrawList->AddRectFilled(topLeft+ImVec2(1,1), bottomRight-ImVec2(1, 1), pLocalPlayer->GetColorBasedOnHealth());
+
+
+	pDrawList->AddRectFilled(bottomRight-ImVec2(thickness, fHight*fHealthRatio), bottomRight-ImVec2(1, 1), pLocalPlayer->GetColorBasedOnHealth());
 
 	pDrawList->AddRect(topLeft, bottomRight, ImColor(0, 0, 0));
 
@@ -124,15 +123,34 @@ void CCrosshairOverlay::DrawHealthBar(const ImVec2& vecDrawPos, float fHealthRat
 void CCrosshairOverlay::DrawSpeedBar(const ImVec2& vecDrawPos, float fSpeedPerBar, float thickness, float fHeight) const
 {
 	auto pDrawList = ImGui::GetBackgroundDrawList();
+	const auto pLocalPlayer = GlobalVars::g_pClient->pLocalPlayer;
 
 	ImVec2 topLeft     = vecDrawPos - ImVec2(0, fHeight / 2.f);
 	ImVec2 bottomRight = vecDrawPos + ImVec2(thickness, fHeight / 2.f);
 
 	pDrawList->AddRect(topLeft, bottomRight, ImColor(0, 0, 0));
 
-	const auto pLocalPlayer = GlobalVars::g_pClient->pLocalPlayer;
-	float fSpeed         = roundf(pLocalPlayer->m_vecVelocity.Length2D());
-	float velocityRatio  = fSpeed / fSpeedPerBar;
+	const int currentSpeed = roundf(pLocalPlayer->m_vecVelocity.Length2D());
+
+	ImColor speedTextCol = { 255,106,0 };
+
+	if (currentSpeed > oldSpeed)
+	{
+		pDrawList->AddText(topLeft + ImVec2(20, 0), ImColor(0, 255, 0), xorstr(u8"Λ\nΛ\nΛ"));
+		speedTextCol = { 0, 255, 0 };
+	}
+	else if (currentSpeed < oldSpeed)
+	{
+		pDrawList->AddText(bottomRight + ImVec2(10, -ImGui::CalcTextSize(xorstr(u8"V\nV\nV")).y), ImColor(255, 0, 0), xorstr(u8"V\nV\nV"));
+		speedTextCol = { 255, 0, 0 };
+	}
+	else if (currentSpeed == 0.f)
+	{
+		speedTextCol = { 255, 255, 255 };
+	}
+	DrawTexCentered(topLeft + ImVec2(thickness / 2.f, -12), speedTextCol, std::to_string((int)currentSpeed).c_str());
+
+	float velocityRatio  = roundf(pLocalPlayer->m_vecVelocity.Length2D()) / fSpeedPerBar;
 	int barsCount = (int)ceilf(velocityRatio);
 	ImColor colors[] = { ImColor(255,0, 0), ImColor(0, 255, 0), ImColor(0, 0, 255) };
 
@@ -145,14 +163,10 @@ void CCrosshairOverlay::DrawSpeedBar(const ImVec2& vecDrawPos, float fSpeedPerBa
 
 		float height = fHeight * (1.f - currentSpeedBarRatio);
 
-		pDrawList->AddRectFilled(topLeft+ImVec2(0.f, height) + ImVec2(1, 1), bottomRight-ImVec2(1, 1), colors[i]);
+		pDrawList->AddRectFilled(topLeft + ImVec2(0.f, height) + ImVec2(1, 1), bottomRight - ImVec2(1, 1), colors[i]);
 
 		velocityRatio -= 1.f;
 	}
 
-
-
-
-
-
+	Update(500, currentSpeed);
 }

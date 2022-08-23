@@ -6,7 +6,7 @@
 
 using namespace Esp;
 
-ImVec3 CBaseEsp::WorldToScreen(const ImVec3& vecPosition) const
+ImVec3 CUIEsp::WorldToScreen(const ImVec3& vecPosition) const
 {
     // Screen size 
     ImVec2 viewPorstSize = ImGui::GetMainViewport()->Size;
@@ -34,7 +34,7 @@ ImVec3 CBaseEsp::WorldToScreen(const ImVec3& vecPosition) const
     return ImVec3(x, y, w);
 }
 
-Esp::EntityBox CBaseEsp::CalcEspBox(const SSDK::CBaseEntity* pEntity) const
+Esp::EntityBox CUIEsp::CalcEspBox(const SSDK::CBaseEntity* pEntity) const
 {
     POLY_MARKER;
 

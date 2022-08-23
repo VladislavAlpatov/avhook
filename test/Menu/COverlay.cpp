@@ -103,10 +103,10 @@ UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 	POLY_MARKER;
 
 	m_vecEspPayload = {
-		std::shared_ptr<Esp::CBaseEsp>(new Esp::CBoxEsp(&GlobalVars::g_AllSettings.m_BoxEspSettings)), 
-		std::shared_ptr<Esp::CBaseEsp>(new Esp::CBarsEsp(&GlobalVars::g_AllSettings.m_BarEspSettings)),
-		std::shared_ptr<Esp::CBaseEsp>(new Esp::CLabelEsp(&GlobalVars::g_AllSettings.m_LabelEspSettings)),
-		std::shared_ptr<Esp::CBaseEsp>(new Esp::CSnapLinesEsp(&GlobalVars::g_AllSettings.m_SnapLinesSettings))
+		std::shared_ptr<Esp::CUIEsp>(new Esp::CBoxEsp(&GlobalVars::g_AllSettings.m_BoxEspSettings)), 
+		std::shared_ptr<Esp::CUIEsp>(new Esp::CBarsEsp(&GlobalVars::g_AllSettings.m_BarEspSettings)),
+		std::shared_ptr<Esp::CUIEsp>(new Esp::CLabelEsp(&GlobalVars::g_AllSettings.m_LabelEspSettings)),
+		std::shared_ptr<Esp::CUIEsp>(new Esp::CSnapLinesEsp(&GlobalVars::g_AllSettings.m_SnapLinesSettings))
 	};
 
 	for (int i = 0; i < 100; ++i)

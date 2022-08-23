@@ -208,7 +208,9 @@ namespace Settings
 	{
 	public:
 		CGlowEspSettings() {};
-		ImColor m_Color;
+		ImColor m_Color = ImColor(255, 255, 255);
+		float   m_fGlowSize = 1.f;
+		int		m_iStyle = 0;
 
 		nlohmann::json ToJson() const override;
 	};
@@ -231,6 +233,7 @@ namespace Settings
 		CBunnyHopSettings     m_BunnyHopSettings;
 		CTextureOverrideSettings m_TextureOverrideSettings;
 		CCrosshairSettings       m_CrosshairSettings;
+		CGlowEspSettings		m_GlowEspSettings;
 
 		nlohmann::json ToJson() const override;
 	};

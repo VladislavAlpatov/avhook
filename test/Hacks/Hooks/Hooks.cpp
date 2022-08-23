@@ -132,19 +132,24 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 }
 int __fastcall hooks::DoPostScreenSpaceEffects(void* pThis, void* edx, void* pView)
 {
+	typedef int(__fastcall* DoPostScreenSpaceEffects_t)(void*, void*, void*);
+	static auto glowEsp = Esp::CGlowEsp(&GlobalVars::g_AllSettings.m_GlowEspSettings);
+
+
+	if (!glowEsp.isActive())
+		return reinterpret_cast<DoPostScreenSpaceEffects_t>(oDoPostScreenEffects)(pThis, edx, pView);
 
 	for (int i = 0; i < GlobalVars::g_pGlowObjectManager->GetGlowEntitiesCount(); ++i)
 	{
 
-		auto& pGlowObject = GlobalVars::g_pGlowObjectManager->GetGlowObject(i);
+		auto& glowObject = GlobalVars::g_pGlowObjectManager->GetGlowObject(i);
 
-		if (!pGlowObject.m_pEntity or pGlowObject.m_pEntity->GetClientClass()->m_iClassId != SSDK::ClassIndex::CCSPlayer or pGlowObject.IsUnused())
+		if (!glowObject.m_pEntity or glowObject.m_pEntity->GetClientClass()->m_iClassId != SSDK::ClassIndex::CCSPlayer or glowObject.IsUnused())
 			continue;
-		pGlowObject.m_iGlowStyle = 3;
-		pGlowObject.SetColor(ImColor(255, 255, 255));
+		glowEsp.RenderAt(glowObject);
+
 	}
 
-	typedef int(__fastcall* DoPostScreenSpaceEffects_t)(void*, void*, void*);
 	return reinterpret_cast<DoPostScreenSpaceEffects_t>(oDoPostScreenEffects)(pThis, edx, pView);
 
 }

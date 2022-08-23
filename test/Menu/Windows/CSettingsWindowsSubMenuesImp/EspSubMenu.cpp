@@ -7,7 +7,7 @@
 
 void UI::CSettingsWindow::DrawESPChild()
 {
-	ImGui::SetWindowSize(ImVec2(555, 530));
+	ImGui::SetWindowSize(ImVec2(555, 555));
 
 	ImGui::Image(m_pTexureEspIcon, ImVec2(16, 16));
 	ImGui::SameLine();
@@ -16,7 +16,7 @@ void UI::CSettingsWindow::DrawESPChild()
 	static const char* hitboxes[3] = { "Head", "Body", "Legs" };
 	static const char* drawOptions[] = { "Custom", "Health" };
 	static const ImVec2 blockSize = ImVec2(140, 135);
-
+	
 	ImGui::BeginChild(xorstr("###SnapLinesESP"), blockSize, true);
 	{
 		ImGui::Text(xorstr("Snap Lines"));
@@ -67,8 +67,10 @@ void UI::CSettingsWindow::DrawESPChild()
 		ImGui::EndChild();
 	}
 	ImGui::SameLine();
-	ImGui::BeginChild(xorstr("###Radar"), blockSize + ImVec2(0, 80), true);
+	ImGui::SetCursorPos(ImGui::GetCursorPos() - ImVec2(0, 30));
+	ImGui::BeginChild(xorstr("###Radar"), blockSize + ImVec2(40, 80), true);
 	{
+
 		ImGui::Text(xorstr("Radar"));
 		ImGui::Checkbox(xorstr("Active"), &GlobalVars::g_AllSettings.m_RadarSettings.m_bActive);
 		static const char* style[] = { "Embedded", "Custom" };
@@ -82,6 +84,24 @@ void UI::CSettingsWindow::DrawESPChild()
 		ImGui::ColorEdit4(xorstr("Border Color"), (float*)&GlobalVars::g_AllSettings.m_RadarSettings.m_CyrcleBorderColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::ColorEdit4(xorstr("Cross Color"), (float*)&GlobalVars::g_AllSettings.m_RadarSettings.m_CrossColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::ColorEdit4(xorstr("Background Color"), (float*)&GlobalVars::g_AllSettings.m_RadarSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::EndChild();
+
+	}
+	ImGui::SameLine();
+	ImGui::BeginChild(xorstr("###Glow"), blockSize + ImVec2(40, 80), true);
+	{
+		auto& settings = GlobalVars::g_AllSettings.m_GlowEspSettings;
+		ImGui::Text(xorstr("Glow Esp"));
+		ImGui::Checkbox(xorstr("Active###GlowActive"), &settings.m_bActive);
+		ImGui::InputFloat(xorstr("Size"), &settings.m_fGlowSize, 0.f, 0.f, "%.1f");
+
+		if (settings.m_fGlowSize > 1.f)
+			settings.m_fGlowSize = 1.f;
+
+		static const char* styles[] = {"Style 1", "Style 2", "Style 3", "Style 4"};
+		ImGui::Combo(xorstr("Style###GStyle"), &settings.m_iStyle, styles, IM_ARRAYSIZE(styles));
+		ImGui::ColorEdit3(xorstr("Color"), (float*)&settings.m_Color, ImGuiColorEditFlags_NoInputs);
+
 		ImGui::EndChild();
 	}
 	ImGui::SetCursorPos(pos);

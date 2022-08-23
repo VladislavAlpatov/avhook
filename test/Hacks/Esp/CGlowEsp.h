@@ -1,5 +1,6 @@
 #pragma once
 #include "CBaseEsp.h"
+#include "../../SDK/IGlowObjectManager.h"
 
 namespace hooks
 {
@@ -9,12 +10,12 @@ namespace Esp
 {
 	class CGlowEsp : public CBaseEsp
 	{
-	public:
 		friend int __fastcall hooks::DoPostScreenSpaceEffects(void* pThis, void* edx, void* pView);
-		CGlowEsp(Settings::CLabelEspSettings* pSettings) : CBaseEsp(pSettings) {};
+	public:
+		CGlowEsp(Settings::CGlowEspSettings* pSettings) : CBaseEsp(pSettings) {};
 
 	private:
-		virtual void InternalRenderAt(const SSDK::CBaseEntity* pEntity) override;
+		virtual void RenderAt(SSDK::GlowObjectDefinition& glowObj);
 	};
 }
 

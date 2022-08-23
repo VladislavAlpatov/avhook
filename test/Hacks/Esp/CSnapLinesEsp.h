@@ -2,10 +2,10 @@
 
 namespace Esp
 {
-	class CSnapLinesEsp : public CBaseEsp
+	class CSnapLinesEsp : public CUIEsp
 	{
 	public:
-		CSnapLinesEsp(Settings::SnapLinesSettings* pSettings) : CBaseEsp(pSettings) {};
+		CSnapLinesEsp(Settings::SnapLinesSettings* pSettings) : CUIEsp(pSettings) {};
 	private:
 		virtual void InternalRenderAt(const SSDK::CBaseEntity* pEntity);
 	};

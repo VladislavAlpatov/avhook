@@ -19,7 +19,7 @@ nlohmann::json Settings::CBaseSettings::ToJson() const
 Settings::CAimBotSettings::CAimBotSettings()
 {
 	m_bAutoShot = false;
-	silent = false;
+	m_bSilent = false;
 	m_bIsWorking = false;
 	m_bRcsControle = false;
 	m_fFov = 10.f;
@@ -40,7 +40,7 @@ nlohmann::json Settings::CAimBotSettings::ToJson() const
 	jsn[xorstr("OnKey")]            = m_bOnKey;
 	jsn[xorstr("BindKey")]          = m_iBindKey;
 	jsn[xorstr("AutoShot")]         = m_bAutoShot;
-	jsn[xorstr("Silent")]           = silent;
+	jsn[xorstr("Silent")]           = m_bSilent;
 	jsn[xorstr("Fov")]              = m_fFov;
 	jsn[xorstr("Smooth")]           = m_fSmooth;
 	jsn[xorstr("SelectedHitBox")]   = m_iSelectedHitBox;
@@ -58,7 +58,7 @@ Settings::CAimBotSettings::CAimBotSettings(const nlohmann::json& jsn)
 	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("OnKey"),            &m_bOnKey);
 	SetValueIfFiledExistInJson<int>(jsn,   xorstr("BindKey"),          &m_iBindKey);
 	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("AutoShot"),         &m_bAutoShot);
-	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("Silent"),           &silent);
+	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("Silent"),           &m_bSilent);
 	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("RcsControl"),       &m_bRcsControle);
 	SetValueIfFiledExistInJson<float>(jsn, xorstr("Fov"),              &m_fFov);
 	SetValueIfFiledExistInJson<float>(jsn, xorstr("Smooth"),           &m_fSmooth);
@@ -373,6 +373,9 @@ Settings::CAllSettings::CAllSettings(const nlohmann::json& jsn)
 	if (jsn.contains(xorstr("CrosshairSettings")))
 		m_CrosshairSettings = Settings::CCrosshairSettings(jsn[xorstr("CrosshairSettings")].get<nlohmann::json>());
 
+	if (jsn.contains(xorstr("GlowEsp")))
+		m_GlowEspSettings = Settings::CGlowEspSettings(jsn[xorstr("GlowEsp")].get<nlohmann::json>());
+
 	POLY_MARKER;
 	auto tmp = jsn[xorstr("CfgName")].get<std::string>();
 	m_Name = std::string(tmp.c_str(), 32);
@@ -383,18 +386,19 @@ nlohmann::json Settings::CAllSettings::ToJson() const
 
 	POLY_MARKER;
 
-	jsn[xorstr("CfgName")]         = m_Name.c_str();
-	jsn[xorstr("AimBot")]          = m_AimBotSettings.ToJson();
-	jsn[xorstr("BarEsp")]          = m_BarEspSettings.ToJson();
-	jsn[xorstr("BoxEsp")]          = m_BoxEspSettings.ToJson();
-	jsn[xorstr("BunnyHop")]        = m_BunnyHopSettings.ToJson();
-	jsn[xorstr("LabelEsp")]        = m_LabelEspSettings.ToJson();
-	jsn[xorstr("Misc")]            = m_MiscSettings.ToJson();
-	jsn[xorstr("Radar")]           = m_RadarSettings.ToJson();
-	jsn[xorstr("SnapLinesEsp")]    = m_SnapLinesSettings.ToJson();
-	jsn[xorstr("TriggerBot")]      = m_TriggerBotSettings.ToJson();
-	jsn[xorstr("TextureOverried")] = m_TextureOverrideSettings.ToJson();
+	jsn[xorstr("CfgName")]           = m_Name.c_str();
+	jsn[xorstr("AimBot")]            = m_AimBotSettings.ToJson();
+	jsn[xorstr("BarEsp")]            = m_BarEspSettings.ToJson();
+	jsn[xorstr("BoxEsp")]            = m_BoxEspSettings.ToJson();
+	jsn[xorstr("BunnyHop")]          = m_BunnyHopSettings.ToJson();
+	jsn[xorstr("LabelEsp")]          = m_LabelEspSettings.ToJson();
+	jsn[xorstr("Misc")]              = m_MiscSettings.ToJson();
+	jsn[xorstr("Radar")]             = m_RadarSettings.ToJson();
+	jsn[xorstr("SnapLinesEsp")]      = m_SnapLinesSettings.ToJson();
+	jsn[xorstr("TriggerBot")]        = m_TriggerBotSettings.ToJson();
+	jsn[xorstr("TextureOverried")]   = m_TextureOverrideSettings.ToJson();
 	jsn[xorstr("CrosshairSettings")] = m_CrosshairSettings.ToJson();
+	jsn[xorstr("GlowEsp")]           = m_GlowEspSettings.ToJson();
 
 	return jsn;
 }
@@ -492,7 +496,22 @@ nlohmann::json Settings::CCrosshairSettings::ToJson() const
 	return outJson;
 }
 
+Settings::CGlowEspSettings::CGlowEspSettings(const nlohmann::json& jsn)
+{
+	m_Color     = ImportImColorFromJson(jsn[xorstr("Color")].get<nlohmann::json>());
+	m_fGlowSize = jsn[xorstr("GlowSize")].get<float>();
+	m_bActive   = jsn[xorstr("Active")].get<bool>();
+	m_iStyle    = jsn[xorstr("Style")].get<int>();
+}
+
 nlohmann::json Settings::CGlowEspSettings::ToJson() const
 {
-	return nlohmann::json();
+	POLY_MARKER;
+	nlohmann::json outJson;
+	outJson[xorstr("Color")] = ImColorToJsn(m_Color);
+	outJson[xorstr("Active")] = m_bActive;
+	outJson[xorstr("GlowSize")] = m_fGlowSize;
+	outJson[xorstr("Style")] = m_iStyle;
+
+	return outJson;
 }

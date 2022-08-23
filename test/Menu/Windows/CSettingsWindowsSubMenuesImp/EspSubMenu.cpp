@@ -85,7 +85,7 @@ void UI::CSettingsWindow::DrawESPChild()
 		ImGui::ColorEdit4(xorstr("Cross Color"), (float*)&GlobalVars::g_AllSettings.m_RadarSettings.m_CrossColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::ColorEdit4(xorstr("Background Color"), (float*)&GlobalVars::g_AllSettings.m_RadarSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::EndChild();
-
+		
 	}
 	ImGui::SameLine();
 	ImGui::BeginChild(xorstr("###Glow"), blockSize + ImVec2(40, 80), true);

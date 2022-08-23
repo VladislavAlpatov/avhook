@@ -13,7 +13,7 @@ void UI::CSettingsWindow::DrawAimbotChild()
 
 	ImGui::Text(xorstr("Automatic Target Acquisition System"));
 
-	ImGui::BeginChild(xorstr("###General"), ImVec2(230, 235), true, m_iImGuiStyle);
+	ImGui::BeginChild(xorstr("###General"), ImVec2(230, 265), true, m_iImGuiStyle);
 	{
 		ImGui::PushItemWidth(112.f);
 		ImGui::Combo(xorstr("Hit-Box"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_iSelectedHitBox, hitboxes, IM_ARRAYSIZE(hitboxes));
@@ -50,7 +50,11 @@ void UI::CSettingsWindow::DrawAimbotChild()
 		ImGui::Checkbox(xorstr("Auto shoot"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_bAutoShot);
 		DrawToolTip(xorstr("Provide automatic shoot when aimbot\naimed on enemy."));
 
+		ImGui::Checkbox(xorstr("Silent"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_bSilent);
+		DrawToolTip(xorstr("Will aim at your target but lets you visually move your mouse\nwhere ever you like while still aiming at your target."));
+
 		ImGui::Checkbox(xorstr("Active"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_bActive);
+
 		ImGui::EndChild();
 	}
 	ImGui::SameLine();

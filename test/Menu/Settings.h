@@ -26,7 +26,7 @@ namespace Settings
 	public:
 		CAimBotSettings();
 		bool			   m_bAutoShot;
-		bool			   silent;
+		bool			   m_bSilent;
 		bool			   m_bIsWorking;
 		bool			   m_bRcsControle;
 		float			   m_fFov;
@@ -208,6 +208,7 @@ namespace Settings
 	{
 	public:
 		CGlowEspSettings() {};
+		CGlowEspSettings(const nlohmann::json& jsn);
 		ImColor m_Color = ImColor(255, 255, 255);
 		float   m_fGlowSize = 1.f;
 		int		m_iStyle = 0;

@@ -127,8 +127,9 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 	{
 		pFeature->Work();
 	}
+	reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
 
-	return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
+	return !GlobalVars::g_AllSettings.m_AimBotSettings.m_bSilent;
 }
 int __fastcall hooks::DoPostScreenSpaceEffects(void* pThis, void* edx, void* pView)
 {

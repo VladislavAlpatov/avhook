@@ -204,6 +204,15 @@ namespace Settings
 
 	};
 
+	class CGlowEspSettings : public CBaseSettings
+	{
+	public:
+		CGlowEspSettings() {};
+		ImColor m_Color;
+
+		nlohmann::json ToJson() const override;
+	};
+
 	class CAllSettings : public WebApi::IWebObject
 	{
 	public:
@@ -225,4 +234,6 @@ namespace Settings
 
 		nlohmann::json ToJson() const override;
 	};
+
+	
 }

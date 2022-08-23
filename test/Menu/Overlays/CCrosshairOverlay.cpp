@@ -40,7 +40,7 @@ void CCrosshairOverlay::Render()
 	ImVec2 vecScreenCenter = ImGui::GetMainViewport()->Size / 2.f;
 
 
-	DrawHealthBar(vecScreenCenter - ImVec2(pSettings->m_iDistance, 0), pLocalPlayer->GetHealthPercent() / 100.f, 10, 200);
+	DrawHealthBar(vecScreenCenter - ImVec2(pSettings->m_iDistance+10, 0), pLocalPlayer->GetHealthPercent() / 100.f, 10, 200);
 	DrawSpeedBar(vecScreenCenter + ImVec2(pSettings->m_iDistance, 0), 250.f, 10, 200);
 	/*DrawTexCentered(healthBarStart - ImVec2(5, 6), pLocalPlayer->GetColorBasedOnHealth(), healthLabel.c_str());
 	DrawOutlinedLine(healthBarStart, healthBarEnd, healthRatio, pLocalPlayer->GetColorBasedOnHealth(), 10);

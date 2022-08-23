@@ -11,6 +11,7 @@ CAimBot::CAimBot(Settings::CAimBotSettings* pSettings, CUserCmd* ppUsrCmd) : CHa
 {
 	m_pCUsrCmd = ppUsrCmd;
 }
+
 int CAimBot::GetBoneIDBySelectedTab(const int iTabIndex)
 {
 	switch (iTabIndex)

@@ -1,3 +1,4 @@
+#pragma once
 #include "CBaseEsp.h"
 
 namespace Esp
@@ -8,7 +9,7 @@ namespace Esp
 		CBarsEsp(Settings::BarEspSettings* pSettings) : CBaseEsp(pSettings) {};
 		
 	private:
-		virtual void InternalRenderAt(const CBaseEntity* pEntity);
+		virtual void InternalRenderAt(const SSDK::CBaseEntity* pEntity);
 		struct LineData
 		{
 			LineData(const ImColor& color, float fLength)

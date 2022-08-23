@@ -348,9 +348,6 @@
     <ClInclude Include="Globals\DirectX9.h">
       <Filter>header</Filter>
     </ClInclude>
-    <ClInclude Include="SDK\ICvar.h">
-      <Filter>header</Filter>
-    </ClInclude>
     <ClInclude Include="Menu\Overlays\CCrosshairOverlay.h">
       <Filter>header</Filter>
     </ClInclude>
@@ -522,9 +519,6 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="SDK\IBaseInterface.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="SDK\ICvar.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Globals\GSettings.cpp">

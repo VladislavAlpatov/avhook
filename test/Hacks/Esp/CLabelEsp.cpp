@@ -4,7 +4,7 @@
 #include "../../Globals/Interfaces.h"
 using namespace Esp;
 
-void CLabelEsp::InternalRenderAt(const CBaseEntity* pEntity)
+void CLabelEsp::InternalRenderAt(const SSDK::CBaseEntity* pEntity)
 {
 	auto pSettings = GetSettings<Settings::CLabelEspSettings>();
 
@@ -18,7 +18,7 @@ void CLabelEsp::InternalRenderAt(const CBaseEntity* pEntity)
         DrawLabelsAtTop(pEntity, pSettings->m_Labels);
 }
 
-void Esp::CLabelEsp::DrawLabelsAtLeftSide(const CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels)
+void Esp::CLabelEsp::DrawLabelsAtLeftSide(const SSDK::CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels)
 {
     // Using single char to calc text height for padding
     const float textPadding = ImGui::CalcTextSize(xorstr(" ")).y;
@@ -35,7 +35,7 @@ void Esp::CLabelEsp::DrawLabelsAtLeftSide(const CBaseEntity* pEntity, const std:
     }
 }
 
-void Esp::CLabelEsp::DrawLabelsAtTop(const CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels)
+void Esp::CLabelEsp::DrawLabelsAtTop(const SSDK::CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels)
 {
     // Using single char to calc text height for padding
     auto pSettings = GetSettings<Settings::CLabelEspSettings>();

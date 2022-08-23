@@ -491,3 +491,8 @@ nlohmann::json Settings::CCrosshairSettings::ToJson() const
 
 	return outJson;
 }
+
+nlohmann::json Settings::CGlowEspSettings::ToJson() const
+{
+	return nlohmann::json();
+}

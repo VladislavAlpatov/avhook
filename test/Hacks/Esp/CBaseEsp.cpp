@@ -34,7 +34,7 @@ ImVec3 CBaseEsp::WorldToScreen(const ImVec3& vecPosition) const
     return ImVec3(x, y, w);
 }
 
-Esp::EntityBox CBaseEsp::CalcEspBox(const CBaseEntity* pEntity) const
+Esp::EntityBox CBaseEsp::CalcEspBox(const SSDK::CBaseEntity* pEntity) const
 {
     POLY_MARKER;
 

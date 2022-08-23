@@ -14,7 +14,7 @@ namespace SSDK
 		}
 
 	};
-
+	
 	template <typename T>
 	T* GetInterface(const char* dllname, const char* interfacename)
 	{

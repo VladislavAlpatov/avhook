@@ -1,7 +1,7 @@
 #include "CSnapLinesEsp.h"
 using namespace Esp;
 
-void CSnapLinesEsp::InternalRenderAt(const CBaseEntity* pEntity)
+void CSnapLinesEsp::InternalRenderAt(const SSDK::CBaseEntity* pEntity)
 {
     auto pSettings = GetSettings<Settings::SnapLinesSettings>();
 
@@ -10,10 +10,10 @@ void CSnapLinesEsp::InternalRenderAt(const CBaseEntity* pEntity)
     switch (pSettings->m_iSelectedBone)
     {
     case 0:
-        pos = pEntity->GetBonePosition(CBaseEntity::Bone::HEAD);
+        pos = pEntity->GetBonePosition(SSDK::CBaseEntity::Bone::HEAD);
         break;
     case 1:
-        pos = pEntity->GetBonePosition(CBaseEntity::Bone::BODY);
+        pos = pEntity->GetBonePosition(SSDK::CBaseEntity::Bone::BODY);
         break;
     case 2:
         pos = pEntity->m_vecOrigin;

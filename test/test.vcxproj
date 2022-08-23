@@ -274,7 +274,6 @@
     <ClInclude Include="Globals\Interfaces.h" />
     <ClInclude Include="Globals\Settings.h" />
     <ClInclude Include="Hacks\Esp\CTextureOverride\CTextureOverride.h" />
-    <ClInclude Include="SDK\ICvar.h" />
     <ClInclude Include="Menu\Windows\CConsoleWindow.h" />
     <ClInclude Include="Hacks\Esp\CLabel\CLabel.h" />
     <ClInclude Include="Menu\MessageLine\CMessageLine.h" />
@@ -353,7 +352,6 @@
     <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\MiscSubMenu.cpp" />
     <ClCompile Include="Menu\Windows\CSettingsWindowsSubMenuesImp\TriggerBotSubMenu.cpp" />
     <ClCompile Include="SDK\IBaseInterface.cpp" />
-    <ClCompile Include="SDK\ICvar.cpp" />
     <ClCompile Include="Menu\Windows\CConsoleWindow.cpp" />
     <ClCompile Include="Hacks\Esp\CLabel\CLabel.cpp" />
     <ClCompile Include="Menu\MessageLine\CMessageLine.cpp" />

@@ -8,7 +8,7 @@
 #include "../../Hacks/TriggerBot.h"
 #include "../../Utils/Marker.h"
 #include "../../Hacks/bhop.h"
-
+#include "../../Hacks/Esp/CGlowEsp.h"
 #include "../../SDK/CUserCMD.h"
 
 #include "MinHook.h"
@@ -19,6 +19,8 @@
 #include <stdexcept>
 #include <array>
 
+#include <Windows.h>
+#include "../../Menu/COverlay.h"
 
 using namespace hooks;
 
@@ -34,7 +36,7 @@ static uintptr_t		  oDoPostScreenEffects;
 static std::unique_ptr<UI::COverlay> pOverlay;
 
 
-int __stdcall hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE type, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
+int __stdcall hooks::hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE type, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
 {
 	POLY_MARKER;
 	typedef bool(__stdcall* tDrawIndexedPrimitive)(LPDIRECT3DDEVICE9, D3DPRIMITIVETYPE, INT, UINT, UINT, UINT, UINT);
@@ -57,7 +59,7 @@ int __stdcall hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE 
 	return reinterpret_cast<tDrawIndexedPrimitive>(oDrawIndexedPrimitive)(pDevice, type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
 }
 
-int __stdcall  hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a4, int a5)
+int __stdcall  hooks::hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a4, int a5)
 {
 	POLY_MARKER;
 
@@ -75,7 +77,7 @@ int __stdcall  hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a4, int 
 	return reinterpret_cast<Present>(oPresent)(pDevice, a2, a3, a4, a5);
 }
 
-bool __stdcall hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
+bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 {
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 	POLY_MARKER;
@@ -128,8 +130,9 @@ bool __stdcall hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 
 	return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
 }
-int __fastcall DoPostScreenSpaceEffects(void* pThis, void* edx, void* pView)
+int __fastcall hooks::DoPostScreenSpaceEffects(void* pThis, void* edx, void* pView)
 {
+
 	for (int i = 0; i < GlobalVars::g_pGlowObjectManager->GetGlowEntitiesCount(); ++i)
 	{
 

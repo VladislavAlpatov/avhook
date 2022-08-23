@@ -8,7 +8,7 @@
 
 using namespace Esp;
 
-void CBarsEsp::InternalRenderAt(const CBaseEntity* pEntity)
+void CBarsEsp::InternalRenderAt(const SSDK::CBaseEntity* pEntity)
 {
     POLY_MARKER;
 

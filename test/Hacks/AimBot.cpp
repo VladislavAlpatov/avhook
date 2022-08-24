@@ -36,7 +36,7 @@ void CAimBot::Work()
 	POLY_MARKER;
 
 	auto pAimBotSettings = (Settings::CAimBotSettings*)m_pSettings;
-
+	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 	if (!IsShouldBeActivated())
 	{
 		pAimBotSettings->m_bIsWorking      = false;
@@ -86,12 +86,12 @@ void CAimBot::Work()
 		{
 			AimPlain(pEnt, aimBone);
 			if (pAimBotSettings->m_bRcsControle)
-				m_pCUsrCmd->viewangles = Utils::NormalizeViewAngles(m_pCUsrCmd->viewangles - GlobalVars::g_pClient->pLocalPlayer->m_vecAimPuchAngle * 2.f);
+				m_pCUsrCmd->viewangles = Utils::NormalizeViewAngles(m_pCUsrCmd->viewangles - pLocalPlayer->m_vecAimPuchAngle * 2.f);
 		}
 	}
 	
 	if (pAimBotSettings->m_bAutoShot)
-		g_pClient->SendAttackCode();
+		m_pCUsrCmd->buttons &= ~1;
 
 	POLY_MARKER;
 }
@@ -158,26 +158,26 @@ CBaseEntity* CAimBot::GetClosestTargetByDistance(int bone)
 	if (validEntities.size() == 0)
 		return NULL;
 	POLY_MARKER;
+	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 	std::sort(validEntities.begin(), validEntities.end(),
 
-		[](CBaseEntity* first, CBaseEntity* second)
+		[pLocalPlayer](CBaseEntity* first, CBaseEntity* second)
 		{
-			return GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(first) < GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(second);
+			return pLocalPlayer->CalcDistaceToEntity(first) < pLocalPlayer->CalcDistaceToEntity(second);
 		});
 	return validEntities[0];
 }
 
 CBaseEntity* CAimBot::GetClosestTargetByFov(int bone)
 {
+
+	POLY_MARKER;
 	std::vector<CBaseEntity*> validEntities = GetValidEntities(bone);
+
+
+	if (validEntities.size() == 0) return NULL;
+
 	POLY_MARKER;
-
-	if (validEntities.size() == 0)
-		return NULL;
-
-	POLY_MARKER;
-
-	auto localPlayer = GlobalVars::g_pClient->pLocalPlayer;
 
 	std::sort(validEntities.begin(), validEntities.end(),
 
@@ -195,7 +195,8 @@ CBaseEntity* CAimBot::GetClosestTargetByFov(int bone)
 ImVec3 CAimBot::CalcAimViewAngles(const CBaseEntity* pEntity, const int bone) 
 {
 	POLY_MARKER;
-	return CalcAimViewAngles(GlobalVars::g_pClient->pLocalPlayer->GetCameraPosition(), pEntity->GetBonePosition(bone));
+	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
+	return CalcAimViewAngles(pLocalPlayer->GetCameraPosition(), pEntity->GetBonePosition(bone));
 }
 
 ImVec3 Hacks::CAimBot::CalcAimViewAngles(const ImVec3& origin, const ImVec3& target)
@@ -214,7 +215,7 @@ ImVec3 Hacks::CAimBot::CalcAimViewAngles(const ImVec3& origin, const ImVec3& tar
 std::vector<CBaseEntity*> CAimBot::GetValidEntities(const int boneId) const
 {
 	std::vector<CBaseEntity*> validEntities;
-	const auto localPlayer = GlobalVars::g_pClient->pLocalPlayer;
+	const auto localPlayer = SSDK::ClientBase::GetLocalPlayer();
 
 	POLY_MARKER;
 

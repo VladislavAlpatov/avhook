@@ -32,7 +32,7 @@ bool CArmorLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEn
 bool CDistanceLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const
 {
 	auto pDrawList = ImGui::GetBackgroundDrawList();
-	const auto distance = GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(pEntity);
+	const auto distance = SSDK::ClientBase::GetLocalPlayer()->CalcDistaceToEntity(pEntity);
 	pDrawList->AddText(vecPosition, m_Color, fmt::format(xorstr("Distance: {}m"), (int)Utils::HamToMet(distance)).c_str());
 
 	return true;

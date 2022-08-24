@@ -1,6 +1,7 @@
 #pragma once
 #include "hack.h"
 #include "../Menu/Settings.h"
+#include "../SDK/CUserCMD.h"
 
 namespace Hacks
 {
@@ -8,9 +9,10 @@ namespace Hacks
 	{
 	public:
 		void Work() override;
-		CBunnyHop(Settings::CBunnyHopSettings* pSettings);
+		CBunnyHop(CUserCmd* pUserCmd, Settings::CBunnyHopSettings* pSettings);
 	private:
 		int m_iPerfectJumps = 0;
+		CUserCmd* m_pUserCmd;
 	};
 
 }

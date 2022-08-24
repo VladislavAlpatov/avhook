@@ -81,24 +81,24 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 {
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 	POLY_MARKER;
+
+	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 	// GlobalVars::pClient->pLocalPlayer->m_Index > 33 prevent from bug when you can peek team
-	if (!GlobalVars::g_pClient->pLocalPlayer or !pOverlay or GlobalVars::g_pClient->pLocalPlayer->m_Index > 33)
+	if (!pLocalPlayer or !pOverlay or pLocalPlayer->m_Index > 33)
 	{
 		return false;
 	}
 
 	POLY_MARKER;
 
-	GlobalVars::g_pClient->pLocalPlayer->m_iDefaultFOV = GlobalVars::g_AllSettings.m_MiscSettings.m_iCustomFov;
+	pLocalPlayer->m_iDefaultFOV = GlobalVars::g_AllSettings.m_MiscSettings.m_iCustomFov;
 
 	// Looking for "visible" players
 	for (const auto pEnt : GlobalVars::g_pIEntityList->GetEntityList())
 	{
 
-		if (pEnt->m_iTeamNum == GlobalVars::g_pClient->pLocalPlayer->m_iTeamNum or !pEnt->IsAlive())
+		if (pEnt->m_iTeamNum == pLocalPlayer->m_iTeamNum or !pEnt->IsAlive())
 			continue;
-
-		auto pLocalPlayer = GlobalVars::g_pClient->pLocalPlayer;
 
 		SSDK::CGameTrace   trace;
 		SSDK::Ray_t        ray;
@@ -112,14 +112,14 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 		pEnt->m_IsVisible = trace.hit_entity == pEnt;
 	}
 
-	if (pOverlay->IsShowUI() or !GlobalVars::g_pClient->pLocalPlayer->IsAlive())
+	if (pOverlay->IsShowUI() or !pLocalPlayer->IsAlive())
 	{
 		return false;
 	}
 
 	std::array<std::unique_ptr<Hacks::CHackingFeature>, 2> features =
 	{
-		std::unique_ptr<Hacks::CHackingFeature>(new Hacks::CBunnyHop(&GlobalVars::g_AllSettings.m_BunnyHopSettings)),
+		std::unique_ptr<Hacks::CHackingFeature>(new Hacks::CBunnyHop(pUserCmd, &GlobalVars::g_AllSettings.m_BunnyHopSettings)),
 		std::unique_ptr<Hacks::CHackingFeature>(new Hacks::CAimBot(&GlobalVars::g_AllSettings.m_AimBotSettings, pUserCmd))
 	};
 
@@ -133,24 +133,26 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 }
 int __fastcall hooks::DoPostScreenSpaceEffects(void* pThis, void* edx, void* pView)
 {
+	POLY_MARKER;
 	typedef int(__fastcall* DoPostScreenSpaceEffects_t)(void*, void*, void*);
 	static auto glowEsp = Esp::CGlowEsp(&GlobalVars::g_AllSettings.m_GlowEspSettings);
+	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
-
-	if (!glowEsp.isActive())
+	if (!glowEsp.isActive() or !pLocalPlayer or !GlobalVars::g_pIEngineClient->IsInGame())
 		return reinterpret_cast<DoPostScreenSpaceEffects_t>(oDoPostScreenEffects)(pThis, edx, pView);
-
+	POLY_MARKER;
 	for (int i = 0; i < GlobalVars::g_pGlowObjectManager->GetGlowEntitiesCount(); ++i)
 	{
 
 		auto& glowObject = GlobalVars::g_pGlowObjectManager->GetGlowObject(i);
 
-		if (!glowObject.m_pEntity or glowObject.m_pEntity->GetClientClass()->m_iClassId != SSDK::ClassIndex::CCSPlayer or glowObject.IsUnused())
+		if (!glowObject.m_pEntity or glowObject.m_pEntity->GetClientClass()->m_iClassId != SSDK::ClassIndex::CCSPlayer or glowObject.IsUnused() or glowObject.m_pEntity->m_iTeamNum == pLocalPlayer->m_iTeamNum)
 			continue;
+
 		glowEsp.RenderAt(glowObject);
 
 	}
-
+	POLY_MARKER;
 	return reinterpret_cast<DoPostScreenSpaceEffects_t>(oDoPostScreenEffects)(pThis, edx, pView);
 
 }

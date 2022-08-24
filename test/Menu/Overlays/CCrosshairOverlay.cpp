@@ -31,7 +31,7 @@ void CCrosshairOverlay::Render()
 {
 	DrawCrosshair();
 
-	auto pLocalPlayer = GlobalVars::g_pClient->pLocalPlayer;
+	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
 	auto pSettings = &GlobalVars::g_AllSettings.m_CrosshairSettings;
 	if (!pLocalPlayer or !pSettings->m_bDrawSensors)
@@ -98,7 +98,7 @@ void CCrosshairOverlay::DrawCrosshair() const
 
 void CCrosshairOverlay::DrawHealthBar(const ImVec2& vecDrawPos, float fHealthRatio, float thickness, float fHight) const
 {
-	const auto pLocalPlayer = GlobalVars::g_pClient->pLocalPlayer;
+	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
 
 	ImVec2 topLeft     = vecDrawPos - ImVec2(0, fHight / 2.f);
@@ -123,7 +123,7 @@ void CCrosshairOverlay::DrawHealthBar(const ImVec2& vecDrawPos, float fHealthRat
 void CCrosshairOverlay::DrawSpeedBar(const ImVec2& vecDrawPos, float fSpeedPerBar, float thickness, float fHeight) const
 {
 	auto pDrawList = ImGui::GetBackgroundDrawList();
-	const auto pLocalPlayer = GlobalVars::g_pClient->pLocalPlayer;
+	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
 	ImVec2 topLeft     = vecDrawPos - ImVec2(0, fHeight / 2.f);
 	ImVec2 bottomRight = vecDrawPos + ImVec2(thickness, fHeight / 2.f);

@@ -89,11 +89,12 @@ void UI::CRadarWindow::Render()
 
 void UI::CRadarWindow::UseGameRadar() const
 {
+	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 	for (int i = 1; i < 32; ++i)
 	{
 		const auto pEntity = GlobalVars::g_pIEntityList->GetClientEntity(i);
 		
-		if (!GlobalVars::g_pClient->pLocalPlayer or !pEntity or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::g_pClient->pLocalPlayer->m_iTeamNum or pEntity->m_bSpotted)
+		if (!pLocalPlayer or !pEntity or !pEntity->IsAlive() or pEntity->m_iTeamNum == pLocalPlayer->m_iTeamNum or pEntity->m_bSpotted)
 			continue;
 
 		pEntity->m_bSpotted = true;
@@ -104,6 +105,7 @@ void UI::CRadarWindow::UseGameRadar() const
 void UI::CRadarWindow::RenderCustomRadar()
 {
 	POLY_MARKER;
+	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
 	if (m_pRadarSettings->m_bDrawBorders)
 		ImGui::Begin(xorstr("###Radar"), NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
@@ -126,7 +128,7 @@ void UI::CRadarWindow::RenderCustomRadar()
 		pDrawList->AddCircle(windowCenter, 254.f / 2.f, m_pRadarSettings->m_CyrcleBorderColor, 0, 2.f);
 
 		// if player not in game then dont draw
-		if (!GlobalVars::g_pIEngineClient->IsInGame() or !GlobalVars::g_pIEngineClient->IsConnected() or !GlobalVars::g_pClient->pLocalPlayer)
+		if (!GlobalVars::g_pIEngineClient->IsInGame() or !GlobalVars::g_pIEngineClient->IsConnected() or !pLocalPlayer)
 		{
 			KeepWindowInSreenArea();
 			ImGui::End();
@@ -137,11 +139,11 @@ void UI::CRadarWindow::RenderCustomRadar()
 		{
 			auto pEnt = GlobalVars::g_pIEntityList->GetClientEntity(i);
 
-			if (!pEnt or !pEnt->IsAlive() or pEnt->m_iTeamNum == GlobalVars::g_pClient->pLocalPlayer->m_iTeamNum or pEnt->m_bDormant)
+			if (!pEnt or !pEnt->IsAlive() or pEnt->m_iTeamNum == pLocalPlayer->m_iTeamNum or pEnt->m_bDormant)
 				continue;
 			auto windowPosition = ImGui::GetWindowPos();
 
-			auto vecEntityRadarPosition = WorldToRadar(pEnt->m_vecOrigin, GlobalVars::g_pClient->pLocalPlayer->m_vecOrigin, GlobalVars::g_pClient->pLocalPlayer->m_vecViewAngles, 256);
+			auto vecEntityRadarPosition = WorldToRadar(pEnt->m_vecOrigin, pLocalPlayer->m_vecOrigin, pLocalPlayer->m_vecViewAngles, 256);
 			POLY_MARKER;
 			ImColor enemyColor = ImColor(255, 255, 255);
 			if (GlobalVars::g_AllSettings.m_AimBotSettings.m_pCurrentTarget == pEnt)

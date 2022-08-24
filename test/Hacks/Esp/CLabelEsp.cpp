@@ -8,7 +8,7 @@ void CLabelEsp::InternalRenderAt(const SSDK::CBaseEntity* pEntity)
 {
 	auto pSettings = GetSettings<Settings::CLabelEspSettings>();
 
-    if (GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(pEntity) > pSettings->m_iMaxDrawDistance)
+    if (SSDK::ClientBase::GetLocalPlayer()->CalcDistaceToEntity(pEntity) > pSettings->m_iMaxDrawDistance)
         return;
 
 

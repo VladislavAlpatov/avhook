@@ -1,6 +1,6 @@
 #include "bhop.h"
 #include "../Globals/Interfaces.h"
-
+#include "../Utils/Marker.h"
 using namespace Hacks;
 
 
@@ -8,16 +8,13 @@ void CBunnyHop::Work()
 {
 	if (!IsShouldBeActivated())
 		return;
-
-	auto state = GlobalVars::g_pClient->pLocalPlayer->m_fFlags;
-
-	if ((state == CBaseEntity::FLAGS::ON_GROUND or state == CBaseEntity::FLAGS::ON_GROUND_DUCK or state == CBaseEntity::FLAGS::IN_WATER or state == CBaseEntity::FLAGS::IN_WATER_DUCK) or \
-		(state == CBaseEntity::FLAGS::IN_AIR or state == CBaseEntity::FLAGS::IN_AIR_DUCK) and GlobalVars::g_pClient->dwForceJump == 5)
-	{
-		GlobalVars::g_pClient->dwForceJump = 6;
-	}
+	POLY_MARKER;
+	if (!(SSDK::ClientBase::GetLocalPlayer()->m_fFlags & 1))
+		m_pUserCmd->buttons &= ~2;
+	POLY_MARKER;
 }
-CBunnyHop::CBunnyHop(Settings::CBunnyHopSettings* pSettings) : CHackingFeature(pSettings)
+CBunnyHop::CBunnyHop(CUserCmd* pUserCmd, Settings::CBunnyHopSettings* pSettings) : CHackingFeature(pSettings)
 {
-
+	POLY_MARKER;
+	m_pUserCmd = pUserCmd;
 }

@@ -139,9 +139,11 @@ void UI::COverlay::Render()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	auto pDrawList = ImGui::GetBackgroundDrawList();
+	auto pDrawList    = ImGui::GetBackgroundDrawList();
+	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
-	if (GlobalVars::g_pIEngineClient->IsInGame() and GlobalVars::g_pClient->pLocalPlayer != nullptr)
+
+	if (GlobalVars::g_pIEngineClient->IsInGame() and pLocalPlayer)
 	{
 		std::vector<SSDK::CBaseEntity*> validEntities;
 
@@ -149,7 +151,7 @@ void UI::COverlay::Render()
 		{
 			auto pEntity = GlobalVars::g_pIEntityList->GetClientEntity(i);
 
-			if (!pEntity or !pEntity->IsAlive() or pEntity->m_iTeamNum == GlobalVars::g_pClient->pLocalPlayer->m_iTeamNum or pEntity->m_bDormant)
+			if (!pEntity or !pEntity->IsAlive() or pEntity->m_iTeamNum == pLocalPlayer->m_iTeamNum or pEntity->m_bDormant)
 				continue;
 
 			validEntities.push_back(pEntity);
@@ -158,9 +160,9 @@ void UI::COverlay::Render()
 		// sort by distance
 		std::sort(validEntities.begin(), validEntities.end(),
 
-			[](SSDK::CBaseEntity* first, SSDK::CBaseEntity* second)
+			[pLocalPlayer](SSDK::CBaseEntity* first, SSDK::CBaseEntity* second)
 			{
-				return GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(first) > GlobalVars::g_pClient->pLocalPlayer->CalcDistaceToEntity(second);
+				return pLocalPlayer->CalcDistaceToEntity(first) > pLocalPlayer->CalcDistaceToEntity(second);
 			});
 
 

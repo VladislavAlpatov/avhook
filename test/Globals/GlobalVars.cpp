@@ -26,7 +26,6 @@ void GlobalVars::Init()
 	g_pIEngineTrace   = SSDK::GetInterface<SSDK::IEngineTrace>(     xorstr("engine.dll"),  xorstr("EngineTraceClient004"));
 	POLY_MARKER
 	// g_pICvar		  = SSDK::GetInterface<ICvar>(					xorstr("vstdlib.dll"), xorstr("VEngineCvar007"));
-	g_pClient         = reinterpret_cast<SSDK::ClientBase*>(GetModuleHandleA(xorstr("client.dll")));
 	POLY_MARKER;
 	g_pGlowObjectManager = GetGlowManager();
 }

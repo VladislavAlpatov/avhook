@@ -5,7 +5,7 @@
 #include "../Utils/Marker.h"
 
 
-SSDK::IGlowObjectManager* GetGlowManager()
+/*SSDK::IGlowObjectManager* GetGlowManager()
 {
 
 	POLY_MARKER
@@ -15,7 +15,10 @@ SSDK::IGlowObjectManager* GetGlowManager()
 	
 	POLY_MARKER
 	return *(SSDK::IGlowObjectManager**)(inscructionAddr + 2);
-}
+}*/
+
+
+
 void GlobalVars::Init()
 {
 	POLY_MARKER
@@ -27,5 +30,4 @@ void GlobalVars::Init()
 	POLY_MARKER
 	// g_pICvar		  = SSDK::GetInterface<ICvar>(					xorstr("vstdlib.dll"), xorstr("VEngineCvar007"));
 	POLY_MARKER;
-	g_pGlowObjectManager = GetGlowManager();
 }

@@ -1,4 +1,10 @@
-#pragma once
+//========= Copyright Alpatov Softworks, All rights reserved. ============//
+//
+// Sets hooks to game functions
+//
+//===============================================================================
+
+
 #include "Hooks.h"
 
 #include "../../Utils/offsets.h"
@@ -32,7 +38,7 @@ static uintptr_t	      oWndProc;
 static uintptr_t	      oCreateMove;
 static uintptr_t          oOnKill;
 static uintptr_t		  oDoPostScreenEffects;
-
+static uintptr_t		  oRenderGlowEffects;
 static std::unique_ptr<UI::COverlay> pOverlay;
 
 
@@ -131,31 +137,7 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 
 	return !GlobalVars::g_AllSettings.m_AimBotSettings.m_bSilent;
 }
-int __fastcall hooks::DoPostScreenSpaceEffects(void* pThis, void* edx, void* pView)
-{
-	POLY_MARKER;
-	typedef int(__fastcall* DoPostScreenSpaceEffects_t)(void*, void*, void*);
-	static auto glowEsp = Esp::CGlowEsp(&GlobalVars::g_AllSettings.m_GlowEspSettings);
-	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
-	if (!glowEsp.isActive() or !pLocalPlayer or !GlobalVars::g_pIEngineClient->IsInGame())
-		return reinterpret_cast<DoPostScreenSpaceEffects_t>(oDoPostScreenEffects)(pThis, edx, pView);
-	POLY_MARKER;
-	for (int i = 0; i < GlobalVars::g_pGlowObjectManager->GetGlowEntitiesCount(); ++i)
-	{
-
-		auto& glowObject = GlobalVars::g_pGlowObjectManager->GetGlowObject(i);
-
-		if (!glowObject.m_pEntity or glowObject.m_pEntity->GetClientClass()->m_iClassId != SSDK::ClassIndex::CCSPlayer or glowObject.IsUnused() or glowObject.m_pEntity->m_iTeamNum == pLocalPlayer->m_iTeamNum)
-			continue;
-
-		glowEsp.RenderAt(glowObject);
-
-	}
-	POLY_MARKER;
-	return reinterpret_cast<DoPostScreenSpaceEffects_t>(oDoPostScreenEffects)(pThis, edx, pView);
-
-}
 LRESULT WINAPI WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	POLY_MARKER;
@@ -168,6 +150,37 @@ LRESULT WINAPI WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 	typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);
 	return CallWindowProc((WNDPROC)oWndProc, hWnd, uMsg, wParam, lParam);
+}
+
+int __fastcall hooks::hRenderGlowEffects(SSDK::IGlowObjectManager* pThis, void* edx, int a2, int a3)
+{
+	typedef int(__fastcall* RenderGlowEffects_t)(void*, void*, int, int);
+
+
+	POLY_MARKER;
+	static auto glowEsp = Esp::CGlowEsp(&GlobalVars::g_AllSettings.m_GlowEspSettings);
+	auto pLocalPlayer   = SSDK::ClientBase::GetLocalPlayer();
+
+	if (!glowEsp.isActive() or !pLocalPlayer or !GlobalVars::g_pIEngineClient->IsInGame())
+		return reinterpret_cast<RenderGlowEffects_t>(oRenderGlowEffects)(pThis, edx, a2, a3);
+
+	POLY_MARKER;
+
+	for (int i = 0; i < pThis->GetGlowEntitiesCount(); ++i)
+	{
+
+		auto glowObject = pThis->GetGlowObject(i);
+
+		if (!glowObject->m_pEntity or glowObject->m_pEntity->GetClientClass()->m_iClassId != SSDK::ClassIndex::CCSPlayer or glowObject->IsUnused() or glowObject->m_pEntity->m_iTeamNum == pLocalPlayer->m_iTeamNum)
+			continue;
+
+		glowEsp.RenderAt(*glowObject);
+
+	}
+	POLY_MARKER;
+
+
+	return reinterpret_cast<RenderGlowEffects_t>(oRenderGlowEffects)(pThis, edx, a2, a3);
 }
 
 void hooks::Attach()
@@ -194,12 +207,11 @@ void hooks::Attach()
 	POLY_MARKER;
 
 	uintptr_t DrawIndexedPrimitiveAddr = Memory::FindPattern(xorstr("d3d9.dll"), xorstr("8B FF 55 8B EC 6A FF 68 ? ? ? ? 64 A1 ? ? ? ? 50 83 EC 20 53 56 57 A1 ? ? ? ? 33 C5 50 8D 45 F4 64 A3 ? ? ? ? 89 65 F0 8B 75 08 85 F6 0F 84 ? ? ? ? 8D 5E 04 89 5D EC 89 5D D4 C7 45 ? ? ? ? ? 83 7B 18 00 0F 85 ? ? ? ? C7 45 ? ? ? ? ? F7 46 ? ? ? ? ? 0F 85 ? ? ? ? 81 8E ? ? ? ? ? ? ? ?"));
-
 	MH_CreateHook((LPVOID*)DrawIndexedPrimitiveAddr, &hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
 
-	uintptr_t DoPostScreenEffectsAddr = Memory::FindPattern(xorstr("client.dll"), xorstr("55 8B EC 8B 49 18 56 8B 35"));
-	MH_CreateHook((LPVOID*)DoPostScreenEffectsAddr, &DoPostScreenSpaceEffects, (LPVOID*)&oDoPostScreenEffects);
 
+	uintptr_t RenderGlowEffects = Memory::FindPattern(xorstr("client.dll"), xorstr("55 8B EC A1 ? ? ? ? 83 EC 18 57"));
+	MH_CreateHook((LPVOID*)RenderGlowEffects, &hRenderGlowEffects, (LPVOID*)&oRenderGlowEffects);
 
 	MH_EnableHook(MH_ALL_HOOKS);
 

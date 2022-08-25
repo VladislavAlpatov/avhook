@@ -4,13 +4,13 @@
 
 namespace hooks
 {
-	int __fastcall DoPostScreenSpaceEffects(void* pThis, void* edx, void* pView);
+	int __fastcall hRenderGlowEffects(SSDK::IGlowObjectManager* pThis, void* edx, int a2, int a3);
 }
 namespace Esp
 {
 	class CGlowEsp : public CBaseEsp
 	{
-		friend int __fastcall hooks::DoPostScreenSpaceEffects(void* pThis, void* edx, void* pView);
+		friend int __fastcall hooks::hRenderGlowEffects(SSDK::IGlowObjectManager* pThis, void* edx, int a2, int a3);
 	public:
 		CGlowEsp(Settings::CGlowEspSettings* pSettings) : CBaseEsp(pSettings) {};
 

@@ -41,7 +41,7 @@ namespace SSDK
 	class IGlowObjectManager
 	{
     public:
-        GlowObjectDefinition& GetGlowObject(size_t index) const;
+        GlowObjectDefinition* GetGlowObject(size_t index) const;
         int m_iFirstFreeSlot;
 
         int GetGlowEntitiesCount() const;

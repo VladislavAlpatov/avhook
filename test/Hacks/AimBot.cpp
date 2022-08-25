@@ -1,4 +1,9 @@
-#pragma once
+//========= Copyright Alpatov Softworks, All rights reserved. ============//
+//
+// Purpose: Provide automatic target aquesition system
+//
+//===============================================================================
+
 #include "AimBot.h"
 #include "../Globals/Interfaces.h"
 #include "../Utils/Math/Math.h"

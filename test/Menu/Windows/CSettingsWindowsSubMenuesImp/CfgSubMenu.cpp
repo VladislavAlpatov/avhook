@@ -10,7 +10,7 @@ void UI::CSettingsWindow::DrawCfgChild()
 {
 	ImGui::SetWindowSize(ImVec2(555, 450));
 	
-	ImGui::Text(xorstr("Menu configuration"));
+	ImGui::Text(xorstr("Manage configs & GUI style"));
 	// Provide Cheat config dump
 	ImGui::BeginChild(xorstr("###FeatureCfg"), ImVec2(180, 80), true, m_iImGuiStyle);
 	{

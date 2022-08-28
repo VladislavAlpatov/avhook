@@ -160,7 +160,7 @@ void UI::COverlay::Render()
 		// sort by distance
 		std::sort(validEntities.begin(), validEntities.end(),
 
-			[pLocalPlayer](SSDK::CBaseEntity* first, SSDK::CBaseEntity* second)
+			[pLocalPlayer](const SSDK::CBaseEntity* first,const SSDK::CBaseEntity* second)
 			{
 				return pLocalPlayer->CalcDistaceToEntity(first) > pLocalPlayer->CalcDistaceToEntity(second);
 			});

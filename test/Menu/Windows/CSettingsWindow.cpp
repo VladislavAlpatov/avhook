@@ -31,7 +31,7 @@ UI::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList
 	auto imGuiIo = ImGui::GetIO();
 	
 	static ImWchar ranges[] = { 0x1, 0xFFFD, 0 };
-	m_pFontHeaderButtons = std::unique_ptr<ImFont>(imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 12.f, &fontBUilderConfig, ranges));
+	m_pFontHeaderButtons = std::unique_ptr<ImFont>(imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 12.5f, &fontBUilderConfig, ranges));
 }
 std::string UI::CSettingsWindow::VirtualKeyNumberToString(int keyNumber)
 {
@@ -70,7 +70,7 @@ void UI::CSettingsWindow::Render()
 
 		auto rectStart = ImGui::GetWindowPos() + ImGui::GetCursorPos()-ImVec2(3,0);
 
-		if (ImGui::Button(xorstr("Genreal")))
+		if (ImGui::Button(xorstr("General")))
 			m_iTab = TAB::Menu;
 		ImGui::SameLine();
 		if (ImGui::Button(xorstr("Aim Bot")))
@@ -92,7 +92,7 @@ void UI::CSettingsWindow::Render()
 		style.ItemSpacing = spacingOld;
 		style.FramePadding = paddingOld;
 
-		ImGui::GetWindowDrawList()->AddRect(rectStart+ImVec2(3,0), rectStart + ImVec2(546, 18), (ImColor)style.Colors[ImGuiCol_Border]);
+		ImGui::GetWindowDrawList()->AddRect(rectStart+ImVec2(3,0), rectStart + ImVec2(546, 19), (ImColor)style.Colors[ImGuiCol_Border]);
 		ImGui::PopFont();
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 

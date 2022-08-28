@@ -499,19 +499,24 @@ nlohmann::json Settings::CCrosshairSettings::ToJson() const
 Settings::CGlowEspSettings::CGlowEspSettings(const nlohmann::json& jsn)
 {
 	m_Color     = ImportImColorFromJson(jsn[xorstr("Color")].get<nlohmann::json>());
-	m_fGlowSize = jsn[xorstr("GlowSize")].get<float>();
-	m_bActive   = jsn[xorstr("Active")].get<bool>();
-	m_iStyle    = jsn[xorstr("Style")].get<int>();
+	m_fGlowSize    = jsn[xorstr("GlowSize")].get<float>();
+	m_bActive      = jsn[xorstr("Active")].get<bool>();
+	m_iStyle       = jsn[xorstr("Style")].get<int>();
+
+	SetValueIfFiledExistInJson(jsn, xorstr("MaxDistance"), &m_iMaxDistance);
+	SetValueIfFiledExistInJson(jsn, xorstr("DrawMode"),    &m_iDrawMode);
+
 }
 
 nlohmann::json Settings::CGlowEspSettings::ToJson() const
 {
 	POLY_MARKER;
 	nlohmann::json outJson;
-	outJson[xorstr("Color")] = ImColorToJsn(m_Color);
-	outJson[xorstr("Active")] = m_bActive;
-	outJson[xorstr("GlowSize")] = m_fGlowSize;
-	outJson[xorstr("Style")] = m_iStyle;
-
+	outJson[xorstr("Color")]       = ImColorToJsn(m_Color);
+	outJson[xorstr("Active")]      = m_bActive;
+	outJson[xorstr("GlowSize")]    = m_fGlowSize;
+	outJson[xorstr("Style")]       = m_iStyle;
+	outJson[xorstr("DrawMode")]    = m_iDrawMode;
+	outJson[xorstr("MaxDistance")] = m_iMaxDistance;
 	return outJson;
 }

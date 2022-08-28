@@ -8,14 +8,13 @@
 
 void Esp::CGlowEsp::RenderAt(SSDK::GlowObjectDefinition& glowObj)
 {
-	auto pSettings = GetSettings<Settings::CGlowEspSettings>();
+	auto pSettings    = GetSettings<Settings::CGlowEspSettings>();
 	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
-	glowObj.m_fGlowAlphaMax = CalcAdaptiveGlowBrightness(glowObj.m_pEntity);
+	glowObj.m_fGlowAlphaMax = (pSettings->m_iDrawMode == Settings::CGlowEspSettings::Static) ? pSettings->m_fGlowSize : CalcAdaptiveGlowBrightness(glowObj.m_pEntity, pSettings->m_iMaxDistance);
 
 	glowObj.m_iGlowStyle = pSettings->m_iStyle;
-
-
+	glowObj.m_bFullBloomRender = false;
 	if (GlobalVars::g_AllSettings.m_AimBotSettings.m_pCurrentTarget != glowObj.m_pEntity)
 		glowObj.SetColor(pSettings->m_Color);
 	else

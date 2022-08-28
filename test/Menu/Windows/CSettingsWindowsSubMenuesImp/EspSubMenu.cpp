@@ -1,5 +1,4 @@
-﻿#pragma once
-#include "../CSettingsWindow.h"
+﻿#include "../CSettingsWindow.h"
 #include "../../../imgui/imgui_internal.h"
 #include "../../../Globals/Settings.h"
 
@@ -8,25 +7,26 @@
 void UI::CSettingsWindow::DrawESPChild()
 {
 	ImGui::SetWindowSize(ImVec2(555, 555));
-
+	
 	ImGui::Image(m_pTexureEspIcon, ImVec2(16, 16));
 	ImGui::SameLine();
 	ImGui::Text(xorstr("Extra Sensory Perception"));
-	
-	static const char* hitboxes[3] = { "Head", "Body", "Legs" };
+
+	static const char* hitboxes[] = { "Head", "Body", "Legs" };
 	static const char* drawOptions[] = { "Custom", "Health" };
 	static const ImVec2 blockSize = ImVec2(140, 135);
 	
 	ImGui::BeginChild(xorstr("###SnapLinesESP"), blockSize, true);
 	{
+		auto pSettings = &GlobalVars::g_AllSettings.m_SnapLinesSettings;
 		ImGui::Text(xorstr("Snap Lines"));
-		ImGui::ColorEdit4(xorstr("###lineColor"), (float*)&GlobalVars::g_AllSettings.m_SnapLinesSettings.m_Color, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("###lineColor"), (float*)&pSettings->m_Color, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Active###Drawlines"), &GlobalVars::g_AllSettings.m_SnapLinesSettings.m_bActive);
+		ImGui::Checkbox(xorstr("Active###Drawlines"), &pSettings->m_bActive);
 
-		ImGui::InputInt(xorstr("###lineThickness"), &GlobalVars::g_AllSettings.m_SnapLinesSettings.m_iThickness);
-		ImGui::Combo(xorstr("###LinePoint"), &GlobalVars::g_AllSettings.m_SnapLinesSettings.m_iSelectedBone, hitboxes, IM_ARRAYSIZE(hitboxes));
-		ImGui::Combo(xorstr("###LineEspDrawMode"), &GlobalVars::g_AllSettings.m_SnapLinesSettings.m_iDrawMode, drawOptions, IM_ARRAYSIZE(drawOptions));
+		ImGui::InputInt(xorstr("###lineThickness"), &pSettings->m_iThickness);
+		ImGui::Combo(xorstr("###LinePoint"),        &pSettings->m_iSelectedBone, hitboxes,    IM_ARRAYSIZE(hitboxes));
+		ImGui::Combo(xorstr("###LineEspDrawMode"),  &pSettings->m_iDrawMode,     drawOptions, IM_ARRAYSIZE(drawOptions));
 		ImGui::EndChild();
 	}
 	
@@ -35,55 +35,58 @@ void UI::CSettingsWindow::DrawESPChild()
 	ImGui::NewLine();
 	ImGui::BeginChild(xorstr("###Boxes"), blockSize, true);
 	{
+		auto pSettings = &GlobalVars::g_AllSettings.m_BoxEspSettings;
 		static const char* styles[] = { "Solid", "Cornered" };
 		ImGui::Text(xorstr("Boxes"));
-		ImGui::ColorEdit4(xorstr("###boxcolor"), (float*)&GlobalVars::g_AllSettings.m_BoxEspSettings.m_Color, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("###boxcolor"), (float*)&pSettings->m_Color, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Active###Draw boxes"), &GlobalVars::g_AllSettings.m_BoxEspSettings.m_bActive);
+		ImGui::Checkbox(xorstr("Active###Draw boxes"), &pSettings->m_bActive);
 
-		ImGui::InputInt(xorstr("###boxThickness"), &GlobalVars::g_AllSettings.m_BoxEspSettings.m_iThickness);
-		ImGui::Combo(xorstr("###BoxEspDrawMode"), &GlobalVars::g_AllSettings.m_BoxEspSettings.m_iDrawMode, drawOptions, IM_ARRAYSIZE(drawOptions));
-		ImGui::Combo(xorstr("###BoxStyle"), &GlobalVars::g_AllSettings.m_BoxEspSettings.m_iStyle, styles, IM_ARRAYSIZE(styles));
+		ImGui::InputInt(xorstr("###boxThickness"), &pSettings->m_iThickness);
+		ImGui::Combo(xorstr("###BoxEspDrawMode"),  &pSettings->m_iDrawMode, drawOptions, IM_ARRAYSIZE(drawOptions));
+		ImGui::Combo(xorstr("###BoxStyle"),        &pSettings->m_iStyle, styles, IM_ARRAYSIZE(styles));
 		ImGui::EndChild();
 	}
 
 	//ImGui::SameLine();
 	ImGui::BeginChild(xorstr("###BaResp"), blockSize, true);
 	{
+
+		auto pSettings = &GlobalVars::g_AllSettings.m_BarEspSettings;
 		ImGui::Text(xorstr("Bars"));
 		ImGui::Image(m_pTexureAtomaticColorIcon, ImVec2(21, 21));
 		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Health bar"), &GlobalVars::g_AllSettings.m_BarEspSettings.m_bDrawHealthBar);
+		ImGui::Checkbox(xorstr("Health bar"), &pSettings->m_bDrawHealthBar);
 
-		ImGui::ColorEdit4(xorstr("###ArmorBarColor"), (float*)&GlobalVars::g_AllSettings.m_BarEspSettings.m_ArmorColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("###ArmorBarColor"), (float*)&pSettings->m_ArmorColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Armor bar"), &GlobalVars::g_AllSettings.m_BarEspSettings.m_bDrawArmorBar);
+		ImGui::Checkbox(xorstr("Armor bar"), &pSettings->m_bDrawArmorBar);
 
-		ImGui::ColorEdit4(xorstr("###BgCol"), (float*)&GlobalVars::g_AllSettings.m_BarEspSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("###BgCol"), (float*)&pSettings->m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
 		ImGui::Text(xorstr("Background fill"));
 
-		ImGui::InputInt(xorstr("###barsthiccness"), &GlobalVars::g_AllSettings.m_BarEspSettings.m_iThickness);
+		ImGui::InputInt(xorstr("###barsthiccness"), &pSettings->m_iThickness);
 		ImGui::EndChild();
 	}
 	ImGui::SameLine();
 	ImGui::SetCursorPos(ImGui::GetCursorPos() - ImVec2(0, 30));
 	ImGui::BeginChild(xorstr("###Radar"), blockSize + ImVec2(40, 80), true);
 	{
-
+		auto pSettings = &GlobalVars::g_AllSettings.m_RadarSettings;
 		ImGui::Text(xorstr("Radar"));
-		ImGui::Checkbox(xorstr("Active"), &GlobalVars::g_AllSettings.m_RadarSettings.m_bActive);
+		ImGui::Checkbox(xorstr("Active"), &pSettings->m_bActive);
 		static const char* style[] = { "Embedded", "Custom" };
 
-		ImGui::Combo(xorstr("Style###RStyle"), &GlobalVars::g_AllSettings.m_RadarSettings.m_iStyle, style, IM_ARRAYSIZE(style));
+		ImGui::Combo(xorstr("Style###RStyle"), &pSettings->m_iStyle, style, IM_ARRAYSIZE(style));
 		DrawToolTip(xorstr("Embedded - the standard game radar will be used.\nCustom - avhook radar will be used, which you can\ncustomize yourself, for example, change the color"));
 
 
-		ImGui::ColorEdit4(xorstr("Inactive Color"), (float*)&GlobalVars::g_AllSettings.m_RadarSettings.m_InactiveFeatureColor, ImGuiColorEditFlags_NoInputs);
-		ImGui::ColorEdit4(xorstr("Active Color"), (float*)&GlobalVars::g_AllSettings.m_RadarSettings.m_ActiveFeatureColor, ImGuiColorEditFlags_NoInputs);
-		ImGui::ColorEdit4(xorstr("Border Color"), (float*)&GlobalVars::g_AllSettings.m_RadarSettings.m_CyrcleBorderColor, ImGuiColorEditFlags_NoInputs);
-		ImGui::ColorEdit4(xorstr("Cross Color"), (float*)&GlobalVars::g_AllSettings.m_RadarSettings.m_CrossColor, ImGuiColorEditFlags_NoInputs);
-		ImGui::ColorEdit4(xorstr("Background Color"), (float*)&GlobalVars::g_AllSettings.m_RadarSettings.m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("Inactive Color"),   (float*)&pSettings->m_InactiveFeatureColor, ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("Active Color"),     (float*)&pSettings->m_ActiveFeatureColor,   ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("Border Color"),     (float*)&pSettings->m_CyrcleBorderColor,    ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("Cross Color"),      (float*)&pSettings->m_CrossColor,           ImGuiColorEditFlags_NoInputs);
+		ImGui::ColorEdit4(xorstr("Background Color"), (float*)&pSettings->m_BackGroundColor,      ImGuiColorEditFlags_NoInputs);
 		ImGui::EndChild();
 		
 	}
@@ -93,14 +96,17 @@ void UI::CSettingsWindow::DrawESPChild()
 		auto& settings = GlobalVars::g_AllSettings.m_GlowEspSettings;
 		ImGui::Text(xorstr("Glow Esp"));
 		ImGui::Checkbox(xorstr("Active###GlowActive"), &settings.m_bActive);
+		ImGui::ColorEdit3(xorstr("Color"), (float*)&settings.m_Color, ImGuiColorEditFlags_NoInputs);
 		ImGui::InputFloat(xorstr("Size"), &settings.m_fGlowSize, 0.f, 0.f, "%.1f");
 
 		if (settings.m_fGlowSize > 1.f)
 			settings.m_fGlowSize = 1.f;
-
-		static const char* styles[] = {"Style 1", "Style 2", "Style 3", "Style 4"};
+		
+		static const char* styles[] = {"Blur", "Pusle Glass", "Rough", "Pulse Rough"};
+		static const char* drawModes[] = { "Static", "Dynamic"};
 		ImGui::Combo(xorstr("Style###GStyle"), &settings.m_iStyle, styles, IM_ARRAYSIZE(styles));
-		ImGui::ColorEdit3(xorstr("Color"), (float*)&settings.m_Color, ImGuiColorEditFlags_NoInputs);
+		ImGui::Combo(xorstr("Draw Mode###GDrawMode"), &settings.m_iDrawMode, drawModes, IM_ARRAYSIZE(drawModes));
+		ImGui::InputInt(xorstr("Distance"), &settings.m_iMaxDistance, 0);
 
 		ImGui::EndChild();
 	}
@@ -165,7 +171,7 @@ void UI::CSettingsWindow::DrawESPChild()
 
 		style.WindowPadding = ImVec2(2, 2);
 		style.ItemSpacing = ImVec2(2, 2);
-
+		
 		auto pTexutreList = &GlobalVars::g_AllSettings.m_TextureOverrideSettings.m_overridedTextures;
 		
 		ImGui::BeginChild(xorstr("###Textures"), ImVec2(180, 180), true, m_iImGuiStyle);
@@ -197,6 +203,7 @@ void UI::CSettingsWindow::DrawESPChild()
 					ImGui::SetCursorPosX(152);
 					if (ImGui::Button((xorstr("X###RemoveButton") + pCurrentTexture->m_sName).c_str(), ImVec2(21.f, 21.f)))
 					{
+			
 						pTexutreList->erase(pCurrentTexture);
 					}
 					ImGui::EndChild();
@@ -214,7 +221,7 @@ void UI::CSettingsWindow::DrawESPChild()
 		ImGui::PushItemWidth(80);
 		DrawInputTextWithTextOnBackGround(xorstr("###newtext"), xorstr("<name>"), newTextureName, sizeof(newTextureName));
 		ImGui::PopItemWidth();
-
+		
 		ImGui::SameLine();
 		if (ImGui::Button(xorstr("ADD")))
 		{
@@ -232,7 +239,6 @@ void UI::CSettingsWindow::DrawESPChild()
 
 
 		}
-		
 		style.WindowPadding = backUp;
 		style.ItemSpacing = backUp2;
 

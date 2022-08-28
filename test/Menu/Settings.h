@@ -211,7 +211,15 @@ namespace Settings
 		CGlowEspSettings(const nlohmann::json& jsn);
 		ImColor m_Color = ImColor(255, 255, 255);
 		float   m_fGlowSize = 1.f;
+		int     m_iMaxDistance = 4096;
 		int		m_iStyle = 0;
+		int     m_iDrawMode = 0;
+
+		enum DrawMode
+		{
+			Static,
+			Dynamic
+		};
 
 		nlohmann::json ToJson() const override;
 	};

@@ -125,6 +125,8 @@ UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 
 UI::COverlay::~COverlay()
 {
+	POLY_MARKER;
+
 	if (m_pWallpaper)
 		m_pWallpaper->Release();
 }

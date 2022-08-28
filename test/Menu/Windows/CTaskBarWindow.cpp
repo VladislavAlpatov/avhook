@@ -1,14 +1,16 @@
 #include "CTaskBarWindow.h"
 #include <sstream>
 #include "../../Globals/Settings.h"
-
+#include "../../Utils/Marker.h"
 
 UI::CTaskBarWindow::CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice) : CBaseWindow(pDevice)
 {
+	POLY_MARKER;
 	m_bForceShow = true;
 }
 void UI::CTaskBarWindow::Render()
 {
+	POLY_MARKER;
 	ImGui::Begin(xorstr("taskbar"), NULL, m_iImGuiStyle | ImGuiWindowFlags_NoMove);
 	{
 		ImVec2 screenSize = ImGui::GetMainViewport()->Size;
@@ -36,6 +38,7 @@ void UI::CTaskBarWindow::Render()
 }
 std::string UI::CTaskBarWindow::GetLocalTime()
 {
+	POLY_MARKER;
 	auto t  = time(nullptr);
 	tm tm;
 

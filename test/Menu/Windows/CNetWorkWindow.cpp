@@ -12,6 +12,8 @@
 
 UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList) : CBaseWindow(pDevice)
 {
+	POLY_MARKER;
+
 	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::DefaultAvatar, sizeof(Images::DefaultAvatar), &m_pTexureDefaulteAvatar);
 	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::ProfileIcon,   sizeof(Images::ProfileIcon),   &m_pTextureIcon);
 
@@ -24,6 +26,7 @@ UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* 
 }
 void UI::CNetWorkWindow::Render()
 {
+	POLY_MARKER;
 
 	ImGui::Begin(xorstr("###Network"), nullptr, m_iImGuiStyle);
 	{
@@ -186,6 +189,7 @@ void UI::CNetWorkWindow::OnOpen()
 }
 std::string UI::CNetWorkWindow::GetAlias()
 {
+	POLY_MARKER;
 	return xorstr("Network");
 }
 UI::CNetWorkWindow::~CNetWorkWindow()
@@ -214,12 +218,13 @@ void UI::CNetWorkWindow::UpdateUserInfo()
 }
 void UI::CNetWorkWindow::SendNewUserInfoToServer(const WebApi::CUserInfo & info)
 {
+	POLY_MARKER;
 	m_ApiClient.ChangeUserNameAndStatus(info.m_sName, info.m_sStatus);
 	m_ApiClient.UpdateLoaderTheme(m_LoaderTheme);
 }
 void UI::CNetWorkWindow::SetUserAvatar(const std::string& pathToFile)
 {
-
+	POLY_MARKER;
 	std::ifstream file(pathToFile, std::ios::binary | std::ios::ate);
 
 	if (!file.is_open())
@@ -249,6 +254,7 @@ void UI::CNetWorkWindow::SetUserAvatar(const std::string& pathToFile)
 
 void UI::CNetWorkWindow::DrawConfigCombo(const char* label, int* CurrentItem, const std::vector<WebApi::CConfig>& list)
 {
+	POLY_MARKER;
 	auto tmpArr = std::unique_ptr<const char* []>(new const char* [list.size()]);
 
 	for (int i = 0; i < list.size(); ++i)

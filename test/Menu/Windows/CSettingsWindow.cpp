@@ -15,6 +15,8 @@
 
 UI::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList, bool* pShowKeyBinderDialog) : CBaseWindow(pDevice)
 {
+	POLY_MARKER;
+
 	m_pShowKeyBinderDialog  = pShowKeyBinderDialog;
 	m_pMessageLineList      = pMessageLineList;
 	m_BindListener          = Routines::CBindListener(&GlobalVars::g_AllSettings.m_AimBotSettings.m_iBindKey, m_pShowKeyBinderDialog);
@@ -53,6 +55,8 @@ std::string UI::CSettingsWindow::VirtualKeyNumberToString(int keyNumber)
 }
 void UI::CSettingsWindow::Render()
 {
+	POLY_MARKER;
+
 	ImGui::Begin(xorstr("###Setting"), NULL, m_iImGuiStyle);
 	{
 		ImGui::SetWindowSize(ImVec2(555, 252));
@@ -122,5 +126,6 @@ void UI::CSettingsWindow::Render()
 }
 std::string UI::CSettingsWindow::GetAlias()
 {
+	POLY_MARKER;
 	return xorstr("Settings");
 }

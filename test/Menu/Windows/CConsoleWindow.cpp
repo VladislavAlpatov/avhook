@@ -15,6 +15,8 @@ void UI::CConsoleWindow::Render()
 	static char buff[128] = {NULL};
 	ImGui::Begin(xorstr("###Console"), NULL, m_iImGuiStyle);
 	{
+		POLY_MARKER;
+
 		ImGui::SetWindowSize(ImVec2(256, 480));
 		DrawIconAndTittle(xorstr("AVhook Developer Console"));
 
@@ -48,6 +50,7 @@ void UI::CConsoleWindow::Render()
 
 UI::CConsoleWindow::CConsoleWindow(LPDIRECT3DDEVICE9 pDevice) : UI::CBaseWindow(pDevice)
 {
+	POLY_MARKER;
 	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::ConsoleIcon, sizeof(Images::ConsoleIcon), &m_pTextureIcon);
 
 	auto& style = ImGui::GetStyle();
@@ -58,11 +61,14 @@ UI::CConsoleWindow::CConsoleWindow(LPDIRECT3DDEVICE9 pDevice) : UI::CBaseWindow(
 
 std::string UI::CConsoleWindow::GetAlias()
 {
+	POLY_MARKER;
+
 	return xorstr("Console");
 }
 
 bool UI::CConsoleWindow::CanBeCovertedToInt(const std::string& str)
 {
+	POLY_MARKER;
 	if (!str.length());
 		return false;
 
@@ -80,6 +86,7 @@ bool UI::CConsoleWindow::CanBeCovertedToInt(const std::string& str)
 
 bool UI::CConsoleWindow::ConsoleExecute(const std::string& text)
 {
+	POLY_MARKER;
 	AddConsoleLog(xorstr(">> ")+text);
 
 	std::vector<std::string> rawData;
@@ -106,5 +113,6 @@ bool UI::CConsoleWindow::ConsoleExecute(const std::string& text)
 
 void UI::CConsoleWindow::AddConsoleLog(const std::string& text, const ImColor& col)
 {
+	POLY_MARKER;
 	m_logHistory.push_back({ text, col });
 }

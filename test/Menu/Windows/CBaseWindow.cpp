@@ -10,6 +10,7 @@
 
 UI::CBaseWindow::CBaseWindow(LPDIRECT3DDEVICE9 pDevice)
 {
+	POLY_MARKER;
 	m_pDevice = pDevice;
 
 	ImFontConfig fontBUilderConfig;
@@ -27,6 +28,7 @@ UI::CBaseWindow::CBaseWindow(LPDIRECT3DDEVICE9 pDevice)
 
 void UI::CBaseWindow::Toggle()
 {
+	POLY_MARKER;
 	auto newState = !m_bIsShow;
 
 	if (newState)
@@ -39,6 +41,8 @@ void UI::CBaseWindow::Toggle()
 
 void UI::CBaseWindow::KeepWindowInSreenArea()
 {
+	POLY_MARKER;
+
 	ImVec2 windowPos     = ImGui::GetWindowPos();
 	ImVec2 windowSize    = ImGui::GetWindowSize();
 	ImVec2 screenSize     = ImGui::GetMainViewport()->Size;
@@ -61,6 +65,9 @@ void UI::CBaseWindow::KeepWindowInSreenArea()
 }
 void UI::CBaseWindow::DrawIconAndTittle(const char* tittle)
 {
+
+	POLY_MARKER;
+
 	ImGui::Image(m_pTextureIcon, ImVec2(16, 16));
 	ImGui::SameLine();
 
@@ -71,6 +78,8 @@ void UI::CBaseWindow::DrawIconAndTittle(const char* tittle)
 
 void UI::CBaseWindow::DrawCloseWindowButton()
 {
+	POLY_MARKER;
+
 	ImVec2 windowSize = ImGui::GetWindowSize();
 
 	// Setting position of button
@@ -83,6 +92,8 @@ void UI::CBaseWindow::DrawCloseWindowButton()
 
 void UI::CBaseWindow::Show()
 {
+	POLY_MARKER;
+
 	if (m_bIsShow or m_bForceShow)
 	{
 		ImGui::PushFont(m_pFontMedium.get());
@@ -92,11 +103,13 @@ void UI::CBaseWindow::Show()
 }
 std::string UI::CBaseWindow::GetAlias()
 {
+	POLY_MARKER;
 	return xorstr("Window");
 }
 void UI::CBaseWindow::DrawInputTextWithTextOnBackGroundEx(const char* label, const char* backGroundLabel, char* text, size_t bufferSize, const ImColor& bgLabelCol, ImGuiInputTextFlags flags)
 {
-	
+	POLY_MARKER;
+
 	if (text[0] != NULL)
 	{
 		ImGui::InputText(label, text, bufferSize);
@@ -117,6 +130,7 @@ void UI::CBaseWindow::DrawInputIntWithTextOnBackGroundEx(const char* label, cons
 }
 void UI::CBaseWindow::DrawImageWithBorder(ImTextureID textureID, const ImVec2& size)
 {
+	POLY_MARKER;
 	auto drawList  = ImGui::GetWindowDrawList();
 	auto windowPos = ImGui::GetWindowPos();
 	auto cursorPos = ImGui::GetCursorPos();
@@ -129,6 +143,7 @@ void UI::CBaseWindow::DrawImageWithBorder(ImTextureID textureID, const ImVec2& s
 }
 void UI::CBaseWindow::DrawTextCentered(const char* text)
 {
+	POLY_MARKER;
 	ImGui::SetCursorPosX( (ImGui::GetWindowWidth() - ImGui::CalcTextSize(text).x) / 2.f);
 	ImGui::Text(text);
 }
@@ -153,12 +168,15 @@ void UI::CBaseWindow::DrawMultiLineInputTextWithTextOnBackGround(const char* lab
 }
 void UI::CBaseWindow::DrawToolTip(const char* text)
 {
+	POLY_MARKER;
 	if (!ImGui::IsItemHovered())
 		return;
 
 	auto& style         =  ImGui::GetStyle();
 	auto oldWindowPad   = style.WindowPadding;
 	style.WindowPadding = ImVec2(2, 2);
+
+	POLY_MARKER;
 
 	ImGui::PushFont(m_pFontSmall.get());
 	ImGui::SetTooltip(text);

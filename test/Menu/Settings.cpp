@@ -18,12 +18,14 @@ nlohmann::json Settings::CBaseSettings::ToJson() const
 
 Settings::CAimBotSettings::CAimBotSettings()
 {
+	POLY_MARKER;
 	m_bAutoShot = false;
 	m_bSilent = false;
 	m_bIsWorking = false;
 	m_bRcsControle = false;
 	m_fFov = 10.f;
 	m_fSmooth = 0.f;
+	POLY_MARKER;
 	m_iSelectedHitBox = 0;
 	m_iPriorityType = 0;
 	m_pCurrentTarget = nullptr;
@@ -211,6 +213,7 @@ nlohmann::json Settings::CRadarSettings::ToJson() const
 
 Settings::CLabelEspSettings::CLabelEspSettings()
 {
+	POLY_MARKER;
 	m_bActive = true;
 	m_Labels.push_back(std::shared_ptr<CLabels::CNameLabel>(new CLabels::CNameLabel(xorstr("Name"), false, ImColor(255, 255, 255))));
 	m_Labels.push_back(std::shared_ptr<CLabels::CHealthLabel>(new CLabels::CHealthLabel(xorstr("Health"), false)));
@@ -222,6 +225,7 @@ Settings::CLabelEspSettings::CLabelEspSettings()
 
 Settings::CLabelEspSettings& Settings::CLabelEspSettings::operator=(const CLabelEspSettings& other)
 {
+	POLY_MARKER;
 	if (this == &other)
 		return *this;
 
@@ -249,6 +253,7 @@ Settings::CLabelEspSettings& Settings::CLabelEspSettings::operator=(const CLabel
 
 Settings::CLabelEspSettings::CLabelEspSettings(const CLabelEspSettings& other)
 {
+	POLY_MARKER;
 	m_bActive = true;
 	m_iDrawPos = other.m_iDrawPos;
 	m_iMaxDrawDistance = other.m_iMaxDrawDistance;
@@ -342,6 +347,7 @@ Settings::CLabelEspSettings::CLabelEspSettings(const nlohmann::json& jsn)
 
 nlohmann::json Settings::CBunnyHopSettings::ToJson() const
 {
+	POLY_MARKER;
 	nlohmann::json jsn;
 
 	jsn[xorstr("Active")] = m_bActive;
@@ -498,6 +504,7 @@ nlohmann::json Settings::CCrosshairSettings::ToJson() const
 
 Settings::CGlowEspSettings::CGlowEspSettings(const nlohmann::json& jsn)
 {
+	POLY_MARKER;
 	m_Color     = ImportImColorFromJson(jsn[xorstr("Color")].get<nlohmann::json>());
 	m_fGlowSize    = jsn[xorstr("GlowSize")].get<float>();
 	m_bActive      = jsn[xorstr("Active")].get<bool>();

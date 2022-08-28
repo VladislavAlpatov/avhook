@@ -16,6 +16,7 @@ namespace Esp
 
 	private:
 		virtual void RenderAt(SSDK::GlowObjectDefinition& glowObj);
+		inline float CalcAdaptiveGlowBrightness(const SSDK::CBaseEntity* pEntity, float fMaxDistance= 4096.f);
 	};
 }
 

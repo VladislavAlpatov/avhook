@@ -13,6 +13,16 @@ namespace UI
 		virtual void Render();
 		std::string GetAlias() override;
 	private:
+
+		enum TAB : BYTE
+		{
+			AimBot,
+			TriggerBot,
+			Visuals,
+			Misc,
+			Menu,
+		};
+
 		char m_pMenuCfgName[32] = {};
 		bool* m_pShowKeyBinderDialog;
 
@@ -27,7 +37,9 @@ namespace UI
 		PDIRECT3DTEXTURE9               m_pTexureAtomaticColorIcon = nullptr;
 		CMessageLineList*               m_pMessageLineList;
 		Routines::CBindListener			m_BindListener;
-		int               m_iTab = 0;
+
+		std::unique_ptr<ImFont> m_pFontHeaderButtons;
+		int               m_iTab = TAB::Menu;
 	protected:
 		std::string VirtualKeyNumberToString(int keyNumber);
 	};

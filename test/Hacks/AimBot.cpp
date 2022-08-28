@@ -96,7 +96,7 @@ void CAimBot::Work()
 	}
 	
 	if (pAimBotSettings->m_bAutoShot)
-		m_pCUsrCmd->buttons &= ~1;
+		m_pCUsrCmd->buttons &= 1;
 
 	POLY_MARKER;
 }

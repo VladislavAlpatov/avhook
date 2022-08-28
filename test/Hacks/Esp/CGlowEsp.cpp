@@ -9,7 +9,10 @@
 void Esp::CGlowEsp::RenderAt(SSDK::GlowObjectDefinition& glowObj)
 {
 	auto pSettings = GetSettings<Settings::CGlowEspSettings>();
-	glowObj.m_fGlowAlphaMax = pSettings->m_fGlowSize;
+	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
+
+	glowObj.m_fGlowAlphaMax = CalcAdaptiveGlowBrightness(glowObj.m_pEntity);
+
 	glowObj.m_iGlowStyle = pSettings->m_iStyle;
 
 
@@ -17,4 +20,11 @@ void Esp::CGlowEsp::RenderAt(SSDK::GlowObjectDefinition& glowObj)
 		glowObj.SetColor(pSettings->m_Color);
 	else
 		glowObj.SetColor(ImColor(255, 0, 255));
+}
+
+float Esp::CGlowEsp::CalcAdaptiveGlowBrightness(const SSDK::CBaseEntity* pEntity, float fMaxDistance)
+{
+	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
+
+	return  1.f - pLocalPlayer->m_vecOrigin.DistTo(pEntity->m_vecOrigin) / fMaxDistance;
 }

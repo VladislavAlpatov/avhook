@@ -88,7 +88,7 @@ void UI::CSettingsWindow::DrawESPChild()
 		
 	}
 	ImGui::SameLine();
-	ImGui::BeginChild(xorstr("###Glow"), blockSize + ImVec2(40, 80), true);
+	ImGui::BeginChild(xorstr("###Glow"), blockSize + ImVec2(60, 80), true);
 	{
 		auto& settings = GlobalVars::g_AllSettings.m_GlowEspSettings;
 		ImGui::Text(xorstr("Glow Esp"));

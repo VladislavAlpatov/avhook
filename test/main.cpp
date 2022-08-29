@@ -12,7 +12,7 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 	POLY_MARKER;
 	// bWevWkyjyNLFwn4f3tjXJGgSux4H8Jbe
 	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	if (!WebApi::CAVHookServerApi().AuthByToken(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"))
+	if (!WebApi::CAVHookServerApi().AuthByToken("bWevWkyjyNLFwn4f3tjXJGgSux4H8Jbe"))
 	{
 		POLY_MARKER;
 		MessageBoxA(NULL, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);

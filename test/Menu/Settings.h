@@ -113,6 +113,7 @@ namespace Settings
 		bool    m_bDrawHealthBar  = false;
 		bool    m_bDrawArmorBar   = false;
 		int     m_iThickness      = 1;
+		int     m_iStyle          = 0;
 		ImColor m_ArmorColor      = ImColor(56, 122, 255);
 		ImColor m_BackGroundColor = ImColor(0, 0, 0, 0);
 

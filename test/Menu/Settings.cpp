@@ -179,6 +179,7 @@ nlohmann::json Settings::BarEspSettings::ToJson() const
 	jsn[xorstr("Thickness")] = m_iThickness;
 	jsn[xorstr("ArmorColor")] = ImColorToJsn(m_ArmorColor);
 	jsn[xorstr("BackGroundColor")] = ImColorToJsn(m_BackGroundColor);
+	jsn[xorstr("Style")] = m_iStyle;
 
 	return jsn;
 };
@@ -192,6 +193,8 @@ Settings::BarEspSettings::BarEspSettings(const nlohmann::json& jsn)
 	SetValueIfFiledExistInJson<int>(jsn,  xorstr("Thickness"),       &m_iThickness);
 	SetValueIfFiledExistInJson(jsn,       xorstr("ArmorColor"),      &m_ArmorColor);
 	SetValueIfFiledExistInJson(jsn,       xorstr("BackGroundColor"), &m_BackGroundColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("Style"), &m_iStyle);
+
 }
 
 nlohmann::json Settings::CRadarSettings::ToJson() const
@@ -207,7 +210,6 @@ nlohmann::json Settings::CRadarSettings::ToJson() const
 	jsn[xorstr("CrossColor")]        = ImColorToJsn(m_CrossColor);
 	jsn[xorstr("Style")]             = m_iStyle;
 	jsn[xorstr("CyrcleBorderColor")] = ImColorToJsn(m_CyrcleBorderColor);
-
 	return jsn;
 };
 

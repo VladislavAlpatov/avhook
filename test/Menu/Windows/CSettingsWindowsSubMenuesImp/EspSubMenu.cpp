@@ -49,24 +49,25 @@ void UI::CSettingsWindow::DrawESPChild()
 	}
 
 	//ImGui::SameLine();
-	ImGui::BeginChild(xorstr("###BaResp"), blockSize, true);
+	ImGui::BeginChild(xorstr("###BaResp"), blockSize+ImVec2(0, 40), true);
 	{
-
-		auto pSettings = &GlobalVars::g_AllSettings.m_BarEspSettings;
+		static const char* styles[] = { "Flat", "Gradient" };
+		static auto pSettings = &GlobalVars::g_AllSettings.m_BarEspSettings;
 		ImGui::Text(xorstr("Bars"));
 		ImGui::Image(m_pTexureAtomaticColorIcon, ImVec2(21, 21));
 		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Health bar"), &pSettings->m_bDrawHealthBar);
+		ImGui::Checkbox(xorstr("Health"), &pSettings->m_bDrawHealthBar);
 
 		ImGui::ColorEdit4(xorstr("###ArmorBarColor"), (float*)&pSettings->m_ArmorColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
-		ImGui::Checkbox(xorstr("Armor bar"), &pSettings->m_bDrawArmorBar);
+		ImGui::Checkbox(xorstr("Arrmor"), &pSettings->m_bDrawArmorBar);
 
 		ImGui::ColorEdit4(xorstr("###BgCol"), (float*)&pSettings->m_BackGroundColor, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
-		ImGui::Text(xorstr("Background fill"));
+		ImGui::Text(xorstr("Fill"));
 
 		ImGui::InputInt(xorstr("###barsthiccness"), &pSettings->m_iThickness);
+		ImGui::Combo(xorstr("###BarStyle"), &pSettings->m_iStyle, styles, IM_ARRAYSIZE(styles));
 		ImGui::EndChild();
 	}
 	ImGui::SameLine();
@@ -107,7 +108,7 @@ void UI::CSettingsWindow::DrawESPChild()
 		ImGui::Combo(xorstr("Style###GStyle"), &settings.m_iStyle, styles, IM_ARRAYSIZE(styles));
 		ImGui::Combo(xorstr("Draw Mode###GDrawMode"), &settings.m_iDrawMode, drawModes, IM_ARRAYSIZE(drawModes));
 		ImGui::InputInt(xorstr("Distance"), &settings.m_iMaxDistance, 0);
-
+		
 		ImGui::EndChild();
 	}
 	ImGui::SetCursorPos(pos);

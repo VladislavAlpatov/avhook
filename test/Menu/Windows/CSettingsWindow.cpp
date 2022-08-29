@@ -126,6 +126,7 @@ void UI::CSettingsWindow::Render()
 }
 std::string UI::CSettingsWindow::GetAlias()
 {
+	
 	POLY_MARKER;
 	return xorstr("Settings");
 }

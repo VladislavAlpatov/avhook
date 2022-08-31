@@ -10,3 +10,5 @@ AVhook is a training software designed for Counter-Strike: Global Offensive for 
 ![banner](https://i.imgur.com/B1nlROm.png)
 
 ![banner](https://avhook.ru/wp-content/uploads/2022/08/image.png)
+
+![banner](https://avhook.ru/wp-content/uploads/2022/08/image-6-1024x576.png)

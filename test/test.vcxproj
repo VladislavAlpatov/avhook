@@ -267,6 +267,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="SDK\CVarSystem\ConVar.h" />
     <ClInclude Include="Hacks\Esp\CGlowEsp.h" />
     <ClInclude Include="SDK\IGlowObjectManager.h" />
     <ClInclude Include="Menu\Overlays\CCrosshairOverlay.h" />
@@ -341,6 +342,7 @@
     <ClInclude Include="Web\httplib.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SDK\CVarSystem\ConVar.cpp" />
     <ClCompile Include="Hacks\Esp\CGlowEsp.cpp" />
     <ClCompile Include="SDK\IGlowObjectManager.cpp" />
     <ClCompile Include="Menu\Overlays\CCrosshairOverlay.cpp" />

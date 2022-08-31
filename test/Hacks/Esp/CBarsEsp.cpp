@@ -64,10 +64,10 @@ public:
         if (pSettings->m_iStyle == 0)
             pDrawList->AddRectFilled(vecRenderPos, vecRenderPos + ImVec2(pSettings->m_iThickness, -fBarHeight), m_pEntity->GetColorBasedOnHealth());
         else
-        for (int i = 0; i <= (int)fBarHeight+1; ++i)
-        {
-            pDrawList->AddLine(vecRenderPos + ImVec2(pSettings->m_iThickness, -i), vecRenderPos + ImVec2(-1, -i), GetGradientColor(i, m_fMaxLength));
-        }
+            for (int i = 0; i <= (int)fBarHeight+1; ++i)
+            {
+                pDrawList->AddLine(vecRenderPos + ImVec2(pSettings->m_iThickness, -i), vecRenderPos + ImVec2(-1, -i), GetGradientColor(i, m_fMaxLength));
+            }
 
         // Add outline
         pDrawList->AddRect(vecRenderPos + ImVec2(-1, 0), vecRenderPos + ImVec2(pSettings->m_iThickness + 1, -m_fMaxLength), ImColor(0, 0, 0));
@@ -125,7 +125,10 @@ void CBarsEsp::InternalRenderAt(const SSDK::CBaseEntity* pEntity)
     POLY_MARKER;
 
 
-    std::vector<std::shared_ptr<CBaseBar>> bars = {std::shared_ptr<CBaseBar>(new CHealthBar(pEntity, maxBarLength)), std::shared_ptr<CBaseBar>(new CArrmorBar(pEntity, maxBarLength)) };
+    std::vector<std::shared_ptr<CBaseBar>> bars = {
+        std::shared_ptr<CBaseBar>(new CHealthBar(pEntity, maxBarLength)),
+        std::shared_ptr<CBaseBar>(new CArrmorBar(pEntity, maxBarLength)) 
+    };
 
     ImVec2 barStart = box.m_vecBottomLeft - ImVec2(pSettings->m_iThickness + GlobalVars::g_AllSettings.m_BoxEspSettings.m_iThickness + 2, 0);
 

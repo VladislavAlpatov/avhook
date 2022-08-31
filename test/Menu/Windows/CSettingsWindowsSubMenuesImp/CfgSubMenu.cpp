@@ -202,7 +202,7 @@ void UI::CSettingsWindow::DrawCfgChild()
 
 		ImGui::ColorEdit4(xorstr("##ScrollActive"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_ScrollbarGrabActive]), ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
-		ImGui::Text(xorstr("Slider grab (Active)"));
+		ImGui::Text(xorstr("Scroll bar (Active)"));
 
 		ImGui::ColorEdit4(xorstr("##Scroll"), reinterpret_cast<float*>(&guiColorTheme[ImGuiCol_ScrollbarGrab]), ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();

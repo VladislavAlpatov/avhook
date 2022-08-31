@@ -7,6 +7,8 @@ namespace SSDK
 	class ConVar : public SSDK::IBaseInterface
 	{
 	public:
+		BYTE  __pad0[0x4];
+
 		ConVar*     m_pNext;
 		bool        m_bIsRegistered;
 		const char* m_Name;

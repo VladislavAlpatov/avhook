@@ -23,7 +23,7 @@ void UI::CSettingsWindow::DrawESPChild()
 		ImGui::ColorEdit4(xorstr("###lineColor"), (float*)&pSettings->m_Color, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
 		ImGui::Checkbox(xorstr("Active###Drawlines"), &pSettings->m_bActive);
-
+		
 		ImGui::InputInt(xorstr("###lineThickness"), &pSettings->m_iThickness);
 		ImGui::Combo(xorstr("###LinePoint"),        &pSettings->m_iSelectedBone, hitboxes,    IM_ARRAYSIZE(hitboxes));
 		ImGui::Combo(xorstr("###LineEspDrawMode"),  &pSettings->m_iDrawMode,     drawOptions, IM_ARRAYSIZE(drawOptions));

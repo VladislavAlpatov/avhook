@@ -70,26 +70,28 @@ UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 
 	POLY_MARKER;
 	
-	theme[ImGuiCol_WindowBg]		 = ImColor(24, 31, 35, 255);
-	theme[ImGuiCol_Button]			 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_Tab]				 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_SeparatorActive]  = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_Border]			 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_Text]			 = ImVec4(1.f, 1.f, 1.f, 1.f);
-	theme[ImGuiCol_ButtonActive]	 = ImVec4(1.f, 0.57f, 0.57f, 1.f);
-	theme[ImGuiCol_ButtonHovered]    = ImVec4(1.f, 0.4f, 0.4f, 1.f);
-	theme[ImGuiCol_CheckMark]		 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_TextSelectedBg]   = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_FrameBg]			 = ImVec4(0.31f, 0.31f, 0.31f, 1.f);
-	theme[ImGuiCol_FrameBgActive]    = ImVec4(1.f, 0.57f, 0.57f, 1.f);
-	theme[ImGuiCol_FrameBgHovered]   = ImVec4(0.41f, 0.41f, 0.41f, 1.f);
-	theme[ImGuiCol_PopupBg]			 = ImColor(24, 31, 35, 255);
-	theme[ImGuiCol_ScrollbarBg]		 = ImVec4(1.f, 0.372f, 0.372f, 0.f);
-	theme[ImGuiCol_ScrollbarGrab]	 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_SliderGrab]		 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_SliderGrabActive] = ImVec4(1.f, 0.372f, 0.372f, 1.f);
-	theme[ImGuiCol_TabHovered]		 = ImVec4(1.f, 0.57f, 0.57f, 1.f);
-	theme[ImGuiCol_TabActive]		 = ImVec4(1.f, 0.372f, 0.372f, 1.f);
+	theme[ImGuiCol_Text]                     = ImColor(255, 255, 255);
+	theme[ImGuiCol_TextDisabled]             = ImColor(199, 199, 199);
+	theme[ImGuiCol_WindowBg]				 = ImColor(19, 19, 19);
+	theme[ImGuiCol_ChildBg]                  = ImColor();
+	theme[ImGuiCol_PopupBg]			         = ImColor(19, 19, 19);
+	theme[ImGuiCol_Border]			         = ImColor(255, 95, 95);
+	theme[ImGuiCol_BorderShadow]	         = ImColor();
+	theme[ImGuiCol_FrameBg]                  = ImColor();
+	theme[ImGuiCol_FrameBgHovered]		     = ImColor(255,102,102, 90);
+	theme[ImGuiCol_FrameBgActive]            = ImColor(255, 255, 255, 90);
+	theme[ImGuiCol_Header]			         = ImColor(255, 95, 95);
+	theme[ImGuiCol_HeaderActive]             = ImColor(255, 255, 255, 90);
+	theme[ImGuiCol_HeaderHovered]            = ImColor(255, 102, 102, 90);
+	theme[ImGuiCol_CheckMark]			     = ImColor(255, 95, 95);
+	theme[ImGuiCol_Button]		             = ImColor();
+	theme[ImGuiCol_ButtonHovered]	         = ImColor(255, 102, 102, 90);
+	theme[ImGuiCol_ButtonActive]			 = ImColor(255, 255, 255, 90);
+	theme[ImGuiCol_TextSelectedBg]           = ImColor(255, 95, 95);
+	theme[ImGuiCol_SliderGrab]		         = ImColor(255, 95, 95);
+	theme[ImGuiCol_SliderGrabActive]		 = ImColor(255, 255, 255, 90);
+	theme[ImGuiCol_ScrollbarGrabActive]		 = ImColor(255, 255, 255, 90);
+	theme[ImGuiCol_ScrollbarGrab]		     = ImColor(255, 95, 95);
 
 	POLY_MARKER;
 

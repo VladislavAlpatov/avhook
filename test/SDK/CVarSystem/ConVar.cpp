@@ -17,7 +17,7 @@ float SSDK::ConVar::GetValueAsFloat() const
 
 int SSDK::ConVar::GetValueAsInt() const
 {
-	return (int)m_pParentCvar->m_fValue ^ (int)this;
+	return (int)(m_pParentCvar->m_iValue^ (int)(this));
 }
 
 std::string SSDK::ConVar::GetString() const
@@ -30,21 +30,21 @@ std::string SSDK::ConVar::GetString() const
 
 void SSDK::ConVar::SetValue(const char* value)
 {
-	typedef const char* (__thiscall* SetValue_t)(const char*);
+	typedef const char* (__thiscall* SetValue_t)(void*,const char*);
 
-	GetVirtualFunction<SetValue_t>(14)(value);
+	GetVirtualFunction<SetValue_t>(14)(this, value);
 }
 
 void SSDK::ConVar::SetValue(float value)
 {
-	typedef const char* (__thiscall* SetValue_t)(float);
+	typedef const char* (__thiscall* SetValue_t)(void*,float);
 
-	GetVirtualFunction<SetValue_t>(15)(value);
+	GetVirtualFunction<SetValue_t>(15)(this, value);
 }
 
 void SSDK::ConVar::SetValue(int value)
 {
-	typedef const char* (__thiscall* SetValue_t)(int);
+	typedef const char* (__thiscall* SetValue_t)(void*,int);
 
-	GetVirtualFunction<SetValue_t>(16)(value);
+	GetVirtualFunction<SetValue_t>(16)(this, value);
 }

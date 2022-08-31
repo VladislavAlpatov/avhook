@@ -360,6 +360,9 @@
     <ClInclude Include="SDK\CVarSystem\ConVar.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="SDK\CVarSystem\ICvarSystem.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_draw.cpp">
@@ -540,6 +543,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="SDK\CVarSystem\ConVar.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\CVarSystem\ICvarSystem.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

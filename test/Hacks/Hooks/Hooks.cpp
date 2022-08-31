@@ -41,7 +41,18 @@ static uintptr_t		  oDoPostScreenEffects;
 static uintptr_t		  oRenderGlowEffects;
 static std::unique_ptr<UI::COverlay> pOverlay;
 
+void SetWorldColor(const ImColor& col)
+{
+	static auto mat_ambient_light_r = GlobalVars::g_pCvarManager->FindVar("mat_ambient_light_r");
+	static auto mat_ambient_light_g = GlobalVars::g_pCvarManager->FindVar("mat_ambient_light_g");
+	static auto mat_ambient_light_b = GlobalVars::g_pCvarManager->FindVar("mat_ambient_light_b");
 
+
+	mat_ambient_light_r->m_pParentCvar->SetValue(col.Value.x);
+	mat_ambient_light_g->m_pParentCvar->SetValue(col.Value.y);
+	mat_ambient_light_b->m_pParentCvar->SetValue(col.Value.z);
+
+}
 int __stdcall hooks::hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE type, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
 {
 	POLY_MARKER;
@@ -90,14 +101,22 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 
 	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 	// GlobalVars::pClient->pLocalPlayer->m_Index > 33 prevent from bug when you can peek team
-	if (!pLocalPlayer or !pOverlay or pLocalPlayer->m_Index > 33)
+	if (!pLocalPlayer or !pOverlay or pLocalPlayer->m_Index > 33 or !reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd))
 	{
 		return false;
 	}
 
 	POLY_MARKER;
 
-	pLocalPlayer->m_iDefaultFOV = GlobalVars::g_AllSettings.m_MiscSettings.m_iCustomFov;
+	SetWorldColor(GlobalVars::g_AllSettings.m_MiscSettings.m_WorldColor);
+	
+	static auto pCvar = GlobalVars::g_pCvarManager->FindVar(xorstr("fov_cs_debug"));
+	pCvar->m_pParentCvar->SetValue(GlobalVars::g_AllSettings.m_MiscSettings.m_iCustomFov);
+
+
+	static auto pCrosshair = GlobalVars::g_pCvarManager->FindVar(xorstr("crosshair"));
+	pCrosshair->m_pParentCvar->SetValue(GlobalVars::g_AllSettings.m_CrosshairSettings.m_Color.Value.w == 0.f or !GlobalVars::g_AllSettings.m_CrosshairSettings.m_bActive);
+	//pLocalPlayer->m_iDefaultFOV = GlobalVars::g_AllSettings.m_MiscSettings.m_iCustomFov;
 
 	// Looking for "visible" players
 	for (const auto pEnt : GlobalVars::g_pIEntityList->GetEntityList())

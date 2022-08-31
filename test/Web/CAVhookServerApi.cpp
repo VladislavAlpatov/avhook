@@ -63,7 +63,7 @@ void WebApi::CAVHookServerApi::UpdateLoaderTheme(const CLoaderTheme& theme)
 {
 	m_pClient->Post(xorstr("/api/loader/update/theme"), theme.ToJson().dump(), xorstr("application/json"));
 }
-const char* CUserInfo::AccountTypeIdToString()
+std::string CUserInfo::AccountTypeIdToString()
 {
 #ifndef _DEBUG
 	switch (m_iAccountType)

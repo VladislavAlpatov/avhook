@@ -17,14 +17,14 @@ namespace WebApi
 		CUserInfo(nlohmann::json jsn);
 		bool operator!=(const CUserInfo& info)
 		{
-			return memcmp((void*)this, (void*)&info, sizeof(CUserInfo)) != 0;
+			return memcmp(this, &info, sizeof(CUserInfo)) != 0;
 		}
 		char m_sName[128] = { 0 };
 		char m_sStatus[256] = { 0 };
 		int m_iAccountType = -1;
 		int m_iUid = 0;
 		bool m_bIsPremium;
-		const char* AccountTypeIdToString();
+		std::string AccountTypeIdToString();
 		enum AccountType : int
 		{
 			Standart = 0,

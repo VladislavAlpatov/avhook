@@ -1,6 +1,4 @@
-﻿#pragma once
-
-#include "COverlay.h"
+﻿#include "COverlay.h"
 #include "../Utils/Marker.h"
 
 #include "Windows/CAboutWindow.h"

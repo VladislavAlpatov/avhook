@@ -2,6 +2,8 @@
 #include <d3d9.h>
 #include "../../SDK/CUserCMD.h"
 #include "../../SDK/IGlowObjectManager.h"
+
+
 namespace hooks
 {
 

@@ -1,3 +1,12 @@
+
+//========= Copyright Alpatov Softworks, All rights reserved. ============//
+//
+// Emulate CSGO C_BaseEntity class.
+//
+//===============================================================================
+
+
+
 #pragma once
 #include "../Utils/offsets.h"
 #include "../Utils/Vec3.h"

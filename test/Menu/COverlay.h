@@ -2,7 +2,6 @@
 
 #include <Windows.h>
 #include <vector>
-
 #include <d3d9.h>
 
 #include "../Hacks/Esp/CBaseEsp.h"

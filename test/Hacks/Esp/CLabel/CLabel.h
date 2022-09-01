@@ -24,7 +24,7 @@ namespace CLabels
 	public:
 		CBaseLabel()
 		{
-
+			m_bActive = false;
 		}
 		CBaseLabel(const std::string& name, bool bActive, const ImColor& color);
 		virtual int  GetTypeId() const { return LabelTypeId::Base; }

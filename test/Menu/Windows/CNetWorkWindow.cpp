@@ -65,7 +65,7 @@ void UI::CNetWorkWindow::Render()
 
 			textPos.y += 14;
 			ImGui::SetCursorPos(textPos);
-			ImGui::Text(xorstr("Account: %s"), m_UserData.AccountTypeIdToString());
+			ImGui::Text(xorstr("Account: %s"), m_UserData.AccountTypeIdToString().c_str());
 
 			textPos.y += 14;
 			ImGui::SetCursorPos(textPos);

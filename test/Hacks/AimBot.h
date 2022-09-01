@@ -1,3 +1,10 @@
+//========= Copyright Alpatov Softworks, All rights reserved. ============//
+//
+// Purpose: Provide automatic target aquesition system
+//
+//===============================================================================
+
+
 #pragma once
 #include "hack.h"
 #include "../SDK/CUserCMD.h"

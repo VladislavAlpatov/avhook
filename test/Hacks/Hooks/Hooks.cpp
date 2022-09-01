@@ -8,25 +8,30 @@
 #include "Hooks.h"
 
 #include "../../Utils/offsets.h"
-#include "../../Utils/memory.h"
-#include "../../Hacks/AimBot.h"
-#include "../../RazerSDK/CRazer.h"
-#include "../../Hacks/TriggerBot.h"
 #include "../../Utils/Marker.h"
+
+#include "../../Hacks/AimBot.h"
+#include "../../Hacks/TriggerBot.h"
 #include "../../Hacks/bhop.h"
 #include "../../Hacks/Esp/CGlowEsp.h"
-#include "../../SDK/CUserCMD.h"
 
-#include "MinHook.h"
+#include "../../SDK/CUserCMD.h"
+#include "../../SDK/Finder.h"
+
 #include "../../Globals/Interfaces.h"
 #include "../../Globals/DirectX9.h"
 #include "../../Globals/Settings.h"
 
+#include "../../RazerSDK/CRazer.h"
+
 #include <stdexcept>
 #include <array>
-
 #include <Windows.h>
+
+
 #include "../../Menu/COverlay.h"
+#include "MinHook.h"
+
 
 using namespace hooks;
 
@@ -203,31 +208,11 @@ void hooks::Attach()
 {
 	POLY_MARKER;
 	MH_Initialize();
-
-	auto  presentAddr = Memory::FindPattern(xorstr("d3d9.dll"), xorstr("?? ?? ?? ?? ?? 83 E4 F8 51 51 56 8B 75 08 8B CE F7 D9 57 1B C9 8D 46 04 23 C8 6A ?? 51 8D 4C 24 10 E8 ?? ?? ?? ?? F7 46 ?? ?? ?? ?? ?? 74 07 BF ?? ?? ?? ?? EB 17"));
 	
-	if (!presentAddr)
-		throw std::runtime_error(xorstr("DirectX 9 initialization failure"));
-	
-	MH_CreateHook((LPVOID)presentAddr, &hkPresent, reinterpret_cast<LPVOID*>(&oPresent));
-
-	POLY_MARKER;
-
-	//Hook CreateMove
-	auto createMoveAddr = Memory::FindPattern(xorstr("client.dll"), xorstr("55 8B EC 56 8D 75 04 8B"));
-
-	if (!createMoveAddr)
-		throw std::runtime_error(xorstr("CSGO initialization failure"));
-
-	MH_CreateHook((LPVOID*)createMoveAddr, &hCreateMove, (LPVOID*)&oCreateMove);
-	POLY_MARKER;
-
-	uintptr_t DrawIndexedPrimitiveAddr = Memory::FindPattern(xorstr("d3d9.dll"), xorstr("8B FF 55 8B EC 6A FF 68 ? ? ? ? 64 A1 ? ? ? ? 50 83 EC 20 53 56 57 A1 ? ? ? ? 33 C5 50 8D 45 F4 64 A3 ? ? ? ? 89 65 F0 8B 75 08 85 F6 0F 84 ? ? ? ? 8D 5E 04 89 5D EC 89 5D D4 C7 45 ? ? ? ? ? 83 7B 18 00 0F 85 ? ? ? ? C7 45 ? ? ? ? ? F7 46 ? ? ? ? ? 0F 85 ? ? ? ? 81 8E ? ? ? ? ? ? ? ?"));
-	MH_CreateHook((LPVOID*)DrawIndexedPrimitiveAddr, &hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
-
-
-	uintptr_t RenderGlowEffects = Memory::FindPattern(xorstr("client.dll"), xorstr("55 8B EC A1 ? ? ? ? 83 EC 18 57"));
-	MH_CreateHook((LPVOID*)RenderGlowEffects, &hRenderGlowEffects, (LPVOID*)&oRenderGlowEffects);
+	MH_CreateHook((LPVOID)SSDK::FindPresent(),               &hkPresent,             (LPVOID*)&oPresent);
+	MH_CreateHook((LPVOID*)SSDK::FindCreatemove(),           &hCreateMove,           (LPVOID*)&oCreateMove);
+	MH_CreateHook((LPVOID*)SSDK::FindDrawIndexedPrimitive(), &hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
+	MH_CreateHook((LPVOID*)SSDK::FindRenderGlowEffects(),    &hRenderGlowEffects,    (LPVOID*)&oRenderGlowEffects);
 
 	MH_EnableHook(MH_ALL_HOOKS);
 

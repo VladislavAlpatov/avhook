@@ -1,3 +1,11 @@
+//========= Copyright Alpatov Softworks, All rights reserved. ============//
+//
+// Base class for all cheat features except esp
+//
+//===============================================================================
+
+
+
 #pragma once
 #include <Windows.h>
 #include "../Menu/Settings.h"

@@ -1,9 +1,18 @@
-#pragma once
+//========= Copyright Alpatov Softworks, All rights reserved. ============//
+//
+// Purpose: Provide ESP info as labels such as: health, distance, etc....
+//
+//===============================================================================
+
+
+
 #include "CLabel.h"
 #include "../../../Globals/Settings.h"
 #include "../../../Globals/Interfaces.h"
-#include <fmt/format.h>
 #include "../../../Utils/Math/Math.h"
+
+
+#include <fmt/format.h>
 
 using namespace CLabels;
 

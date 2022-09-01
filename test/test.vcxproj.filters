@@ -186,12 +186,6 @@
     <ClInclude Include="SDK\ClientBase.h">
       <Filter>SDK</Filter>
     </ClInclude>
-    <ClInclude Include="SDK\EngineBase.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\IBaseClientDLL.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
     <ClInclude Include="SDK\IClientEntityList.h">
       <Filter>SDK</Filter>
     </ClInclude>
@@ -361,6 +355,9 @@
       <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="SDK\CVarSystem\ICvarSystem.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\Finder.h">
       <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>
@@ -546,6 +543,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="SDK\CVarSystem\ICvarSystem.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\Finder.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

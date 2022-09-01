@@ -270,6 +270,7 @@
     <ClInclude Include="SDK\CVarSystem\ICvarSystem.h" />
     <ClInclude Include="SDK\CVarSystem\ConVar.h" />
     <ClInclude Include="Hacks\Esp\CGlowEsp.h" />
+    <ClInclude Include="SDK\Finder.h" />
     <ClInclude Include="SDK\IGlowObjectManager.h" />
     <ClInclude Include="Menu\Overlays\CCrosshairOverlay.h" />
     <ClInclude Include="Globals\DirectX9.h" />
@@ -325,8 +326,6 @@
     <ClInclude Include="SDK\ClientBase.h" />
     <ClInclude Include="SDK\IEngineTrace.h" />
     <ClInclude Include="SDK\CUserCMD.h" />
-    <ClInclude Include="SDK\EngineBase.h" />
-    <ClInclude Include="SDK\IBaseClientDLL.h" />
     <ClInclude Include="SDK\IClientEntityList.h" />
     <ClInclude Include="SDK\IInput.h" />
     <ClInclude Include="SDK\IVEngineClient013\IVEngineClient013.h" />
@@ -346,6 +345,7 @@
     <ClCompile Include="SDK\CVarSystem\ICvarSystem.cpp" />
     <ClCompile Include="SDK\CVarSystem\ConVar.cpp" />
     <ClCompile Include="Hacks\Esp\CGlowEsp.cpp" />
+    <ClCompile Include="SDK\Finder.cpp" />
     <ClCompile Include="SDK\IGlowObjectManager.cpp" />
     <ClCompile Include="Menu\Overlays\CCrosshairOverlay.cpp" />
     <ClCompile Include="Globals\GSettings.cpp" />

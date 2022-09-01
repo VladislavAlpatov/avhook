@@ -52,19 +52,21 @@ UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 	ImGui_ImplDX9_Init(m_pDevice);
 
 	ImGui::GetStyle().AntiAliasedLinesUseTex = false;
-	auto io = ImGui::GetIO();
+	auto& io = ImGui::GetIO();
 	
 	ImFontConfig cfg;
 	cfg.FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_Monochrome | ImGuiFreeTypeBuilderFlags_MonoHinting;
 	static ImWchar ranges[] = { 0x1, 0xFFFD, 0 };
-	m_pFontEsp  = io.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 13.f, &cfg, ranges);
+
+
+	m_pFontEsp  = std::unique_ptr<ImFont>(io.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 13.f, &cfg, ranges));
 	auto& style = ImGui::GetStyle();
 	auto& theme = style.Colors;
 
 	style.FrameBorderSize         = 1;
 	style.AntiAliasedLinesUseTex = false;
 	style.AntiAliasedLines       = false;
-	style.AntiAliasedFill        = false;
+	style.AntiAliasedFill        = true;
 	style.ScrollbarRounding      = 0.f;
 	style.WindowMinSize          = ImVec2(10, 10);
 
@@ -224,7 +226,7 @@ void UI::COverlay::Render()
 
 	if (m_bShowKeyBindDialog)
 	{
-		UI::CBindListenerOverlay(m_pFontEsp).Show();
+		UI::CBindListenerOverlay(m_pFontEsp.get()).Show();
 	}
 
 	if (GlobalVars::g_AllSettings.m_CrosshairSettings.m_bActive and GlobalVars::g_pIEngineClient->IsInGame())

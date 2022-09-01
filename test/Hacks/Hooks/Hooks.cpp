@@ -107,11 +107,8 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 	}
 
 	POLY_MARKER;
-
-	SetWorldColor(GlobalVars::g_AllSettings.m_MiscSettings.m_WorldColor);
 	
-	static auto pCvar = GlobalVars::g_pCvarManager->FindVar(xorstr("fov_cs_debug"));
-	pCvar->m_pParentCvar->SetValue(GlobalVars::g_AllSettings.m_MiscSettings.m_iCustomFov);
+	pLocalPlayer->m_iDefaultFOV = GlobalVars::g_AllSettings.m_MiscSettings.m_iCustomFov;
 
 
 	static auto pCrosshair = GlobalVars::g_pCvarManager->FindVar(xorstr("crosshair"));

@@ -87,7 +87,6 @@ namespace Settings
 		bool m_bKillSound       = false;
 		bool m_bSnowFlakes      = false;
 		int  m_iCustomFov       = 90;
-		ImColor m_WorldColor = ImColor(0, 0, 0);
 
 		nlohmann::json ToJson() const override;
 		MiscSettings(const nlohmann::json& jsn);

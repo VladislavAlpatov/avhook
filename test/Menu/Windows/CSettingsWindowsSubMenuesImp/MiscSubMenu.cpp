@@ -29,5 +29,4 @@ void UI::CSettingsWindow::DrawMiscChild()
 
 		ImGui::EndChild();
 	}
-	ImGui::ColorEdit3(xorstr("World Override"), (float*)&pSettings->m_WorldColor, ImGuiColorEditFlags_NoInputs);
 }

@@ -2,6 +2,13 @@
 #include "../../Utils/Vec3.h"
 #include "../../Menu/Settings.h"
 
+//========= Copyright Alpatov Softworks, All rights reserved. ============//
+//
+// Purpose: Define an abstract ESP class
+//
+//===============================================================================
+
+
 namespace UI
 {
 	class COverlay;
@@ -44,6 +51,9 @@ namespace Esp
 	};
 	class CUIEsp : public CBaseEsp
 	{
+		/// <summary>
+		/// Abstract class for non engine ESP (Health bars, boxes, etc....)
+		/// </summary>
 		friend UI::COverlay;
 
 	public:

@@ -64,7 +64,7 @@ UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 	style.FrameBorderSize         = 1;
 	style.AntiAliasedLinesUseTex = false;
 	style.AntiAliasedLines       = false;
-	style.AntiAliasedFill        = true;
+	//style.AntiAliasedFill        = true;
 	style.ScrollbarRounding      = 0.f;
 	style.WindowMinSize          = ImVec2(10, 10);
 
@@ -187,7 +187,7 @@ void UI::COverlay::Render()
 		POLY_MARKER;
 
 		auto windowSize = ImGui::GetMainViewport()->Size;
-
+	
 		if (GlobalVars::g_AllSettings.m_MiscSettings.m_bWallPaper)
 			pDrawList->AddImage(m_pWallpaper, ImVec2(), ImGui::GetMainViewport()->Size);
 		else

@@ -3,6 +3,13 @@
 #include <d3d9.h>
 #include <Windows.h>
 
+//========= Copyright Alpatov Softworks, All rights reserved. ============//
+//
+// Purpose: Remove Source Engine color corection.
+//
+//===============================================================================
+
+
 class DX9ColorFix
 {
 public:

@@ -39,47 +39,12 @@ void CCrosshairOverlay::Render()
 
 	ImVec2 vecScreenCenter = ImGui::GetMainViewport()->Size / 2.f;
 
+	auto fRatio = pLocalPlayer->GetHealthPercent() / 100.f;
+	if (fRatio > 1.f)
+		fRatio = 1.f;
 
-	DrawHealthBar(vecScreenCenter - ImVec2(pSettings->m_iDistance+10, 0), pLocalPlayer->GetHealthPercent() / 100.f, 10, 200);
+	DrawHealthBar(vecScreenCenter - ImVec2(pSettings->m_iDistance+10, 0), fRatio, 10, 200);
 	DrawSpeedBar(vecScreenCenter + ImVec2(pSettings->m_iDistance, 0), 250.f, 10, 200);
-	/*DrawTexCentered(healthBarStart - ImVec2(5, 6), pLocalPlayer->GetColorBasedOnHealth(), healthLabel.c_str());
-	DrawOutlinedLine(healthBarStart, healthBarEnd, healthRatio, pLocalPlayer->GetColorBasedOnHealth(), 10);
-
-
-	float currentSpeed = roundf(pLocalPlayer->m_vecVelocity.Length2D());
-
-	ImVec2 speedBarStart = screenCenter + ImVec2(pSettings->m_iDistance+10, -100);
-	ImVec2 speedBarEnd = screenCenter + ImVec2(pSettings->m_iDistance+10, 100);
-
-	float speedRatio = currentSpeed / 500.f;
-
-	if (speedRatio > 1.f) speedRatio = 1.f;
-
-	auto gainSpeedIndicator = xorstr(u8"Λ\nΛ\nΛ");
-	auto loosSpeedIndicator = xorstr("V\nV\nV");
-
-	ImColor speedTextCol = { 255,106,0};
-
-	if (currentSpeed > oldSpeed)
-	{
-		pDrawList->AddText(speedBarStart + ImVec2(10, 0), ImColor(0, 255, 0), gainSpeedIndicator);
-		speedTextCol = { 0, 255, 0 };
-	}
-	else if (currentSpeed < oldSpeed)
-	{
-		pDrawList->AddText(speedBarEnd + ImVec2(10, -ImGui::CalcTextSize(loosSpeedIndicator).y), ImColor(255, 0, 0), loosSpeedIndicator);
-		speedTextCol = { 255, 0, 0 };
-	}
-	else if (currentSpeed == 0.f)
-	{
-		speedTextCol = { 255, 255, 255 };
-	}
-	DrawTexCentered(speedBarStart - ImVec2(5, 6), speedTextCol, std::to_string((int)currentSpeed).c_str());
-
-
-	Update(500, currentSpeed);
-
-	DrawOutlinedLine(speedBarStart, speedBarEnd, speedRatio, pSettings->m_SpeedBarCol, 10);*/
 }
 
 void CCrosshairOverlay::DrawCrosshair() const
@@ -114,7 +79,20 @@ void CCrosshairOverlay::DrawHealthBar(const ImVec2& vecDrawPos, float fHealthRat
 	DrawTexCentered(topLeft + ImVec2(thickness / 2.f, -15), pLocalPlayer->GetColorBasedOnHealth(), healthLabel.c_str());
 
 
-	pDrawList->AddRectFilled(bottomRight-ImVec2(thickness, fHight*fHealthRatio), bottomRight-ImVec2(1, 1), pLocalPlayer->GetColorBasedOnHealth());
+	auto  top   = topLeft     + ImVec2(1, 1);
+	auto bottom = bottomRight - ImVec2(1, 1);
+
+	auto tmp = bottom - ImVec2(0, fHight / 2.f);
+	tmp.x = top.x;
+
+	if (fHealthRatio < 1.f)
+		pDrawList->PushClipRect(topLeft +ImVec2(0, fHight*(1.f- fHealthRatio)), bottom);
+	pDrawList->AddRectFilledMultiColor(top, bottom - ImVec2(0, fHight / 2.f), ImColor(0, 255, 0), ImColor(0, 255, 0), ImColor(255, 255, 0), ImColor(255, 255, 0));
+	pDrawList->AddRectFilledMultiColor(ImVec2(top.x, bottom.y - fHight / 2.f), bottom, ImColor(255, 255, 0), ImColor(255, 255, 0), ImColor(255, 0, 0), ImColor(255, 0, 0));
+
+	if (fHealthRatio < 1.f)
+		pDrawList->PopClipRect();
+
 
 	pDrawList->AddRect(topLeft, bottomRight, ImColor(0, 0, 0));
 

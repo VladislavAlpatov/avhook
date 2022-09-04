@@ -18,6 +18,7 @@ void UI::CSettingsWindow::DrawESPChild()
 	
 	ImGui::BeginChild(xorstr("###SnapLinesESP"), blockSize, true);
 	{
+		
 		auto pSettings = &GlobalVars::g_AllSettings.m_SnapLinesSettings;
 		ImGui::Text(xorstr("Snap Lines"));
 		ImGui::ColorEdit4(xorstr("###lineColor"), (float*)&pSettings->m_Color, ImGuiColorEditFlags_NoInputs);

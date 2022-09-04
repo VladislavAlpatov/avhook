@@ -1,6 +1,12 @@
 #pragma once
 #include "CBaseEsp.h"
 
+//========= Copyright Alpatov Softworks, All rights reserved. ============//
+//
+// Purpose: Render Bar ESP on players.
+//
+//===============================================================================
+
 namespace Esp
 {
 	class CBarsEsp : public CUIEsp

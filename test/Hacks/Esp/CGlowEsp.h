@@ -12,7 +12,10 @@ namespace Esp
 	{
 		friend int __fastcall hooks::hRenderGlowEffects(SSDK::IGlowObjectManager* pThis, void* edx, int a2, int a3);
 	public:
-		CGlowEsp(Settings::CGlowEspSettings* pSettings) : CBaseEsp(pSettings) {};
+		CGlowEsp(Settings::CGlowEspSettings* pSettings) : CBaseEsp(pSettings)
+		{
+			
+		};
 
 	private:
 		virtual void RenderAt(SSDK::GlowObjectDefinition& glowObj);

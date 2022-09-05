@@ -6,9 +6,9 @@ using namespace Esp;
 
 void CLabelEsp::InternalRenderAt(const SSDK::CBaseEntity* pEntity)
 {
-	auto pSettings = GetSettings<Settings::CLabelEspSettings>();
+	const auto pSettings = GetSettings<Settings::CLabelEspSettings>();
 
-    if (SSDK::ClientBase::GetLocalPlayer()->CalcDistaceToEntity(pEntity) > pSettings->m_iMaxDrawDistance)
+    if (SSDK::ClientBase::GetLocalPlayer()->CalcDistaceToEntity(pEntity) > (float)pSettings->m_iMaxDrawDistance)
         return;
 
 
@@ -18,14 +18,14 @@ void CLabelEsp::InternalRenderAt(const SSDK::CBaseEntity* pEntity)
         DrawLabelsAtTop(pEntity, pSettings->m_Labels);
 }
 
-void Esp::CLabelEsp::DrawLabelsAtLeftSide(const SSDK::CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels)
+void Esp::CLabelEsp::DrawLabelsAtLeftSide(const SSDK::CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels) const
 {
     // Using single char to calc text height for padding
     const float textPadding = ImGui::CalcTextSize(xorstr(" ")).y;
     auto textPos = CalcEspBox(pEntity).m_vecTopRight + ImVec2(GlobalVars::g_AllSettings.m_BoxEspSettings.m_iThickness + 2, 0);
 
 
-    for (const auto pLabel : labels)
+    for (const auto& pLabel : labels)
     {
         if (!pLabel->m_bActive)
             continue;
@@ -35,7 +35,7 @@ void Esp::CLabelEsp::DrawLabelsAtLeftSide(const SSDK::CBaseEntity* pEntity, cons
     }
 }
 
-void Esp::CLabelEsp::DrawLabelsAtTop(const SSDK::CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels)
+void Esp::CLabelEsp::DrawLabelsAtTop(const SSDK::CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels) const
 {
     // Using single char to calc text height for padding
     auto pSettings = GetSettings<Settings::CLabelEspSettings>();
@@ -43,7 +43,7 @@ void Esp::CLabelEsp::DrawLabelsAtTop(const SSDK::CBaseEntity* pEntity, const std
 
     auto textPos = CalcEspBox(pEntity).m_vecTopLeft - ImVec2(0, textPadding+GlobalVars::g_AllSettings.m_BoxEspSettings.m_iThickness);
 
-    for (auto pLabel : labels)
+    for (const auto& pLabel : labels)
     {
         if (!pLabel->m_bActive)
             continue;

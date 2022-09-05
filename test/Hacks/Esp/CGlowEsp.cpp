@@ -8,7 +8,7 @@
 
 void Esp::CGlowEsp::RenderAt(SSDK::GlowObjectDefinition& glowObj)
 {
-	auto pSettings    = GetSettings<Settings::CGlowEspSettings>();
+	const auto pSettings    = GetSettings<Settings::CGlowEspSettings>();
 	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
 	glowObj.m_fGlowAlphaMax = (pSettings->m_iDrawMode == Settings::CGlowEspSettings::Static) ? pSettings->m_fGlowSize : CalcAdaptiveGlowBrightness(glowObj.m_pEntity, pSettings->m_iMaxDistance);

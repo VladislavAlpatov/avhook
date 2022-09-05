@@ -6,12 +6,6 @@
 #include <memory>
 
 
-
-/*
-Use as base class for others UI windows
-*/
-
-
 namespace UI
 {
 	class CBaseWindow : public IBaseDrawObject

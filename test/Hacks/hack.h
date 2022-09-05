@@ -21,7 +21,7 @@ namespace Hacks
 		virtual void Work() = 0;
 	protected:
 		Settings::CBaseSettings* m_pSettings = nullptr;
-		bool IsShouldBeActivated();
+		bool IsShouldBeActivated() const;
 
 	};
 

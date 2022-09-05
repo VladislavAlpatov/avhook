@@ -320,7 +320,6 @@ namespace SSDK
 		{
 			DEFINE_MEMBER_N(int,    m_iTeamNum, netvars::m_iTeamNum);
 			DEFINE_MEMBER_N(int,    m_iHealth, netvars::m_iHealth);
-			DEFINE_MEMBER_N(int,    m_iTeamNum, netvars::m_iTeamNum);
 			DEFINE_MEMBER_N(int,    m_fFlags, netvars::m_fFlags);
 			DEFINE_MEMBER_N(int,    m_Index, 0x64);
 			DEFINE_MEMBER_N(bool,   m_IsVisible, 0x154);

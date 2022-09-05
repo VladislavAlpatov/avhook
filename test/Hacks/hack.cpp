@@ -5,7 +5,7 @@ CHackingFeature::CHackingFeature(Settings::CBaseSettings* pSettings)
 	m_pSettings = pSettings;
 }
 
-bool CHackingFeature::IsShouldBeActivated()
+bool CHackingFeature::IsShouldBeActivated() const
 {
 	if (!m_pSettings->m_bOnKey)
 		return m_pSettings->m_bActive;

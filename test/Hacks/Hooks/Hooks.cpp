@@ -87,7 +87,7 @@ int __stdcall  hooks::hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a
 
 	if (!pOverlay)
 	{
-		pOverlay = std::unique_ptr<UI::COverlay>(new UI::COverlay(pDevice));
+		pOverlay = std::make_unique<UI::COverlay>(pDevice);
 		GlobalVars::pDevice = pDevice;
 	}
 
@@ -99,7 +99,7 @@ int __stdcall  hooks::hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a
 	return reinterpret_cast<Present>(oPresent)(pDevice, a2, a3, a4, a5);
 }
 
-bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
+bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCmd)
 {
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 	POLY_MARKER;
@@ -116,7 +116,7 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 	pLocalPlayer->m_iDefaultFOV = GlobalVars::g_AllSettings.m_MiscSettings.m_iCustomFov;
 
 
-	static auto pCrosshair = GlobalVars::g_pCvarManager->FindVar(xorstr("crosshair"));
+	static SSDK::ConVar* pCrosshair = GlobalVars::g_pCvarManager->FindVar(xorstr("crosshair"));
 	pCrosshair->m_pParentCvar->SetValue(GlobalVars::g_AllSettings.m_CrosshairSettings.m_Color.Value.w == 0.f or !GlobalVars::g_AllSettings.m_CrosshairSettings.m_bActive);
 	//pLocalPlayer->m_iDefaultFOV = GlobalVars::g_AllSettings.m_MiscSettings.m_iCustomFov;
 
@@ -130,7 +130,7 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 		SSDK::CGameTrace   trace;
 		SSDK::Ray_t        ray;
 		SSDK::CTraceFilter tracefilter;
-		tracefilter.pSkip = (void*)pLocalPlayer;
+		tracefilter.pSkip = static_cast<void*>(pLocalPlayer);
 
 		ray.Init(pLocalPlayer->m_vecOrigin + pLocalPlayer->m_vecViewOffset, pEnt->GetBonePosition(Hacks::CAimBot::GetBoneIDBySelectedTab(GlobalVars::g_AllSettings.m_AimBotSettings.m_iSelectedHitBox)));
 
@@ -146,11 +146,11 @@ bool __stdcall hooks::hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd)
 
 	std::array<std::unique_ptr<Hacks::CHackingFeature>, 2> features =
 	{
-		std::unique_ptr<Hacks::CHackingFeature>(new Hacks::CBunnyHop(pUserCmd, &GlobalVars::g_AllSettings.m_BunnyHopSettings)),
-		std::unique_ptr<Hacks::CHackingFeature>(new Hacks::CAimBot(&GlobalVars::g_AllSettings.m_AimBotSettings, pUserCmd))
+		std::make_unique<Hacks::CBunnyHop>(pUserCmd, &GlobalVars::g_AllSettings.m_BunnyHopSettings),
+		std::make_unique<Hacks::CAimBot>(&GlobalVars::g_AllSettings.m_AimBotSettings, pUserCmd)
 	};
 
-	for (auto& pFeature : features)
+	for (const auto& pFeature : features)
 	{
 		pFeature->Work();
 	}
@@ -220,14 +220,14 @@ void hooks::Attach()
 	while (!pOverlay)
 		Sleep(50);
 
-	oWndProc = (uintptr_t)(SetWindowLongPtr(FindWindowA(NULL, WINDOW_NAME), GWL_WNDPROC, reinterpret_cast<LONG_PTR>(WndProc)));
+	oWndProc = (uintptr_t)(SetWindowLongPtr(FindWindowA(nullptr, WINDOW_NAME), GWL_WNDPROC, reinterpret_cast<LONG_PTR>(WndProc)));
 	POLY_MARKER
 }
 
 
 void hooks::Detach()
 {
-	SetWindowLongPtr(FindWindowA(NULL, WINDOW_NAME), GWLP_WNDPROC, (LONG_PTR)(oWndProc));
+	SetWindowLongPtr(FindWindowA(nullptr, WINDOW_NAME), GWLP_WNDPROC, (LONG_PTR)(oWndProc));
 
 	MH_DisableHook(MH_ALL_HOOKS);
 	Sleep(100);

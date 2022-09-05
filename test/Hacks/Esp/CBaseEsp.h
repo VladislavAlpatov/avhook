@@ -38,7 +38,7 @@ namespace Esp
 			m_pSettings = pSettings;
 		};
 	protected:
-		bool isActive() { return m_pSettings->m_bActive; }
+		bool isActive() const { return m_pSettings->m_bActive; }
 
 		template <typename Type>
 		__forceinline Type* GetSettings() const

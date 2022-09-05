@@ -10,10 +10,10 @@ namespace Esp
 	class CLabelEsp : public CUIEsp
 	{
 	private:
-		void DrawLabelsAtLeftSide(const SSDK::CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& pLabels);
-		void DrawLabelsAtTop(const SSDK::CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels);
+		void DrawLabelsAtLeftSide(const SSDK::CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& pLabels) const ;
+		void DrawLabelsAtTop(const SSDK::CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels) const ;
 	public:
 		CLabelEsp(Settings::CLabelEspSettings* pSettings) : CUIEsp(pSettings) {};
-		virtual void InternalRenderAt(const SSDK::CBaseEntity* pEntity);
+		void InternalRenderAt(const SSDK::CBaseEntity* pEntity)  override;
 	};
 };

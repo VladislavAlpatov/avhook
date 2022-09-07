@@ -1,4 +1,3 @@
-#pragma once
 #include "../../Globals/Interfaces.h"
 #include "../../imgui/imgui_internal.h"
 
@@ -6,21 +5,23 @@
 
 using namespace Esp;
 
-ImVec3 CUIEsp::WorldToScreen(const ImVec3& vecPosition) const
+ImVec3 CUIEsp::WorldToScreen(const ImVec3& vecPosition)
 {
     // Screen size 
-    ImVec2 viewPorstSize = ImGui::GetMainViewport()->Size;
+    const ImVec2 viewPortSize = ImGui::GetMainViewport()->Size;
 
     auto matrix = SSDK::ClientBase::GetViewMatrix();
     POLY_MARKER;
 
-    float _x = matrix[0][0] * vecPosition.x + matrix[0][1] * vecPosition.y + matrix[0][2] * vecPosition.z + matrix[0][3];
-    float _y = matrix[1][0] * vecPosition.x + matrix[1][1] * vecPosition.y + matrix[1][2] * vecPosition.z + matrix[1][3];
-    // Dont need z cuz we need only x,y and w
+    const float _x = matrix[0][0] * vecPosition.x + matrix[0][1] * vecPosition.y + matrix[0][2] * vecPosition.z + matrix[0][3];
+    const float _y = matrix[1][0] * vecPosition.x + matrix[1][1] * vecPosition.y + matrix[1][2] * vecPosition.z + matrix[1][3];
+    // ===NOTE===
+    // Z var is useless since we calc screen cords.
+    // ==========
     //float _z = pClient->dwViewmatrix[2][0] * vecPosition.x + pClient->dwViewmatrix[2][1] * vecPosition.y + pClient->dwViewmatrix[2][2] * vecPosition.z + pClient->dwViewmatrix[2][3];
 
     // w is depth
-    float w =  matrix[3][0] * vecPosition.x + matrix[3][1] * vecPosition.y + matrix[3][2] * vecPosition.z + matrix[3][3];
+    const float w =  matrix[3][0] * vecPosition.x + matrix[3][1] * vecPosition.y + matrix[3][2] * vecPosition.z + matrix[3][3];
 
     ImVec2 ndc;
 
@@ -28,10 +29,10 @@ ImVec3 CUIEsp::WorldToScreen(const ImVec3& vecPosition) const
     ndc.y = _y / w;
 
     // Normalize screen cords
-    float x =  (viewPorstSize.x / 2.f * ndc.x) + (ndc.x + viewPorstSize.x / 2.f);
-    float y = -(viewPorstSize.y / 2.f * ndc.y) + (ndc.y + viewPorstSize.y / 2.f);
+    const float x =  (viewPortSize.x / 2.f * ndc.x) + (ndc.x + viewPortSize.x / 2.f);
+    const float y = -(viewPortSize.y / 2.f * ndc.y) + (ndc.y + viewPortSize.y / 2.f);
 
-    return ImVec3(x, y, w);
+    return { x, y, w };
 }
 
 Esp::EntityBox CUIEsp::CalcEspBox(const SSDK::CBaseEntity* pEntity) const
@@ -40,7 +41,7 @@ Esp::EntityBox CUIEsp::CalcEspBox(const SSDK::CBaseEntity* pEntity) const
 
     std::array<ImVec3, 93> bones;
 
-    for (BYTE i = 0; i < bones.size(); ++i)
+    for (int i = 0; i < bones.size(); ++i)
     {
         ImVec3 tmp;
         if (i == 8)
@@ -53,7 +54,7 @@ Esp::EntityBox CUIEsp::CalcEspBox(const SSDK::CBaseEntity* pEntity) const
             bones[i] = tmp;
         }
     }
-    ImVec3 mostTop = ImVec3(90000, 90000, 90000);
+    auto mostTop = ImVec3(90000, 90000, 90000);
     ImVec3 mostBottom;
 
     POLY_MARKER;
@@ -68,20 +69,20 @@ Esp::EntityBox CUIEsp::CalcEspBox(const SSDK::CBaseEntity* pEntity) const
     const float boxHeight = abs(mostTop.y - mostBottom.y);
     const float offset = boxHeight / 4.f;
 
-    EntityBox clacledBox;
+    EntityBox calcedBox;
 
     POLY_MARKER;
 
-    clacledBox.m_vecTopLeft =  mostTop - ImVec2(offset, 0);
-    clacledBox.m_vecTopRight = mostTop + ImVec2(offset, 0);
+    calcedBox.m_vecTopLeft =  mostTop - ImVec2(offset, 0);
+    calcedBox.m_vecTopRight = mostTop + ImVec2(offset, 0);
 
     POLY_MARKER;
 
-    clacledBox.m_vecBottomLeft = clacledBox.m_vecTopLeft  + ImVec2(0, boxHeight);
+    calcedBox.m_vecBottomLeft = calcedBox.m_vecTopLeft  + ImVec2(0, boxHeight);
 
-    clacledBox.m_vecBottomRight  = clacledBox.m_vecTopRight + ImVec2(0, boxHeight);
+    calcedBox.m_vecBottomRight  = calcedBox.m_vecTopRight + ImVec2(0, boxHeight);
 
-    return clacledBox;
+    return calcedBox;
 }
 
 ImVec2 Esp::EntityBox::GetSize() const

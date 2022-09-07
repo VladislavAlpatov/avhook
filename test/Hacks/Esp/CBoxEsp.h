@@ -9,9 +9,9 @@ namespace Esp
 		CBoxEsp(Settings::BoxEspSettings* pSettings) : CUIEsp(pSettings) {};
 
 	private:
-		void	DrawSolidBox(const SSDK::CBaseEntity* pEntity, const ImColor& drawColor, const  float thickness);
-		void	DrawCorneredBox(const SSDK::CBaseEntity* pEntity, const ImColor& drawColor,const  float thickness);
+		void	DrawSolidBox(const SSDK::CBaseEntity* pEntity, const ImColor& drawColor, const  float thickness) const;
+		void	DrawCorneredBox(const SSDK::CBaseEntity* pEntity, const ImColor& drawColor,const  float thickness) const;
 
-		virtual void InternalRenderAt(const SSDK::CBaseEntity* pEntity);
+		void InternalRenderAt(const SSDK::CBaseEntity* pEntity) override;
 	};
 }

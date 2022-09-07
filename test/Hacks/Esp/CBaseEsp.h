@@ -67,7 +67,7 @@ namespace Esp
 
 		}
 		EntityBox    CalcEspBox(const SSDK::CBaseEntity* pEntity) const;
-		ImVec3       WorldToScreen(const ImVec3& pos) const;
+		static ImVec3       WorldToScreen(const ImVec3& vecPosition);
 		virtual void InternalRenderAt(const SSDK::CBaseEntity* pEntity) = 0;
 	private:
 		bool IsEntityOnScreen(const SSDK::CBaseEntity* pEnt) const

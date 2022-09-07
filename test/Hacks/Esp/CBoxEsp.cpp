@@ -10,7 +10,7 @@ using namespace SSDK;
 
 void CBoxEsp::InternalRenderAt(const CBaseEntity* pEntity)
 {
-    auto pSettings = GetSettings<Settings::BoxEspSettings>();
+    const auto pSettings = GetSettings<Settings::BoxEspSettings>();
 
     if (!pSettings->m_bActive)
         return;
@@ -30,7 +30,7 @@ void CBoxEsp::InternalRenderAt(const CBaseEntity* pEntity)
         break;
 
     case Settings::BoxEspSettings::Style::Cornered:
-        DrawCorneredBox(pEntity, drawColor, pSettings->m_iThickness);
+        DrawCorneredBox(pEntity, drawColor, (float)pSettings->m_iThickness);
         break;
 
     default:
@@ -38,7 +38,7 @@ void CBoxEsp::InternalRenderAt(const CBaseEntity* pEntity)
     }
 }
 
-void CBoxEsp::DrawSolidBox(const CBaseEntity* pEntity, const ImColor& drawColor, const  float thickness)
+void CBoxEsp::DrawSolidBox(const CBaseEntity* pEntity, const ImColor& drawColor, const  float thickness) const 
 {
     auto pDrawList = ImGui::GetBackgroundDrawList();
 
@@ -50,7 +50,7 @@ void CBoxEsp::DrawSolidBox(const CBaseEntity* pEntity, const ImColor& drawColor,
     pDrawList->AddLine(box.m_vecTopRight,   box.m_vecBottomRight, drawColor, thickness);
 
 }
-void CBoxEsp::DrawCorneredBox(const CBaseEntity* pEntity, const ImColor& drawColor,const float thickness)
+void CBoxEsp::DrawCorneredBox(const CBaseEntity* pEntity, const ImColor& drawColor,const float thickness) const
 {
     auto pDrawList = ImGui::GetBackgroundDrawList();
 

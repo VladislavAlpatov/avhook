@@ -17,7 +17,7 @@ namespace Hacks
 	{
 	public:
 		CAimBot(Settings::CAimBotSettings* settings, CUserCmd* pUsrCmd);
-		virtual void Work();
+		void Work() override;
 		static int         GetBoneIDBySelectedTab(const int iTabIndex);
 		static ImVec3                    CalcAimViewAngles(const CBaseEntity* pEntity, const int bone);
 		

@@ -22,9 +22,9 @@ UI::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList
 	m_BindListener          = Routines::CBindListener(&GlobalVars::g_AllSettings.m_AimBotSettings.m_iBindKey, m_pShowKeyBinderDialog);
 	
 	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::SettingsIcon,  sizeof(Images::SettingsIcon),  &m_pTextureIcon);
-	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::AimbotIcon,    sizeof(Images::AimbotIcon),    &m_pTexureAimBotIcon);
-	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::EspIcon,       sizeof(Images::EspIcon),       &m_pTexureEspIcon);
-	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::AutoColorIcon, sizeof(Images::AutoColorIcon), &m_pTexureAtomaticColorIcon);
+	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::AimbotIcon,    sizeof(Images::AimbotIcon),    &m_pTextureAimBotIcon);
+	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::EspIcon,       sizeof(Images::EspIcon),       &m_pTextureEspIcon);
+	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::AutoColorIcon, sizeof(Images::AutoColorIcon), &m_pTextureAtomaticColorIcon);
 
 
 
@@ -43,21 +43,19 @@ std::string UI::CSettingsWindow::VirtualKeyNumberToString(int keyNumber)
 	case VK_RBUTTON:  return xorstr("Right Mouse Button");
 	case VK_XBUTTON1: return xorstr("Mouse4 Button");
 	case VK_XBUTTON2: return xorstr("Mouse5 Button");
+		default:
+			char name[32] = { 0 };
+			const LONG lParamValue = (MapVirtualKeyW(keyNumber, MAPVK_VK_TO_VSC) << 16);
+			int result = GetKeyNameTextA(lParamValue, name, 32);
 
+			return name;
 	}
-
-	char name[32] = { 0 };
-	UINT scanCode = MapVirtualKeyW(keyNumber, MAPVK_VK_TO_VSC);
-	LONG lParamValue = (scanCode << 16);
-	int result = GetKeyNameTextA(lParamValue, name, 32);
-
-	return std::string(name);
 }
 void UI::CSettingsWindow::Render()
 {
 	POLY_MARKER;
 
-	ImGui::Begin(xorstr("###Setting"), NULL, m_iImGuiStyle);
+	ImGui::Begin(xorstr("###Setting"), nullptr, m_iImGuiStyle);
 	{
 		ImGui::SetWindowSize(ImVec2(555, 252));
 		DrawIconAndTittle(xorstr("AVhook"));
@@ -120,13 +118,12 @@ void UI::CSettingsWindow::Render()
 		default:
 			break;
 		}
-		KeepWindowInSreenArea();
+		KeepWindowInScreenArea();
 		ImGui::End();
 	}
 }
-std::string UI::CSettingsWindow::GetAlias()
+std::string UI::CSettingsWindow::GetAlias() const
 {
-	
 	POLY_MARKER;
 	return xorstr("Settings");
 }

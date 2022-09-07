@@ -20,7 +20,7 @@ void SSDK::Ray_t::Init(ImVec3 const& start, ImVec3 const& end, ImVec3 const& min
 {
     m_Delta = end - start;
 
-    m_pWorldAxisTransform = NULL;
+    m_pWorldAxisTransform = nullptr;
     m_IsSwept = (m_Delta.LengthSqr() != 0);
 
     m_Extents = maxs - mins;

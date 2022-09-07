@@ -43,7 +43,7 @@ bool CDistanceLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* 
 {
 	
 	static auto pDrawList = ImGui::GetBackgroundDrawList();
-	const auto distance = SSDK::ClientBase::GetLocalPlayer()->CalcDistaceToEntity(pEntity);
+	const auto distance = SSDK::ClientBase::GetLocalPlayer()->CalcDistanceToEntity(pEntity);
 	pDrawList->AddText(vecPosition, m_Color, fmt::format(xorstr("Distance: {}m"), (int)Utils::HamToMet(distance)).c_str());
 
 	return true;

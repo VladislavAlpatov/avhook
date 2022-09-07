@@ -184,22 +184,22 @@ ImVec3 ImVec3::operator/(const ImVec3& v) const
     return ImVec3(x / v.x, y / v.y, z / v.z);
 }
 
-ImVec3 ImVec3::Transform(const ImVec3& agles, const float legth) const
+ImVec3 ImVec3::Transform(const ImVec3& angles, const float length) const
 {
     ImVec3 trasnformedVec;
-    trasnformedVec.x = x + (cosf(agles.y * (M_PI / 180.f)) * legth);
-    trasnformedVec.y = y + (sinf(agles.y * (M_PI / 180.f)) * legth);
-    trasnformedVec.z = z - (tanf(agles.x * (M_PI / 180.f)) * legth);
+    trasnformedVec.x = x + (cosf(angles.y * (M_PI / 180.f)) * length);
+    trasnformedVec.y = y + (sinf(angles.y * (M_PI / 180.f)) * length);
+    trasnformedVec.z = z - (tanf(angles.x * (M_PI / 180.f)) * length);
 
     return trasnformedVec;
 }
 
-float ImVec3::Sum()
+float ImVec3::Sum() const
 {
     return x + y + z;
 }
 
-float ImVec3::Sum2D()
+float ImVec3::Sum2D() const
 {
     return x + y;
 }

@@ -4,13 +4,13 @@
 
 namespace UI
 {
-	class CTaskBarWindow : public CBaseWindow
+	class CTaskBarWindow final : public CBaseWindow
 	{
 	public:
 		CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice);
-		virtual void Render();
+		void Render() override;
 	private:
-		std::string GetLocalTime();
+		static std::string GetLocalTime();
 
 	};
 }

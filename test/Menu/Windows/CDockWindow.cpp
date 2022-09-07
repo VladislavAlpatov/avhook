@@ -14,12 +14,12 @@ UI::CDockWindow::CDockWindow(LPDIRECT3DDEVICE9 pDevice, const std::vector<std::s
 void UI::CDockWindow::Render()
 {
 	POLY_MARKER;
-	ImGui::Begin(xorstr("###Start"), NULL, m_iImGuiStyle | ImGuiWindowFlags_NoMove);
+	ImGui::Begin(xorstr("###Start"), nullptr, m_iImGuiStyle | ImGuiWindowFlags_NoMove);
 	{
 		ImVec2 screenSize = ImGui::GetMainViewport()->Size;
 		ImGui::SetWindowPos(ImVec2( (screenSize.x - ImGui::GetWindowWidth()) / 2.f , screenSize.y - ImGui::GetWindowHeight()));
 
-		for (auto& pWindow : m_WindowList)
+		for (const auto& pWindow : m_WindowList)
 		{
 			auto windowAlias = pWindow->GetAlias();
 			boost::to_upper(windowAlias);

@@ -1,16 +1,16 @@
 #include "ClientBase.h"
 #include "../Utils/memory.h"
 
-matrix4x4 SSDK::ClientBase::GetViewMatrix()
+CMatrix4x4 SSDK::ClientBase::GetViewMatrix()
 {
-	static matrix4x4* viewmatrix_addr = NULL;
+	static CMatrix4x4* viewmatrix_addr = NULL;
 
 	if (viewmatrix_addr)
 		return *viewmatrix_addr;
 
 
 	auto addr = *(uintptr_t*)(Memory::FindPattern(xorstr("client.dll"), xorstr("0F 10 05 ? ? ? ? 8D 85 ? ? ? ? B9")) + 3);
-	viewmatrix_addr = (matrix4x4*)(addr + 0xb0 );
+	viewmatrix_addr = (CMatrix4x4*)(addr + 0xb0 );
 
 	return *viewmatrix_addr;
 

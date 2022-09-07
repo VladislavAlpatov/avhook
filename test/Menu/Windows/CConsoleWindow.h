@@ -11,7 +11,7 @@ namespace UI
 public:
     CConsoleWindow(LPDIRECT3DDEVICE9 pDevice);
     void Render() override;
-    std::string GetAlias() override;
+    std::string GetAlias() const override;
 private:
     std::map<std::string, bool*> m_Convars;
     std::vector<std::pair<std::string, ImColor>> m_logHistory;

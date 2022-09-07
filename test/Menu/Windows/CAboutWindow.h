@@ -3,13 +3,13 @@
 
 namespace UI
 {
-	class CAboutWindow : public CBaseWindow
+	class CAboutWindow final : public CBaseWindow
 	{
 	public:
 		CAboutWindow(LPDIRECT3DDEVICE9 pDevice);
-		virtual void Render();
-		PDIRECT3DTEXTURE9 m_pTexureCheatLogo = nullptr;
-		std::string GetAlias() override;
+		void Render() override;
+		PDIRECT3DTEXTURE9 m_pTextureCheatLogo = nullptr;
+		std::string GetAlias() const override;
 		virtual ~CAboutWindow();
 	};
 }

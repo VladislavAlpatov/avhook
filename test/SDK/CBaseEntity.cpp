@@ -14,19 +14,18 @@ ImVec3 CBaseEntity::GetBonePosition(const int bone) const
 	return position;
 }
 
-float CBaseEntity::CalcDistaceToEntity(const CBaseEntity* entity) const
+float CBaseEntity::CalcDistanceToEntity(const CBaseEntity* entity) const
 {
 	return (m_vecOrigin + m_vecViewOffset).DistTo(entity->GetBonePosition(8));
 }
 
 ImColor CBaseEntity::GetColorBasedOnHealth() const
 {
-	auto healthRatio = GetHealthPercent() / 100.f;
+	const auto healthRatio = GetHealthPercent() / 100.f;
 
 	if (healthRatio >= 0.5f)
-		return ImColor(1.f - (healthRatio - 0.5f) * 2.f, 1.f, 0.f);
-
-	return ImColor(1.f, healthRatio * 2.f,  0.f);
+		return { 1.f - (healthRatio - 0.5f) * 2.f, 1.f, 0.f };
+	return {1.f, healthRatio * 2.f, 0.f};
 }
 
 ImVec3 CBaseEntity::GetCameraPosition() const

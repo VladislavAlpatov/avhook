@@ -4,7 +4,7 @@
 
 namespace UI
 {
-	class CBindListenerOverlay : public UI::IBaseDrawObject
+	class CBindListenerOverlay final : public UI::IBaseDrawObject
 	{
 	public:
 		CBindListenerOverlay(ImFont* pFont)

@@ -11,9 +11,9 @@ UI::CTaskBarWindow::CTaskBarWindow(LPDIRECT3DDEVICE9 pDevice) : CBaseWindow(pDev
 void UI::CTaskBarWindow::Render()
 {
 	POLY_MARKER;
-	ImGui::Begin(xorstr("taskbar"), NULL, m_iImGuiStyle | ImGuiWindowFlags_NoMove);
+	ImGui::Begin(xorstr("taskbar"), nullptr, m_iImGuiStyle | ImGuiWindowFlags_NoMove);
 	{
-		ImVec2 screenSize = ImGui::GetMainViewport()->Size;
+		const ImVec2 screenSize = ImGui::GetMainViewport()->Size;
 		ImGui::SetWindowPos(ImVec2(0, 0));
 		ImGui::SetWindowSize(ImVec2(screenSize.x, 20));
 
@@ -39,12 +39,12 @@ void UI::CTaskBarWindow::Render()
 std::string UI::CTaskBarWindow::GetLocalTime()
 {
 	POLY_MARKER;
-	auto t  = time(nullptr);
+	const auto t  = time(nullptr);
 	tm timeData;
 
 	localtime_s(&timeData, &t);
 	std::ostringstream oss;
-	std::string timeString = "";
+	std::string        timeString;
 	oss << std::put_time(&timeData, xorstr("%H:%M:%S"));
 	return oss.str();
 }

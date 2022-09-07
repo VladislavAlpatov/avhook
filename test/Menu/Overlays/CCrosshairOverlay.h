@@ -1,7 +1,7 @@
 #pragma once
 #include "../IBaseDrawObject.h"
 #include "../../imgui/imgui.h"
-class CCrosshairOverlay : public UI::IBaseDrawObject
+class CCrosshairOverlay final : public UI::IBaseDrawObject
 {
 public:	
 	void Render() override;

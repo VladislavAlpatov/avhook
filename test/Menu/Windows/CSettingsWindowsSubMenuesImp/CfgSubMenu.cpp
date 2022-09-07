@@ -21,7 +21,7 @@ void UI::CSettingsWindow::DrawCfgChild()
 		{
 			CConfigLoader cfg(GlobalVars::g_AllSettings.m_Name.c_str(), &GlobalVars::g_AllSettings);
 
-			if (cfg.LoadConfigFile(GlobalVars::g_AllSettings.m_Name.c_str()))
+			if (cfg.LoadConfigFile(GlobalVars::g_AllSettings.m_Name))
 				m_pMessageLineList->Add(fmt::format(xorstr("Loaded settings config: \"{}\""), GlobalVars::g_AllSettings.m_Name.c_str()), 2000);
 			else
 				m_pMessageLineList->Add(fmt::format(xorstr("\"{}\" does not exist."), GlobalVars::g_AllSettings.m_Name.c_str()), 2000);
@@ -32,8 +32,8 @@ void UI::CSettingsWindow::DrawCfgChild()
 		{
 			if (!GlobalVars::g_AllSettings.m_Name.empty())
 			{
-				CConfigLoader cfgOnSave = CConfigLoader(GlobalVars::g_AllSettings.m_Name.c_str(), &GlobalVars::g_AllSettings);
-				cfgOnSave.DumpConfigFile(GlobalVars::g_AllSettings.m_Name.c_str());
+				auto cfgOnSave = CConfigLoader(GlobalVars::g_AllSettings.m_Name.c_str(), &GlobalVars::g_AllSettings);
+				cfgOnSave.DumpConfigFile(GlobalVars::g_AllSettings.m_Name);
 				m_pMessageLineList->Add(xorstr("Config successfully imported."), 2000);
 
 			}

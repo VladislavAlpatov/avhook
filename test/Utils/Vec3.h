@@ -11,9 +11,9 @@ public:
 	{
 		this->z = z;
 	}
-	ImVec3()
+    ImVec3() : ImVec2()
 	{
-
+        z = 0.f;
 	};
     bool operator==(const ImVec3& src) const;
     bool operator!=(const ImVec3& src) const;
@@ -44,7 +44,7 @@ public:
     ImVec3 operator*(const ImVec3& v) const;
     ImVec3 operator/(float fl) const;
     ImVec3 operator/(const ImVec3& v) const;
-    ImVec3 Transform(const ImVec3& agles, const float legth) const;
-    float  Sum();
-    float  Sum2D();
+    ImVec3 Transform(const ImVec3& angles, const float length) const;
+    float  Sum() const;
+    float  Sum2D() const;
 };

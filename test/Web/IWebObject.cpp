@@ -3,7 +3,7 @@
 #include "../Utils/marker.h"
 #include "../Utils/xorstr.h"
 
-nlohmann::json WebApi::IWebObject::ImColorToJsn(const ImColor& color) const
+nlohmann::json WebApi::IWebObject::ImColorToJsn(const ImColor& color)
 {
 	nlohmann::json jsn;
 	POLY_MARKER;
@@ -15,7 +15,7 @@ nlohmann::json WebApi::IWebObject::ImColorToJsn(const ImColor& color) const
 	return jsn;
 }
 
-ImColor WebApi::IWebObject::ImportImColorFromJson(const nlohmann::json& jsn) const
+ImColor WebApi::IWebObject::ImportImColorFromJson(const nlohmann::json& jsn)
 {
 	POLY_MARKER;
 	return ImColor(

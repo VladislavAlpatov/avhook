@@ -4,14 +4,14 @@
 
 namespace UI
 {
-	class CRadarWindow : public IBaseDrawObject
+	class CRadarWindow final : public IBaseDrawObject
 	{
 	public:
 		CRadarWindow(Settings::CRadarSettings* settings)
 		{
 			m_pRadarSettings = settings;
 		}
-		virtual void Show()
+		void Show() override
 		{
 			if (!m_pRadarSettings->m_bActive)
 				return;
@@ -28,11 +28,11 @@ namespace UI
 
 	private:
 		Settings::CRadarSettings* m_pRadarSettings;
-		virtual void Render();
+		void Render() override;
 		void UseGameRadar() const;
 		void RenderCustomRadar();
 
-		virtual void KeepWindowInSreenArea();
+		void KeepWindowInScreenArea() override;
 		ImVec2 WorldToRadar(const ImVec3& EntityOrigin, const ImVec3& LocalPlayerOrigin, const ImVec3& LocalPlayerViewAngles, int width, float scale);
 	};
 }

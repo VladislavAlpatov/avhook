@@ -12,10 +12,10 @@ namespace WebApi
 		virtual nlohmann::json ToJson() const = 0;
 
 	protected:
-		nlohmann::json ImColorToJsn(const ImColor& color) const;
-		ImColor ImportImColorFromJson(const nlohmann::json& jsn) const;
+		static nlohmann::json ImColorToJsn(const ImColor& color);
+		static ImColor        ImportImColorFromJson(const nlohmann::json& jsn);
 
-		bool SetValueIfFiledExistInJson(const nlohmann::json& jsn, const char* filedName, ImColor* var)
+		bool SetValueIfFiledExistInJson(const nlohmann::json& jsn, const char* filedName, ImColor* var) const
 		{
 			if (jsn.contains(filedName))
 			{
@@ -26,7 +26,7 @@ namespace WebApi
 		}
 
 		template<typename T>
-		bool SetValueIfFiledExistInJson(const nlohmann::json& jsn, const char* filedName, T* var)
+		static bool SetValueIfFiledExistInJson(const nlohmann::json& jsn, const char* filedName, T* var)
 		{
 			if (jsn.contains(filedName))
 			{

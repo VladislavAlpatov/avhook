@@ -10,9 +10,9 @@
 MODULEINFO GetModuleInfo(const char* szModule)
 {
 	MODULEINFO modinfo = { 0 };
-	HMODULE hModule = GetModuleHandleA(szModule);
+	const HMODULE hModule = GetModuleHandleA(szModule);
 
-	if (hModule == NULL)
+	if (hModule == nullptr)
 		return modinfo;
 
 	GetModuleInformation(GetCurrentProcess(), hModule, &modinfo, sizeof(MODULEINFO));
@@ -58,13 +58,13 @@ uintptr_t Memory::FindPattern(const char* moduleName, const char* signature)
 	POLY_MARKER;
 
 	MODULEINFO mInfo = GetModuleInfo(moduleName);
-	uintptr_t base = (uintptr_t)mInfo.lpBaseOfDll;
+	const auto base = (uintptr_t)mInfo.lpBaseOfDll;
 
 	POLY_MARKER;
 
-	uintptr_t size = (uintptr_t)mInfo.SizeOfImage;
+	const auto size = (uintptr_t)mInfo.SizeOfImage;
 
-	auto pattern = GetSignatureBytes(signature);
+	const auto pattern = GetSignatureBytes(signature);
 
 	for (uintptr_t i = 0; i < size - pattern.size(); i++)
 	{

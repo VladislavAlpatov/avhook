@@ -14,7 +14,7 @@ UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* 
 {
 	POLY_MARKER;
 
-	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::DefaultAvatar, sizeof(Images::DefaultAvatar), &m_pTexureDefaulteAvatar);
+	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::DefaultAvatar, sizeof(Images::DefaultAvatar), &m_pTextureDefaulteAvatar);
 	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::ProfileIcon,   sizeof(Images::ProfileIcon),   &m_pTextureIcon);
 
 	
@@ -39,7 +39,7 @@ void UI::CNetWorkWindow::Render()
 			if (m_pTextureUserAvatar != nullptr)
 				validAvatar = m_pTextureUserAvatar;
 			else
-				validAvatar = m_pTexureDefaulteAvatar;
+				validAvatar = m_pTextureDefaulteAvatar;
 
 			{
 				bool avatarButtonStatus = ImGui::ImageButton(validAvatar, ImVec2(64, 64), ImVec2(), ImVec2(1, 1), 1);
@@ -177,7 +177,7 @@ void UI::CNetWorkWindow::Render()
 
 			ImGui::EndChild();
 		}
-		KeepWindowInSreenArea();
+		KeepWindowInScreenArea();
 		ImGui::End();
 	}
 }
@@ -187,7 +187,7 @@ void UI::CNetWorkWindow::OnOpen()
 	m_bAvatarSetWindow = false;
 	std::thread([this] {UpdateUserInfo(); }).detach();
 }
-std::string UI::CNetWorkWindow::GetAlias()
+std::string UI::CNetWorkWindow::GetAlias() const
 {
 	POLY_MARKER;
 	return xorstr("Network");
@@ -199,7 +199,7 @@ UI::CNetWorkWindow::~CNetWorkWindow()
 	if (m_pTextureUserAvatar)
 		m_pTextureUserAvatar->Release();
 
-	m_pTexureDefaulteAvatar->Release();
+	m_pTextureDefaulteAvatar->Release();
 }
 void UI::CNetWorkWindow::OnClose()
 {

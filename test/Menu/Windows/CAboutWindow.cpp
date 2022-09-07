@@ -12,13 +12,13 @@
 
 UI::CAboutWindow::CAboutWindow(LPDIRECT3DDEVICE9 pDevice) : CBaseWindow(pDevice)
 {
-	D3DXCreateTextureFromFileInMemory(m_pDevice,    Images::AVhookLogo, sizeof(RawData::AVhookLogoData), &m_pTexureCheatLogo);
+	D3DXCreateTextureFromFileInMemory(m_pDevice,    Images::AVhookLogo, sizeof(RawData::AVhookLogoData), &m_pTextureCheatLogo);
 	D3DXCreateTextureFromFileInMemory(m_pDevice,  Images::AboutIcon, sizeof(Images::AboutIcon), &m_pTextureIcon);
 }
 
 void UI::CAboutWindow::Render()
 {
-	ImGui::Begin(xorstr("###About"), NULL, m_iImGuiStyle);
+	ImGui::Begin(xorstr("###About"), nullptr, m_iImGuiStyle);
 	{
 
 		ImGui::SetWindowSize(ImVec2(400, 150));
@@ -38,7 +38,7 @@ void UI::CAboutWindow::Render()
 
 		drawList->AddRectFilled(ImageBorderPos, ImageBorderPos + ImVec2(102, 102), (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Border]);
 
-		ImGui::Image(m_pTexureCheatLogo, ImVec2(100, 100));
+		ImGui::Image(m_pTextureCheatLogo, ImVec2(100, 100));
 
 		ImGui::SameLine();
 		ImGui::Text(xorstr(u8"Compilation date: %s\nCompilation time: %s\nCopyright © 2022 Alpatov Softworks."), xorstr(__DATE__), xorstr(__TIME__));
@@ -52,18 +52,18 @@ void UI::CAboutWindow::Render()
 		if (ImGui::Button(xorstr("DISCORD"), ImVec2(100, 25)))
 			ShellExecuteA(0, 0, xorstr("https://discord.gg/PqND3RxTCP"), 0, 0, SW_SHOW);
 
-		KeepWindowInSreenArea();
+		KeepWindowInScreenArea();
 		ImGui::End();
 	}
 }
 
-std::string UI::CAboutWindow::GetAlias()
+std::string UI::CAboutWindow::GetAlias() const
 {
 	return xorstr("About");
 }
 
 UI::CAboutWindow::~CAboutWindow()
 {
-	m_pTexureCheatLogo->Release();
+	m_pTextureCheatLogo->Release();
 	m_pTextureIcon->Release();
 }

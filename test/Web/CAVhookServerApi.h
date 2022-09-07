@@ -15,7 +15,7 @@ namespace WebApi
 		CUserInfo() {};
 
 		CUserInfo(nlohmann::json jsn);
-		bool operator!=(const CUserInfo& info)
+		bool operator!=(const CUserInfo& info) const
 		{
 			return memcmp(this, &info, sizeof(CUserInfo)) != 0;
 		}
@@ -24,7 +24,7 @@ namespace WebApi
 		int m_iAccountType = -1;
 		int m_iUid = 0;
 		bool m_bIsPremium;
-		std::string AccountTypeIdToString();
+		std::string AccountTypeIdToString() const;
 		enum AccountType : int
 		{
 			Standart = 0,
@@ -33,10 +33,10 @@ namespace WebApi
 		};
 	};
 
-	class CLoaderTheme : public IWebObject
+	class CLoaderTheme final: public IWebObject
 	{
 	public:
-		CLoaderTheme() {};
+		CLoaderTheme() = default;
 		CLoaderTheme(const json& jsn);
 		ImColor m_IconColor       = { 112, 112, 112, 255 };
 		ImColor m_ActiveIconColor = { 255, 84, 84, 255 };
@@ -73,16 +73,16 @@ namespace WebApi
 	{
 	public:
 		CAVHookServerApi();
-		CUserInfo GetUserInfo();
+		CUserInfo GetUserInfo() const;
 		void ChangeUserNameAndStatus(const char* name, const char* status) const;
-		std::vector<CConfig> GetListOfConfigs();
+		std::vector<CConfig> GetListOfConfigs() const;
 		bool UpdateConfig(const int cfgIid,const json& data);
 
 		bool AuthByToken(const char* authToken) const;
 		AvatarUploadStatus SetUserAvatar(const std::string& rawDatas) const;
-		std::string GetRawAvatarData();
-		CLoaderTheme GetLoaderTheme();
-		void UpdateLoaderTheme(const CLoaderTheme& theme);
+		std::string GetRawAvatarData() const;
+		CLoaderTheme GetLoaderTheme() const;
+		void UpdateLoaderTheme(const CLoaderTheme& theme) const;
 
 	private:
 		std::unique_ptr<httplib::Client> m_pClient;

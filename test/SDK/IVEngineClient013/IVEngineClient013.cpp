@@ -4,7 +4,7 @@ using namespace SSDK;
 player_info_s IVEngineClient013::GetPlayerInfo(int iEntIndex)
 {
 	player_info_s info;
-	typedef player_info_s* (__thiscall* GetPlayerInfT)(void*,int ent_num, player_info_t* pinfo);
+	typedef player_info_s* (__thiscall* GetPlayerInfT)(void*,int, player_info_t*);
 	GetVirtualFunction<GetPlayerInfT>(8)(this, iEntIndex, &info);
 	return info;
 }

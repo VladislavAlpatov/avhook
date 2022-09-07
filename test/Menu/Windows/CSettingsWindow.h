@@ -5,13 +5,13 @@
 
 namespace UI
 {
-	class CSettingsWindow : public CBaseWindow
+	class CSettingsWindow final : public CBaseWindow
 	{
 	public:
 		
 		CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList, bool* pShowKeyBinderDialog);
-		virtual void Render();
-		std::string GetAlias() override;
+		void Render() override;
+		std::string GetAlias() const override;
 	private:
 
 		enum TAB : BYTE
@@ -31,10 +31,10 @@ namespace UI
 		void DrawMiscChild();
 		void DrawCfgChild();
 
-		PDIRECT3DTEXTURE9               m_pTexureAimBotIcon = nullptr;
-		PDIRECT3DTEXTURE9               m_pTexureEspIcon = nullptr;
-		PDIRECT3DTEXTURE9               m_pTexureMiscIcon = nullptr;
-		PDIRECT3DTEXTURE9               m_pTexureAtomaticColorIcon = nullptr;
+		PDIRECT3DTEXTURE9               m_pTextureAimBotIcon = nullptr;
+		PDIRECT3DTEXTURE9               m_pTextureEspIcon = nullptr;
+		PDIRECT3DTEXTURE9               m_pTextureMiscIcon = nullptr;
+		PDIRECT3DTEXTURE9               m_pTextureAtomaticColorIcon = nullptr;
 		CMessageLineList*               m_pMessageLineList;
 		Routines::CBindListener			m_BindListener;
 

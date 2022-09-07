@@ -29,7 +29,7 @@ UI::CBaseWindow::CBaseWindow(LPDIRECT3DDEVICE9 pDevice)
 void UI::CBaseWindow::Toggle()
 {
 	POLY_MARKER;
-	auto newState = !m_bIsShow;
+	const auto newState = !m_bIsShow;
 
 	if (newState)
 		OnOpen();
@@ -39,7 +39,7 @@ void UI::CBaseWindow::Toggle()
 	m_bIsShow = newState;
 }
 
-void UI::CBaseWindow::KeepWindowInSreenArea()
+void UI::CBaseWindow::KeepWindowInScreenArea()
 {
 	POLY_MARKER;
 
@@ -63,7 +63,7 @@ void UI::CBaseWindow::KeepWindowInSreenArea()
 	
 	ImGui::SetWindowPos(newWindowPos);
 }
-void UI::CBaseWindow::DrawIconAndTittle(const char* tittle)
+void UI::CBaseWindow::DrawIconAndTittle(const char* tittle) const
 {
 
 	POLY_MARKER;
@@ -101,7 +101,7 @@ void UI::CBaseWindow::Show()
 		ImGui::PopFont();
 	}
 }
-std::string UI::CBaseWindow::GetAlias()
+std::string UI::CBaseWindow::GetAlias() const
 {
 	POLY_MARKER;
 	return xorstr("Window");

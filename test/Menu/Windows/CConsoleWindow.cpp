@@ -13,7 +13,7 @@
 void UI::CConsoleWindow::Render()
 {
 	static char buff[128] = {NULL};
-	ImGui::Begin(xorstr("###Console"), NULL, m_iImGuiStyle);
+	ImGui::Begin(xorstr("###Console"), nullptr, m_iImGuiStyle);
 	{
 		POLY_MARKER;
 
@@ -44,7 +44,7 @@ void UI::CConsoleWindow::Render()
 
 		DrawCloseWindowButton();
 	}
-	KeepWindowInSreenArea();
+	KeepWindowInScreenArea();
 	ImGui::End();
 }
 
@@ -59,7 +59,7 @@ UI::CConsoleWindow::CConsoleWindow(LPDIRECT3DDEVICE9 pDevice) : UI::CBaseWindow(
 	m_Convars.emplace(xorstr("r_use_aa_fill"),  &style.AntiAliasedFill);
 }
 
-std::string UI::CConsoleWindow::GetAlias()
+std::string UI::CConsoleWindow::GetAlias() const
 {
 	POLY_MARKER;
 

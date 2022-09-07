@@ -15,14 +15,14 @@ void UI::CBindListenerOverlay::Render()
 {
 	POLY_MARKER;
 
-	auto pForeGraundDrawList = ImGui::GetForegroundDrawList();
-	pForeGraundDrawList->AddRectFilled(ImVec2(), ImGui::GetMainViewport()->Size, ImColor(0, 0, 0, 150));
+	const auto pForeGroundDrawList = ImGui::GetForegroundDrawList();
+	pForeGroundDrawList->AddRectFilled(ImVec2(), ImGui::GetMainViewport()->Size, ImColor(0, 0, 0, 150));
 
 
-	auto screenSize = ImGui::GetMainViewport()->Size;
+	const auto screenSize = ImGui::GetMainViewport()->Size;
 	const char* text = xorstr("Press Any Key Or ESC To Cancel");
 
-	ImVec2 textSize = ImGui::CalcTextSize(text);
+	const ImVec2 textSize = ImGui::CalcTextSize(text);
 
-	pForeGraundDrawList->AddText((screenSize - textSize) / 2.f, (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Text], text);
+	pForeGroundDrawList->AddText((screenSize - textSize) / 2.f, (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Text], text);
 }

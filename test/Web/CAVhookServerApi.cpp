@@ -10,14 +10,14 @@ using namespace WebApi;
 
 CAVHookServerApi::CAVHookServerApi()
 {
-	m_pClient = std::unique_ptr<httplib::Client>(new httplib::Client(AVHOOK_SERVER_URL));
+	m_pClient = std::make_unique<httplib::Client>(AVHOOK_SERVER_URL);
 }
-CUserInfo CAVHookServerApi::GetUserInfo()
+CUserInfo CAVHookServerApi::GetUserInfo() const
 {
 	// Download user data from server
 	auto  jsonUserData = nlohmann::json::parse(m_pClient->Get(xorstr("/api/profile/get")).value().body);
 
-	return CUserInfo(jsonUserData);
+	return jsonUserData;
 }
 void CAVHookServerApi::ChangeUserNameAndStatus(const char* name, const char* status) const 
 {
@@ -28,13 +28,13 @@ void CAVHookServerApi::ChangeUserNameAndStatus(const char* name, const char* sta
 
 	m_pClient->Post(xorstr("/api/profile/set"), payloadJson.dump(), xorstr("application/json"));
 }
-std::vector<CConfig> WebApi::CAVHookServerApi::GetListOfConfigs()
+std::vector<CConfig> WebApi::CAVHookServerApi::GetListOfConfigs() const
 {
 	auto jsn = nlohmann::json::parse(m_pClient->Get(xorstr("/api/profile/configs/get/list")).value().body);
 	auto cfgList = std::vector<CConfig>();
-	for (auto& cfgJson : jsn[xorstr("configs")].get<std::list<nlohmann::json>>())
+	for (const auto& cfgJson : jsn[xorstr("configs")].get<std::list<nlohmann::json>>())
 	{
-		cfgList.push_back(CConfig(cfgJson));
+		cfgList.emplace_back(cfgJson);
 	}
 	return cfgList;
 }
@@ -49,52 +49,29 @@ bool WebApi::CAVHookServerApi::UpdateConfig(const int cfgIid, const json& data)
 
 	return respJsn[xorstr("Status")].get<bool>();
 }
-std::string CAVHookServerApi::GetRawAvatarData()
+std::string CAVHookServerApi::GetRawAvatarData() const
 {
 	return m_pClient->Get(xorstr("/api/profile/get_avatar")).value().body;
 }
-CLoaderTheme WebApi::CAVHookServerApi::GetLoaderTheme()
+CLoaderTheme WebApi::CAVHookServerApi::GetLoaderTheme() const
 {
 	const auto jsn = nlohmann::json::parse(m_pClient->Get(xorstr("/api/loader/get/theme")).value().body);
 
-	return CLoaderTheme(jsn);
+	return jsn;
 }
-void WebApi::CAVHookServerApi::UpdateLoaderTheme(const CLoaderTheme& theme)
+void WebApi::CAVHookServerApi::UpdateLoaderTheme(const CLoaderTheme& theme) const
 {
 	m_pClient->Post(xorstr("/api/loader/update/theme"), theme.ToJson().dump(), xorstr("application/json"));
 }
-std::string CUserInfo::AccountTypeIdToString()
+std::string CUserInfo::AccountTypeIdToString() const
 {
-#ifndef _DEBUG
 	switch (m_iAccountType)
 	{
-	case AccountType::Standart:
-		return xorstr("Standard");
-
-	case AccountType::BetaTester:
-		return xorstr("Beta tester");
-
-	case AccountType::Developer:
-		return xorstr("Developer");
-	default:
-		return xorstr("Unknown");
+	case AccountType::Standart:   return xorstr("Standard");
+	case AccountType::BetaTester: return xorstr("Beta tester");
+	case AccountType::Developer:  return xorstr("Developer");
+	default:                      return xorstr("Unknown");
 	}
-#else
-
-	switch (m_iAccountType)
-	{
-	case AccountType::Standart:
-		return "Standart";
-
-	case AccountType::BetaTester:
-		return "Beta tester";
-
-	case AccountType::Developer:
-		return "Developer";
-	default:
-		return "Unknown";
-	}
-#endif // !_DEBUG
 }
 
 bool CAVHookServerApi::AuthByToken(const char* authToken) const
@@ -124,8 +101,8 @@ AvatarUploadStatus CAVHookServerApi::SetUserAvatar(const std::string& rawData) c
 }
 CUserInfo::CUserInfo(nlohmann::json jsn)
 {
-	std::string sUserName   = jsn[xorstr("name")].get<std::string>();
-	std::string sUserStatus = jsn[xorstr("status")].get<std::string>();
+	const auto sUserName   = jsn[xorstr("name")].get<std::string>();
+	const auto sUserStatus = jsn[xorstr("status")].get<std::string>();
 	// Copy data
 	strcpy_s(m_sName,   sUserName.c_str());
 	strcpy_s(m_sStatus, sUserStatus.c_str());

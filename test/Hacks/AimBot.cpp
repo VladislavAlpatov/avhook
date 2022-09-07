@@ -87,12 +87,12 @@ void CAimBot::Work()
 		{
 			AimPlain(pEnt, aimBone);
 			if (pAimBotSettings->m_bRcsControle)
-				m_pCUsrCmd->viewangles = Utils::NormalizeViewAngles(m_pCUsrCmd->viewangles - pLocalPlayer->m_vecAimPuchAngle * 2.f);
+				m_pCUsrCmd->m_vecViewAngles = Utils::NormalizeViewAngles(m_pCUsrCmd->m_vecViewAngles - pLocalPlayer->m_vecAimPuchAngle * 2.f);
 		}
 	}
 	
 	if (pAimBotSettings->m_bAutoShot)
-		m_pCUsrCmd->buttons &= 1;
+		m_pCUsrCmd->m_iButtons &= 1;
 
 	POLY_MARKER;
 }
@@ -104,7 +104,7 @@ void CAimBot::AimPlain(const CBaseEntity* pEnt, int iBoneId)
 
 	if (fabs(calcedAngles.x) <= 89.f and fabs(calcedAngles.y) <= 180.f)
 	{
-		m_pCUsrCmd->viewangles = calcedAngles;
+		m_pCUsrCmd->m_vecViewAngles = calcedAngles;
 	}
 }
 void CAimBot::AimSmooth(const CBaseEntity* pEnt, int iBoneId)
@@ -117,7 +117,7 @@ void CAimBot::AimSmooth(const CBaseEntity* pEnt, int iBoneId)
 
 	ImVec3 targetViewAngle = CalcAimViewAngles(pEnt, iBoneId);
 
-	ImVec3 currentAngle = m_pCUsrCmd->viewangles;
+	ImVec3 currentAngle = m_pCUsrCmd->m_vecViewAngles;
 
 	ImVec3 diff = targetViewAngle - currentAngle;
 
@@ -134,7 +134,7 @@ void CAimBot::AimSmooth(const CBaseEntity* pEnt, int iBoneId)
 	
 	if (fabs(angle.x) <= 89.f and fabs(angle.y) <= 180.f)
 	{
-		m_pCUsrCmd->viewangles = angle;
+		m_pCUsrCmd->m_vecViewAngles = angle;
 	}
 }
 bool CAimBot::IfEntityInFov(const CBaseEntity* entity, const int iBoneId) const
@@ -144,7 +144,7 @@ bool CAimBot::IfEntityInFov(const CBaseEntity* entity, const int iBoneId) const
 
 	POLY_MARKER;
 
-	ImVec3  pLocalPlayerAngles = m_pCUsrCmd->viewangles;
+	ImVec3  pLocalPlayerAngles = m_pCUsrCmd->m_vecViewAngles;
 	ImVec3  targetAngles = CalcAimViewAngles(entity, iBoneId);
 	ImVec3  deltaFov = (pLocalPlayerAngles - targetAngles);
 	POLY_MARKER;
@@ -164,7 +164,7 @@ CBaseEntity* CAimBot::GetClosestTargetByDistance(int bone)
 
 		[pLocalPlayer](CBaseEntity* first, CBaseEntity* second)
 		{
-			return pLocalPlayer->CalcDistaceToEntity(first) < pLocalPlayer->CalcDistaceToEntity(second);
+			return pLocalPlayer->CalcDistanceToEntity(first) < pLocalPlayer->CalcDistanceToEntity(second);
 		});
 	return validEntities[0];
 }
@@ -184,8 +184,8 @@ CBaseEntity* CAimBot::GetClosestTargetByFov(int bone)
 
 		[this, bone](CBaseEntity* pEntityFirst, CBaseEntity* pEntitySecond)
 		{
-			ImVec3 diffFirstEntity = (CalcAimViewAngles(pEntityFirst,   bone) - m_pCUsrCmd->viewangles).Abs();
-			ImVec3 diffSecondEntity = (CalcAimViewAngles(pEntitySecond, bone) - m_pCUsrCmd->viewangles).Abs();
+			ImVec3 diffFirstEntity = (CalcAimViewAngles(pEntityFirst,   bone) - m_pCUsrCmd->m_vecViewAngles).Abs();
+			ImVec3 diffSecondEntity = (CalcAimViewAngles(pEntitySecond, bone) - m_pCUsrCmd->m_vecViewAngles).Abs();
 
 			return diffFirstEntity.Length2D() < diffSecondEntity.Length2D();
 		});

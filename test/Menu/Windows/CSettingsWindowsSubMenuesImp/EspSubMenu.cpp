@@ -8,7 +8,7 @@ void UI::CSettingsWindow::DrawESPChild()
 {
 	ImGui::SetWindowSize(ImVec2(555, 555));
 	
-	ImGui::Image(m_pTexureEspIcon, ImVec2(16, 16));
+	ImGui::Image(m_pTextureEspIcon, ImVec2(16, 16));
 	ImGui::SameLine();
 	ImGui::Text(xorstr("Extra Sensory Perception"));
 
@@ -19,7 +19,7 @@ void UI::CSettingsWindow::DrawESPChild()
 	ImGui::BeginChild(xorstr("###SnapLinesESP"), blockSize, true);
 	{
 		
-		auto pSettings = &GlobalVars::g_AllSettings.m_SnapLinesSettings;
+		const auto pSettings = &GlobalVars::g_AllSettings.m_SnapLinesSettings;
 		ImGui::Text(xorstr("Snap Lines"));
 		ImGui::ColorEdit4(xorstr("###lineColor"), (float*)&pSettings->m_Color, ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
@@ -36,7 +36,7 @@ void UI::CSettingsWindow::DrawESPChild()
 	ImGui::NewLine();
 	ImGui::BeginChild(xorstr("###Boxes"), blockSize, true);
 	{
-		auto pSettings = &GlobalVars::g_AllSettings.m_BoxEspSettings;
+		const auto pSettings = &GlobalVars::g_AllSettings.m_BoxEspSettings;
 		static const char* styles[] = { "Solid", "Cornered" };
 		ImGui::Text(xorstr("Boxes"));
 		ImGui::ColorEdit4(xorstr("###boxcolor"), (float*)&pSettings->m_Color, ImGuiColorEditFlags_NoInputs);
@@ -55,7 +55,7 @@ void UI::CSettingsWindow::DrawESPChild()
 		static const char* styles[] = { "Flat", "Gradient" };
 		static auto pSettings = &GlobalVars::g_AllSettings.m_BarEspSettings;
 		ImGui::Text(xorstr("Bars"));
-		ImGui::Image(m_pTexureAtomaticColorIcon, ImVec2(21, 21));
+		ImGui::Image(m_pTextureAtomaticColorIcon, ImVec2(21, 21));
 		ImGui::SameLine();
 		ImGui::Checkbox(xorstr("Health"), &pSettings->m_bDrawHealthBar);
 
@@ -75,7 +75,7 @@ void UI::CSettingsWindow::DrawESPChild()
 	ImGui::SetCursorPos(ImGui::GetCursorPos() - ImVec2(0, 30));
 	ImGui::BeginChild(xorstr("###Radar"), blockSize + ImVec2(40, 80), true);
 	{
-		auto pSettings = &GlobalVars::g_AllSettings.m_RadarSettings;
+		const auto pSettings = &GlobalVars::g_AllSettings.m_RadarSettings;
 		ImGui::Text(xorstr("Radar"));
 		ImGui::Checkbox(xorstr("Active"), &pSettings->m_bActive);
 		static const char* style[] = { "Embedded", "Custom" };
@@ -95,20 +95,22 @@ void UI::CSettingsWindow::DrawESPChild()
 	ImGui::SameLine();
 	ImGui::BeginChild(xorstr("###Glow"), blockSize + ImVec2(60, 80), true);
 	{
-		auto& settings = GlobalVars::g_AllSettings.m_GlowEspSettings;
+		const auto pSettings = &GlobalVars::g_AllSettings.m_GlowEspSettings;
 		ImGui::Text(xorstr("Glow Esp"));
-		ImGui::Checkbox(xorstr("Active###GlowActive"), &settings.m_bActive);
-		ImGui::ColorEdit3(xorstr("Color"), (float*)&settings.m_Color, ImGuiColorEditFlags_NoInputs);
-		ImGui::InputFloat(xorstr("Size"), &settings.m_fGlowSize, 0.f, 0.f, "%.1f");
+		ImGui::Checkbox(xorstr("Active###GlowActive"), &pSettings->m_bActive);
+		ImGui::ColorEdit3(xorstr("Color"), (float*)&pSettings->m_Color, ImGuiColorEditFlags_NoInputs);
+		ImGui::InputFloat(xorstr("Size"), &pSettings->m_fGlowSize, 0.f, 0.f, "%.1f");
 
-		if (settings.m_fGlowSize > 1.f)
-			settings.m_fGlowSize = 1.f;
+		if (pSettings->m_fGlowSize > 1.f)
+			pSettings->m_fGlowSize = 1.f;
 		
-		static const char* styles[] = {"Blur", "Pusle Glass", "Rough", "Pulse Rough"};
+		static const char* styles[]    = {"Blur", "Pulse Glass", "Rough", "Pulse Rough"};
 		static const char* drawModes[] = { "Static", "Dynamic"};
-		ImGui::Combo(xorstr("Style###GStyle"), &settings.m_iStyle, styles, IM_ARRAYSIZE(styles));
-		ImGui::Combo(xorstr("Draw Mode###GDrawMode"), &settings.m_iDrawMode, drawModes, IM_ARRAYSIZE(drawModes));
-		ImGui::InputInt(xorstr("Distance"), &settings.m_iMaxDistance, 0);
+
+		ImGui::Combo(xorstr("Style###GStyle"),        &pSettings->m_iStyle,    styles,    IM_ARRAYSIZE(styles));
+		ImGui::Combo(xorstr("Draw Mode###GDrawMode"), &pSettings->m_iDrawMode, drawModes, IM_ARRAYSIZE(drawModes));
+
+		ImGui::InputInt(xorstr("Distance"),           &pSettings->m_iMaxDistance, 0);
 		
 		ImGui::EndChild();
 	}
@@ -130,8 +132,8 @@ void UI::CSettingsWindow::DrawESPChild()
 
 		style.WindowPadding = ImVec2(2, 2);
 		style.ItemSpacing = ImVec2(2, 2);
-
-		for (int i = 0; i < GlobalVars::g_AllSettings.m_LabelEspSettings.m_Labels.size(); ++i)
+		
+		for (auto i = 0; i < GlobalVars::g_AllSettings.m_LabelEspSettings.m_Labels.size(); ++i)
 		{
 			auto& pCurrentLabel = GlobalVars::g_AllSettings.m_LabelEspSettings.m_Labels[i];
 			ImGui::BeginChild((std::string(xorstr("###Child")) + pCurrentLabel->m_sName).c_str(), ImVec2(160, 25), true, m_iImGuiStyle);
@@ -151,7 +153,7 @@ void UI::CSettingsWindow::DrawESPChild()
 				ImGui::Checkbox(pCurrentLabel->m_sName.c_str(), &pCurrentLabel->m_bActive);
 
 				ImGui::EndChild();
-
+				
 			}
 		}
 		style.WindowPadding = backUp;

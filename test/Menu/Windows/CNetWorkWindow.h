@@ -5,17 +5,17 @@
 
 namespace UI
 {
-	class CNetWorkWindow : public CBaseWindow
+	class CNetWorkWindow final: public CBaseWindow
 	{
 	public:
 		CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList);
-		virtual void Render();
-		virtual void OnOpen();
-		std::string GetAlias() override;
-		virtual void OnClose();
+		void Render() override;
+		void OnOpen() override;
+		std::string GetAlias() const override;
+		void OnClose() override;
 		virtual ~CNetWorkWindow();
 	private:
-		PDIRECT3DTEXTURE9         m_pTexureDefaulteAvatar = nullptr;
+		PDIRECT3DTEXTURE9         m_pTextureDefaulteAvatar = nullptr;
 		PDIRECT3DTEXTURE9         m_pTextureUserAvatar    = nullptr;
 		bool                      m_bAvatarSetWindow      = false;
 		char                      m_AvatarPath[128]       = { 0 };

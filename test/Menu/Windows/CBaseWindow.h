@@ -15,15 +15,13 @@ namespace UI
 	public:
 
 		CBaseWindow(LPDIRECT3DDEVICE9 pDevice);
-		CBaseWindow() {};
-		virtual ~CBaseWindow() { };
-
-
-		virtual std::string GetAlias();
+		CBaseWindow() = default;
+		virtual ~CBaseWindow() = default;
+		virtual std::string GetAlias() const;
 		void Toggle();
-		void SetShowState(bool isShow) { m_bIsShow = isShow; };
+		void SetShowState(const bool isShow) { m_bIsShow = isShow; }
 	protected:
-		virtual void Show();
+		void Show() override;
 		bool m_bIsShow = false;
 		// Show will be executed even if m_bIsShow is equal to false
 		bool m_bForceShow = false;
@@ -33,16 +31,16 @@ namespace UI
 		// Global style for all windows
 		const int m_iImGuiStyle = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
 		// Keep Window from moving into out of screen
-		virtual void KeepWindowInSreenArea();
+		void KeepWindowInScreenArea() override;
 
-		void DrawIconAndTittle(const char* tittle);
+		void DrawIconAndTittle(const char* tittle) const;
 		void DrawCloseWindowButton();
 
 		// Execute code when user open the window
-		virtual void OnClose() {};
+		virtual void OnClose() {}
 
 		// Execute code while window is opening
-		virtual void OnOpen() {};
+		virtual void OnOpen() {}
 
 		PDIRECT3DTEXTURE9 m_pTextureIcon = nullptr;
 

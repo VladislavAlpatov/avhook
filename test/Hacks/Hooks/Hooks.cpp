@@ -38,12 +38,10 @@ using namespace hooks;
 
 static uintptr_t		  oPresent;
 static uintptr_t		  oDrawIndexedPrimitive;
-static uintptr_t		  oNtQueryVirtualMemory;
 static uintptr_t	      oWndProc;
 static uintptr_t	      oCreateMove;
-static uintptr_t          oOnKill;
-static uintptr_t		  oDoPostScreenEffects;
 static uintptr_t		  oRenderGlowEffects;
+
 static std::unique_ptr<UI::COverlay> pOverlay;
 
 void SetWorldColor(const ImColor& col)

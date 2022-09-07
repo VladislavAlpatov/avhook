@@ -6,21 +6,21 @@ namespace SSDK
 	{
 	public:
 
-		int pad;
-		int command_number;
-		int tick_count;
-		ImVec3 viewangles;
-		ImVec3 aimdirection;
-		float forwardmove;
-		float sidemove;
-		float upmove;
-		int buttons;
-		char impulse;
-		int weaponselect;
-		int weaponsubtype;
-		int randomseed;
-		__int16 mousedx;
-		__int16 mousedy;
-		bool hasbeenpredicted;
+		int    pad;
+		int     command_number;
+		int     m_iTickCount;
+		ImVec3  m_vecViewAngles;
+		ImVec3  m_vecAimDirection;
+		float   m_fForwardMove;
+		float   m_fSideMove;
+		float   m_fUpMove;
+		int     m_iButtons;
+		char    m_Impulse;
+		int     m_iWeaponSelect;
+		int     m_iWeaponType;
+		int     m_iRandomSeed;
+		__int16 m_i16Mousedx;
+		__int16 m_i16MouseDy;
+		bool    m_bHasBeenPredicted;
 	};
 }

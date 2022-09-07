@@ -341,7 +341,7 @@ namespace SSDK
 		// Get position of bone like head, pelvis and etc...
 		ImVec3 GetBonePosition(const int bone) const;
 		// Calc distance to entity
-		float CalcDistaceToEntity(const CBaseEntity* entity) const;
+		float CalcDistanceToEntity(const CBaseEntity* entity) const;
 		//Get color based on entity health
 		ImColor GetColorBasedOnHealth() const;
 		// Get entity camera position

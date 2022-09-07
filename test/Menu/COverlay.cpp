@@ -30,7 +30,6 @@
 #include "../Web/CAVhookServerApi.h"
 #include "../Globals/Settings.h"
 #include "../Globals/Interfaces.h"
-#include "../imgui/imgui_internal.h"
 
 std::string GetCurrentWindowsUserName()
 {
@@ -50,7 +49,7 @@ UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 	ImGui_ImplDX9_Init(m_pDevice);
 
 	ImGui::GetStyle().AntiAliasedLinesUseTex = false;
-	auto& io = ImGui::GetIO();
+	const auto& io = ImGui::GetIO();
 	
 	ImFontConfig cfg;
 	cfg.FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_Monochrome | ImGuiFreeTypeBuilderFlags_MonoHinting;
@@ -95,29 +94,32 @@ UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 
 	POLY_MARKER;
 
-	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CAboutWindow(m_pDevice)));
-	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CSettingsWindow(m_pDevice, &m_MessageLineList, &m_bShowKeyBindDialog)));
-	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CNetWorkWindow(m_pDevice,  &m_MessageLineList)));
-	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CConsoleWindow(m_pDevice)));
-	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CDockWindow(m_pDevice, {m_vecWindows[0], m_vecWindows[1], m_vecWindows[2], m_vecWindows[3] })));
-	m_vecWindows.push_back(std::shared_ptr<UI::CBaseWindow>(new UI::CTaskBarWindow(pDevice)));
+	m_vecWindows.push_back(std::make_shared<UI::CAboutWindow>(m_pDevice));
+	m_vecWindows.push_back(std::make_shared<UI::CSettingsWindow>(m_pDevice, &m_MessageLineList, &m_bShowKeyBindDialog));
+	m_vecWindows.push_back(std::make_shared<UI::CNetWorkWindow>(m_pDevice,  &m_MessageLineList));
+	m_vecWindows.push_back(std::make_shared<UI::CConsoleWindow>(m_pDevice));
+
+	const std::vector dockWindows= { m_vecWindows[0], m_vecWindows[1], m_vecWindows[2], m_vecWindows[3] };
+
+	m_vecWindows.push_back(std::make_shared<UI::CDockWindow>(m_pDevice, dockWindows));
+	m_vecWindows.push_back(std::make_shared<UI::CTaskBarWindow>(pDevice));
 
 	POLY_MARKER;
 
 	m_vecEspPayload = {
-		std::shared_ptr<Esp::CUIEsp>(new Esp::CBoxEsp(&GlobalVars::g_AllSettings.m_BoxEspSettings)), 
-		std::shared_ptr<Esp::CUIEsp>(new Esp::CBarsEsp(&GlobalVars::g_AllSettings.m_BarEspSettings)),
-		std::shared_ptr<Esp::CUIEsp>(new Esp::CLabelEsp(&GlobalVars::g_AllSettings.m_LabelEspSettings)),
-		std::shared_ptr<Esp::CUIEsp>(new Esp::CSnapLinesEsp(&GlobalVars::g_AllSettings.m_SnapLinesSettings))
+		std::make_shared<Esp::CBoxEsp>(&GlobalVars::g_AllSettings.m_BoxEspSettings),
+		std::make_shared<Esp::CBarsEsp>(&GlobalVars::g_AllSettings.m_BarEspSettings),
+		std::make_shared<Esp::CLabelEsp>(&GlobalVars::g_AllSettings.m_LabelEspSettings),
+		std::make_shared<Esp::CSnapLinesEsp>(&GlobalVars::g_AllSettings.m_SnapLinesSettings)
 	};
 
 	for (int i = 0; i < 100; ++i)
 	{
-		m_vecSnow.push_back(SnowFlake(ImVec2(0, 2), 1920));
+		m_vecSnow.emplace_back(ImVec2(0, 2), 1920);
 	}
 
 
-	std::string pathToWallpaper = fmt::format(xorstr("C:\\Users\\{}\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper"), GetCurrentWindowsUserName());
+	const std::string pathToWallpaper = fmt::format(xorstr("C:\\Users\\{}\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper"), GetCurrentWindowsUserName());
 	D3DXCreateTextureFromFileA(m_pDevice, pathToWallpaper.c_str(), &m_pWallpaper);
 
 	POLY_MARKER;
@@ -143,7 +145,7 @@ void UI::COverlay::Render()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	auto pDrawList    = ImGui::GetBackgroundDrawList();
+	const auto pDrawList    = ImGui::GetBackgroundDrawList();
 	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
 
@@ -166,14 +168,14 @@ void UI::COverlay::Render()
 
 			[pLocalPlayer](const SSDK::CBaseEntity* first,const SSDK::CBaseEntity* second)
 			{
-				return pLocalPlayer->CalcDistaceToEntity(first) > pLocalPlayer->CalcDistaceToEntity(second);
+				return pLocalPlayer->CalcDistanceToEntity(first) > pLocalPlayer->CalcDistanceToEntity(second);
 			});
 
 
 		// Render Esp
-		for (auto pEntity : validEntities)
+		for (const auto& pEntity : validEntities)
 		{
-			for (auto pEsp : m_vecEspPayload)
+			for (const auto& pEsp : m_vecEspPayload)
 			{
 				if (pEsp->isActive())
 					pEsp->RenderAt(pEntity);
@@ -240,7 +242,7 @@ void UI::COverlay::Render()
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 	color_fix.RestoreColorFilter();
 }
-bool UI::COverlay::IsShowUI()
+bool UI::COverlay::IsShowUI() const
 {
 	return m_bShowUI;
 }

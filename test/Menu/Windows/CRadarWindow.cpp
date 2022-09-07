@@ -55,7 +55,7 @@ ImVec2 UI::CRadarWindow::WorldToRadar(const ImVec3& EntityOrigin, const ImVec3& 
 
 	return ImVec2(xnew_diff, ynew_diff);
 }
-void UI::CRadarWindow::KeepWindowInSreenArea()
+void UI::CRadarWindow::KeepWindowInScreenArea()
 {
 	POLY_MARKER;
 
@@ -108,16 +108,16 @@ void UI::CRadarWindow::RenderCustomRadar()
 	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
 	if (m_pRadarSettings->m_bDrawBorders)
-		ImGui::Begin(xorstr("###Radar"), NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
+		ImGui::Begin(xorstr("###Radar"), nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
 	else
-		ImGui::Begin(xorstr("###Radar"), NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground);
+		ImGui::Begin(xorstr("###Radar"), nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground);
 	{
 		ImGui::SetWindowSize(ImVec2(384, 256));
 
 		const auto windowPosition = ImGui::GetWindowPos();
 		const auto windowCenter = windowPosition + ImGui::GetWindowSize() / 2.f;
 
-		auto pDrawList = ImGui::GetWindowDrawList();
+		const auto pDrawList = ImGui::GetWindowDrawList();
 
 		pDrawList->AddCircleFilled(windowCenter, 254.f / 2.f, m_pRadarSettings->m_BackGroundColor);
 
@@ -130,14 +130,14 @@ void UI::CRadarWindow::RenderCustomRadar()
 		// if player not in game then dont draw
 		if (!GlobalVars::g_pIEngineClient->IsInGame() or !GlobalVars::g_pIEngineClient->IsConnected() or !pLocalPlayer)
 		{
-			KeepWindowInSreenArea();
+			KeepWindowInScreenArea();
 			ImGui::End();
 			return;
 		}
 		POLY_MARKER;
 		for (int i = 1; i < 33; ++i)
 		{
-			auto pEnt = GlobalVars::g_pIEntityList->GetClientEntity(i);
+			const auto pEnt = GlobalVars::g_pIEntityList->GetClientEntity(i);
 
 			if (!pEnt or !pEnt->IsAlive() or pEnt->m_iTeamNum == pLocalPlayer->m_iTeamNum or pEnt->m_bDormant)
 				continue;
@@ -152,7 +152,7 @@ void UI::CRadarWindow::RenderCustomRadar()
 			pDrawList->AddCircleFilled(ImVec2(windowPosition.x + vecEntityRadarPosition.x + 384.f / 6.0f, windowPosition.y + vecEntityRadarPosition.y), 3, enemyColor);
 		}
 		POLY_MARKER;
-		KeepWindowInSreenArea();
+		KeepWindowInScreenArea();
 		ImGui::End();
 	}
 }

@@ -13,18 +13,17 @@ namespace UI
 		void OnOpen() override;
 		std::string GetAlias() const override;
 		void OnClose() override;
-		virtual ~CNetWorkWindow();
+		~CNetWorkWindow() override;
 	private:
-		PDIRECT3DTEXTURE9         m_pTextureDefaulteAvatar = nullptr;
+		PDIRECT3DTEXTURE9         m_pTextureDefaultAvatar = nullptr;
 		PDIRECT3DTEXTURE9         m_pTextureUserAvatar    = nullptr;
 		bool                      m_bAvatarSetWindow      = false;
 		char                      m_AvatarPath[128]       = { 0 };
-		char                      m_cfgName[32]           = { 0 };
 		// Uses as backup from server
 		WebApi::CUserInfo          m_UserData;
 		WebApi::CLoaderTheme	   m_LoaderTheme;
 		WebApi::CAVHookServerApi   m_ApiClient;
-		std::vector<WebApi::CConfig> m_ConfgsList;
+		std::vector<WebApi::CConfig> m_ConfigsList;
 		CMessageLineList*          m_pMessageLineList;
 
 		WebApi::AvatarUploadStatus m_avatarUploadStatus;

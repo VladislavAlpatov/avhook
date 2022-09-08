@@ -57,12 +57,12 @@ uintptr_t Memory::FindPattern(const char* moduleName, const char* signature)
 {
 	POLY_MARKER;
 
-	MODULEINFO mInfo = GetModuleInfo(moduleName);
-	const auto base = (uintptr_t)mInfo.lpBaseOfDll;
+	auto [lpBaseOfDll, SizeOfImage, EntryPoint] = GetModuleInfo(moduleName);
+	const auto base = (uintptr_t)lpBaseOfDll;
 
 	POLY_MARKER;
 
-	const auto size = (uintptr_t)mInfo.SizeOfImage;
+	const auto size = (uintptr_t)SizeOfImage;
 
 	const auto pattern = GetSignatureBytes(signature);
 

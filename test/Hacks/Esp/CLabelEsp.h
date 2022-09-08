@@ -7,7 +7,7 @@
 
 namespace Esp
 {
-	class CLabelEsp : public CUIEsp
+	class CLabelEsp final : public CUIEsp
 	{
 	private:
 		void DrawLabelsAtLeftSide(const SSDK::CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& pLabels) const ;

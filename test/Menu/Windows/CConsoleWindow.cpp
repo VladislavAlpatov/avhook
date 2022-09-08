@@ -1,11 +1,9 @@
-#pragma once
 #include "CConsoleWindow.h"
 #include "../../Utils/Marker.h"
 #include "../../Utils/xorstr.h"
 
 #include "../../RawData/Images.h"
 #include <d3dx9.h>
-#include "../../imgui/imgui_internal.h"
 #include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/split.hpp>
@@ -35,9 +33,9 @@ void UI::CConsoleWindow::Render()
 
 		ImGui::BeginChild(xorstr("###ConsoleLog"), ImVec2(240, 420), true);
 		{
-			for (const auto& log : m_logHistory)
+			for (const auto& [text, color] : m_logHistory)
 			{
-				ImGui::TextColored(log.second, log.first.c_str());
+				ImGui::TextColored(color, text.c_str());
 			}
 			ImGui::EndChild();
 		}
@@ -66,7 +64,7 @@ std::string UI::CConsoleWindow::GetAlias() const
 	return xorstr("Console");
 }
 
-bool UI::CConsoleWindow::CanBeCovertedToInt(const std::string& str)
+bool UI::CConsoleWindow::CanBeConvertedToInt(const std::string& str)
 {
 	POLY_MARKER;
 	if (!str.length());
@@ -101,9 +99,9 @@ bool UI::CConsoleWindow::ConsoleExecute(const std::string& text)
 
 	if (!rawData.empty() and rawData[0] == xorstr("cvar_list"))
 	{
-		for (const auto& cvar : m_Convars)
+		for (const auto& [cvarName, pVal] : m_Convars)
 		{
-			AddConsoleLog(fmt::format(xorstr("{}: {}"), cvar.first, (int)*cvar.second));
+			AddConsoleLog(fmt::format(xorstr("{}: {}"), cvarName, (int)*pVal));
 		}
 		return true;
 	}
@@ -114,5 +112,5 @@ bool UI::CConsoleWindow::ConsoleExecute(const std::string& text)
 void UI::CConsoleWindow::AddConsoleLog(const std::string& text, const ImColor& col)
 {
 	POLY_MARKER;
-	m_logHistory.push_back({ text, col });
+	m_logHistory.emplace_back(text, col);
 }

@@ -3,7 +3,6 @@
 #include "../../../Globals/Settings.h"
 #include <fmt/format.h>
 #include <fstream>
-#include "../../../imgui/imgui_internal.h"
 
 
 void UI::CSettingsWindow::DrawCfgChild()
@@ -19,9 +18,7 @@ void UI::CSettingsWindow::DrawCfgChild()
 		DrawInputTextWithTextOnBackGround(xorstr("###Fname"), xorstr("<Config name>"), (char*)GlobalVars::g_AllSettings.m_Name.c_str(), GlobalVars::g_AllSettings.m_Name.size());
 		if (ImGui::Button(xorstr("Import###fi")))
 		{
-			CConfigLoader cfg(GlobalVars::g_AllSettings.m_Name.c_str(), &GlobalVars::g_AllSettings);
-
-			if (cfg.LoadConfigFile(GlobalVars::g_AllSettings.m_Name))
+			if (CConfigLoader cfg(GlobalVars::g_AllSettings.m_Name.c_str(), &GlobalVars::g_AllSettings); cfg.LoadConfigFile(GlobalVars::g_AllSettings.m_Name))
 				m_pMessageLineList->Add(fmt::format(xorstr("Loaded settings config: \"{}\""), GlobalVars::g_AllSettings.m_Name.c_str()), 2000);
 			else
 				m_pMessageLineList->Add(fmt::format(xorstr("\"{}\" does not exist."), GlobalVars::g_AllSettings.m_Name.c_str()), 2000);
@@ -54,9 +51,7 @@ void UI::CSettingsWindow::DrawCfgChild()
 		{
 			if (m_pMenuCfgName[0] != NULL)
 			{
-				std::ifstream file(std::string(m_pMenuCfgName) + xorstr(".avmcfg"), std::ios::binary);
-
-				if (file.is_open())
+				if (std::ifstream file(std::string(m_pMenuCfgName) + xorstr(".avmcfg"), std::ios::binary); file.is_open())
 				{
 					file.read((char*)ImGui::GetStyle().Colors, sizeof(ImGui::GetStyle().Colors));
 					m_pMessageLineList->Add(fmt::format(xorstr("Loaded menu config: \"{}\""), m_pMenuCfgName), 2000);
@@ -107,7 +102,7 @@ void UI::CSettingsWindow::DrawCfgChild()
 	}
 	ImGui::SameLine();
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 84 * 2);
-	auto guiColorTheme = ImGui::GetStyle().Colors;
+	const auto guiColorTheme = ImGui::GetStyle().Colors;
 
 	ImGui::BeginChild(xorstr("###MenuColors"), ImVec2(170, 360), true, m_iImGuiStyle);
 	{

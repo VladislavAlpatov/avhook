@@ -8,9 +8,8 @@
 #include "../../RawData/Images.h"
 #include "../../Utils/Marker.h"
 #include "../../imgui/imgui_internal.h"
-#include "../../RawData/Images.h"
 
-UI::CAboutWindow::CAboutWindow(LPDIRECT3DDEVICE9 pDevice) : CBaseWindow(pDevice)
+UI::CAboutWindow::CAboutWindow(const LPDIRECT3DDEVICE9 pDevice) : CBaseWindow(pDevice)
 {
 	D3DXCreateTextureFromFileInMemory(m_pDevice,    Images::AVhookLogo, sizeof(RawData::AVhookLogoData), &m_pTextureCheatLogo);
 	D3DXCreateTextureFromFileInMemory(m_pDevice,  Images::AboutIcon, sizeof(Images::AboutIcon), &m_pTextureIcon);
@@ -30,13 +29,13 @@ void UI::CAboutWindow::Render()
 		
 		POLY_MARKER;
 
-		auto drawList  = ImGui::GetWindowDrawList();
-		auto windowPos = ImGui::GetWindowPos();
-		auto cursorPos = ImGui::GetCursorPos();
+		const auto pDrawList  = ImGui::GetWindowDrawList();
+		const auto windowPos = ImGui::GetWindowPos();
+		const auto cursorPos = ImGui::GetCursorPos();
 
-		auto ImageBorderPos = windowPos + cursorPos - ImVec2(1, 1);
+		const auto ImageBorderPos = windowPos + cursorPos - ImVec2(1, 1);
 
-		drawList->AddRectFilled(ImageBorderPos, ImageBorderPos + ImVec2(102, 102), (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Border]);
+		pDrawList->AddRectFilled(ImageBorderPos, ImageBorderPos + ImVec2(102, 102), (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Border]);
 
 		ImGui::Image(m_pTextureCheatLogo, ImVec2(100, 100));
 
@@ -47,10 +46,10 @@ void UI::CAboutWindow::Render()
 
 		ImGui::SetCursorPos(ImVec2(115, 80));
 		if (ImGui::Button(xorstr("SITE"), ImVec2(100, 25)))
-			ShellExecuteA(0, 0, xorstr("https://avhook.ru/"), 0, 0, SW_SHOW);
+			ShellExecuteA(nullptr, nullptr, xorstr("https://avhook.ru/"), nullptr, nullptr, SW_SHOW);
 		ImGui::SameLine();
 		if (ImGui::Button(xorstr("DISCORD"), ImVec2(100, 25)))
-			ShellExecuteA(0, 0, xorstr("https://discord.gg/PqND3RxTCP"), 0, 0, SW_SHOW);
+			ShellExecuteA(nullptr, nullptr, xorstr("https://discord.gg/PqND3RxTCP"), nullptr, nullptr, SW_SHOW);
 
 		KeepWindowInScreenArea();
 		ImGui::End();

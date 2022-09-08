@@ -2,7 +2,7 @@
 
 namespace Esp
 {
-	class CSnapLinesEsp : public CUIEsp
+	class CSnapLinesEsp final : public CUIEsp
 	{
 	public:
 		CSnapLinesEsp(Settings::SnapLinesSettings* pSettings) : CUIEsp(pSettings) {};

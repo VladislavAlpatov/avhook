@@ -30,11 +30,11 @@ void UI::CSettingsWindow::DrawAimbotChild()
 		DrawToolTip(xorstr("Define the field of view.\n\nNote: Enemy will be force-ignore if\nhe not in selected fov.\nSet FoV to 360 to disable it."));
 
 
-		auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
+		const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 		if (pLocalPlayer != nullptr and ImGui::IsItemHovered())
 		{
-			auto screenSize = ImGui::GetMainViewport()->Size;
-			float fovScreenRatio = std::hypotf(screenSize.x, screenSize.y) / (float)pLocalPlayer->m_iDefaultFOV / 2.f;
+			const auto screenSize = ImGui::GetMainViewport()->Size;
+			const float fovScreenRatio = std::hypotf(screenSize.x, screenSize.y) / (float)pLocalPlayer->m_iDefaultFOV / 2.f;
 
 			ImGui::GetBackgroundDrawList()->AddCircle(screenSize / 2.f,
 				fovScreenRatio * GlobalVars::g_AllSettings.m_AimBotSettings.m_fFov,

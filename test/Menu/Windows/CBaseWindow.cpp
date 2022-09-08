@@ -15,7 +15,7 @@ UI::CBaseWindow::CBaseWindow(LPDIRECT3DDEVICE9 pDevice)
 
 	ImFontConfig fontBUilderConfig;
 	fontBUilderConfig.FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_Monochrome | ImGuiFreeTypeBuilderFlags_MonoHinting;
-	auto imGuiIo = ImGui::GetIO();
+	const auto imGuiIo = ImGui::GetIO();
 
 	static ImWchar ranges[] = { 0x1, 0xFFFD, 0 };
 
@@ -43,9 +43,9 @@ void UI::CBaseWindow::KeepWindowInScreenArea()
 {
 	POLY_MARKER;
 
-	ImVec2 windowPos     = ImGui::GetWindowPos();
-	ImVec2 windowSize    = ImGui::GetWindowSize();
-	ImVec2 screenSize     = ImGui::GetMainViewport()->Size;
+	const ImVec2 windowPos     = ImGui::GetWindowPos();
+	const ImVec2 windowSize    = ImGui::GetWindowSize();
+	const ImVec2 screenSize     = ImGui::GetMainViewport()->Size;
 	ImVec2 newWindowPos = ImGui::GetWindowPos();
 
 	if (windowPos.x + windowSize.x > screenSize.x)
@@ -80,7 +80,7 @@ void UI::CBaseWindow::DrawCloseWindowButton()
 {
 	POLY_MARKER;
 
-	ImVec2 windowSize = ImGui::GetWindowSize();
+	const ImVec2 windowSize = ImGui::GetWindowSize();
 
 	// Setting position of button
 	ImGui::SetCursorPos(ImVec2(windowSize.x - 25, 5));
@@ -115,7 +115,7 @@ void UI::CBaseWindow::DrawInputTextWithTextOnBackGroundEx(const char* label, con
 		ImGui::InputText(label, text, bufferSize);
 		return;
 	}
-	auto textPos = ImGui::GetCursorPos();
+	const auto textPos = ImGui::GetCursorPos();
 	ImGui::InputText(label, text, bufferSize, flags);
 	ImGui::GetWindowDrawList()->AddText(ImGui::GetWindowPos() + textPos + ImVec2(7, 2), bgLabelCol, backGroundLabel);
 }
@@ -131,11 +131,11 @@ void UI::CBaseWindow::DrawInputIntWithTextOnBackGroundEx(const char* label, cons
 void UI::CBaseWindow::DrawImageWithBorder(ImTextureID textureID, const ImVec2& size)
 {
 	POLY_MARKER;
-	auto drawList  = ImGui::GetWindowDrawList();
-	auto windowPos = ImGui::GetWindowPos();
-	auto cursorPos = ImGui::GetCursorPos();
+	const auto drawList  = ImGui::GetWindowDrawList();
+	const auto windowPos = ImGui::GetWindowPos();
+	const auto cursorPos = ImGui::GetCursorPos();
 
-	auto ImageBorderPos = windowPos + cursorPos - ImVec2(1, 1);
+	const auto ImageBorderPos = windowPos + cursorPos - ImVec2(1, 1);
 
 	drawList->AddRect(ImageBorderPos, ImageBorderPos + size + ImVec2(2, 2), (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Border]);
 
@@ -158,7 +158,7 @@ void UI::CBaseWindow::DrawMultiLineInputTextWithTextOnBackGround(const char* lab
 	}
 	auto textPos = ImGui::GetCursorPos();
 	ImGui::InputTextMultiline(label, text, bufferSize);
-	auto oldCursorPos = ImGui::GetCursorPos();
+	const auto oldCursorPos = ImGui::GetCursorPos();
 
 	textPos += ImVec2(7, 2);
 
@@ -173,7 +173,7 @@ void UI::CBaseWindow::DrawToolTip(const char* text)
 		return;
 
 	auto& style         =  ImGui::GetStyle();
-	auto oldWindowPad   = style.WindowPadding;
+	const auto oldWindowPad   = style.WindowPadding;
 	style.WindowPadding = ImVec2(2, 2);
 
 	POLY_MARKER;

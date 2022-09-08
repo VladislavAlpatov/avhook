@@ -8,8 +8,8 @@ nlohmann::json Settings::CBaseSettings::ToJson() const
 	nlohmann::json jsn;
 	POLY_MARKER;
 
-	jsn[xorstr("Active")]  = m_bActive;
-	jsn[xorstr("OnKey")]   = m_bOnKey;
+	jsn[xorstr("Active")] = m_bActive;
+	jsn[xorstr("OnKey")] = m_bOnKey;
 	jsn[xorstr("BindKey")] = m_iBindKey;
 
 	return jsn;
@@ -38,37 +38,39 @@ nlohmann::json Settings::CAimBotSettings::ToJson() const
 {
 	nlohmann::json jsn;
 	POLY_MARKER;
-	jsn[xorstr("Active")]           = m_bActive;
-	jsn[xorstr("OnKey")]            = m_bOnKey;
-	jsn[xorstr("BindKey")]          = m_iBindKey;
-	jsn[xorstr("AutoShot")]         = m_bAutoShot;
-	jsn[xorstr("Silent")]           = m_bSilent;
-	jsn[xorstr("Fov")]              = m_fFov;
-	jsn[xorstr("Smooth")]           = m_fSmooth;
-	jsn[xorstr("SelectedHitBox")]   = m_iSelectedHitBox;
-	jsn[xorstr("PriorityType")]     = m_iPriorityType;
-	jsn[xorstr("HealthBorder")]     = m_iHealthBorder;
+	jsn[xorstr("Active")] = m_bActive;
+	jsn[xorstr("OnKey")] = m_bOnKey;
+	jsn[xorstr("BindKey")] = m_iBindKey;
+	jsn[xorstr("AutoShot")] = m_bAutoShot;
+	jsn[xorstr("Silent")] = m_bSilent;
+	jsn[xorstr("Fov")] = m_fFov;
+	jsn[xorstr("Smooth")] = m_fSmooth;
+	jsn[xorstr("SelectedHitBox")] = m_iSelectedHitBox;
+	jsn[xorstr("PriorityType")] = m_iPriorityType;
+	jsn[xorstr("HealthBorder")] = m_iHealthBorder;
 	jsn[xorstr("HitBoxFilrerMode")] = m_iHitBoxFilterMode;
-	jsn[xorstr("RcsControl")]       = m_bRcsControle;
+	jsn[xorstr("RcsControl")] = m_bRcsControle;
 
 	return jsn;
 };
+
 Settings::CAimBotSettings::CAimBotSettings(const nlohmann::json& jsn)
-{	
+{
 	POLY_MARKER;
-	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("Active"),           &m_bActive);
-	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("OnKey"),            &m_bOnKey);
-	SetValueIfFiledExistInJson<int>(jsn,   xorstr("BindKey"),          &m_iBindKey);
-	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("AutoShot"),         &m_bAutoShot);
-	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("Silent"),           &m_bSilent);
-	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("RcsControl"),       &m_bRcsControle);
-	SetValueIfFiledExistInJson<float>(jsn, xorstr("Fov"),              &m_fFov);
-	SetValueIfFiledExistInJson<float>(jsn, xorstr("Smooth"),           &m_fSmooth);
-	SetValueIfFiledExistInJson<int>(jsn,   xorstr("SelectedHitBox"),   &m_iSelectedHitBox);
-	SetValueIfFiledExistInJson<int>(jsn,   xorstr("PriorityType"),     &m_iPriorityType);
-	SetValueIfFiledExistInJson<int>(jsn,   xorstr("HealthBorder"),     &m_iHealthBorder);
-	SetValueIfFiledExistInJson<int>(jsn,   xorstr("HitBoxFilrerMode"), &m_iHitBoxFilterMode);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("OnKey"), &m_bOnKey);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("BindKey"), &m_iBindKey);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("AutoShot"), &m_bAutoShot);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Silent"), &m_bSilent);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("RcsControl"), &m_bRcsControle);
+	SetValueIfFiledExistInJson<float>(jsn, xorstr("Fov"), &m_fFov);
+	SetValueIfFiledExistInJson<float>(jsn, xorstr("Smooth"), &m_fSmooth);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("SelectedHitBox"), &m_iSelectedHitBox);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("PriorityType"), &m_iPriorityType);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("HealthBorder"), &m_iHealthBorder);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("HitBoxFilrerMode"), &m_iHitBoxFilterMode);
 }
+
 nlohmann::json Settings::SnapLinesSettings::ToJson() const
 {
 	nlohmann::json jsn;
@@ -83,16 +85,18 @@ nlohmann::json Settings::SnapLinesSettings::ToJson() const
 
 	return jsn;
 };
+
 Settings::SnapLinesSettings::SnapLinesSettings(const nlohmann::json& jsn)
 {
 	POLY_MARKER;
 
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
-	SetValueIfFiledExistInJson<int>(jsn,  xorstr("SelectedBone"), &m_iSelectedBone);
-	SetValueIfFiledExistInJson<int>(jsn,  xorstr("DrawMode"), &m_iDrawMode);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("SelectedBone"), &m_iSelectedBone);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("DrawMode"), &m_iDrawMode);
 	SetValueIfFiledExistInJson<int>(jsn, xorstr("Thickness"), &m_iThickness);
 	SetValueIfFiledExistInJson(jsn, xorstr("Color"), &m_Color);
 }
+
 nlohmann::json Settings::BoxEspSettings::ToJson() const
 {
 	nlohmann::json jsn;
@@ -110,7 +114,6 @@ nlohmann::json Settings::BoxEspSettings::ToJson() const
 
 Settings::BoxEspSettings::BoxEspSettings(const nlohmann::json& jsn)
 {
-
 	POLY_MARKER;
 
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
@@ -130,7 +133,7 @@ nlohmann::json Settings::MiscSettings::ToJson() const
 	jsn[xorstr("ShowTime")] = m_bShowTime;
 	jsn[xorstr("KillSound")] = m_bKillSound;
 	jsn[xorstr("SnowFlakes")] = m_bSnowFlakes;
-	jsn[xorstr("CustomFov")]  = m_iCustomFov;
+	jsn[xorstr("CustomFov")] = m_iCustomFov;
 	return jsn;
 };
 
@@ -157,9 +160,9 @@ nlohmann::json Settings::TriggerBotSettings::ToJson() const
 
 	return jsn;
 };
+
 Settings::TriggerBotSettings::TriggerBotSettings(const nlohmann::json& jsn)
 {
-
 	POLY_MARKER;
 
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
@@ -183,18 +186,18 @@ nlohmann::json Settings::BarEspSettings::ToJson() const
 
 	return jsn;
 };
+
 Settings::BarEspSettings::BarEspSettings(const nlohmann::json& jsn)
 {
 	POLY_MARKER;
 
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"),          &m_bActive);
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawHealthBar"),   &m_bDrawHealthBar);
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawArmorBar"),    &m_bDrawArmorBar);
-	SetValueIfFiledExistInJson<int>(jsn,  xorstr("Thickness"),       &m_iThickness);
-	SetValueIfFiledExistInJson(jsn,       xorstr("ArmorColor"),      &m_ArmorColor);
-	SetValueIfFiledExistInJson(jsn,       xorstr("BackGroundColor"), &m_BackGroundColor);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawHealthBar"), &m_bDrawHealthBar);
+	SetValueIfFiledExistInJson<bool>(jsn, xorstr("DrawArmorBar"), &m_bDrawArmorBar);
+	SetValueIfFiledExistInJson<int>(jsn, xorstr("Thickness"), &m_iThickness);
+	SetValueIfFiledExistInJson(jsn, xorstr("ArmorColor"), &m_ArmorColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("BackGroundColor"), &m_BackGroundColor);
 	SetValueIfFiledExistInJson(jsn, xorstr("Style"), &m_iStyle);
-
 }
 
 nlohmann::json Settings::CRadarSettings::ToJson() const
@@ -207,8 +210,8 @@ nlohmann::json Settings::CRadarSettings::ToJson() const
 	jsn[xorstr("ActiveFeatureColor")] = ImColorToJsn(m_ActiveFeatureColor);
 	jsn[xorstr("InactiveFeatureColor")] = ImColorToJsn(m_InactiveFeatureColor);
 	jsn[xorstr("BackGroundColor")] = ImColorToJsn(m_BackGroundColor);
-	jsn[xorstr("CrossColor")]        = ImColorToJsn(m_CrossColor);
-	jsn[xorstr("Style")]             = m_iStyle;
+	jsn[xorstr("CrossColor")] = ImColorToJsn(m_CrossColor);
+	jsn[xorstr("Style")] = m_iStyle;
 	jsn[xorstr("CyrcleBorderColor")] = ImColorToJsn(m_CyrcleBorderColor);
 	return jsn;
 };
@@ -217,12 +220,13 @@ Settings::CLabelEspSettings::CLabelEspSettings()
 {
 	POLY_MARKER;
 	m_bActive = true;
-	m_Labels.push_back(std::shared_ptr<CLabels::CNameLabel>(new CLabels::CNameLabel(xorstr("Name"), false, ImColor(255, 255, 255))));
-	m_Labels.push_back(std::shared_ptr<CLabels::CHealthLabel>(new CLabels::CHealthLabel(xorstr("Health"), false)));
-	m_Labels.push_back(std::shared_ptr<CLabels::CArmorLabel>(new CLabels::CArmorLabel(xorstr("Armor"), false, ImColor(255, 255, 255))));
-	m_Labels.push_back(std::shared_ptr<CLabels::CDistanceLabel>(new CLabels::CDistanceLabel(xorstr("Distance"), false, ImColor(255, 255, 255))));
-	m_Labels.push_back(std::shared_ptr<CLabels::CVisibilityLabel>(new CLabels::CVisibilityLabel(xorstr("Visibility"), false, ImColor(255, 255, 255))));
-	m_Labels.push_back(std::shared_ptr<CLabels::CAimBotTargetLabel>(new CLabels::CAimBotTargetLabel(xorstr("Locked"), false, ImColor(255, 255, 255))));
+	m_Labels.push_back(std::make_shared<CLabels::CNameLabel>(xorstr("Name"), false, ImColor(255, 255, 255)));
+	m_Labels.push_back(std::make_shared<CLabels::CHealthLabel>(xorstr("Health"), false));
+	m_Labels.push_back(std::make_shared<CLabels::CArmorLabel>(xorstr("Armor"), false, ImColor(255, 255, 255)));
+	m_Labels.push_back(std::make_shared<CLabels::CDistanceLabel>(xorstr("Distance"), false, ImColor(255, 255, 255)));
+	m_Labels.push_back(
+		std::make_shared<CLabels::CVisibilityLabel>(xorstr("Visibility"), false, ImColor(255, 255, 255)));
+	m_Labels.push_back(std::make_shared<CLabels::CAimBotTargetLabel>(xorstr("Locked"), false, ImColor(255, 255, 255)));
 }
 
 Settings::CLabelEspSettings& Settings::CLabelEspSettings::operator=(const CLabelEspSettings& other)
@@ -288,18 +292,18 @@ nlohmann::json Settings::CLabelEspSettings::ToJson() const
 	for (auto pLabel : m_Labels)
 	{
 		nlohmann::json labelJson;
-		labelJson[xorstr("bActive")]   = pLabel->m_bActive;
-		labelJson[xorstr("Color")]     = ImColorToJsn(pLabel->m_Color);
-		labelJson[xorstr("Name")]      = pLabel->m_sName;
-		labelJson[xorstr("Type")]      = pLabel->GetTypeId();
+		labelJson[xorstr("bActive")] = pLabel->m_bActive;
+		labelJson[xorstr("Color")] = ImColorToJsn(pLabel->m_Color);
+		labelJson[xorstr("Name")] = pLabel->m_sName;
+		labelJson[xorstr("Type")] = pLabel->GetTypeId();
 
 		lablesJson.push_back(labelJson);
-
 	}
 	jsn[xorstr("Labels")] = lablesJson;
 
 	return jsn;
 };
+
 Settings::CLabelEspSettings::CLabelEspSettings(const nlohmann::json& jsn)
 {
 	POLY_MARKER;
@@ -314,32 +318,40 @@ Settings::CLabelEspSettings::CLabelEspSettings(const nlohmann::json& jsn)
 	for (auto& jsnLabel : jsn[xorstr("Labels")].get<std::vector<nlohmann::json>>())
 	{
 		CLabels::CBaseLabel* pLabel = nullptr;
-		
+
 		switch (jsnLabel["Type"].get<int>())
 		{
 		case CLabels::LabelTypeId::Name:
 			pLabel = new CLabels::CNameLabel(jsnLabel[xorstr("Name")].get<std::string>(),
-				jsnLabel[xorstr("bActive")].get<bool>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<nlohmann::json>()));
+			                                 jsnLabel[xorstr("bActive")].get<bool>(),
+			                                 ImportImColorFromJson(jsnLabel[xorstr("Color")].get<nlohmann::json>()));
 			break;
-		case CLabels::LabelTypeId::Heatlh:
+		case CLabels::LabelTypeId::Health:
 			pLabel = new CLabels::CHealthLabel(jsnLabel[xorstr("Name")].get<std::string>(),
-				jsnLabel[xorstr("bActive")].get<bool>());
+			                                   jsnLabel[xorstr("bActive")].get<bool>());
 			break;
 		case CLabels::LabelTypeId::Distance:
 			pLabel = new CLabels::CDistanceLabel(jsnLabel[xorstr("Name")].get<std::string>(),
-				jsnLabel[xorstr("bActive")].get<bool>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<nlohmann::json>()));
+			                                     jsnLabel[xorstr("bActive")].get<bool>(),
+			                                     ImportImColorFromJson(
+				                                     jsnLabel[xorstr("Color")].get<nlohmann::json>()));
 			break;
 		case CLabels::LabelTypeId::Armor:
 			pLabel = new CLabels::CArmorLabel(jsnLabel[xorstr("Name")].get<std::string>(),
-				jsnLabel[xorstr("bActive")].get<bool>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<nlohmann::json>()));
+			                                  jsnLabel[xorstr("bActive")].get<bool>(),
+			                                  ImportImColorFromJson(jsnLabel[xorstr("Color")].get<nlohmann::json>()));
 			break;
 		case CLabels::LabelTypeId::Visibility:
 			pLabel = new CLabels::CVisibilityLabel(jsnLabel[xorstr("Name")].get<std::string>(),
-				jsnLabel[xorstr("bActive")].get<bool>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<nlohmann::json>()));
+			                                       jsnLabel[xorstr("bActive")].get<bool>(),
+			                                       ImportImColorFromJson(
+				                                       jsnLabel[xorstr("Color")].get<nlohmann::json>()));
 			break;
 		case CLabels::LabelTypeId::AimbotTarget:
 			pLabel = new CLabels::CAimBotTargetLabel(jsnLabel[xorstr("Name")].get<std::string>(),
-				jsnLabel[xorstr("bActive")].get<bool>(), ImportImColorFromJson(jsnLabel[xorstr("Color")].get<nlohmann::json>()));
+			                                         jsnLabel[xorstr("bActive")].get<bool>(),
+			                                         ImportImColorFromJson(
+				                                         jsnLabel[xorstr("Color")].get<nlohmann::json>()));
 			break;
 		}
 		if (pLabel)
@@ -356,73 +368,75 @@ nlohmann::json Settings::CBunnyHopSettings::ToJson() const
 
 	return jsn;
 };
-Settings::CBunnyHopSettings::CBunnyHopSettings(const nlohmann::json& jsn) : CBunnyHopSettings::CBunnyHopSettings()
+
+Settings::CBunnyHopSettings::CBunnyHopSettings(const nlohmann::json& jsn) : CBunnyHopSettings()
 {
 	POLY_MARKER;
 	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
 }
+
 Settings::CAllSettings::CAllSettings(const nlohmann::json& jsn)
 {
-
 	POLY_MARKER;
-	m_AimBotSettings          = Settings::CAimBotSettings(jsn[xorstr("AimBot")].get<nlohmann::json>());
-	m_BarEspSettings          = Settings::BarEspSettings(jsn[xorstr("BarEsp")].get<nlohmann::json>());
-	m_BoxEspSettings          = Settings::BoxEspSettings(jsn[xorstr("BoxEsp")].get<nlohmann::json>());
-	m_BunnyHopSettings        = Settings::CBunnyHopSettings(jsn[xorstr("BunnyHop")].get<nlohmann::json>());
-	m_LabelEspSettings        = Settings::CLabelEspSettings(jsn[xorstr("LabelEsp")].get<nlohmann::json>());
-	m_MiscSettings            = Settings::MiscSettings(jsn[xorstr("Misc")].get<nlohmann::json>());
-	m_RadarSettings           = Settings::CRadarSettings(jsn[xorstr("Radar")].get<nlohmann::json>());
-	m_SnapLinesSettings       = Settings::SnapLinesSettings(jsn[xorstr("SnapLinesEsp")].get<nlohmann::json>());
-	m_TriggerBotSettings      = Settings::TriggerBotSettings(jsn[xorstr("TriggerBot")].get<nlohmann::json>());
+	m_AimBotSettings = CAimBotSettings(jsn[xorstr("AimBot")].get<nlohmann::json>());
+	m_BarEspSettings = BarEspSettings(jsn[xorstr("BarEsp")].get<nlohmann::json>());
+	m_BoxEspSettings = BoxEspSettings(jsn[xorstr("BoxEsp")].get<nlohmann::json>());
+	m_BunnyHopSettings = CBunnyHopSettings(jsn[xorstr("BunnyHop")].get<nlohmann::json>());
+	m_LabelEspSettings = CLabelEspSettings(jsn[xorstr("LabelEsp")].get<nlohmann::json>());
+	m_MiscSettings = MiscSettings(jsn[xorstr("Misc")].get<nlohmann::json>());
+	m_RadarSettings = CRadarSettings(jsn[xorstr("Radar")].get<nlohmann::json>());
+	m_SnapLinesSettings = SnapLinesSettings(jsn[xorstr("SnapLinesEsp")].get<nlohmann::json>());
+	m_TriggerBotSettings = TriggerBotSettings(jsn[xorstr("TriggerBot")].get<nlohmann::json>());
 
 	if (jsn.contains(xorstr("TextureOverried")))
-		m_TextureOverrideSettings = Settings::CTextureOverrideSettings(jsn[xorstr("TextureOverried")].get<nlohmann::json>());
+		m_TextureOverrideSettings = CTextureOverrideSettings(jsn[xorstr("TextureOverried")].get<nlohmann::json>());
 
 	if (jsn.contains(xorstr("CrosshairSettings")))
-		m_CrosshairSettings = Settings::CCrosshairSettings(jsn[xorstr("CrosshairSettings")].get<nlohmann::json>());
+		m_CrosshairSettings = CCrosshairSettings(jsn[xorstr("CrosshairSettings")].get<nlohmann::json>());
 
 	if (jsn.contains(xorstr("GlowEsp")))
-		m_GlowEspSettings = Settings::CGlowEspSettings(jsn[xorstr("GlowEsp")].get<nlohmann::json>());
+		m_GlowEspSettings = CGlowEspSettings(jsn[xorstr("GlowEsp")].get<nlohmann::json>());
 
 	POLY_MARKER;
 	auto tmp = jsn[xorstr("CfgName")].get<std::string>();
 	m_Name = std::string(tmp.c_str(), 32);
 }
+
 nlohmann::json Settings::CAllSettings::ToJson() const
 {
 	nlohmann::json jsn;
 
 	POLY_MARKER;
 
-	jsn[xorstr("CfgName")]           = m_Name.c_str();
-	jsn[xorstr("AimBot")]            = m_AimBotSettings.ToJson();
-	jsn[xorstr("BarEsp")]            = m_BarEspSettings.ToJson();
-	jsn[xorstr("BoxEsp")]            = m_BoxEspSettings.ToJson();
-	jsn[xorstr("BunnyHop")]          = m_BunnyHopSettings.ToJson();
-	jsn[xorstr("LabelEsp")]          = m_LabelEspSettings.ToJson();
-	jsn[xorstr("Misc")]              = m_MiscSettings.ToJson();
-	jsn[xorstr("Radar")]             = m_RadarSettings.ToJson();
-	jsn[xorstr("SnapLinesEsp")]      = m_SnapLinesSettings.ToJson();
-	jsn[xorstr("TriggerBot")]        = m_TriggerBotSettings.ToJson();
-	jsn[xorstr("TextureOverried")]   = m_TextureOverrideSettings.ToJson();
+	jsn[xorstr("CfgName")] = m_Name.c_str();
+	jsn[xorstr("AimBot")] = m_AimBotSettings.ToJson();
+	jsn[xorstr("BarEsp")] = m_BarEspSettings.ToJson();
+	jsn[xorstr("BoxEsp")] = m_BoxEspSettings.ToJson();
+	jsn[xorstr("BunnyHop")] = m_BunnyHopSettings.ToJson();
+	jsn[xorstr("LabelEsp")] = m_LabelEspSettings.ToJson();
+	jsn[xorstr("Misc")] = m_MiscSettings.ToJson();
+	jsn[xorstr("Radar")] = m_RadarSettings.ToJson();
+	jsn[xorstr("SnapLinesEsp")] = m_SnapLinesSettings.ToJson();
+	jsn[xorstr("TriggerBot")] = m_TriggerBotSettings.ToJson();
+	jsn[xorstr("TextureOverried")] = m_TextureOverrideSettings.ToJson();
 	jsn[xorstr("CrosshairSettings")] = m_CrosshairSettings.ToJson();
-	jsn[xorstr("GlowEsp")]           = m_GlowEspSettings.ToJson();
+	jsn[xorstr("GlowEsp")] = m_GlowEspSettings.ToJson();
 
 	return jsn;
 }
+
 Settings::CRadarSettings::CRadarSettings(const nlohmann::json& jsn)
 {
-
 	POLY_MARKER;
 
-	SetValueIfFiledExistInJson(jsn, xorstr("Style"),                &m_iStyle);
-	SetValueIfFiledExistInJson(jsn, xorstr("Active"),               &m_bActive);
+	SetValueIfFiledExistInJson(jsn, xorstr("Style"), &m_iStyle);
+	SetValueIfFiledExistInJson(jsn, xorstr("Active"), &m_bActive);
 
-	SetValueIfFiledExistInJson(jsn, xorstr("ActiveFeatureColor"),    &m_ActiveFeatureColor);
-	SetValueIfFiledExistInJson(jsn, xorstr("InactiveFeatureColor"),  &m_InactiveFeatureColor);
-	SetValueIfFiledExistInJson(jsn, xorstr("BackGroundColor"),       &m_BackGroundColor);
-	SetValueIfFiledExistInJson(jsn, xorstr("CrossColor"),            &m_CrossColor);
-	SetValueIfFiledExistInJson(jsn, xorstr("CyrcleBorderColor"),     &m_CyrcleBorderColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("ActiveFeatureColor"), &m_ActiveFeatureColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("InactiveFeatureColor"), &m_InactiveFeatureColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("BackGroundColor"), &m_BackGroundColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("CrossColor"), &m_CrossColor);
+	SetValueIfFiledExistInJson(jsn, xorstr("CyrcleBorderColor"), &m_CyrcleBorderColor);
 }
 
 Settings::CTextureOverrideSettings::CTextureOverrideSettings(const nlohmann::json& jsn)
@@ -432,14 +446,14 @@ Settings::CTextureOverrideSettings::CTextureOverrideSettings(const nlohmann::jso
 	for (const auto& jsonTexture : jsn[xorstr("Textures")].get<std::list<nlohmann::json>>())
 	{
 		auto tmp = Esp::CTextureOverride(jsonTexture[xorstr("uid")].get<int>(),
-			ImportImColorFromJson(jsonTexture[xorstr("Color")].get<nlohmann::json>()),
-			jsonTexture[xorstr("Name")].get<std::string>(), jsonTexture[xorstr("EnableZ")].get<bool>());
+		                                 ImportImColorFromJson(jsonTexture[xorstr("Color")].get<nlohmann::json>()),
+		                                 jsonTexture[xorstr("Name")].get<std::string>(),
+		                                 jsonTexture[xorstr("EnableZ")].get<bool>());
 
 
 		m_overridedTextures.push_back(tmp);
 	}
 	POLY_MARKER;
-
 }
 
 nlohmann::json Settings::CTextureOverrideSettings::ToJson() const
@@ -458,7 +472,6 @@ nlohmann::json Settings::CTextureOverrideSettings::ToJson() const
 		textureJson[xorstr("Name")] = texture.m_sName;
 		textureJson[xorstr("Color")] = ImColorToJsn(texture.GetColor());
 		textureList.push_back(textureJson);
-
 	}
 
 	outJsn[xorstr("Textures")] = textureList;
@@ -469,11 +482,11 @@ nlohmann::json Settings::CTextureOverrideSettings::ToJson() const
 Settings::CCrosshairSettings::CCrosshairSettings(const nlohmann::json& jsn)
 {
 	POLY_MARKER;
-	m_Color     = ImportImColorFromJson(jsn[xorstr("Color")].get<nlohmann::json>());
-	m_iSize     = jsn[xorstr("Size")].get<int>();
-	m_bActive      = jsn[xorstr("Active")].get<bool>();
-	m_iThicness    = jsn[xorstr("Thicness")].get<int>();
-	m_iDistance		= jsn[xorstr("Distance")].get<int>();
+	m_Color = ImportImColorFromJson(jsn[xorstr("Color")].get<nlohmann::json>());
+	m_iSize = jsn[xorstr("Size")].get<int>();
+	m_bActive = jsn[xorstr("Active")].get<bool>();
+	m_iThicness = jsn[xorstr("Thicness")].get<int>();
+	m_iDistance = jsn[xorstr("Distance")].get<int>();
 	m_SpeedBarCol = ImportImColorFromJson(jsn[xorstr("SpeedBarColor")].get<nlohmann::json>());
 	SetValueIfFiledExistInJson(jsn, xorstr("DrawSensors"), &m_bDrawSensors);
 }
@@ -492,12 +505,12 @@ nlohmann::json Settings::CCrosshairSettings::ToJson() const
 
 	nlohmann::json outJson;
 
-	outJson[xorstr("Color")]         = ImColorToJsn(m_Color);
-	outJson[xorstr("Size")]          = m_iSize;
-	outJson[xorstr("Active")]        = m_bActive;
-	outJson[xorstr("Thicness")]      = m_iThicness;
-	outJson[xorstr("DrawSensors")]   = m_bDrawSensors;
-	outJson[xorstr("Distance")]		 = m_iDistance;
+	outJson[xorstr("Color")] = ImColorToJsn(m_Color);
+	outJson[xorstr("Size")] = m_iSize;
+	outJson[xorstr("Active")] = m_bActive;
+	outJson[xorstr("Thicness")] = m_iThicness;
+	outJson[xorstr("DrawSensors")] = m_bDrawSensors;
+	outJson[xorstr("Distance")] = m_iDistance;
 	outJson[xorstr("SpeedBarColor")] = ImColorToJsn(m_SpeedBarCol);
 
 
@@ -507,25 +520,24 @@ nlohmann::json Settings::CCrosshairSettings::ToJson() const
 Settings::CGlowEspSettings::CGlowEspSettings(const nlohmann::json& jsn)
 {
 	POLY_MARKER;
-	m_Color     = ImportImColorFromJson(jsn[xorstr("Color")].get<nlohmann::json>());
-	m_fGlowSize    = jsn[xorstr("GlowSize")].get<float>();
-	m_bActive      = jsn[xorstr("Active")].get<bool>();
-	m_iStyle       = jsn[xorstr("Style")].get<int>();
+	m_Color = ImportImColorFromJson(jsn[xorstr("Color")].get<nlohmann::json>());
+	m_fGlowSize = jsn[xorstr("GlowSize")].get<float>();
+	m_bActive = jsn[xorstr("Active")].get<bool>();
+	m_iStyle = jsn[xorstr("Style")].get<int>();
 
 	SetValueIfFiledExistInJson(jsn, xorstr("MaxDistance"), &m_iMaxDistance);
-	SetValueIfFiledExistInJson(jsn, xorstr("DrawMode"),    &m_iDrawMode);
-
+	SetValueIfFiledExistInJson(jsn, xorstr("DrawMode"), &m_iDrawMode);
 }
 
 nlohmann::json Settings::CGlowEspSettings::ToJson() const
 {
 	POLY_MARKER;
 	nlohmann::json outJson;
-	outJson[xorstr("Color")]       = ImColorToJsn(m_Color);
-	outJson[xorstr("Active")]      = m_bActive;
-	outJson[xorstr("GlowSize")]    = m_fGlowSize;
-	outJson[xorstr("Style")]       = m_iStyle;
-	outJson[xorstr("DrawMode")]    = m_iDrawMode;
+	outJson[xorstr("Color")] = ImColorToJsn(m_Color);
+	outJson[xorstr("Active")] = m_bActive;
+	outJson[xorstr("GlowSize")] = m_fGlowSize;
+	outJson[xorstr("Style")] = m_iStyle;
+	outJson[xorstr("DrawMode")] = m_iDrawMode;
 	outJson[xorstr("MaxDistance")] = m_iMaxDistance;
 	return outJson;
 }

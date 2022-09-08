@@ -18,7 +18,7 @@ namespace UI
 
 			ImGuiStyle& style = ImGui::GetStyle();
 
-			float windowBgColorBackUp = style.Colors[ImGuiCol_WindowBg].w;
+			const float windowBgColorBackUp = style.Colors[ImGuiCol_WindowBg].w;
 
 			// Remove window bg color for a while and them restore it to make radar transparent.
 			style.Colors[ImGuiCol_WindowBg].w = 0.f;

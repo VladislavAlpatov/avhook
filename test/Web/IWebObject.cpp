@@ -18,10 +18,10 @@ nlohmann::json WebApi::IWebObject::ImColorToJsn(const ImColor& color)
 ImColor WebApi::IWebObject::ImportImColorFromJson(const nlohmann::json& jsn)
 {
 	POLY_MARKER;
-	return ImColor(
+	return {
 		jsn[xorstr("R")].get<float>(),
 		jsn[xorstr("G")].get<float>(),
 		jsn[xorstr("B")].get<float>(),
 		jsn[xorstr("A")].get<float>()
-	);
+	};
 }

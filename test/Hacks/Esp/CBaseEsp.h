@@ -33,6 +33,8 @@ namespace Esp
 	class CBaseEsp
 	{
 	public:
+		virtual ~CBaseEsp() = default;
+
 		CBaseEsp(Settings::CBaseSettings* pSettings)
 		{
 			m_pSettings = pSettings;
@@ -70,7 +72,7 @@ namespace Esp
 		static ImVec3       WorldToScreen(const ImVec3& vecPosition);
 		virtual void InternalRenderAt(const SSDK::CBaseEntity* pEntity) = 0;
 	private:
-		bool IsEntityOnScreen(const SSDK::CBaseEntity* pEnt) const
+		static bool IsEntityOnScreen(const SSDK::CBaseEntity* pEnt)
 		{
 			return WorldToScreen(pEnt->m_vecOrigin).z > 0.f;
 		}

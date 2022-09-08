@@ -3,16 +3,16 @@
 
 CMatrix4x4 SSDK::ClientBase::GetViewMatrix()
 {
-	static CMatrix4x4* viewmatrix_addr = NULL;
+	static CMatrix4x4* pViewMatrix = nullptr;
 
-	if (viewmatrix_addr)
-		return *viewmatrix_addr;
+	if (pViewMatrix)
+		return *pViewMatrix;
 
 
-	auto addr = *(uintptr_t*)(Memory::FindPattern(xorstr("client.dll"), xorstr("0F 10 05 ? ? ? ? 8D 85 ? ? ? ? B9")) + 3);
-	viewmatrix_addr = (CMatrix4x4*)(addr + 0xb0 );
+	const auto address = *(uintptr_t*)(Memory::FindPattern(xorstr("client.dll"), xorstr("0F 10 05 ? ? ? ? 8D 85 ? ? ? ? B9")) + 3);
+	pViewMatrix = (CMatrix4x4*)(address + 0xb0 );
 
-	return *viewmatrix_addr;
+	return *pViewMatrix;
 
 }
 

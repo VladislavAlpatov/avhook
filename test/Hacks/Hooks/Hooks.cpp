@@ -24,7 +24,6 @@
 
 #include "../../RazerSDK/CRazer.h"
 
-#include <stdexcept>
 #include <array>
 #include <Windows.h>
 
@@ -102,7 +101,7 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 	POLY_MARKER;
 
-	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
+	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 	// GlobalVars::pClient->pLocalPlayer->m_Index > 33 prevent from bug when you can peek team
 	if (!pLocalPlayer or !pOverlay or pLocalPlayer->m_Index > 33 or !reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd))
 	{

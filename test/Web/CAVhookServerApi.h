@@ -62,7 +62,7 @@ namespace WebApi
 	class CMenuThemeConfig
 	{
 	public:
-		CMenuThemeConfig(const json jsn)
+		CMenuThemeConfig([[maybe_unused]] const json jsn)
 		{
 
 		}

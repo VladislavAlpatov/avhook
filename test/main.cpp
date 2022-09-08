@@ -7,7 +7,7 @@
 #include "Utils/Marker.h"
 
 
-DWORD WINAPI InitCheat(HMODULE hModule)
+DWORD WINAPI InitCheat(const HMODULE hModule)
 {
 	POLY_MARKER;
 
@@ -29,7 +29,7 @@ DWORD WINAPI InitCheat(HMODULE hModule)
 	FreeLibraryAndExitThread(hModule, NULL);
 }
 
-BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
+BOOL WINAPI DllMain(const HMODULE hModule, const DWORD dwReason, LPVOID lpReserved)
 {
 	POLY_MARKER;
 
@@ -41,11 +41,10 @@ BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 		if (!WebApi::CAVHookServerApi().AuthByToken("bWevWkyjyNLFwn4f3tjXJGgSux4H8Jbe"))
 		{
 			POLY_MARKER;
-			MessageBoxA(NULL, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);
+			MessageBoxA(nullptr, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);
 			exit(-1);
 		}
-		CRazer razer = CRazer();
-		if (razer.isSupported())
+		if (auto razer = CRazer(); razer.isSupported())
 		{
 			APPINFOTYPE appInfo;
 

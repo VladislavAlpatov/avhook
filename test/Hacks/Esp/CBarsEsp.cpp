@@ -10,7 +10,9 @@ using namespace Esp;
 class CBaseBar
 {
 public:
-    CBaseBar(float fMaxLength)
+	virtual ~CBaseBar() = default;
+
+	CBaseBar(float fMaxLength)
     {
         m_fMaxLength = fMaxLength;
     }
@@ -21,7 +23,7 @@ protected:
     float	m_fMaxLength;
 };
 
-class CHealthBar : public CBaseBar
+class CHealthBar final : public CBaseBar
 {
 public:
     CHealthBar(const SSDK::CBaseEntity* pEntity, float fMaxLength) : CBaseBar(fMaxLength)
@@ -32,21 +34,21 @@ public:
     {
         return GlobalVars::g_AllSettings.m_BarEspSettings.m_bDrawHealthBar;
     }
-    ImColor GetGradientColor(float fVal, float fMaxVal) const
+    ImColor GetGradientColor(const float fVal, const float fMaxVal) const
     {
-        float fRatio = fVal / fMaxVal;
+	    const float fRatio = fVal / fMaxVal;
 
         if (fRatio >= 0.5f)
-            return ImColor(1.f - (fRatio - 0.5f) * 2.f, 1.f, 0.f);
+            return {1.f - (fRatio - 0.5f) * 2.f, 1.f, 0.f};
 
-        return ImColor(1.f, fRatio * 2.f, 0.f);
+        return {1.f, fRatio * 2.f, 0.f};
     }
     void Render(const ImVec2& vecRenderPos) const override
     {
-        auto pSettings    = &GlobalVars::g_AllSettings.m_BarEspSettings;
-        auto fHealthRatio = m_pEntity->m_iHealth / 100.f;
-        auto fBarHeight   = fHealthRatio * m_fMaxLength;
-        auto pDrawList    = ImGui::GetBackgroundDrawList();
+	    const auto pSettings    = &GlobalVars::g_AllSettings.m_BarEspSettings;
+	    const auto fHealthRatio = m_pEntity->m_iHealth / 100.f;
+	    const auto fBarHeight   = fHealthRatio * m_fMaxLength;
+	    const auto pDrawList    = ImGui::GetBackgroundDrawList();
 
 
         // ===VERY IMPORTANT=======
@@ -78,21 +80,21 @@ private:
     const SSDK::CBaseEntity* m_pEntity;
 };
 
-class CArrmorBar : public CBaseBar
+class CArmorBar final : public CBaseBar
 {
 public:
-    CArrmorBar(const SSDK::CBaseEntity* pEntity, float fMaxLength) : CBaseBar(fMaxLength)
+    CArmorBar(const SSDK::CBaseEntity* pEntity, float fMaxLength) : CBaseBar(fMaxLength)
     {
         m_pEntity = pEntity;
     }
     void Render(const ImVec2& vecRenderPos) const override
     {
-        auto pSettings = &GlobalVars::g_AllSettings.m_BarEspSettings;
+	    const auto pSettings = &GlobalVars::g_AllSettings.m_BarEspSettings;
 
-        auto fArrmorRatio = m_pEntity->m_ArmorValue / 100.f;
-        auto fBarHeight = fArrmorRatio * m_fMaxLength;
+	    const auto fArmorRatio = m_pEntity->m_ArmorValue / 100.f;
+	    const auto fBarHeight = fArmorRatio * m_fMaxLength;
 
-        auto pDrawList = ImGui::GetBackgroundDrawList();
+	    const auto pDrawList = ImGui::GetBackgroundDrawList();
 
         // Draw background fill and foreground fill
         pDrawList->AddRectFilled(vecRenderPos, vecRenderPos + ImVec2(pSettings->m_iThickness, -m_fMaxLength), pSettings->m_BackGroundColor);
@@ -115,28 +117,28 @@ void CBarsEsp::InternalRenderAt(const SSDK::CBaseEntity* pEntity)
 {
     POLY_MARKER;
 
-    auto pSettings = GetSettings<Settings::BarEspSettings>();
+    const auto pSettings = GetSettings<Settings::BarEspSettings>();
 
-    auto box = CalcEspBox(pEntity);
+    const auto box = CalcEspBox(pEntity);
 
-    float maxBarLength = box.GetSize().y;
+    const float maxBarLength = box.GetSize().y;
 
 
     POLY_MARKER;
 
 
-    std::vector<std::shared_ptr<CBaseBar>> bars = {
-        std::shared_ptr<CBaseBar>(new CHealthBar(pEntity, maxBarLength)),
-        std::shared_ptr<CBaseBar>(new CArrmorBar(pEntity, maxBarLength)) 
+    const std::vector<std::shared_ptr<CBaseBar>> bars = {
+	    std::make_shared<CHealthBar>(pEntity, maxBarLength),
+	    std::make_shared<CArmorBar>(pEntity, maxBarLength)
     };
 
     ImVec2 barStart = box.m_vecBottomLeft - ImVec2(pSettings->m_iThickness + GlobalVars::g_AllSettings.m_BoxEspSettings.m_iThickness + 2, 0);
 
-    for (const auto pBar : bars)
+    for (const auto& pBar : bars)
     {
         if (!pBar->IsActive()) continue;
 
         pBar->Render(barStart);
-        barStart.x -= pSettings->m_iThickness + 2;
+        barStart.x -= (float)(pSettings->m_iThickness + 2);
     }
 }

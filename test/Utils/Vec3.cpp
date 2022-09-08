@@ -1,7 +1,6 @@
-#include "Vec3.h"
-
-
 #define _USE_MATH_DEFINES
+
+#include "Vec3.h"
 #include <cmath>
 
 
@@ -34,7 +33,7 @@ ImVec3& ImVec3::operator-=(const ImVec3& v)
     return *this;
 }
 
-ImVec3& ImVec3::operator*=(float fl)
+ImVec3& ImVec3::operator*=(const float fl)
 {
     x *= fl;
     y *= fl;
@@ -61,7 +60,7 @@ ImVec3& ImVec3::operator/=(const ImVec3& v)
     return *this;
 }
 
-ImVec3& ImVec3::operator+=(float fl)
+ImVec3& ImVec3::operator+=(const float fl)
 {
     x += fl;
     y += fl;
@@ -70,7 +69,7 @@ ImVec3& ImVec3::operator+=(float fl)
     return *this;
 }
 
-ImVec3& ImVec3::operator/=(float fl)
+ImVec3& ImVec3::operator/=(const float fl)
 {
     x /= fl;
     y /= fl;
@@ -79,7 +78,7 @@ ImVec3& ImVec3::operator/=(float fl)
     return *this;
 }
 
-ImVec3& ImVec3::operator-=(float fl)
+ImVec3& ImVec3::operator-=(const float fl)
 {
     x -= fl;
     y -= fl;
@@ -151,37 +150,37 @@ ImVec3& ImVec3::operator=(const ImVec3& vOther)
 
 ImVec3 ImVec3::operator-(void) const
 {
-    return ImVec3(-x, -y, -z);
+    return {-x, -y, -z};
 }
 
 ImVec3 ImVec3::operator+(const ImVec3& v) const
 {
-    return ImVec3(x + v.x, y + v.y, z + v.z);
+    return {x + v.x, y + v.y, z + v.z};
 }
 
 ImVec3 ImVec3::operator-(const ImVec3& v) const
 {
-    return ImVec3(x - v.x, y - v.y, z - v.z);
+    return {x - v.x, y - v.y, z - v.z};
 }
 
 ImVec3 ImVec3::operator*(float fl) const
 {
-    return ImVec3(x * fl, y * fl, z * fl);
+    return {x * fl, y * fl, z * fl};
 }
 
 ImVec3 ImVec3::operator*(const ImVec3& v) const
 {
-    return ImVec3(x * v.x, y * v.y, z * v.z);
+    return {x * v.x, y * v.y, z * v.z};
 }
 
 ImVec3 ImVec3::operator/(float fl) const
 {
-    return ImVec3(x / fl, y / fl, z / fl);
+    return {x / fl, y / fl, z / fl};
 }
 
 ImVec3 ImVec3::operator/(const ImVec3& v) const
 {
-    return ImVec3(x / v.x, y / v.y, z / v.z);
+    return {x / v.x, y / v.y, z / v.z};
 }
 
 ImVec3 ImVec3::Transform(const ImVec3& angles, const float length) const

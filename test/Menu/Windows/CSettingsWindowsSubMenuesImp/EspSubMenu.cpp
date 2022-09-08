@@ -119,7 +119,7 @@ void UI::CSettingsWindow::DrawESPChild()
 	{
 		ImGui::Text(xorstr("Labels"));
 		
-		static const char* positions[] = { "Left alligned", "Top alligned" };
+		static const char* positions[] = { "Left aligned", "Top aligned" };
 		ImGui::Combo(xorstr("###LabelDrawPos"), &GlobalVars::g_AllSettings.m_LabelEspSettings.m_iDrawPos, positions, IM_ARRAYSIZE(positions));
 		DrawToolTip(xorstr("Determine where the labels will be displayed."));
 
@@ -135,7 +135,7 @@ void UI::CSettingsWindow::DrawESPChild()
 		
 		for (auto i = 0; i < GlobalVars::g_AllSettings.m_LabelEspSettings.m_Labels.size(); ++i)
 		{
-			auto& pCurrentLabel = GlobalVars::g_AllSettings.m_LabelEspSettings.m_Labels[i];
+			const auto& pCurrentLabel = GlobalVars::g_AllSettings.m_LabelEspSettings.m_Labels[i];
 			ImGui::BeginChild((std::string(xorstr("###Child")) + pCurrentLabel->m_sName).c_str(), ImVec2(160, 25), true, m_iImGuiStyle);
 			{
 				ImGui::ColorEdit4((std::string(xorstr("###Color")) + pCurrentLabel->m_sName).c_str(), (float*)&pCurrentLabel->m_Color, ImGuiColorEditFlags_NoInputs);
@@ -164,7 +164,7 @@ void UI::CSettingsWindow::DrawESPChild()
 	ImGui::SameLine();
 	ImGui::BeginChild(xorstr("###TextureOverrideEsp"), blockSize + ImVec2(60, 105), true, m_iImGuiStyle);
 	{
-		static ImColor col = ImColor(255, 255, 255);
+		static auto col = ImColor(255, 255, 255);
 		static char newTextureName[128] = { NULL };
 		static int newTextureId = 0;
 		ImGui::Text(xorstr("Texture override"));
@@ -180,7 +180,7 @@ void UI::CSettingsWindow::DrawESPChild()
 		
 		ImGui::BeginChild(xorstr("###Textures"), ImVec2(180, 180), true, m_iImGuiStyle);
 		{
-			for (int i = 0; i < pTexutreList->size(); ++i)
+			for (size_t i = 0; i < pTexutreList->size(); ++i)
 			{
 				auto  textureListBegin = GlobalVars::g_AllSettings.m_TextureOverrideSettings.m_overridedTextures;
 				auto  pCurrentTexture = pTexutreList->begin();

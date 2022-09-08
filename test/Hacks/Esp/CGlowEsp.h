@@ -8,7 +8,7 @@ namespace hooks
 }
 namespace Esp
 {
-	class CGlowEsp : public CBaseEsp
+	class CGlowEsp final : public CBaseEsp
 	{
 		friend int __fastcall hooks::hRenderGlowEffects(SSDK::IGlowObjectManager* pThis, void* edx, int a2, int a3);
 	public:

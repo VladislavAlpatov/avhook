@@ -25,7 +25,7 @@ void UI::CTaskBarWindow::Render()
 
 		if (GlobalVars::g_AllSettings.m_MiscSettings.m_bShowTime)
 		{
-			std::string time = GetLocalTime();
+			const std::string time = GetLocalTime();
 			ImGui::PushFont(m_pFontMediumBold.get());
 			ImGui::SetCursorPos(ImVec2(screenSize.x - ImGui::CalcTextSize(time.c_str()).x - 5, 2));
 			ImGui::Text(time.c_str());

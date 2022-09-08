@@ -24,7 +24,7 @@ public:
 	}
 
 private:
-	float m_RawData[4][4];
+	float m_RawData[4][4]{};
 };
 namespace SSDK
 {

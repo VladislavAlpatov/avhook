@@ -2,7 +2,7 @@
 #include "CBaseEsp.h"
 namespace Esp
 {
-	class CBoxEsp : public CUIEsp
+	class CBoxEsp final : public CUIEsp
 	{
 		
 	public:

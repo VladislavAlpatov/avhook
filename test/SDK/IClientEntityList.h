@@ -8,7 +8,7 @@ namespace SSDK
 	class IClientEntityList : public IBaseInterface
 	{
 	public:
-		CBaseEntity* GetClientEntity(int entnum);
+		CBaseEntity* GetClientEntity(int index);
 		std::vector<CBaseEntity*> GetEntityList();
 	};
 }

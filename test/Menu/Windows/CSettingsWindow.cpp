@@ -1,19 +1,24 @@
 ﻿#include "CSettingsWindow.h"
-#include "../../imgui/imgui_internal.h"
-#include "../../Globals/Settings.h"
-#include "../../Globals/Interfaces.h"
-#include "../../imgui/misc/freetype/imgui_freetype.h"
-#include "../../Utils/CFGloader/CFGloader.h"
-#include <fmt/format.h>
-#include "../../RawData/Images.h"
 
 #include <fstream>
 #include <d3dx9.h>
 #include <memory>
+#include <fmt/format.h>
+
+
+#include "../../Globals/Settings.h"
+#include "../../Globals/Interfaces.h"
+
+#include "../../imgui/misc/freetype/imgui_freetype.h"
+#include "../../imgui/imgui_internal.h"
+
+
+#include "../../Utils/CFGloader/CFGloader.h"
+#include "../../RawData/Images.h"
 
 
 
-UI::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList, bool* pShowKeyBinderDialog) : CBaseWindow(pDevice)
+UI::CSettingsWindow::CSettingsWindow(const LPDIRECT3DDEVICE9 pDevice, CMessageLineList* pMessageLineList, bool* pShowKeyBinderDialog) : CBaseWindow(pDevice)
 {
 	POLY_MARKER;
 
@@ -28,12 +33,12 @@ UI::CSettingsWindow::CSettingsWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList
 
 
 
-	ImFontConfig fontBUilderConfig;
-	fontBUilderConfig.FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_Monochrome | ImGuiFreeTypeBuilderFlags_MonoHinting;
-	auto imGuiIo = ImGui::GetIO();
+	ImFontConfig fontConfig;
+	fontConfig.FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_Monochrome | ImGuiFreeTypeBuilderFlags_MonoHinting;
+	const auto& io = ImGui::GetIO();
 	
 	static ImWchar ranges[] = { 0x1, 0xFFFD, 0 };
-	m_pFontHeaderButtons = std::unique_ptr<ImFont>(imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 12.5f, &fontBUilderConfig, ranges));
+	m_pFontHeaderButtons = std::unique_ptr<ImFont>(io.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 12.5f, &fontConfig, ranges));
 }
 std::string UI::CSettingsWindow::VirtualKeyNumberToString(int keyNumber)
 {
@@ -62,15 +67,15 @@ void UI::CSettingsWindow::Render()
 		DrawCloseWindowButton();
 		
 		auto& style = ImGui::GetStyle();
-		
-		auto spacingOld = style.ItemSpacing;
-		auto paddingOld = style.FramePadding;
+
+		const auto spacingOld = style.ItemSpacing;
+		const auto paddingOld = style.FramePadding;
 
 		style.ItemSpacing = ImVec2(-1, 0);
 
 		ImGui::PushFont(m_pFontHeaderButtons.get());
 
-		auto rectStart = ImGui::GetWindowPos() + ImGui::GetCursorPos()-ImVec2(3,0);
+		const auto rectStart = ImGui::GetWindowPos() + ImGui::GetCursorPos()-ImVec2(3,0);
 
 		if (ImGui::Button(xorstr("General")))
 			m_iTab = TAB::Menu;
@@ -101,22 +106,13 @@ void UI::CSettingsWindow::Render()
 
 		switch (m_iTab)
 		{
-		case TAB::AimBot:
-			DrawAimbotChild();
-			break;
-		case TAB::TriggerBot:
-			break;
-		case TAB::Visuals:
-			DrawESPChild();
-			break;
-		case TAB::Misc:
-			DrawMiscChild();
-			break;
-		case TAB::Menu:
-			DrawCfgChild();
-			break;
-		default:
-			break;
+		case TAB::AimBot:    DrawAimbotChild(); break;
+		case TAB::Visuals:   DrawESPChild();    break;
+		case TAB::Misc:      DrawMiscChild();   break;
+		case TAB::Menu:      DrawCfgChild();    break;
+
+
+		default: break;
 		}
 		KeepWindowInScreenArea();
 		ImGui::End();

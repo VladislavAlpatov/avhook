@@ -14,7 +14,7 @@ UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* 
 {
 	POLY_MARKER;
 
-	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::DefaultAvatar, sizeof(Images::DefaultAvatar), &m_pTextureDefaulteAvatar);
+	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::DefaultAvatar, sizeof(Images::DefaultAvatar), &m_pTextureDefaultAvatar);
 	D3DXCreateTextureFromFileInMemory(m_pDevice, Images::ProfileIcon,   sizeof(Images::ProfileIcon),   &m_pTextureIcon);
 
 	
@@ -39,7 +39,7 @@ void UI::CNetWorkWindow::Render()
 			if (m_pTextureUserAvatar != nullptr)
 				validAvatar = m_pTextureUserAvatar;
 			else
-				validAvatar = m_pTextureDefaulteAvatar;
+				validAvatar = m_pTextureDefaultAvatar;
 
 			{
 				bool avatarButtonStatus = ImGui::ImageButton(validAvatar, ImVec2(64, 64), ImVec2(), ImVec2(1, 1), 1);
@@ -102,13 +102,13 @@ void UI::CNetWorkWindow::Render()
 		ImGui::BeginChild(xorstr("###Cloud"), ImVec2(220, 210), true, m_iImGuiStyle);
 		{
 			static int selectedCfgId = 0;
-			if (!m_ConfgsList.empty())
+			if (!m_ConfigsList.empty())
 			{
 				if (ImGui::Button(xorstr("Upload"), ImVec2(70, 20)))
 				{
 					auto payload = [this]
 					{
-						auto pSelectedCfg           = &m_ConfgsList[selectedCfgId];
+						auto pSelectedCfg           = &m_ConfigsList[selectedCfgId];
 						GlobalVars::g_AllSettings.m_Name = pSelectedCfg->m_Settings.m_Name;
 
 						bool status = m_ApiClient.UpdateConfig(pSelectedCfg->m_iUid, GlobalVars::g_AllSettings.ToJson());
@@ -129,19 +129,19 @@ void UI::CNetWorkWindow::Render()
 				ImGui::SameLine();
 
 				ImGui::PushItemWidth(125);
-				DrawInputTextWithTextOnBackGround(xorstr("###ConfigName"), xorstr("<Config name>"), (char*)m_ConfgsList[selectedCfgId].m_Settings.m_Name.c_str(),
-					m_ConfgsList[selectedCfgId].m_Settings.m_Name.size());
+				DrawInputTextWithTextOnBackGround(xorstr("###ConfigName"), xorstr("<Config name>"), (char*)m_ConfigsList[selectedCfgId].m_Settings.m_Name.c_str(),
+					m_ConfigsList[selectedCfgId].m_Settings.m_Name.size());
 
 				ImGui::PopItemWidth();
 
 				if (ImGui::Button(xorstr("Import"), ImVec2(70, 20)))
 				{
-					GlobalVars::g_AllSettings = m_ConfgsList[selectedCfgId].m_Settings;
-					m_pMessageLineList->Add(fmt::format(xorstr("Config is loaded from the cloud: {}"), m_ConfgsList[selectedCfgId].m_Settings.m_Name), 3000);
+					GlobalVars::g_AllSettings = m_ConfigsList[selectedCfgId].m_Settings;
+					m_pMessageLineList->Add(fmt::format(xorstr("Config is loaded from the cloud: {}"), m_ConfigsList[selectedCfgId].m_Settings.m_Name), 3000);
 				}
 				ImGui::SameLine();
 				ImGui::PushItemWidth(125);
-				DrawConfigCombo(xorstr("##CfgList"), &selectedCfgId, m_ConfgsList);
+				DrawConfigCombo(xorstr("##CfgList"), &selectedCfgId, m_ConfigsList);
 				ImGui::PopItemWidth();
 				if (ImGui::Button(xorstr("Restore"), ImVec2(70, 20)))
 				{
@@ -151,7 +151,7 @@ void UI::CNetWorkWindow::Render()
 						defaultSettings.m_Name = fmt::format(xorstr("Config - {}"), selectedCfgId);
 						defaultSettings.m_Name.resize(32);
 
-						bool status = m_ApiClient.UpdateConfig(m_ConfgsList[selectedCfgId].m_iUid, defaultSettings.ToJson());
+						bool status = m_ApiClient.UpdateConfig(m_ConfigsList[selectedCfgId].m_iUid, defaultSettings.ToJson());
 
 						if (!status)
 						{
@@ -161,7 +161,7 @@ void UI::CNetWorkWindow::Render()
 
 						m_pMessageLineList->Add(xorstr("Config was successfully restored to the default settings."), 3000);
 
-						m_ConfgsList[selectedCfgId].m_Settings = defaultSettings;
+						m_ConfigsList[selectedCfgId].m_Settings = defaultSettings;
 						GlobalVars::g_AllSettings = defaultSettings;
 						
 					};
@@ -199,7 +199,7 @@ UI::CNetWorkWindow::~CNetWorkWindow()
 	if (m_pTextureUserAvatar)
 		m_pTextureUserAvatar->Release();
 
-	m_pTextureDefaulteAvatar->Release();
+	m_pTextureDefaultAvatar->Release();
 }
 void UI::CNetWorkWindow::OnClose()
 {
@@ -211,7 +211,7 @@ void UI::CNetWorkWindow::OnClose()
 void UI::CNetWorkWindow::UpdateUserInfo()
 {
 	POLY_MARKER;
-	m_ConfgsList       = m_ApiClient.GetListOfConfigs();
+	m_ConfigsList       = m_ApiClient.GetListOfConfigs();
 	m_UserData = m_ApiClient.GetUserInfo();
 	m_LoaderTheme	   = m_ApiClient.GetLoaderTheme();
 

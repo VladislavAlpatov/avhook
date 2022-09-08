@@ -31,13 +31,13 @@ void CCrosshairOverlay::Render()
 {
 	DrawCrosshair();
 
-	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
+	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
-	auto pSettings = &GlobalVars::g_AllSettings.m_CrosshairSettings;
+	const auto pSettings = &GlobalVars::g_AllSettings.m_CrosshairSettings;
 	if (!pLocalPlayer or !pSettings->m_bDrawSensors)
 		return;
 
-	ImVec2 vecScreenCenter = ImGui::GetMainViewport()->Size / 2.f;
+	const ImVec2 vecScreenCenter = ImGui::GetMainViewport()->Size / 2.f;
 
 	auto fRatio = pLocalPlayer->GetHealthPercent() / 100.f;
 	if (fRatio > 1.f)
@@ -49,11 +49,11 @@ void CCrosshairOverlay::Render()
 
 void CCrosshairOverlay::DrawCrosshair() const
 {
-	auto pDrawList = ImGui::GetBackgroundDrawList();
+	const auto pDrawList = ImGui::GetBackgroundDrawList();
 
 	const auto* pSettings = &GlobalVars::g_AllSettings.m_CrosshairSettings;
 
-	auto screenCenter = ImGui::GetMainViewport()->Size / 2.f + ImVec2(1, 1);
+	const auto screenCenter = ImGui::GetMainViewport()->Size / 2.f + ImVec2(1, 1);
 
 	pDrawList->AddLine(screenCenter + ImVec2(0, (float)pSettings->m_iSize), screenCenter - ImVec2(0, (float)pSettings->m_iSize), pSettings->m_Color, pSettings->m_iThicness);
 	pDrawList->AddLine(screenCenter + ImVec2((float)pSettings->m_iSize, 0), screenCenter - ImVec2((float)pSettings->m_iSize, 0), pSettings->m_Color, pSettings->m_iThicness);
@@ -66,21 +66,21 @@ void CCrosshairOverlay::DrawHealthBar(const ImVec2& vecDrawPos, float fHealthRat
 	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
 
-	ImVec2 topLeft     = vecDrawPos - ImVec2(0, fHight / 2.f);
-	ImVec2 bottomRight = vecDrawPos + ImVec2(thickness, fHight / 2.f);
+	const ImVec2 topLeft     = vecDrawPos - ImVec2(0, fHight / 2.f);
+	const ImVec2 bottomRight = vecDrawPos + ImVec2(thickness, fHight / 2.f);
 
 	auto healthLabel = std::to_string(pLocalPlayer->m_iHealth);
 
 	if (!pLocalPlayer->IsAlive())
 		healthLabel = xorstr("[DEAD]");
 
-	auto pDrawList = ImGui::GetBackgroundDrawList();
+	const auto pDrawList = ImGui::GetBackgroundDrawList();
 
 	DrawTexCentered(topLeft + ImVec2(thickness / 2.f, -15), pLocalPlayer->GetColorBasedOnHealth(), healthLabel.c_str());
 
 
-	auto  top   = topLeft     + ImVec2(1, 1);
-	auto bottom = bottomRight - ImVec2(1, 1);
+	const auto  top   = topLeft     + ImVec2(1, 1);
+	const auto bottom = bottomRight - ImVec2(1, 1);
 
 	auto tmp = bottom - ImVec2(0, fHight / 2.f);
 	tmp.x = top.x;
@@ -100,11 +100,11 @@ void CCrosshairOverlay::DrawHealthBar(const ImVec2& vecDrawPos, float fHealthRat
 
 void CCrosshairOverlay::DrawSpeedBar(const ImVec2& vecDrawPos, float fSpeedPerBar, float thickness, float fHeight) const
 {
-	auto pDrawList = ImGui::GetBackgroundDrawList();
+	const auto pDrawList = ImGui::GetBackgroundDrawList();
 	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
-	ImVec2 topLeft     = vecDrawPos - ImVec2(0, fHeight / 2.f);
-	ImVec2 bottomRight = vecDrawPos + ImVec2(thickness, fHeight / 2.f);
+	const ImVec2 topLeft     = vecDrawPos - ImVec2(0, fHeight / 2.f);
+	const ImVec2 bottomRight = vecDrawPos + ImVec2(thickness, fHeight / 2.f);
 
 	pDrawList->AddRect(topLeft, bottomRight, ImColor(0, 0, 0));
 
@@ -129,8 +129,8 @@ void CCrosshairOverlay::DrawSpeedBar(const ImVec2& vecDrawPos, float fSpeedPerBa
 	DrawTexCentered(topLeft + ImVec2(thickness / 2.f, -12), speedTextCol, std::to_string((int)currentSpeed).c_str());
 
 	float velocityRatio  = roundf(pLocalPlayer->m_vecVelocity.Length2D()) / fSpeedPerBar;
-	int barsCount = (int)ceilf(velocityRatio);
-	ImColor colors[] = { ImColor(255,0, 0), ImColor(0, 255, 0), ImColor(0, 0, 255) };
+	const int barsCount = (int)ceilf(velocityRatio);
+	const ImColor colors[] = { ImColor(255,0, 0), ImColor(0, 255, 0), ImColor(0, 0, 255) };
 
 	for (int i = 0; i < barsCount and velocityRatio > 0.f; i++)
 	{
@@ -139,7 +139,7 @@ void CCrosshairOverlay::DrawSpeedBar(const ImVec2& vecDrawPos, float fSpeedPerBa
 		if (velocityRatio < 1.f)
 			currentSpeedBarRatio = velocityRatio;
 
-		float height = fHeight * (1.f - currentSpeedBarRatio);
+		const float height = fHeight * (1.f - currentSpeedBarRatio);
 
 		pDrawList->AddRectFilled(topLeft + ImVec2(0.f, height) + ImVec2(1, 1), bottomRight - ImVec2(1, 1), colors[i]);
 

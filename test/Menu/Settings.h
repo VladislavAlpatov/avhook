@@ -21,7 +21,7 @@ namespace Settings
 		nlohmann::json ToJson() const override;
 
 	};
-	class CAimBotSettings : public CBaseSettings
+	class CAimBotSettings final : public CBaseSettings
 	{
 	public:
 		CAimBotSettings();
@@ -50,10 +50,10 @@ namespace Settings
 		nlohmann::json ToJson() const override;
 		CAimBotSettings(const nlohmann::json& jsn);
 	};
-	class SnapLinesSettings : public CBaseSettings
+	class SnapLinesSettings final : public CBaseSettings
 	{
 	public:
-		SnapLinesSettings() {};
+		SnapLinesSettings() = default;
 		SnapLinesSettings(const nlohmann::json& jsn);
 		int         m_iSelectedBone = 0;
 		ImColor		m_Color = ImColor(255, 0, 0, 255);
@@ -62,10 +62,10 @@ namespace Settings
 
 		nlohmann::json ToJson() const override;
 	};
-	class BoxEspSettings : public CBaseSettings
+	class BoxEspSettings final : public CBaseSettings
 	{
 	public:
-		BoxEspSettings() {};
+		BoxEspSettings() = default;
 		ImColor		m_Color = ImColor(255, 0, 0, 255);
 		int			m_iDrawMode = 0;
 		int			m_iThickness = 1;
@@ -78,10 +78,10 @@ namespace Settings
 		};
 		BoxEspSettings(const nlohmann::json& jsn);
 	};
-	class MiscSettings : public CBaseSettings
+	class MiscSettings final : public CBaseSettings
 	{
 	public:
-		MiscSettings() {};
+		MiscSettings() = default;
 		bool m_bWallPaper       = false;
 		bool m_bShowTime        = false;
 		bool m_bKillSound       = false;
@@ -92,17 +92,17 @@ namespace Settings
 		MiscSettings(const nlohmann::json& jsn);
 	};
 
-	class TriggerBotSettings : public CBaseSettings
+	class TriggerBotSettings final : public CBaseSettings
 	{
 	public:
-		TriggerBotSettings() {}
+		TriggerBotSettings() = default;
 		bool m_bRageMode = false;
 		int  m_iDelay    = 0;
 
 		nlohmann::json ToJson() const override;
 		TriggerBotSettings(const nlohmann::json& jsn);
 	};
-	class BarEspSettings : public CBaseSettings
+	class BarEspSettings final : public CBaseSettings
 	{
 	public:
 		BarEspSettings()
@@ -121,10 +121,10 @@ namespace Settings
 		BarEspSettings(const nlohmann::json& jsn);
 		
 	};
-	class CRadarSettings : public CBaseSettings
+	class CRadarSettings final : public CBaseSettings
 	{
 	public:
-		CRadarSettings() {};
+		CRadarSettings() = default;
 		CRadarSettings(const nlohmann::json& jsn);
 		bool    m_bDrawBorders         = false;
 		int     m_iStyle               = 0;
@@ -142,7 +142,7 @@ namespace Settings
 			CUSTOM
 		};
 	};
-	class CLabelEspSettings : public CBaseSettings
+	class CLabelEspSettings final : public CBaseSettings
 	{
 	public:
 		CLabelEspSettings();
@@ -161,7 +161,7 @@ namespace Settings
 			TOP
 		};
 	};
-	class CBunnyHopSettings : public CBaseSettings
+	class CBunnyHopSettings final : public CBaseSettings
 	{
 	public:
 		CBunnyHopSettings()
@@ -179,16 +179,16 @@ namespace Settings
 
 	};
 
-	class CTextureOverrideSettings : public CBaseSettings
+	class CTextureOverrideSettings final : public CBaseSettings
 	{
 	public:
 		CTextureOverrideSettings(const nlohmann::json& jsn);
-		CTextureOverrideSettings() {};
+		CTextureOverrideSettings() = default;
 		std::list<Esp::CTextureOverride> m_overridedTextures;
 		nlohmann::json ToJson() const override;
 	};
 
-	class CCrosshairSettings : public CBaseSettings
+	class CCrosshairSettings final : public CBaseSettings
 	{
 	public:
 		CCrosshairSettings();
@@ -205,10 +205,10 @@ namespace Settings
 
 	};
 
-	class CGlowEspSettings : public CBaseSettings
+	class CGlowEspSettings final : public CBaseSettings
 	{
 	public:
-		CGlowEspSettings() {};
+		CGlowEspSettings() = default;
 		CGlowEspSettings(const nlohmann::json& jsn);
 		ImColor m_Color = ImColor(255, 255, 255);
 		float   m_fGlowSize = 1.f;
@@ -225,25 +225,25 @@ namespace Settings
 		nlohmann::json ToJson() const override;
 	};
 
-	class CAllSettings : public WebApi::IWebObject
+	class CAllSettings final : public WebApi::IWebObject
 	{
 	public:
 		CAllSettings(const nlohmann::json& jsn);
-		CAllSettings() {};
-		std::string m_Name = std::string("", 32);
+		CAllSettings() = default;
+		std::string m_Name = { "", 32 };
 
-		CAimBotSettings       m_AimBotSettings;
-		SnapLinesSettings     m_SnapLinesSettings;
-		BoxEspSettings	      m_BoxEspSettings;
-		MiscSettings          m_MiscSettings;
-		TriggerBotSettings    m_TriggerBotSettings;
-		CRadarSettings        m_RadarSettings;
-		CLabelEspSettings     m_LabelEspSettings;
-		BarEspSettings        m_BarEspSettings;
-		CBunnyHopSettings     m_BunnyHopSettings;
+		CAimBotSettings          m_AimBotSettings;
+		SnapLinesSettings        m_SnapLinesSettings;
+		BoxEspSettings	         m_BoxEspSettings;
+		MiscSettings             m_MiscSettings;
+		TriggerBotSettings       m_TriggerBotSettings;
+		CRadarSettings           m_RadarSettings;
+		CLabelEspSettings        m_LabelEspSettings;
+		BarEspSettings           m_BarEspSettings;
+		CBunnyHopSettings        m_BunnyHopSettings;
 		CTextureOverrideSettings m_TextureOverrideSettings;
 		CCrosshairSettings       m_CrosshairSettings;
-		CGlowEspSettings		m_GlowEspSettings;
+		CGlowEspSettings		 m_GlowEspSettings;
 
 		nlohmann::json ToJson() const override;
 	};

@@ -1,5 +1,4 @@
-﻿#pragma once
-#include "CDockWindow.h"
+﻿#include "CDockWindow.h"
 #include "../../Utils/xorstr.h"
 #include "../../Utils/Marker.h"
 
@@ -16,7 +15,7 @@ void UI::CDockWindow::Render()
 	POLY_MARKER;
 	ImGui::Begin(xorstr("###Start"), nullptr, m_iImGuiStyle | ImGuiWindowFlags_NoMove);
 	{
-		ImVec2 screenSize = ImGui::GetMainViewport()->Size;
+		const ImVec2 screenSize = ImGui::GetMainViewport()->Size;
 		ImGui::SetWindowPos(ImVec2( (screenSize.x - ImGui::GetWindowWidth()) / 2.f , screenSize.y - ImGui::GetWindowHeight()));
 
 		for (const auto& pWindow : m_WindowList)

@@ -34,7 +34,7 @@
 std::string GetCurrentWindowsUserName()
 {
 	DWORD buffSize = MAX_PATH;
-	auto buffer = std::unique_ptr<char[]>(new char[buffSize]);
+	const auto buffer = std::unique_ptr<char[]>(new char[buffSize]);
 	GetUserNameA(buffer.get(), &buffSize);
 	
 	return std::string(buffer.get());
@@ -45,7 +45,7 @@ UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 	POLY_MARKER;
 	m_pDevice      = pDevice;
 	ImGui::CreateContext();
-	ImGui_ImplWin32_Init(FindWindowA(NULL, WINDOW_NAME));
+	ImGui_ImplWin32_Init(FindWindowA(nullptr, WINDOW_NAME));
 	ImGui_ImplDX9_Init(m_pDevice);
 
 	ImGui::GetStyle().AntiAliasedLinesUseTex = false;
@@ -63,7 +63,7 @@ UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 	style.FrameBorderSize         = 1;
 	style.AntiAliasedLinesUseTex = false;
 	style.AntiAliasedLines       = false;
-	//style.AntiAliasedFill        = true;
+	style.AntiAliasedFill        = true;
 	style.ScrollbarRounding      = 0.f;
 	style.WindowMinSize          = ImVec2(10, 10);
 
@@ -146,10 +146,9 @@ void UI::COverlay::Render()
 	ImGui::NewFrame();
 
 	const auto pDrawList    = ImGui::GetBackgroundDrawList();
-	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
 
-	if (GlobalVars::g_pIEngineClient->IsInGame() and pLocalPlayer)
+	if (auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer(); GlobalVars::g_pIEngineClient->IsInGame() and pLocalPlayer)
 	{
 		std::vector<SSDK::CBaseEntity*> validEntities;
 
@@ -188,14 +187,14 @@ void UI::COverlay::Render()
 
 		POLY_MARKER;
 
-		auto windowSize = ImGui::GetMainViewport()->Size;
+		const auto windowSize = ImGui::GetMainViewport()->Size;
 	
 		if (GlobalVars::g_AllSettings.m_MiscSettings.m_bWallPaper)
 			pDrawList->AddImage(m_pWallpaper, ImVec2(), ImGui::GetMainViewport()->Size);
 		else
 			pDrawList->AddRectFilled(ImVec2(), windowSize, ImColor(0, 0, 0, 90));
 
-		for (auto window : m_vecWindows)
+		for (const auto& window : m_vecWindows)
 		{
 			window->Show();
 		}
@@ -205,13 +204,13 @@ void UI::COverlay::Render()
 
 			for (auto& snowflake : m_vecSnow)
 			{
-				auto sfOriging = snowflake.GetOrigin();
+				auto vecOrigin = snowflake.GetOrigin();
 
-				if (sfOriging.y > 0)
-					pDrawList->AddText(sfOriging, ImColor(255, 255, 255), xorstr("*"));
+				if (vecOrigin.y > 0)
+					pDrawList->AddText(vecOrigin, ImColor(255, 255, 255), xorstr("*"));
 
 				snowflake.Update();
-				if (sfOriging.x > windowSize.x or sfOriging.y > 150)
+				if (vecOrigin.x > windowSize.x or vecOrigin.y > 150)
 					snowflake.RegenerateOrigin();
 			}
 		}

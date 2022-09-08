@@ -11,7 +11,7 @@ namespace CLabels
 	{
 		Base = -1,
 		Name,
-		Heatlh,
+		Health,
 		Armor,
 		Distance,
 		Visibility,
@@ -31,12 +31,13 @@ namespace CLabels
 		std::string		m_sName;
 		bool            m_bActive;
 		ImColor         m_Color;
+		virtual ~CBaseLabel() = default;
 
 	protected:
 		virtual bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const { return false; };
 	};
 
-	class CNameLabel : public CBaseLabel
+	class CNameLabel final : public CBaseLabel
 	{
 	public:
 		CNameLabel(const std::string& name, const bool bActive, const ImColor& color) : CBaseLabel(name, bActive, color) {};
@@ -45,16 +46,16 @@ namespace CLabels
 		bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const override;
 	};
 
-	class CHealthLabel : public CBaseLabel
+	class CHealthLabel final : public CBaseLabel
 	{
 	public:
 		CHealthLabel(const std::string& name,const bool bActive) : CBaseLabel(name, bActive, ImColor(255, 255, 255)) {};
-		int GetTypeId() const override { return LabelTypeId::Heatlh; }
+		int GetTypeId() const override { return LabelTypeId::Health; }
 	protected:
 		bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const override;
 	};
 
-	class CArmorLabel : public CBaseLabel
+	class CArmorLabel final : public CBaseLabel
 	{
 	public:
 		CArmorLabel(const std::string& name,const bool bActive, const ImColor& color) : CBaseLabel(name, bActive, color) {};
@@ -63,7 +64,7 @@ namespace CLabels
 		bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const override;
 	};
 
-	class CDistanceLabel : public CBaseLabel
+	class CDistanceLabel final : public CBaseLabel
 	{
 	public:
 		CDistanceLabel(const std::string& name, const bool bActive, const ImColor& color) : CBaseLabel(name, bActive, color) {};
@@ -73,7 +74,7 @@ namespace CLabels
 		bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const override;
 	};
 
-	class CVisibilityLabel : public CBaseLabel
+	class CVisibilityLabel final : public CBaseLabel
 	{
 	public:
 		CVisibilityLabel(const std::string& name, const bool bActive, const ImColor& color) : CBaseLabel(name, bActive, color) {};
@@ -82,7 +83,7 @@ namespace CLabels
 		bool Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const override;
 	};
 
-	class CAimBotTargetLabel : public CBaseLabel
+	class CAimBotTargetLabel final : public CBaseLabel
 	{
 	public:
 		CAimBotTargetLabel(const std::string& name, const bool bActive, const ImColor& color) : CBaseLabel(name, bActive, color) {};

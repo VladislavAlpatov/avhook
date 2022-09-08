@@ -10,6 +10,6 @@ namespace UI
 		void Render() override;
 		PDIRECT3DTEXTURE9 m_pTextureCheatLogo = nullptr;
 		std::string GetAlias() const override;
-		virtual ~CAboutWindow();
+		~CAboutWindow() override;
 	};
 }

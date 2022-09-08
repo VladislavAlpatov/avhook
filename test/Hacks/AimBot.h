@@ -13,7 +13,7 @@
 
 namespace Hacks
 {
-	class CAimBot : public CHackingFeature
+	class CAimBot final : public CHackingFeature
 	{
 	public:
 		CAimBot(Settings::CAimBotSettings* settings, CUserCmd* pUsrCmd);

@@ -1,10 +1,11 @@
 #include "CBaseEntity.h"
-#include <math.h>
+
+
 using namespace SSDK;
 
 ImVec3 CBaseEntity::GetBonePosition(const int bone) const
 {
-	DWORD  pBone = m_pBoneMatrix;
+	uintptr_t  pBone = m_pBoneMatrix;
 	ImVec3 position;
 
 	position.x = *(float*)((pBone + 0x30 * bone + 0x0C));

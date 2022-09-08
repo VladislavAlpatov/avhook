@@ -5,7 +5,7 @@
 #include <vector>
 namespace UI 
 {
-    class CConsoleWindow : public CBaseWindow
+    class CConsoleWindow final : public CBaseWindow
     {
 
 public:
@@ -16,7 +16,7 @@ private:
     std::map<std::string, bool*> m_Convars;
     std::vector<std::pair<std::string, ImColor>> m_logHistory;
 
-    bool CanBeCovertedToInt(const std::string& str);
+    bool CanBeConvertedToInt(const std::string& str);
     bool ConsoleExecute(const std::string& text);
     void AddConsoleLog(const std::string& text, const ImColor& col = ImColor(255, 255, 255));
     };

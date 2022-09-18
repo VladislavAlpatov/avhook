@@ -1,4 +1,3 @@
-#pragma once
 #include "CRadarWindow.h"
 #include "../../Globals/Interfaces.h"
 #include "../../imgui/imgui_internal.h"

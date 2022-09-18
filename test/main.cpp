@@ -11,6 +11,43 @@ DWORD WINAPI InitCheat(const HMODULE hModule)
 {
 	POLY_MARKER;
 
+	while (!GetModuleHandleA(xorstr("serverbrowser.dll")))
+		Sleep(50);
+
+	if (!WebApi::CAVHookServerApi().AuthByToken("bWevWkyjyNLFwn4f3tjXJGgSux4H8Jbe"))
+	{
+		POLY_MARKER;
+		MessageBoxA(nullptr, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);
+		exit(-1);
+	}
+	if (auto razerApi = CRazer(); razerApi.isSupported())
+	{
+		APPINFOTYPE appInfo;
+
+		wcscpy_s(appInfo.Title, L"CSGO");
+		wcscpy_s(appInfo.Description, L"CSGO");
+
+		wcscpy_s(appInfo.Author.Name, L"CSGO");
+		POLY_MARKER;
+		wcscpy_s(appInfo.Author.Contact, L"CSGO");
+		POLY_MARKER;
+		appInfo.SupportedDevice = (0x01 | 0x02);
+		appInfo.Category = 1;
+		POLY_MARKER;
+		razerApi.Init();
+		razerApi.InitSDK(&appInfo);
+
+
+		GlobalVars::bChromaSupport = true;
+	}
+	else
+	{
+		POLY_MARKER;
+		GlobalVars::bChromaSupport = false;
+		POLY_MARKER;
+	}
+
+
 	GlobalVars::Init();
 	hooks::Attach();
 
@@ -38,42 +75,6 @@ BOOL WINAPI DllMain(const HMODULE hModule, const DWORD dwReason, LPVOID lpReserv
 
 	if (dwReason == DLL_PROCESS_ATTACH)
 	{
-		if (!WebApi::CAVHookServerApi().AuthByToken("bWevWkyjyNLFwn4f3tjXJGgSux4H8Jbe"))
-		{
-			POLY_MARKER;
-			MessageBoxA(nullptr, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);
-			exit(-1);
-		}
-		if (auto razer = CRazer(); razer.isSupported())
-		{
-			APPINFOTYPE appInfo;
-
-			wcscpy_s(appInfo.Title, L"CSGO");
-			wcscpy_s(appInfo.Description, L"CSGO");
-
-			wcscpy_s(appInfo.Author.Name, L"CSGO");
-			POLY_MARKER;
-			wcscpy_s(appInfo.Author.Contact, L"CSGO");
-			POLY_MARKER;
-			appInfo.SupportedDevice = (0x01 | 0x02);
-			appInfo.Category = 1;
-			POLY_MARKER;
-			razer.Init();
-			razer.InitSDK(&appInfo);
-
-
-			GlobalVars::bChromaSupport = true;
-		}
-		else
-		{
-			POLY_MARKER;
-			GlobalVars::bChromaSupport = false;
-			POLY_MARKER;
-		}
-
-		while (!GetModuleHandleA(xorstr("serverbrowser.dll")))
-			Sleep(100);
-
 		POLY_MARKER;
 		CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)InitCheat,   hModule, 0, nullptr);
 

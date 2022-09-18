@@ -40,7 +40,9 @@ void UI::CAboutWindow::Render()
 		ImGui::Image(m_pTextureCheatLogo, ImVec2(100, 100));
 
 		ImGui::SameLine();
-		ImGui::Text(xorstr(u8"Compilation date: %s\nCompilation time: %s\nCopyright © 2022 Alpatov Softworks."), xorstr(__DATE__), xorstr(__TIME__));
+		ImGui::Text(
+			xorstr(u8"Compilation date: %s\nCompilation time: %s\nCopyright © 2022 Alpatov Softworks."),
+			xorstr(__DATE__), xorstr(__TIME__));
 
 		POLY_MARKER
 

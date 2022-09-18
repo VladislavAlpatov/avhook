@@ -127,8 +127,8 @@ void UI::CSettingsWindow::DrawESPChild()
 		DrawToolTip(xorstr("Determine the distance the minimum distance\nwhen the labels should be displayed."));
 
 		auto& style = ImGui::GetStyle();
-		auto backUp = style.WindowPadding;
-		auto backUp2 = style.ItemSpacing;
+		const auto backUp = style.WindowPadding;
+		const auto backUp2 = style.ItemSpacing;
 
 		style.WindowPadding = ImVec2(2, 2);
 		style.ItemSpacing = ImVec2(2, 2);

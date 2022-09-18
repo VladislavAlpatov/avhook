@@ -21,13 +21,17 @@ namespace UI
 		bool  IsShowUI() const;
 		void  ToggleUI();
 	private:
+		void  SetImGuiAVhookTheme();
+		void  DrawMenuBackground() const;
+		void  DrawSnowflakes();
+		void  ShowWindows() const;
 		std::vector<SnowFlake>                        m_vecSnow;
 		std::vector<std::shared_ptr<Esp::CUIEsp>>     m_vecEspPayload;
 		PDIRECT3DTEXTURE9                             m_pWallpaper         = nullptr;
 		std::unique_ptr<ImFont>                       m_pFontEsp;
 		bool                                          m_bShowUI            = false;
 		bool                                          m_bShowKeyBindDialog = false;
-
+		
 		std::vector<std::shared_ptr<UI::CBaseWindow>> m_vecWindows;
 		UI::CMessageLineList	                      m_MessageLineList;
 		LPDIRECT3DDEVICE9                             m_pDevice;

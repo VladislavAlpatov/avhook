@@ -34,7 +34,7 @@ void UI::CNetWorkWindow::Render()
 		DrawCloseWindowButton();
 		ImGui::BeginChild(xorstr("###Profile"), ImVec2(220, 210), true, m_iImGuiStyle);
 		{
-			PDIRECT3DTEXTURE9 validAvatar = NULL;
+			PDIRECT3DTEXTURE9 validAvatar = nullptr;
 
 			if (m_pTextureUserAvatar != nullptr)
 				validAvatar = m_pTextureUserAvatar;
@@ -42,7 +42,7 @@ void UI::CNetWorkWindow::Render()
 				validAvatar = m_pTextureDefaultAvatar;
 
 			{
-				bool avatarButtonStatus = ImGui::ImageButton(validAvatar, ImVec2(64, 64), ImVec2(), ImVec2(1, 1), 1);
+				const bool avatarButtonStatus = ImGui::ImageButton(validAvatar, ImVec2(64, 64), ImVec2(), ImVec2(1, 1), 1);
 				DrawToolTip(xorstr("Click on the avatar to change it."));
 				if (avatarButtonStatus)
 					m_bAvatarSetWindow = !m_bAvatarSetWindow;
@@ -56,7 +56,7 @@ void UI::CNetWorkWindow::Render()
 			DrawInputTextWithTextOnBackGround(xorstr("###Name"), xorstr("<Nickname>"), m_UserData.m_sName, 32);
 			ImGui::PopItemWidth();
 
-			ImVec2 cursorPos = ImGui::GetCursorPos();
+			const ImVec2 cursorPos = ImGui::GetCursorPos();
 			ImGui::SetCursorPos(textPos);
 			if (m_UserData.m_iAccountType == -1)
 				ImGui::TextColored(ImColor(255, 0, 0), xorstr("Connection: Failed"));
@@ -108,10 +108,10 @@ void UI::CNetWorkWindow::Render()
 				{
 					auto payload = [this]
 					{
-						auto pSelectedCfg           = &m_ConfigsList[selectedCfgId];
+						const auto pSelectedCfg           = &m_ConfigsList[selectedCfgId];
 						GlobalVars::g_AllSettings.m_Name = pSelectedCfg->m_Settings.m_Name;
 
-						bool status = m_ApiClient.UpdateConfig(pSelectedCfg->m_iUid, GlobalVars::g_AllSettings.ToJson());
+						const bool status = m_ApiClient.UpdateConfig(pSelectedCfg->m_iUid, GlobalVars::g_AllSettings.ToJson());
 
 						if (!status)
 						{
@@ -151,7 +151,7 @@ void UI::CNetWorkWindow::Render()
 						defaultSettings.m_Name = fmt::format(xorstr("Config - {}"), selectedCfgId);
 						defaultSettings.m_Name.resize(32);
 
-						bool status = m_ApiClient.UpdateConfig(m_ConfigsList[selectedCfgId].m_iUid, defaultSettings.ToJson());
+						const bool status = m_ApiClient.UpdateConfig(m_ConfigsList[selectedCfgId].m_iUid, defaultSettings.ToJson());
 
 						if (!status)
 						{
@@ -170,10 +170,10 @@ void UI::CNetWorkWindow::Render()
 			}
 
 
-			ImGui::ColorEdit3(xorstr("Loader Icon (Not Active)"), (float*)&m_LoaderTheme.m_IconColor, ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit3(xorstr("Loader Icon (Not Active)"), (float*)&m_LoaderTheme.m_IconColor,       ImGuiColorEditFlags_NoInputs);
 			ImGui::ColorEdit3(xorstr("Loader Icon (Activated)"),  (float*)&m_LoaderTheme.m_ActiveIconColor, ImGuiColorEditFlags_NoInputs);
-			ImGui::ColorEdit3(xorstr("Loader Icon (Injected)"),   (float*)&m_LoaderTheme.m_InjectedColor, ImGuiColorEditFlags_NoInputs);
-			ImGui::ColorEdit3(xorstr("Loading Bar"),              (float*)&m_LoaderTheme.m_LoadingColor, ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit3(xorstr("Loader Icon (Injected)"),   (float*)&m_LoaderTheme.m_InjectedColor,   ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit3(xorstr("Loading Bar"),              (float*)&m_LoaderTheme.m_LoadingColor,    ImGuiColorEditFlags_NoInputs);
 
 			ImGui::EndChild();
 		}
@@ -216,7 +216,7 @@ void UI::CNetWorkWindow::UpdateUserInfo()
 	m_LoaderTheme	   = m_ApiClient.GetLoaderTheme();
 
 }
-void UI::CNetWorkWindow::SendNewUserInfoToServer(const WebApi::CUserInfo & info)
+void UI::CNetWorkWindow::SendNewUserInfoToServer(const WebApi::CUserInfo & info) const
 {
 	POLY_MARKER;
 	m_ApiClient.ChangeUserNameAndStatus(info.m_sName, info.m_sStatus);
@@ -233,7 +233,7 @@ void UI::CNetWorkWindow::SetUserAvatar(const std::string& pathToFile)
 		return;
 	}
 
-	int fileSize = file.tellg();
+	const int fileSize = file.tellg();
 
 	if (fileSize > 20 * 1024)
 	{
@@ -241,18 +241,18 @@ void UI::CNetWorkWindow::SetUserAvatar(const std::string& pathToFile)
 		return;
 	}
 
-	auto tmpFileData = std::unique_ptr<char[]>(new char[fileSize]);
+	const auto tmpFileData = std::unique_ptr<char[]>(new char[fileSize]);
 	file.seekg(0, std::ios::beg);
 	file.read(tmpFileData.get(), fileSize);
 	m_avatarUploadStatus =  m_ApiClient.SetUserAvatar(std::string(tmpFileData.get(), fileSize));
 
-	auto avatarRawData = m_ApiClient.GetRawAvatarData();
+	const auto avatarRawData = m_ApiClient.GetRawAvatarData();
 
 	D3DXCreateTextureFromFileInMemory(m_pDevice, avatarRawData.c_str(), avatarRawData.size(), &m_pTextureUserAvatar);
 	m_pMessageLineList->Add(xorstr("The avatar has been uploaded successfully."), 2000);
 }
 
-void UI::CNetWorkWindow::DrawConfigCombo(const char* label, int* CurrentItem, const std::vector<WebApi::CConfig>& list)
+void UI::CNetWorkWindow::DrawConfigCombo(const char* label, int* CurrentItem, const std::vector<WebApi::CConfig>& list) const
 {
 	POLY_MARKER;
 	auto tmpArr = std::unique_ptr<const char* []>(new const char* [list.size()]);

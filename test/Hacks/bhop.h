@@ -5,7 +5,7 @@
 
 namespace Hacks
 {
-	class CBunnyHop : public CHackingFeature
+	class CBunnyHop final  : public CHackingFeature
 	{
 	public:
 		void Work() override;

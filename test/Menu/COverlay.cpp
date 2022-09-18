@@ -37,7 +37,7 @@ std::string GetCurrentWindowsUserName()
 	const auto buffer = std::unique_ptr<char[]>(new char[buffSize]);
 	GetUserNameA(buffer.get(), &buffSize);
 	
-	return std::string(buffer.get());
+	return buffer.get();
 }
 
 UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
@@ -48,7 +48,6 @@ UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 	ImGui_ImplWin32_Init(FindWindowA(nullptr, WINDOW_NAME));
 	ImGui_ImplDX9_Init(m_pDevice);
 
-	ImGui::GetStyle().AntiAliasedLinesUseTex = false;
 	const auto& io = ImGui::GetIO();
 	
 	ImFontConfig cfg;
@@ -57,40 +56,9 @@ UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 
 
 	m_pFontEsp  = std::unique_ptr<ImFont>(io.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 13.f, &cfg, ranges));
-	auto& style = ImGui::GetStyle();
-	auto& theme = style.Colors;
 
-	style.FrameBorderSize         = 1;
-	style.AntiAliasedLinesUseTex = false;
-	style.AntiAliasedLines       = false;
-	style.AntiAliasedFill        = true;
-	style.ScrollbarRounding      = 0.f;
-	style.WindowMinSize          = ImVec2(10, 10);
 
-	POLY_MARKER;
-	
-	theme[ImGuiCol_Text]                     = ImColor(255, 255, 255);
-	theme[ImGuiCol_TextDisabled]             = ImColor(199, 199, 199);
-	theme[ImGuiCol_WindowBg]				 = ImColor(19, 19, 19);
-	theme[ImGuiCol_ChildBg]                  = ImColor();
-	theme[ImGuiCol_PopupBg]			         = ImColor(19, 19, 19);
-	theme[ImGuiCol_Border]			         = ImColor(255, 95, 95);
-	theme[ImGuiCol_BorderShadow]	         = ImColor();
-	theme[ImGuiCol_FrameBg]                  = ImColor();
-	theme[ImGuiCol_FrameBgHovered]		     = ImColor(255,102,102, 90);
-	theme[ImGuiCol_FrameBgActive]            = ImColor(255, 255, 255, 90);
-	theme[ImGuiCol_Header]			         = ImColor(255, 95, 95);
-	theme[ImGuiCol_HeaderActive]             = ImColor(255, 255, 255, 90);
-	theme[ImGuiCol_HeaderHovered]            = ImColor(255, 102, 102, 90);
-	theme[ImGuiCol_CheckMark]			     = ImColor(255, 95, 95);
-	theme[ImGuiCol_Button]		             = ImColor();
-	theme[ImGuiCol_ButtonHovered]	         = ImColor(255, 102, 102, 90);
-	theme[ImGuiCol_ButtonActive]			 = ImColor(255, 255, 255, 90);
-	theme[ImGuiCol_TextSelectedBg]           = ImColor(255, 95, 95);
-	theme[ImGuiCol_SliderGrab]		         = ImColor(255, 95, 95);
-	theme[ImGuiCol_SliderGrabActive]		 = ImColor(255, 255, 255, 90);
-	theme[ImGuiCol_ScrollbarGrabActive]		 = ImColor(255, 255, 255, 90);
-	theme[ImGuiCol_ScrollbarGrab]		     = ImColor(255, 95, 95);
+	SetImGuiAVhookTheme();
 
 	POLY_MARKER;
 
@@ -145,9 +113,6 @@ void UI::COverlay::Render()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	const auto pDrawList    = ImGui::GetBackgroundDrawList();
-
-
 	if (auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer(); GlobalVars::g_pIEngineClient->IsInGame() and pLocalPlayer)
 	{
 		std::vector<SSDK::CBaseEntity*> validEntities;
@@ -173,13 +138,9 @@ void UI::COverlay::Render()
 
 		// Render Esp
 		for (const auto& pEntity : validEntities)
-		{
 			for (const auto& pEsp : m_vecEspPayload)
-			{
 				if (pEsp->isActive())
 					pEsp->RenderAt(pEntity);
-			}
-		}
 	}
 
 	if (m_bShowUI)
@@ -187,33 +148,12 @@ void UI::COverlay::Render()
 
 		POLY_MARKER;
 
-		const auto windowSize = ImGui::GetMainViewport()->Size;
-	
-		if (GlobalVars::g_AllSettings.m_MiscSettings.m_bWallPaper)
-			pDrawList->AddImage(m_pWallpaper, ImVec2(), ImGui::GetMainViewport()->Size);
-		else
-			pDrawList->AddRectFilled(ImVec2(), windowSize, ImColor(0, 0, 0, 90));
+		DrawMenuBackground();
 
-		for (const auto& window : m_vecWindows)
-		{
-			window->Show();
-		}
+		ShowWindows();
 
 		if (GlobalVars::g_AllSettings.m_MiscSettings.m_bSnowFlakes)
-		{
-
-			for (auto& snowflake : m_vecSnow)
-			{
-				auto vecOrigin = snowflake.GetOrigin();
-
-				if (vecOrigin.y > 0)
-					pDrawList->AddText(vecOrigin, ImColor(255, 255, 255), xorstr("*"));
-
-				snowflake.Update();
-				if (vecOrigin.x > windowSize.x or vecOrigin.y > 150)
-					snowflake.RegenerateOrigin();
-			}
-		}
+			DrawSnowflakes();
 	}
 	m_MessageLineList.Render(ImVec2());
 
@@ -248,4 +188,82 @@ bool UI::COverlay::IsShowUI() const
 void UI::COverlay::ToggleUI()
 {
 	m_bShowUI = !m_bShowUI;
+}
+
+void UI::COverlay::SetImGuiAVhookTheme()
+{
+	auto& style = ImGui::GetStyle();
+	auto& theme = style.Colors;
+
+	style.FrameBorderSize = 1;
+	style.AntiAliasedLinesUseTex = false;
+	style.AntiAliasedLines = false;
+	style.AntiAliasedFill = true;
+	style.ScrollbarRounding = 0.f;
+	style.WindowMinSize = ImVec2(10, 10);
+
+	POLY_MARKER;
+
+	theme[ImGuiCol_Text] = ImColor(255, 255, 255);
+	theme[ImGuiCol_TextDisabled] = ImColor(199, 199, 199);
+	theme[ImGuiCol_WindowBg] = ImColor(19, 19, 19);
+	theme[ImGuiCol_ChildBg] = ImColor();
+	theme[ImGuiCol_PopupBg] = ImColor(19, 19, 19);
+	theme[ImGuiCol_Border] = ImColor(255, 95, 95);
+	theme[ImGuiCol_BorderShadow] = ImColor();
+	theme[ImGuiCol_FrameBg] = ImColor();
+	theme[ImGuiCol_FrameBgHovered] = ImColor(255, 102, 102, 90);
+	theme[ImGuiCol_FrameBgActive] = ImColor(255, 255, 255, 90);
+	theme[ImGuiCol_Header] = ImColor(255, 95, 95);
+	theme[ImGuiCol_HeaderActive] = ImColor(255, 255, 255, 90);
+	theme[ImGuiCol_HeaderHovered] = ImColor(255, 102, 102, 90);
+	theme[ImGuiCol_CheckMark] = ImColor(255, 95, 95);
+	theme[ImGuiCol_Button] = ImColor();
+	theme[ImGuiCol_ButtonHovered] = ImColor(255, 102, 102, 90);
+	theme[ImGuiCol_ButtonActive] = ImColor(255, 255, 255, 90);
+	theme[ImGuiCol_TextSelectedBg] = ImColor(255, 95, 95);
+	theme[ImGuiCol_SliderGrab] = ImColor(255, 95, 95);
+	theme[ImGuiCol_SliderGrabActive] = ImColor(255, 255, 255, 90);
+	theme[ImGuiCol_ScrollbarGrabActive] = ImColor(255, 255, 255, 90);
+	theme[ImGuiCol_ScrollbarGrab] = ImColor(255, 95, 95);
+}
+
+void UI::COverlay::DrawMenuBackground() const
+{
+	const auto windowSize = ImGui::GetMainViewport()->Size;
+	const auto pDrawList        = ImGui::GetBackgroundDrawList();
+
+	if (GlobalVars::g_AllSettings.m_MiscSettings.m_bWallPaper)
+	{
+		pDrawList->AddImage(m_pWallpaper, ImVec2(), ImGui::GetMainViewport()->Size);
+		return;
+	}
+
+	pDrawList->AddRectFilled(ImVec2(), windowSize, ImColor(0, 0, 0, 90));
+
+}
+
+void UI::COverlay::DrawSnowflakes()
+{
+
+	const auto windowSize = ImGui::GetMainViewport()->Size;
+	const auto pDrawList = ImGui::GetBackgroundDrawList();
+
+	for (auto& snowflake : m_vecSnow)
+	{
+		auto vecOrigin = snowflake.GetOrigin();
+
+		if (vecOrigin.y > 0)
+			pDrawList->AddText(vecOrigin, ImColor(255, 255, 255), xorstr("*"));
+
+		snowflake.Update();
+		if (vecOrigin.x > windowSize.x or vecOrigin.y > 150)
+			snowflake.RegenerateOrigin();
+	}
+}
+
+void UI::COverlay::ShowWindows() const
+{
+	for (const auto& window : m_vecWindows)
+		window->Show();
 }

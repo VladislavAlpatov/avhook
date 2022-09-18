@@ -360,6 +360,9 @@
     <ClInclude Include="SDK\Finder.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="Web\CAVSoket.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_draw.cpp">
@@ -546,6 +549,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="SDK\Finder.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Web\CAVSoket.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

@@ -12,7 +12,7 @@ class CBaseBar
 public:
 	virtual ~CBaseBar() = default;
 
-	CBaseBar(float fMaxLength)
+	CBaseBar(const float fMaxLength)
     {
         m_fMaxLength = fMaxLength;
     }
@@ -92,7 +92,7 @@ public:
 	    const auto pSettings = &GlobalVars::g_AllSettings.m_BarEspSettings;
 
 	    const auto fArmorRatio = m_pEntity->m_ArmorValue / 100.f;
-	    const auto fBarHeight = fArmorRatio * m_fMaxLength;
+	    const auto fBarHeight  = fArmorRatio * m_fMaxLength;
 
 	    const auto pDrawList = ImGui::GetBackgroundDrawList();
 
@@ -127,9 +127,10 @@ void CBarsEsp::InternalRenderAt(const SSDK::CBaseEntity* pEntity)
     POLY_MARKER;
 
 
-    const std::vector<std::shared_ptr<CBaseBar>> bars = {
+    const std::vector<std::shared_ptr<CBaseBar>> bars = 
+    {
 	    std::make_shared<CHealthBar>(pEntity, maxBarLength),
-	    std::make_shared<CArmorBar>(pEntity, maxBarLength)
+	    std::make_shared<CArmorBar>(pEntity,  maxBarLength)
     };
 
     ImVec2 barStart = box.m_vecBottomLeft - ImVec2(pSettings->m_iThickness + GlobalVars::g_AllSettings.m_BoxEspSettings.m_iThickness + 2, 0);

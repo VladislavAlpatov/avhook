@@ -24,11 +24,11 @@ namespace Hacks
 		static ImVec3                    CalcAimViewAngles(const ImVec3& origin, const ImVec3& target);
 	private:
 		CUserCmd* m_pCUsrCmd = nullptr;
-		bool                      IfEntityInFov(const CBaseEntity* pEntity, const int bone) const;
-		void                      AimSmooth(const CBaseEntity* pEntity, int iBoneId);
-		void                      AimPlain(const  CBaseEntity* pEntity, int iBoneId);
-		CBaseEntity*              GetClosestTargetByDistance(int bone);
-		CBaseEntity*              GetClosestTargetByFov(int bone);
+		bool                      IfEntityInFov(const CBaseEntity* pEntity, const int iBoneId) const;
+		void                      AimSmooth(const CBaseEntity* pEntity, int iBoneId) const;
+		void                      AimPlain(const  CBaseEntity* pEntity, int iBoneId) const;
+		CBaseEntity*              GetClosestTargetByDistance(int bone) const;
+		CBaseEntity*              GetClosestTargetByFov(int bone) const;
 
 		// Get All enemy entites that are Alive, In fov range and can be seen 
 		std::vector<CBaseEntity*> GetValidEntities(const int boneId) const;

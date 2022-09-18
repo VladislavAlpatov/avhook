@@ -173,7 +173,7 @@ ImVec3 ImVec3::operator*(const ImVec3& v) const
     return {x * v.x, y * v.y, z * v.z};
 }
 
-ImVec3 ImVec3::operator/(float fl) const
+ImVec3 ImVec3::operator/(const float fl) const
 {
     return {x / fl, y / fl, z / fl};
 }

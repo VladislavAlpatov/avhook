@@ -7,7 +7,7 @@ class ImVec3 : public ImVec2
 public:
 	float z = 0;
 
-	ImVec3(float x, float y, float z) : ImVec2(x,y)
+	ImVec3(const float x, const float y, const float z) : ImVec2(x,y)
 	{
 		this->z = z;
 	}

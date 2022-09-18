@@ -245,7 +245,7 @@ Settings::CLabelEspSettings& Settings::CLabelEspSettings::operator=(const CLabel
 	for (auto& pLabel : other.m_Labels)
 	{
 		auto pTmpLabel = std::make_shared<CLabels::CBaseLabel>();
-		*pTmpLabel.get() = *pLabel.get();
+		*pTmpLabel = *pLabel.get();
 
 		// We also must copy vft table to safe original functions! 
 		// if we will not do this object will get base class vft tables
@@ -258,6 +258,7 @@ Settings::CLabelEspSettings& Settings::CLabelEspSettings::operator=(const CLabel
 }
 
 Settings::CLabelEspSettings::CLabelEspSettings(const CLabelEspSettings& other)
+	: CBaseSettings(other)
 {
 	POLY_MARKER;
 	m_bActive = true;
@@ -265,10 +266,10 @@ Settings::CLabelEspSettings::CLabelEspSettings(const CLabelEspSettings& other)
 	m_iMaxDrawDistance = other.m_iMaxDrawDistance;
 
 	m_Labels.clear();
-	for (auto pLabel : other.m_Labels)
+	for (const auto& pLabel : other.m_Labels)
 	{
 		auto pTmpLabel = std::make_shared<CLabels::CBaseLabel>();
-		*pTmpLabel.get() = *pLabel.get();
+		*pTmpLabel = *pLabel.get();
 
 		// We also must copy vft table to safe original functions! 
 		// if we will not do this object will get base class vft tabls
@@ -284,12 +285,12 @@ nlohmann::json Settings::CLabelEspSettings::ToJson() const
 
 	POLY_MARKER;
 
-	std::vector<nlohmann::json> lablesJson;
+	std::vector<nlohmann::json> labelsJson;
 	jsn[xorstr("iDrawPos")] = m_iDrawPos;
 	jsn[xorstr("iDrawDistance")] = m_iMaxDrawDistance;
 	POLY_MARKER;
 
-	for (auto pLabel : m_Labels)
+	for (const auto& pLabel : m_Labels)
 	{
 		nlohmann::json labelJson;
 		labelJson[xorstr("bActive")] = pLabel->m_bActive;
@@ -297,9 +298,9 @@ nlohmann::json Settings::CLabelEspSettings::ToJson() const
 		labelJson[xorstr("Name")] = pLabel->m_sName;
 		labelJson[xorstr("Type")] = pLabel->GetTypeId();
 
-		lablesJson.push_back(labelJson);
+		labelsJson.push_back(labelJson);
 	}
-	jsn[xorstr("Labels")] = lablesJson;
+	jsn[xorstr("Labels")] = labelsJson;
 
 	return jsn;
 };
@@ -398,7 +399,7 @@ Settings::CAllSettings::CAllSettings(const nlohmann::json& jsn)
 		m_GlowEspSettings = CGlowEspSettings(jsn[xorstr("GlowEsp")].get<nlohmann::json>());
 
 	POLY_MARKER;
-	auto tmp = jsn[xorstr("CfgName")].get<std::string>();
+	const auto tmp = jsn[xorstr("CfgName")].get<std::string>();
 	m_Name = std::string(tmp.c_str(), 32);
 }
 

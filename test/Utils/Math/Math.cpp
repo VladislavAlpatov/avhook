@@ -1,16 +1,14 @@
 #define _USE_MATH_DEFINES
-
-#pragma once
 #include "Math.h"
 #include <cmath>
 
 
-float Utils::RadiansToDegrees(const float rads)
+float Utils::RadToDeg(const float rads)
 {
 	return rads *  180 / M_PI;
 }
 
-float Utils::DegreesToRadians(const float degrees)
+float Utils::DegToRad(const float degrees)
 {
 	return degrees * M_PI / 180;
 }
@@ -32,7 +30,8 @@ ImVec3 Utils::NormalizeViewAngles(ImVec3 vecViewAngle)
 }
 ImVec3 Utils::ClampViewAngles(ImVec3 vecViewAngles)
 {
-	if (vecViewAngles.x > 89.0f && vecViewAngles.x <= 180.0f)
+	
+	if (vecViewAngles.x > 89.0f and vecViewAngles.x <= 180.0f)
 		vecViewAngles.x = 89.0f;
 
 	if (vecViewAngles.x > 180.0f)

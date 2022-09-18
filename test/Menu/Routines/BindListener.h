@@ -5,10 +5,10 @@ namespace Routines
 	class CBindListener
 	{
 	public:
-		CBindListener() {};
+		CBindListener() = default;;
 		CBindListener(int* pVirtualKeyValue, bool* pShowKeyBinderDialog);
-		int* m_pVirtualKeyValue;
-		bool* m_pShowKeyBinderDialog;
+		int* m_pVirtualKeyValue{};
+		bool* m_pShowKeyBinderDialog{};
 
 		void Listen();
 	private:

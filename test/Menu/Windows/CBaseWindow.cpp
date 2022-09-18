@@ -8,21 +8,21 @@
 #include "../../Utils/xorstr.h"
 #include "../../Utils/Marker.h"
 
-UI::CBaseWindow::CBaseWindow(LPDIRECT3DDEVICE9 pDevice)
+UI::CBaseWindow::CBaseWindow(const LPDIRECT3DDEVICE9 pDevice)
 {
 	POLY_MARKER;
 	m_pDevice = pDevice;
 
-	ImFontConfig fontBUilderConfig;
-	fontBUilderConfig.FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_Monochrome | ImGuiFreeTypeBuilderFlags_MonoHinting;
+	ImFontConfig fontBuilderConfig;
+	fontBuilderConfig.FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_Monochrome | ImGuiFreeTypeBuilderFlags_MonoHinting;
 	const auto imGuiIo = ImGui::GetIO();
 
 	static ImWchar ranges[] = { 0x1, 0xFFFD, 0 };
 
-	m_pFontSmall      = std::unique_ptr<ImFont>(imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdana.ttf"),  11.f, &fontBUilderConfig, ranges));
-	m_pFontSmallBold  = std::unique_ptr<ImFont>(imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 11.f, &fontBUilderConfig, ranges));
-	m_pFontMedium     = std::unique_ptr<ImFont>(imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdana.ttf"),  15.f, &fontBUilderConfig, ranges));
-	m_pFontMediumBold = std::unique_ptr<ImFont>(imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 15.f, &fontBUilderConfig, ranges));
+	m_pFontSmall      = std::unique_ptr<ImFont>(imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdana.ttf"),  11.f, &fontBuilderConfig, ranges));
+	m_pFontSmallBold  = std::unique_ptr<ImFont>(imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 11.f, &fontBuilderConfig, ranges));
+	m_pFontMedium     = std::unique_ptr<ImFont>(imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdana.ttf"),  15.f, &fontBuilderConfig, ranges));
+	m_pFontMediumBold = std::unique_ptr<ImFont>(imGuiIo.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 15.f, &fontBuilderConfig, ranges));
 
 }
 

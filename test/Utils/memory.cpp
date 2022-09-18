@@ -1,4 +1,3 @@
-#pragma once
 #include "memory.h"
 #include <sstream>
 #include <boost/algorithm/string.hpp>

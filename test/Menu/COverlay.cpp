@@ -134,29 +134,21 @@ void UI::COverlay::Render()
 			{
 				return pLocalPlayer->CalcDistanceToEntity(first) > pLocalPlayer->CalcDistanceToEntity(second);
 			});
+		DrawPlayerEsp(validEntities);
 
-
-		// Render Esp
-		for (const auto& pEntity : validEntities)
-			for (const auto& pEsp : m_vecEspPayload)
-				if (pEsp->isActive())
-					pEsp->RenderAt(pEntity);
 	}
 
 	if (m_bShowUI)
 	{
-
 		POLY_MARKER;
-
 		DrawMenuBackground();
-
 		ShowWindows();
 
 		if (GlobalVars::g_AllSettings.m_MiscSettings.m_bSnowFlakes)
 			DrawSnowflakes();
 	}
-	m_MessageLineList.Render(ImVec2());
 
+	m_MessageLineList.Render(ImVec2());
 	if (m_bShowUI or GlobalVars::g_pIEngineClient->IsInGame())
 	{
 		GlobalVars::g_AllSettings.m_RadarSettings.m_bDrawBorders = m_bShowUI;
@@ -266,4 +258,15 @@ void UI::COverlay::ShowWindows() const
 {
 	for (const auto& window : m_vecWindows)
 		window->Show();
+}
+
+void UI::COverlay::DrawPlayerEsp(const std::vector<SSDK::CBaseEntity*>& entities) const
+{
+	if (entities.empty()) return;
+
+
+	for (const auto& pEntity : entities)
+		for (const auto& pEsp : m_vecEspPayload)
+			if (pEsp->isActive())
+				pEsp->RenderAt(pEntity);
 }

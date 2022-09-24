@@ -69,17 +69,6 @@ bool UI::CConsoleWindow::CanBeConvertedToInt(const std::string& str)
 	POLY_MARKER;
 	if (!str.length());
 		return false;
-
-	for (const auto chr : str)
-	{
-		if (chr < '0' or chr > '9')
-			return false;
-	}
-
-	if (str.length() > 1 and str[0] == '0')
-		return false;
-
-	return true;
 }
 
 bool UI::CConsoleWindow::ConsoleExecute(const std::string& text)

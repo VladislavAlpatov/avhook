@@ -19,7 +19,7 @@ UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* 
 
 	
 	m_pMessageLineList = pMessageLineList;
-	auto avatarRawData = m_ApiClient.GetRawAvatarData();
+	const auto avatarRawData = m_ApiClient.GetRawAvatarData();
 
 	D3DXCreateTextureFromFileInMemory(m_pDevice, avatarRawData.c_str(), avatarRawData.size(), &m_pTextureUserAvatar);
 
@@ -111,9 +111,7 @@ void UI::CNetWorkWindow::Render()
 						const auto pSelectedCfg           = &m_ConfigsList[selectedCfgId];
 						GlobalVars::g_AllSettings.m_Name = pSelectedCfg->m_Settings.m_Name;
 
-						const bool status = m_ApiClient.UpdateConfig(pSelectedCfg->m_iUid, GlobalVars::g_AllSettings.ToJson());
-
-						if (!status)
+						if (const bool status = m_ApiClient.UpdateConfig(pSelectedCfg->m_iUid, GlobalVars::g_AllSettings.ToJson()); !status)
 						{
 							m_pMessageLineList->Add(xorstr("An error occurred while trying to update the config."), 3000);
 							return;
@@ -151,9 +149,7 @@ void UI::CNetWorkWindow::Render()
 						defaultSettings.m_Name = fmt::format(xorstr("Config - {}"), selectedCfgId);
 						defaultSettings.m_Name.resize(32);
 
-						const bool status = m_ApiClient.UpdateConfig(m_ConfigsList[selectedCfgId].m_iUid, defaultSettings.ToJson());
-
-						if (!status)
+						if (const bool status = m_ApiClient.UpdateConfig(m_ConfigsList[selectedCfgId].m_iUid, defaultSettings.ToJson()); !status)
 						{
 							m_pMessageLineList->Add(xorstr("An error occurred while trying to restore the config."), 3000);
 							return;
@@ -212,8 +208,8 @@ void UI::CNetWorkWindow::UpdateUserInfo()
 {
 	POLY_MARKER;
 	m_ConfigsList       = m_ApiClient.GetListOfConfigs();
-	m_UserData = m_ApiClient.GetUserInfo();
-	m_LoaderTheme	   = m_ApiClient.GetLoaderTheme();
+	m_UserData          = m_ApiClient.GetUserInfo();
+	m_LoaderTheme	    = m_ApiClient.GetLoaderTheme();
 
 }
 void UI::CNetWorkWindow::SendNewUserInfoToServer(const WebApi::CUserInfo & info) const
@@ -257,7 +253,7 @@ void UI::CNetWorkWindow::DrawConfigCombo(const char* label, int* CurrentItem, co
 	POLY_MARKER;
 	auto tmpArr = std::unique_ptr<const char* []>(new const char* [list.size()]);
 
-	for (int i = 0; i < list.size(); ++i)
+	for (size_t i = 0; i < list.size(); ++i)
 	{
 		tmpArr[i] = list[i].m_Settings.m_Name.c_str();
 	};

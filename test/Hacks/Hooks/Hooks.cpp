@@ -101,12 +101,13 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 	POLY_MARKER;
 
-	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
-	// GlobalVars::pClient->pLocalPlayer->m_Index > 33 prevent from bug when you can peek team
-	if (!pLocalPlayer or !pOverlay or pLocalPlayer->m_Index > 33 or !reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd))
+	if (!pUserCmd or !pUserCmd->command_number)
 	{
-		return false;
+		return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
 	}
+
+	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
+
 
 	POLY_MARKER;
 	
@@ -115,7 +116,6 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 
 	static SSDK::ConVar* pCrosshair = GlobalVars::g_pCvarManager->FindVar(xorstr("crosshair"));
 	pCrosshair->m_pParentCvar->SetValue(GlobalVars::g_AllSettings.m_CrosshairSettings.m_Color.Value.w == 0.f or !GlobalVars::g_AllSettings.m_CrosshairSettings.m_bActive);
-	//pLocalPlayer->m_iDefaultFOV = GlobalVars::g_AllSettings.m_MiscSettings.m_iCustomFov;
 
 	// Looking for "visible" players
 	for (const auto pEnt : GlobalVars::g_pIEntityList->GetEntityList())
@@ -136,12 +136,12 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 		pEnt->m_IsVisible = trace.hit_entity == pEnt;
 	}
 
-	if (pOverlay->IsShowUI() or !pLocalPlayer->IsAlive())
+	if (!pLocalPlayer->IsAlive())
 	{
 		return false;
 	}
 
-	std::array<std::unique_ptr<Hacks::CHackingFeature>, 2> features =
+	const std::array<std::unique_ptr<Hacks::CHackingFeature>, 2> features =
 	{
 		std::make_unique<Hacks::CBunnyHop>(pUserCmd, &GlobalVars::g_AllSettings.m_BunnyHopSettings),
 		std::make_unique<Hacks::CAimBot>(&GlobalVars::g_AllSettings.m_AimBotSettings, pUserCmd)
@@ -151,7 +151,6 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 	{
 		pFeature->Work();
 	}
-	reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
 
 	return !GlobalVars::g_AllSettings.m_AimBotSettings.m_bSilent;
 }

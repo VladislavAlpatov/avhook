@@ -26,6 +26,7 @@ namespace UI
 		void  DrawSnowflakes();
 		void  ShowWindows() const;
 		void  DrawPlayerEsp(const std::vector<SSDK::CBaseEntity*>& entities) const;
+
 		std::vector<SnowFlake>                        m_vecSnow;
 		std::vector<std::shared_ptr<Esp::CUIEsp>>     m_vecEspPayload;
 		PDIRECT3DTEXTURE9                             m_pWallpaper         = nullptr;

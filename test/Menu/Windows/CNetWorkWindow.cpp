@@ -32,6 +32,7 @@ void UI::CNetWorkWindow::Render()
 	{
 		DrawIconAndTittle(xorstr("Network"));
 		DrawCloseWindowButton();
+#ifdef CLOUD_SUPPORT
 		ImGui::BeginChild(xorstr("###Profile"), ImVec2(220, 210), true, m_iImGuiStyle);
 		{
 			PDIRECT3DTEXTURE9 validAvatar = nullptr;
@@ -104,6 +105,7 @@ void UI::CNetWorkWindow::Render()
 			static int selectedCfgId = 0;
 			if (!m_ConfigsList.empty())
 			{
+
 				if (ImGui::Button(xorstr("Upload"), ImVec2(70, 20)))
 				{
 					auto payload = [this]
@@ -122,6 +124,7 @@ void UI::CNetWorkWindow::Render()
 					};
 
 					std::thread(payload).detach();
+
 				}
 
 				ImGui::SameLine();
@@ -162,6 +165,7 @@ void UI::CNetWorkWindow::Render()
 						
 					};
 					std::thread(payload).detach();
+
 				}
 			}
 
@@ -173,6 +177,8 @@ void UI::CNetWorkWindow::Render()
 
 			ImGui::EndChild();
 		}
+#endif
+
 		KeepWindowInScreenArea();
 		ImGui::End();
 	}
@@ -181,7 +187,10 @@ void UI::CNetWorkWindow::OnOpen()
 {
 	POLY_MARKER;
 	m_bAvatarSetWindow = false;
+#ifdef CLOUD_SUPPORT
 	std::thread([this] {UpdateUserInfo(); }).detach();
+#endif
+
 }
 std::string UI::CNetWorkWindow::GetAlias() const
 {
@@ -200,9 +209,11 @@ UI::CNetWorkWindow::~CNetWorkWindow()
 void UI::CNetWorkWindow::OnClose()
 {
 	POLY_MARKER;
-
+#ifdef CLOUD_SUPPORT
 	std::thread([this] {SendNewUserInfoToServer(m_UserData); }).detach();
 	m_pMessageLineList->Add(xorstr("User data successfully updated."), 2000);
+#endif
+
 }
 void UI::CNetWorkWindow::UpdateUserInfo()
 {

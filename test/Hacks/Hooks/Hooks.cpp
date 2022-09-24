@@ -101,9 +101,11 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 	POLY_MARKER;
 	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
-	if (!pUserCmd or !pUserCmd->command_number or !pLocalPlayer)
+
+	// GlobalVars::pClient->pLocalPlayer->m_Index > 33 prevent from bug when you can peek team
+	if (!pLocalPlayer or !pOverlay or pLocalPlayer->m_Index > 33 or !reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd))
 	{
-		return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
+		return false;
 	}
 
 

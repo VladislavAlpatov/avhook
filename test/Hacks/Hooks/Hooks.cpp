@@ -100,13 +100,12 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 {
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 	POLY_MARKER;
-
-	if (!pUserCmd or !pUserCmd->command_number)
+	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
+	if (!pUserCmd or !pUserCmd->command_number or !pLocalPlayer)
 	{
 		return reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd);
 	}
 
-	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
 
 	POLY_MARKER;

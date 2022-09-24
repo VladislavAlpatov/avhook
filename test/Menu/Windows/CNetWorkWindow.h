@@ -22,16 +22,20 @@ namespace UI
 		// Uses as backup from server
 		WebApi::CUserInfo          m_UserData;
 		WebApi::CLoaderTheme	   m_LoaderTheme;
+#ifdef CLOUD_SUPPORT
 		WebApi::CAVHookServerApi   m_ApiClient;
+#endif
+
 		std::vector<WebApi::CConfig> m_ConfigsList;
 		CMessageLineList*          m_pMessageLineList;
 
-		WebApi::AvatarUploadStatus m_avatarUploadStatus;
-		
+		WebApi::AvatarUploadStatus m_avatarUploadStatus; 
+#ifdef CLOUD_SUPPORT
 		void UpdateUserInfo();
 		void SendNewUserInfoToServer(const WebApi::CUserInfo& info) const;
 		void SetUserAvatar(const std::string& pathToFile);
 
 		void DrawConfigCombo(const char* label, int* CurrentItem, const std::vector<WebApi::CConfig>& list) const;
+#endif
 	};
 }

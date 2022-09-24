@@ -19,10 +19,11 @@ UI::CNetWorkWindow::CNetWorkWindow(LPDIRECT3DDEVICE9 pDevice, CMessageLineList* 
 
 	
 	m_pMessageLineList = pMessageLineList;
+#ifdef CLOUD_SUPPORT
 	const auto avatarRawData = m_ApiClient.GetRawAvatarData();
 
 	D3DXCreateTextureFromFileInMemory(m_pDevice, avatarRawData.c_str(), avatarRawData.size(), &m_pTextureUserAvatar);
-
+#endif
 }
 void UI::CNetWorkWindow::Render()
 {
@@ -215,6 +216,7 @@ void UI::CNetWorkWindow::OnClose()
 #endif
 
 }
+#ifdef CLOUD_SUPPORT
 void UI::CNetWorkWindow::UpdateUserInfo()
 {
 	POLY_MARKER;
@@ -270,3 +272,4 @@ void UI::CNetWorkWindow::DrawConfigCombo(const char* label, int* CurrentItem, co
 	};
 	ImGui::Combo(label, CurrentItem, tmpArr.get(), list.size());
 }
+#endif

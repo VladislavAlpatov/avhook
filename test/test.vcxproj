@@ -175,7 +175,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;CLOUD_SUPPORT;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <Optimization>MaxSpeed</Optimization>
@@ -343,6 +343,7 @@
     <ClInclude Include="Web\httplib.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SDK\CUserCMD.cpp" />
     <ClCompile Include="Web\CAVSoket.cpp" />
     <ClCompile Include="SDK\CVarSystem\ICvarSystem.cpp" />
     <ClCompile Include="SDK\CVarSystem\ConVar.cpp" />

@@ -9,6 +9,7 @@
 
 #include "../../Utils/offsets.h"
 #include "../../Utils/Marker.h"
+#include "../../Utils/Math/Math.h"
 
 #include "../../Hacks/AimBot.h"
 #include "../../Hacks/TriggerBot.h"
@@ -34,7 +35,6 @@
 
 using namespace hooks;
 
-
 static uintptr_t		  oPresent;
 static uintptr_t		  oDrawIndexedPrimitive;
 static uintptr_t	      oWndProc;
@@ -55,6 +55,8 @@ void SetWorldColor(const ImColor& col)
 	mat_ambient_light_b->m_pParentCvar->SetValue(col.Value.z);
 
 }
+
+
 int __stdcall hooks::hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE type, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
 {
 	POLY_MARKER;
@@ -69,7 +71,7 @@ int __stdcall hooks::hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITI
 		if (texture.m_bEnableZ)
 		{
 			pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
-			auto res = reinterpret_cast<tDrawIndexedPrimitive>(oDrawIndexedPrimitive)(pDevice, type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
+			const auto res = reinterpret_cast<tDrawIndexedPrimitive>(oDrawIndexedPrimitive)(pDevice, type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
 			pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
 			return res;
 		}
@@ -101,7 +103,6 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 	POLY_MARKER;
 	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
-
 	// GlobalVars::pClient->pLocalPlayer->m_Index > 33 prevent from bug when you can peek team
 	if (!pLocalPlayer or !pOverlay or pLocalPlayer->m_Index > 33 or !reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd))
 	{
@@ -147,6 +148,8 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 		std::make_unique<Hacks::CBunnyHop>(pUserCmd, &GlobalVars::g_AllSettings.m_BunnyHopSettings),
 		std::make_unique<Hacks::CAimBot>(&GlobalVars::g_AllSettings.m_AimBotSettings, pUserCmd)
 	};
+
+	SSDK::fix_usercmd guard(pUserCmd);
 
 	for (const auto& pFeature : features)
 	{

@@ -1,4 +1,8 @@
 #include "IVEngineClient013.h"
+#include "../../Utils/memory.h"
+#include "../../Utils/xorstr.h"
+
+
 using namespace SSDK;
 
 player_info_s IVEngineClient013::GetPlayerInfo(int iEntIndex)
@@ -27,4 +31,20 @@ bool IVEngineClient013::IsConnected()
 {
 	typedef bool(__thiscall* IsConnectedT)(void*);
 	return GetVirtualFunction<IsConnectedT>(27)(this);
+}
+
+ImVec3 IVEngineClient013::GetViewAngles()
+{
+	ImVec3 out;
+	typedef bool(__thiscall* GetViewAngles_t)(void*, ImVec3&);
+	GetVirtualFunction<GetViewAngles_t>(19)(this, out);
+
+	return out;
+}
+
+ClientState* IVEngineClient013::GetClientState()
+{
+	static auto pppClientState = (ClientState***)(Memory::FindPattern(xorstr("engine.dll"), xorstr("8B 04 85 ? ? ? ? 8B 80 ? ? ? ? 89 45 0C")) + 3);
+
+	return **pppClientState;
 }

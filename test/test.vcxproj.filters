@@ -554,6 +554,9 @@
     <ClCompile Include="Web\CAVSoket.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="SDK\CUserCMD.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\about.bmp">

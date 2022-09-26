@@ -1,5 +1,6 @@
 #pragma once
 #include "../Utils/Vec3.h"
+
 namespace SSDK
 {
 	class CUserCmd
@@ -22,5 +23,23 @@ namespace SSDK
 		__int16 m_i16Mousedx;
 		__int16 m_i16MouseDy;
 		bool    m_bHasBeenPredicted;
+	};
+
+
+	
+	class  fix_usercmd
+	{
+	/// <summary>
+	/// Fix movement for overrided CUserCmd
+	/// </summary>
+	public:
+		fix_usercmd(CUserCmd* pUserCmd);
+		~fix_usercmd();
+
+
+	private:
+		CUserCmd* m_pUserCmd{};
+		CUserCmd  m_oldUserCmd;
+
 	};
 }

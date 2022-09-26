@@ -1,6 +1,7 @@
 #pragma once
 #include "../IBaseInterface.h"
-
+#include "../../Utils/Vec3.h"
+#include "../../Utils/offsets.h"
 namespace SSDK
 {
 	typedef struct player_info_s
@@ -18,6 +19,17 @@ namespace SSDK
 		unsigned char           uszFilesDownloader;
 	} player_info_t;
 
+
+	class ClientState
+	{
+	public:
+		union 
+		{
+			DEFINE_MEMBER_N(ImVec3, m_vecViewAngles, signatures::dwClientState_ViewAngles);
+		};
+	};
+
+
 	class IVEngineClient013 : public IBaseInterface
 	{
 	public:
@@ -30,6 +42,9 @@ namespace SSDK
 		int			  GetLocalPlayer();
 		bool          IsInGame();
 		bool          IsConnected();
+		ImVec3		  GetViewAngles();
+		static ClientState* GetClientState();
+
 	};
 
 }

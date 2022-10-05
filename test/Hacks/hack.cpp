@@ -1,11 +1,13 @@
+
 #include "hack.h"
+
 using namespace Hacks;
-CHackingFeature::CHackingFeature(Settings::CBaseSettings* pSettings)
+CHackFeature::CHackFeature(Settings::CBaseSettings* pSettings)
 {
 	m_pSettings = pSettings;
 }
 
-bool CHackingFeature::IsShouldBeActivated() const
+bool CHackFeature::IsShouldBeActivated() const
 {
 	if (!m_pSettings->m_bOnKey)
 		return m_pSettings->m_bActive;

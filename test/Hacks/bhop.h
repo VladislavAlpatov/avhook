@@ -5,14 +5,14 @@
 
 namespace Hacks
 {
-	class CBunnyHop final  : public CHackingFeature
+	class CBunnyHop final  : public CHackFeature
 	{
 	public:
 		void Work() override;
-		CBunnyHop(CUserCmd* pUserCmd, Settings::CBunnyHopSettings* pSettings);
+		CBunnyHop(SSDK::CUserCmd* pUserCmd, Settings::CBunnyHopSettings* pSettings);
 	private:
 		int m_iPerfectJumps = 0;
-		CUserCmd* m_pUserCmd;
+		SSDK::CUserCmd* m_pUserCmd;
 	};
 
 }

@@ -3,7 +3,7 @@
 
 SSDK::GlowObjectDefinition* SSDK::IGlowObjectManager::GetGlowObject(size_t index) const
 {
-	auto arr = ((GlowObjectDefinition**)this)[0];
+	const auto arr = ((GlowObjectDefinition**)this)[0];
 
 	return &arr[index];
 }

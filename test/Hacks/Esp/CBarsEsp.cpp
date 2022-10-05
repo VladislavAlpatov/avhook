@@ -1,7 +1,6 @@
 #include "CBarsEsp.h"
 #include "../../imgui/imgui_internal.h"
 #include "../../Globals/Settings.h"
-#include <list>
 #include <memory>
 
 

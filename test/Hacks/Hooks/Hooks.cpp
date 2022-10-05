@@ -32,9 +32,6 @@
 #include "../../Menu/COverlay.h"
 #include "MinHook.h"
 
-
-using namespace hooks;
-
 static uintptr_t		  oPresent;
 static uintptr_t		  oDrawIndexedPrimitive;
 static uintptr_t	      oWndProc;
@@ -103,13 +100,10 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 	typedef bool(__stdcall* tCreateMove)(int, SSDK::CUserCmd*);
 	POLY_MARKER;
 	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
-	// GlobalVars::pClient->pLocalPlayer->m_Index > 33 prevent from bug when you can peek team
+
+	// DON'T REMOVE THIS IF STATEMENT ITS FIX, IT FIX A BUG WHEN YOU CANT PEEK A TEAM
 	if (!pLocalPlayer or !pOverlay or pLocalPlayer->m_Index > 33 or !reinterpret_cast<tCreateMove>(oCreateMove)(fSampleTime, pUserCmd))
-	{
 		return false;
-	}
-
-
 
 	POLY_MARKER;
 	
@@ -139,22 +133,21 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 	}
 
 	if (!pLocalPlayer->IsAlive())
-	{
 		return false;
-	}
 
-	const std::array<std::unique_ptr<Hacks::CHackingFeature>, 2> features =
+	const std::array<std::unique_ptr<Hacks::CHackFeature>, 2> features =
 	{
 		std::make_unique<Hacks::CBunnyHop>(pUserCmd, &GlobalVars::g_AllSettings.m_BunnyHopSettings),
 		std::make_unique<Hacks::CAimBot>(&GlobalVars::g_AllSettings.m_AimBotSettings, pUserCmd)
 	};
 
+
+	// ===Create Move Fix===
+	// BUG: If silent aimbot is active it cause wrong movement for local player
 	SSDK::fix_usercmd guard(pUserCmd);
 
 	for (const auto& pFeature : features)
-	{
 		pFeature->Work();
-	}
 
 	return !GlobalVars::g_AllSettings.m_AimBotSettings.m_bSilent;
 }
@@ -209,10 +202,10 @@ void hooks::Attach()
 	POLY_MARKER;
 	MH_Initialize();
 	
-	MH_CreateHook((LPVOID)SSDK::FindPresent(),               &hkPresent,             (LPVOID*)&oPresent);
-	MH_CreateHook((LPVOID*)SSDK::FindCreatemove(),           &hCreateMove,           (LPVOID*)&oCreateMove);
-	MH_CreateHook((LPVOID*)SSDK::FindDrawIndexedPrimitive(), &hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
-	MH_CreateHook((LPVOID*)SSDK::FindRenderGlowEffects(),    &hRenderGlowEffects,    (LPVOID*)&oRenderGlowEffects);
+	MH_CreateHook((LPVOID)SSDK::FindPresent(),               hkPresent,             (LPVOID*)&oPresent);
+	MH_CreateHook((LPVOID*)SSDK::FindCreatemove(),           hCreateMove,           (LPVOID*)&oCreateMove);
+	MH_CreateHook((LPVOID*)SSDK::FindDrawIndexedPrimitive(), hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);
+	MH_CreateHook((LPVOID*)SSDK::FindRenderGlowEffects(),    hRenderGlowEffects,    (LPVOID*)&oRenderGlowEffects);
 
 	MH_EnableHook(MH_ALL_HOOKS);
 

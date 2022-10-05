@@ -11,7 +11,7 @@ nlohmann::json Settings::CBaseSettings::ToJson() const
 	jsn[xorstr("Active")] = m_bActive;
 	jsn[xorstr("OnKey")] = m_bOnKey;
 	jsn[xorstr("BindKey")] = m_iBindKey;
-
+	
 	return jsn;
 }
 
@@ -57,18 +57,18 @@ nlohmann::json Settings::CAimBotSettings::ToJson() const
 Settings::CAimBotSettings::CAimBotSettings(const nlohmann::json& jsn)
 {
 	POLY_MARKER;
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Active"), &m_bActive);
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("OnKey"), &m_bOnKey);
-	SetValueIfFiledExistInJson<int>(jsn, xorstr("BindKey"), &m_iBindKey);
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("AutoShot"), &m_bAutoShot);
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("Silent"), &m_bSilent);
-	SetValueIfFiledExistInJson<bool>(jsn, xorstr("RcsControl"), &m_bRcsControle);
-	SetValueIfFiledExistInJson<float>(jsn, xorstr("Fov"), &m_fFov);
-	SetValueIfFiledExistInJson<float>(jsn, xorstr("Smooth"), &m_fSmooth);
-	SetValueIfFiledExistInJson<int>(jsn, xorstr("SelectedHitBox"), &m_iSelectedHitBox);
-	SetValueIfFiledExistInJson<int>(jsn, xorstr("PriorityType"), &m_iPriorityType);
-	SetValueIfFiledExistInJson<int>(jsn, xorstr("HealthBorder"), &m_iHealthBorder);
-	SetValueIfFiledExistInJson<int>(jsn, xorstr("HitBoxFilrerMode"), &m_iHitBoxFilterMode);
+	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("Active"),           &m_bActive);
+	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("OnKey"),            &m_bOnKey);
+	SetValueIfFiledExistInJson<int>(jsn,   xorstr("BindKey"),          &m_iBindKey);
+	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("AutoShot"),         &m_bAutoShot);
+	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("Silent"),           &m_bSilent);
+	SetValueIfFiledExistInJson<bool>(jsn,  xorstr("RcsControl"),       &m_bRcsControle);
+	SetValueIfFiledExistInJson<float>(jsn, xorstr("Fov"),              &m_fFov);
+	SetValueIfFiledExistInJson<float>(jsn, xorstr("Smooth"),           &m_fSmooth);
+	SetValueIfFiledExistInJson<int>(jsn,   xorstr("SelectedHitBox"),   &m_iSelectedHitBox);
+	SetValueIfFiledExistInJson<int>(jsn,   xorstr("PriorityType"),     &m_iPriorityType);
+	SetValueIfFiledExistInJson<int>(jsn,   xorstr("HealthBorder"),     &m_iHealthBorder);
+	SetValueIfFiledExistInJson<int>(jsn,   xorstr("HitBoxFilrerMode"), &m_iHitBoxFilterMode);
 }
 
 nlohmann::json Settings::SnapLinesSettings::ToJson() const

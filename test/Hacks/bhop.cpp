@@ -13,7 +13,7 @@ void CBunnyHop::Work()
 		m_pUserCmd->m_iButtons &= ~2;
 	POLY_MARKER;
 }
-CBunnyHop::CBunnyHop(CUserCmd* pUserCmd, Settings::CBunnyHopSettings* pSettings) : CHackingFeature(pSettings)
+CBunnyHop::CBunnyHop(SSDK::CUserCmd* pUserCmd, Settings::CBunnyHopSettings* pSettings) : CHackFeature(pSettings)
 {
 	POLY_MARKER;
 	m_pUserCmd = pUserCmd;

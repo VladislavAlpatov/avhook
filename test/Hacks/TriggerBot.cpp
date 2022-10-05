@@ -3,7 +3,7 @@
 
 using namespace Hacks;
 
-TriggerBot::TriggerBot(Settings::TriggerBotSettings* settings) : CHackingFeature(settings)
+TriggerBot::TriggerBot(Settings::TriggerBotSettings* settings) : CHackFeature(settings)
 {
 
 }

@@ -3,7 +3,7 @@
 
 namespace Hacks
 {
-	class TriggerBot final: public CHackingFeature
+	class TriggerBot final: public CHackFeature
 	{
 
 	public:

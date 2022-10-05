@@ -8,27 +8,20 @@
 
 using namespace Hacks;
 
-CAimBot::CAimBot(Settings::CAimBotSettings* pSettings, CUserCmd* ppUsrCmd) : CHackingFeature(pSettings)
+CAimBot::CAimBot(Settings::CAimBotSettings* settings, SSDK::CUserCmd* pUsrCmd) : CHackFeature(settings)
 {
-	m_pCUsrCmd = ppUsrCmd;
+	m_pCUsrCmd = pUsrCmd;
 }
 
 int CAimBot::GetBoneIDBySelectedTab(const int iTabIndex)
 {
 	switch (iTabIndex)
 	{
-	case 0:
-		return CBaseEntity::Bone::HEAD;
-		break;
-	case 1:
-		return CBaseEntity::Bone::BODY;
-		break;
-	case 2:
-		return CBaseEntity::Bone::LEGS;
-		break;
+	case 0:return SSDK::CBaseEntity::Bone::HEAD;
+	case 1:return SSDK::CBaseEntity::Bone::BODY;
+	case 2:return SSDK::CBaseEntity::Bone::LEGS;
+	default: return SSDK::CBaseEntity::Bone::HEAD;
 	}
-
-	return CBaseEntity::Bone::HEAD;
 }
 void CAimBot::Work()
 {
@@ -36,7 +29,7 @@ void CAimBot::Work()
 
 	POLY_MARKER;
 
-	const auto pAimBotSettings = (Settings::CAimBotSettings*)m_pSettings;
+	const auto pAimBotSettings = GetSettings<Settings::CAimBotSettings>();
 	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 	if (!IsShouldBeActivated())
 	{
@@ -46,9 +39,9 @@ void CAimBot::Work()
 	}
 	pAimBotSettings->m_bIsWorking = true;
 
-	int aimBone = GetBoneIDBySelectedTab(reinterpret_cast<Settings::CAimBotSettings*>(m_pSettings)->m_iSelectedHitBox);
+	int aimBone = GetBoneIDBySelectedTab(GetSettings<Settings::CAimBotSettings>()->m_iSelectedHitBox);
 
-	CBaseEntity* pEnt = nullptr;
+	SSDK::CBaseEntity* pEnt = nullptr;
 
 	POLY_MARKER;
 
@@ -96,7 +89,7 @@ void CAimBot::Work()
 
 	POLY_MARKER;
 }
-void CAimBot::AimPlain(const CBaseEntity* pEntity, const int iBoneId) const
+void CAimBot::AimPlain(const SSDK::CBaseEntity* pEntity, const int iBoneId) const
 {
 	POLY_MARKER;
 
@@ -105,13 +98,13 @@ void CAimBot::AimPlain(const CBaseEntity* pEntity, const int iBoneId) const
 		m_pCUsrCmd->m_vecViewAngles = calculatedViewAngle;
 	}
 }
-void CAimBot::AimSmooth(const CBaseEntity* pEntity, const int iBoneId) const
+void CAimBot::AimSmooth(const SSDK::CBaseEntity* pEntity, const int iBoneId) const
 {
 	using namespace GlobalVars;
 
 	POLY_MARKER;
 
-	const auto pAimBotSettings = (Settings::CAimBotSettings*)m_pSettings;
+	const auto pAimBotSettings = GetSettings<Settings::CAimBotSettings>();
 
 	const ImVec3 targetViewAngle = CalcAimViewAngles(pEntity, iBoneId);
 
@@ -132,10 +125,10 @@ void CAimBot::AimSmooth(const CBaseEntity* pEntity, const int iBoneId) const
 		m_pCUsrCmd->m_vecViewAngles = currentAngle;
 	}
 }
-bool CAimBot::IfEntityInFov(const CBaseEntity* pEntity, const int iBoneId) const
+bool CAimBot::IfEntityInFov(const SSDK::CBaseEntity* pEntity, const int iBoneId) const
 {
 	using namespace GlobalVars;
-	const auto pAimBotSettings = (Settings::CAimBotSettings*)m_pSettings;
+	const auto pAimBotSettings = GetSettings<Settings::CAimBotSettings>();
 
 	POLY_MARKER;
 
@@ -144,12 +137,12 @@ bool CAimBot::IfEntityInFov(const CBaseEntity* pEntity, const int iBoneId) const
 	ImVec3  deltaFov = (pLocalPlayerAngles - targetAngles);
 	POLY_MARKER;
 
-	return  pAimBotSettings->m_fFov >= deltaFov.Abs().Length2D();
+	return  deltaFov.Abs().Length2D() <= pAimBotSettings->m_fFov;
 }
-CBaseEntity* CAimBot::GetClosestTargetByDistance(const int bone) const
+SSDK::CBaseEntity* CAimBot::GetClosestTargetByDistance(const int bone) const
 {
 	POLY_MARKER;
-	std::vector<CBaseEntity*> validEntities = GetValidEntities(bone);
+	auto validEntities = GetValidEntities(bone);
 	
 	if (validEntities.empty())
 		return nullptr;
@@ -157,18 +150,18 @@ CBaseEntity* CAimBot::GetClosestTargetByDistance(const int bone) const
 	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 	std::sort(validEntities.begin(), validEntities.end(),
 
-		[pLocalPlayer](const CBaseEntity* first, const CBaseEntity* second)
+		[pLocalPlayer](const SSDK::CBaseEntity* first, const SSDK::CBaseEntity* second)
 		{
 			return pLocalPlayer->CalcDistanceToEntity(first) < pLocalPlayer->CalcDistanceToEntity(second);
 		});
 	return validEntities[0];
 }
 
-CBaseEntity* CAimBot::GetClosestTargetByFov(int bone) const
+SSDK::CBaseEntity* CAimBot::GetClosestTargetByFov(int bone) const
 {
 
 	POLY_MARKER;
-	std::vector<CBaseEntity*> validEntities = GetValidEntities(bone);
+	std::vector<SSDK::CBaseEntity*> validEntities = GetValidEntities(bone);
 
 
 	if (validEntities.empty()) return nullptr;
@@ -177,7 +170,7 @@ CBaseEntity* CAimBot::GetClosestTargetByFov(int bone) const
 
 	std::sort(validEntities.begin(), validEntities.end(),
 
-		[this, bone](const CBaseEntity* pEntityFirst, const CBaseEntity* pEntitySecond)
+		[this, bone](const SSDK::CBaseEntity* pEntityFirst, const SSDK::CBaseEntity* pEntitySecond)
 		{
 			const ImVec3 diffFirstEntity = (CalcAimViewAngles(pEntityFirst,   bone) - m_pCUsrCmd->m_vecViewAngles).Abs();
 			const ImVec3 diffSecondEntity = (CalcAimViewAngles(pEntitySecond, bone) - m_pCUsrCmd->m_vecViewAngles).Abs();
@@ -188,7 +181,7 @@ CBaseEntity* CAimBot::GetClosestTargetByFov(int bone) const
 	return validEntities[0];
 }
 
-ImVec3 CAimBot::CalcAimViewAngles(const CBaseEntity* pEntity, const int bone) 
+ImVec3 CAimBot::CalcAimViewAngles(const SSDK::CBaseEntity* pEntity, const int bone) 
 {
 	POLY_MARKER;
 	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
@@ -208,16 +201,16 @@ ImVec3 Hacks::CAimBot::CalcAimViewAngles(const ImVec3& origin, const ImVec3& tar
 	return out;
 }
 
-std::vector<CBaseEntity*> CAimBot::GetValidEntities(const int boneId) const
+std::vector<SSDK::CBaseEntity*> CAimBot::GetValidEntities(const int boneId) const
 {
-	std::vector<CBaseEntity*> validEntities;
+	std::vector<SSDK::CBaseEntity*> validEntities;
 	const auto localPlayer = SSDK::ClientBase::GetLocalPlayer();
 
 	POLY_MARKER;
 
 	for (int i = 1; i < 33; i++)
 	{
-		CBaseEntity* pEntity =GlobalVars::g_pIEntityList->GetClientEntity(i);
+		SSDK::CBaseEntity* pEntity =GlobalVars::g_pIEntityList->GetClientEntity(i);
 
 		if (!pEntity or !pEntity->m_IsVisible)
 			continue;
@@ -230,12 +223,13 @@ std::vector<CBaseEntity*> CAimBot::GetValidEntities(const int boneId) const
 
 }
 
-int Hacks::CAimBot::GetBoneIdByEntityHealth(const CBaseEntity* pEntity) const
+int Hacks::CAimBot::GetBoneIdByEntityHealth(const SSDK::CBaseEntity* pEntity) const
 {
-	const auto pSettings = (Settings::CAimBotSettings*)m_pSettings;
+	const auto pSettings = GetSettings<Settings::CAimBotSettings>();
+
 	POLY_MARKER;
 	if (pEntity->GetHealthPercent() > pSettings->m_iHealthBorder)
-		return CBaseEntity::Bone::HEAD;
+		return SSDK::CBaseEntity::Bone::HEAD;
 	
-	return CBaseEntity::Bone::BODY;
+	return SSDK::CBaseEntity::Bone::BODY;
 }

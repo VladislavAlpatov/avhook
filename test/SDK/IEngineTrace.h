@@ -164,8 +164,8 @@ namespace SSDK
         int                 hitgroup;           // 0 == generic, non-zero is specific body part
         short               physicsbone;        // physics bone hit by trace in studio
         unsigned short      worldSurfaceIndex;  // Index of the msurface2_t, if applicable
-        //IClientEntity* hit_entity;
-        void* hit_entity;
+        //IClientEntity* m_pHitEntity;
+        void* m_pHitEntity;
         int                 hitbox;                       // box hit by trace in studio
 
         CGameTrace() {}
@@ -178,7 +178,7 @@ namespace SSDK
             hitgroup(other.hitgroup),
             physicsbone(other.physicsbone),
             worldSurfaceIndex(other.worldSurfaceIndex),
-            hit_entity(other.hit_entity),
+            m_pHitEntity(other.m_pHitEntity),
             hitbox(other.hitbox)
         {
             startpos = other.startpos;
@@ -206,7 +206,7 @@ namespace SSDK
             hitgroup = other.hitgroup;
             physicsbone = other.physicsbone;
             worldSurfaceIndex = other.worldSurfaceIndex;
-            hit_entity = other.hit_entity;
+            m_pHitEntity = other.m_pHitEntity;
             hitbox = other.hitbox;
             return *this;
         }

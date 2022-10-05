@@ -106,11 +106,11 @@ void UI::CSettingsWindow::Render()
 
 		switch (m_iTab)
 		{
-		case TAB::AimBot:    DrawAimbotChild(); break;
-		case TAB::Visuals:   DrawESPChild();    break;
-		case TAB::Misc:      DrawMiscChild();   break;
-		case TAB::Menu:      DrawCfgChild();    break;
-
+		case AimBot:		DrawAimbotChild();        break;
+		case Visuals:		DrawESPChild();           break;
+		case Misc:			DrawMiscChild();          break;
+		case Menu:			DrawCfgChild();			  break;
+		case TriggerBot:   DrawTriggerBotChild();    break;
 
 		default: break;
 		}

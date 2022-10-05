@@ -17,4 +17,5 @@ namespace SSDK
 	uintptr_t FindDrawIndexedPrimitive();
 	uintptr_t FindRenderGlowEffects();
 	uintptr_t FindPresent();
+	BYTE*	  GetForceAttack();
 }

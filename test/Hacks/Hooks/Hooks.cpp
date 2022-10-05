@@ -129,16 +129,17 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 
 		GlobalVars::g_pIEngineTrace->TraceRay(ray, MASK_SHOT | CONTENTS_GRATE, &tracefilter, &trace);
 
-		pEnt->m_IsVisible = trace.hit_entity == pEnt;
+		pEnt->m_IsVisible = trace.m_pHitEntity == pEnt;
 	}
 
 	if (!pLocalPlayer->IsAlive())
 		return false;
 
-	const std::array<std::unique_ptr<Hacks::CHackFeature>, 2> features =
+	const std::array<std::unique_ptr<Hacks::CHackFeature>, 3> features =
 	{
 		std::make_unique<Hacks::CBunnyHop>(pUserCmd, &GlobalVars::g_AllSettings.m_BunnyHopSettings),
-		std::make_unique<Hacks::CAimBot>(&GlobalVars::g_AllSettings.m_AimBotSettings, pUserCmd)
+		std::make_unique<Hacks::CAimBot>(&GlobalVars::g_AllSettings.m_AimBotSettings, pUserCmd),
+		std::make_unique<Hacks::TriggerBot>(&GlobalVars::g_AllSettings.m_TriggerBotSettings),
 	};
 
 
@@ -173,7 +174,7 @@ int __fastcall hooks::hRenderGlowEffects(SSDK::IGlowObjectManager* pThis, void* 
 
 	POLY_MARKER;
 	static auto glowEsp = Esp::CGlowEsp(&GlobalVars::g_AllSettings.m_GlowEspSettings);
-	auto pLocalPlayer   = SSDK::ClientBase::GetLocalPlayer();
+	const auto pLocalPlayer   = SSDK::ClientBase::GetLocalPlayer();
 
 	if (!glowEsp.isActive() or !pLocalPlayer or !GlobalVars::g_pIEngineClient->IsInGame())
 		return reinterpret_cast<RenderGlowEffects_t>(oRenderGlowEffects)(pThis, edx, a2, a3);
@@ -182,8 +183,7 @@ int __fastcall hooks::hRenderGlowEffects(SSDK::IGlowObjectManager* pThis, void* 
 
 	for (int i = 0; i < pThis->GetGlowEntitiesCount(); ++i)
 	{
-
-		auto glowObject = pThis->GetGlowObject(i);
+		const auto glowObject = pThis->GetGlowObject(i);
 
 		if (!glowObject->m_pEntity or glowObject->m_pEntity->GetClientClass()->m_iClassId != SSDK::ClassIndex::CCSPlayer or glowObject->IsUnused() or glowObject->m_pEntity->m_iTeamNum == pLocalPlayer->m_iTeamNum)
 			continue;

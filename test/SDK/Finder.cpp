@@ -39,11 +39,22 @@ uintptr_t SSDK::FindRenderGlowEffects()
 
 uintptr_t SSDK::FindPresent()
 {
-    auto addr = Memory::FindPattern(xorstr("d3d9.dll"), xorstr("?? ?? ?? ?? ?? 83 E4 F8 51 51 56 8B 75 08 8B CE F7 D9 57 1B C9 8D 46 04 23 C8 6A ?? 51 8D 4C 24 10 E8 ?? ?? ?? ?? F7 46 ?? ?? ?? ?? ?? 74 07 BF ?? ?? ?? ?? EB 17"));
+    static auto addr = Memory::FindPattern(xorstr("d3d9.dll"), xorstr("?? ?? ?? ?? ?? 83 E4 F8 51 51 56 8B 75 08 8B CE F7 D9 57 1B C9 8D 46 04 23 C8 6A ?? 51 8D 4C 24 10 E8 ?? ?? ?? ?? F7 46 ?? ?? ?? ?? ?? 74 07 BF ?? ?? ?? ?? EB 17"));
     
     if (!addr)
         throw std::runtime_error(xorstr("Failed to find Present"));
 
     return addr;
+}
+
+BYTE* SSDK::GetForceAttack()
+{
+    static auto addr = *(BYTE**)(Memory::FindPattern(xorstr("client.dll"), xorstr("89 0D ? ? ? ? 8B 0D ? ? ? ? 8B F2 8B C1 83 CE 04")) + 2);
+
+    if (!addr)
+        throw std::runtime_error(xorstr("Failed to find ForceAttack"));
+
+    return addr;
+
 }
 

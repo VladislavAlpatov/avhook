@@ -30,7 +30,7 @@ namespace UI
 		void DrawESPChild();
 		void DrawMiscChild();
 		void DrawCfgChild();
-
+		void DrawTriggerBotChild();
 		PDIRECT3DTEXTURE9               m_pTextureAimBotIcon = nullptr;
 		PDIRECT3DTEXTURE9               m_pTextureEspIcon = nullptr;
 		PDIRECT3DTEXTURE9               m_pTextureMiscIcon = nullptr;

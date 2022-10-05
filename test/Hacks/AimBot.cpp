@@ -188,7 +188,7 @@ ImVec3 CAimBot::CalcAimViewAngles(const SSDK::CBaseEntity* pEntity, const int bo
 	return CalcAimViewAngles(pLocalPlayer->GetCameraPosition(), pEntity->GetBonePosition(bone));
 }
 
-ImVec3 Hacks::CAimBot::CalcAimViewAngles(const ImVec3& origin, const ImVec3& target)
+ImVec3 CAimBot::CalcAimViewAngles(const ImVec3& origin, const ImVec3& target)
 {
 
 	ImVec3 out;

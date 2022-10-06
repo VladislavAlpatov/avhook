@@ -123,7 +123,7 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 		SSDK::CGameTrace   trace;
 		SSDK::Ray_t        ray;
 		SSDK::CTraceFilter tracefilter;
-		tracefilter.pSkip = static_cast<void*>(pLocalPlayer);
+		tracefilter.m_pSkip = static_cast<void*>(pLocalPlayer);
 
 		ray.Init(pLocalPlayer->m_vecOrigin + pLocalPlayer->m_vecViewOffset, pEnt->GetBonePosition(Hacks::CAimBot::GetBoneIDBySelectedTab(GlobalVars::g_AllSettings.m_AimBotSettings.m_iSelectedHitBox)));
 
@@ -139,7 +139,7 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 	{
 		std::make_unique<Hacks::CBunnyHop>(pUserCmd, &GlobalVars::g_AllSettings.m_BunnyHopSettings),
 		std::make_unique<Hacks::CAimBot>(&GlobalVars::g_AllSettings.m_AimBotSettings, pUserCmd),
-		std::make_unique<Hacks::TriggerBot>(&GlobalVars::g_AllSettings.m_TriggerBotSettings),
+		std::make_unique<Hacks::TriggerBot>(&GlobalVars::g_AllSettings.m_TriggerBotSettings, pUserCmd),
 	};
 
 

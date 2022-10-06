@@ -1,5 +1,6 @@
 #pragma once
 #include "hack.h"
+#include "../SDK/CUserCMD.h"
 
 namespace Hacks
 {
@@ -7,10 +8,12 @@ namespace Hacks
 	{
 
 	public:
-		TriggerBot(Settings::TriggerBotSettings* settings);
+		TriggerBot(Settings::TriggerBotSettings* settings, SSDK::CUserCmd* pUsrCmd);
 		void Work() override;
 	private:
-		int bone = 8;
+		SSDK::CUserCmd* m_pUserCmd;
+
+		static bool IsEnemyEntityInSight();
 	};
 }
 

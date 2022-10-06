@@ -111,13 +111,13 @@ namespace SSDK
     public:
         bool ShouldHitEntity(void* pEntityHandle, int /*contentsMask*/)
         {
-            return !(pEntityHandle == pSkip);
+            return !(pEntityHandle == m_pSkip);
         }
         virtual TraceType GetTraceType() const
         {
             return TraceType::TRACE_EVERYTHING;
         }
-        void* pSkip;
+        void* m_pSkip;
     };
 
     class CBaseTrace

@@ -31,6 +31,7 @@ void CAimBot::Work()
 
 	const auto pAimBotSettings = GetSettings<Settings::CAimBotSettings>();
 	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
+
 	if (!IsShouldBeActivated())
 	{
 		pAimBotSettings->m_bIsWorking      = false;

@@ -10,7 +10,7 @@ void CBunnyHop::Work()
 		return;
 	POLY_MARKER;
 	if (!(SSDK::ClientBase::GetLocalPlayer()->m_fFlags & 1))
-		m_pUserCmd->m_iButtons &= ~2;
+		m_pUserCmd->m_iButtons &= ~SSDK::CUserCmd::IN_JUMP;
 	POLY_MARKER;
 }
 CBunnyHop::CBunnyHop(SSDK::CUserCmd* pUserCmd, Settings::CBunnyHopSettings* pSettings) : CHackFeature(pSettings)

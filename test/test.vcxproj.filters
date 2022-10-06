@@ -612,7 +612,6 @@
     <None Include="images\wave3.bin">
       <Filter>source</Filter>
     </None>
-    <None Include="LICENSE" />
     <None Include="Scripts\vckg-auto-install.bat">
       <Filter>Core</Filter>
     </None>

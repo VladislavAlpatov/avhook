@@ -432,9 +432,6 @@
   <ItemGroup>
     <None Include="images\sound1.bin" />
     <None Include="images\wave3.bin" />
-    <None Include="LICENSE">
-      <DeploymentContent>true</DeploymentContent>
-    </None>
     <None Include="Scripts\vckg-auto-install.bat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

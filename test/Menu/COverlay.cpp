@@ -267,9 +267,6 @@ void UI::COverlay::ShowWindows() const
 
 void UI::COverlay::DrawPlayerEsp(const std::vector<SSDK::CBaseEntity*>& entities) const
 {
-	if (entities.empty()) return;
-
-
 	for (const auto& pEntity : entities)
 		for (const auto& pEsp : m_vecEspPayload)
 			if (pEsp->isActive())

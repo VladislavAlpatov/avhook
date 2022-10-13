@@ -363,6 +363,9 @@
     <ClInclude Include="Web\CAVSoket.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\Math\matrix.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_draw.cpp">
@@ -555,6 +558,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="SDK\CUserCMD.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Math\matrix.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

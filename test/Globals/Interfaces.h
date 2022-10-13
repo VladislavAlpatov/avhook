@@ -2,7 +2,6 @@
 
 #include "../SDK/IVEngineClient013/IVEngineClient013.h"
 #include "../SDK/IEngineTrace.h"
-#include "../SDK/ClientBase.h"
 #include "../SDK/IClientEntityList.h"
 #include "../SDK/IGlowObjectManager.h"
 #include "../SDK/CVarSystem/ICvarSystem.h"

@@ -267,6 +267,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Utils\Math\matrix.h" />
     <ClInclude Include="Web\CAVSoket.h" />
     <ClInclude Include="SDK\CVarSystem\ICvarSystem.h" />
     <ClInclude Include="SDK\CVarSystem\ConVar.h" />
@@ -344,6 +345,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDK\CUserCMD.cpp" />
+    <ClCompile Include="Utils\Math\matrix.cpp" />
     <ClCompile Include="Web\CAVSoket.cpp" />
     <ClCompile Include="SDK\CVarSystem\ICvarSystem.cpp" />
     <ClCompile Include="SDK\CVarSystem\ConVar.cpp" />

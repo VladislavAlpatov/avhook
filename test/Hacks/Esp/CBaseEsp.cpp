@@ -1,5 +1,6 @@
 #include "../../Globals/Interfaces.h"
 #include "../../imgui/imgui_internal.h"
+#include  "../../SDK/ClientBase.h"
 
 #include "CBaseEsp.h"
 
@@ -13,15 +14,12 @@ ImVec3 CUIEsp::WorldToScreen(const ImVec3& vecPosition)
     auto matrix = SSDK::ClientBase::GetViewMatrix();
     POLY_MARKER;
 
-    const float _x = matrix[0][0] * vecPosition.x + matrix[0][1] * vecPosition.y + matrix[0][2] * vecPosition.z + matrix[0][3];
-    const float _y = matrix[1][0] * vecPosition.x + matrix[1][1] * vecPosition.y + matrix[1][2] * vecPosition.z + matrix[1][3];
-    // ===NOTE===
-    // Z var is useless since we calc screen cords.
-    // ==========
-    //float _z = pClient->dwViewmatrix[2][0] * vecPosition.x + pClient->dwViewmatrix[2][1] * vecPosition.y + pClient->dwViewmatrix[2][2] * vecPosition.z + pClient->dwViewmatrix[2][3];
+    auto out = matrix * vecPosition;
 
-    // w is depth
-    const float w =  matrix[3][0] * vecPosition.x + matrix[3][1] * vecPosition.y + matrix[3][2] * vecPosition.z + matrix[3][3];
+    const float _x = out.At(0, 0);
+    const float _y = out.At(1, 0);
+    const float w  = out.At(3, 0);
+
 
     ImVec2 ndc;
 

@@ -98,7 +98,6 @@ namespace Settings
 		TriggerBotSettings() = default;
 		bool m_bRageMode = false;
 		int  m_iDelay    = 0;
-
 		nlohmann::json ToJson() const override;
 		TriggerBotSettings(const nlohmann::json& jsn);
 	};

@@ -1,6 +1,7 @@
 #include "CGlowEsp.h"
 #include "../../Globals/Interfaces.h"
 #include "../../Globals/Settings.h"
+#include "../../SDK/ClientBase.h"
 
 
 
@@ -23,7 +24,7 @@ void Esp::CGlowEsp::RenderAt(SSDK::GlowObjectDefinition& glowObj)
 
 float Esp::CGlowEsp::CalcAdaptiveGlowBrightness(const SSDK::CBaseEntity* pEntity, float fMaxDistance)
 {
-	auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
+	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 
 	return  1.f - pLocalPlayer->m_vecOrigin.DistTo(pEntity->m_vecOrigin) / fMaxDistance;
 }

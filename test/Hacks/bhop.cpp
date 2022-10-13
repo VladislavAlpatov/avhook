@@ -1,6 +1,7 @@
 #include "bhop.h"
-#include "../Globals/Interfaces.h"
 #include "../Utils/Marker.h"
+#include "../SDK/ClientBase.h"
+
 using namespace Hacks;
 
 

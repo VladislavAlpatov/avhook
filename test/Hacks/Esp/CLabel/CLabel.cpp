@@ -10,6 +10,7 @@
 #include "../../../Globals/Settings.h"
 #include "../../../Globals/Interfaces.h"
 #include "../../../Utils/Math/Math.h"
+#include "../../../SDK/ClientBase.h"
 
 
 #include <fmt/format.h>

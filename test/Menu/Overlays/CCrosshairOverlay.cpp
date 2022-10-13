@@ -2,6 +2,8 @@
 #include "../../Globals/Settings.h"
 #include "../../imgui/imgui_internal.h"
 #include "../../Globals/Interfaces.h"
+#include "../../SDK/ClientBase.h"
+
 #include <fmt/format.h>
 
 void DrawTexCentered(const ImVec2& pos, ImColor col, const char* text)

@@ -35,14 +35,14 @@ void SSDK::ConVar::SetValue(const char* value)
 	GetVirtualFunction<SetValue_t>(14)(this, value);
 }
 
-void SSDK::ConVar::SetValue(float value)
+void SSDK::ConVar::SetValue(const float value)
 {
 	typedef const char* (__thiscall* SetValue_t)(void*,float);
 
 	GetVirtualFunction<SetValue_t>(15)(this, value);
 }
 
-void SSDK::ConVar::SetValue(int value)
+void SSDK::ConVar::SetValue(const int value)
 {
 	typedef const char* (__thiscall* SetValue_t)(void*,int);
 

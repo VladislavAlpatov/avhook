@@ -2,7 +2,7 @@
 #include "../../../Globals/Settings.h"
 #include "../../../Globals/Interfaces.h"
 #include "../../../imgui/imgui_internal.h"
-
+#include "../../../SDK/ClientBase.h"
 
 void UI::CSettingsWindow::DrawAimbotChild()
 {

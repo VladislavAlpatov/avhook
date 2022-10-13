@@ -18,7 +18,7 @@
 
 #include "../../SDK/CUserCMD.h"
 #include "../../SDK/Finder.h"
-
+#include "../../SDK/ClientBase.h"
 #include "../../Globals/Interfaces.h"
 #include "../../Globals/DirectX9.h"
 #include "../../Globals/Settings.h"
@@ -37,6 +37,7 @@ static uintptr_t		  oDrawIndexedPrimitive;
 static uintptr_t	      oWndProc;
 static uintptr_t	      oCreateMove;
 static uintptr_t		  oRenderGlowEffects;
+static uintptr_t		  oActivateGameOverlay;
 
 static std::unique_ptr<UI::COverlay> pOverlay;
 

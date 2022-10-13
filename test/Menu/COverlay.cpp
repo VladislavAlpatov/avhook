@@ -30,15 +30,7 @@
 #include "../Web/CAVhookServerApi.h"
 #include "../Globals/Settings.h"
 #include "../Globals/Interfaces.h"
-
-std::string GetCurrentWindowsUserName()
-{
-	DWORD buffSize = MAX_PATH;
-	const auto buffer = std::unique_ptr<char[]>(new char[buffSize]);
-	GetUserNameA(buffer.get(), &buffSize);
-	
-	return buffer.get();
-}
+#include "../SDK/ClientBase.h"
 
 UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 {
@@ -85,10 +77,8 @@ UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 	{
 		m_vecSnow.emplace_back(ImVec2(0, 2), 1920);
 	}
-
-
-	const std::string pathToWallpaper = fmt::format(xorstr("C:\\Users\\{}\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper"), GetCurrentWindowsUserName());
-	D3DXCreateTextureFromFileA(m_pDevice, pathToWallpaper.c_str(), &m_pWallpaper);
+	
+	D3DXCreateTextureFromFileA(m_pDevice, GetPathToCurrentWallpaper().c_str(), &m_pWallpaper);
 
 	POLY_MARKER;
 
@@ -271,4 +261,14 @@ void UI::COverlay::DrawPlayerEsp(const std::vector<SSDK::CBaseEntity*>& entities
 		for (const auto& pEsp : m_vecEspPayload)
 			if (pEsp->isActive())
 				pEsp->RenderAt(pEntity);
+}
+
+std::string UI::COverlay::GetPathToCurrentWallpaper() const
+{
+	DWORD nameBufferSize = MAX_PATH;
+	const auto pNameBuffer = std::unique_ptr<char[]>(new char[nameBufferSize]);
+	GetUserNameA(pNameBuffer.get(), &nameBufferSize);
+
+
+	return fmt::format(xorstr("C:\\Users\\{}\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper"), pNameBuffer.get());
 }

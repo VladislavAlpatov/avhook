@@ -4,7 +4,7 @@
 
 #include "../Utils/Math/Math.h"
 #include "../Utils/Marker.h"
-
+#include "../SDK/ClientBase.h"
 
 using namespace Hacks;
 

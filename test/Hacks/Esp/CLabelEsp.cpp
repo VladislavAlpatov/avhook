@@ -2,6 +2,8 @@
 #include "../../imgui/imgui_internal.h"
 #include "../../Globals/Settings.h"
 #include "../../Globals/Interfaces.h"
+#include "../../SDK/ClientBase.h"
+
 using namespace Esp;
 
 void CLabelEsp::InternalRenderAt(const SSDK::CBaseEntity* pEntity)

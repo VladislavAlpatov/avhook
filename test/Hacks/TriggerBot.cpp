@@ -3,6 +3,7 @@
 #include "../Globals/Interfaces.h"
 #include  "../SDK/Finder.h"
 #include "../Utils/Marker.h"
+#include "../SDK/ClientBase.h"
 
 
 using namespace Hacks;

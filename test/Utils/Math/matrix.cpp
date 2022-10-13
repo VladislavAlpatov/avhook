@@ -72,6 +72,8 @@ matrix::matrix(const matrix&& other) noexcept
 	for (BYTE i = 0; i < m_iRows; ++i)
 		for (BYTE j = 0; j < m_iColumns; ++j)
 			m_ppData[i][j] = other.m_ppData[i][j];
+
+	m_ppData = nullptr;
 }
 
 BYTE matrix::GetColumnsCount() const
@@ -216,6 +218,10 @@ matrix matrix::operator/(const float f) const
 
 matrix::~matrix()
 {
+	// If move constructor moved pointer to another class
+	// so we must NOT delete this memory
+	if (!m_ppData) return;
+
 	for (BYTE i = 0; i < m_iRows; i++)
 		delete[] m_ppData[i];
 	delete[] m_ppData;

@@ -1,52 +1,37 @@
 #include "memory.h"
-#include <sstream>
-#include <boost/algorithm/string.hpp>
-#include <Psapi.h>
 #include "xorstr.h"
 #include "Marker.h"
+#include <vector>
 
-
-MODULEINFO GetModuleInfo(const char* szModule)
+BYTE GetBit(char chr)
 {
-	MODULEINFO modinfo = { 0 };
-	const HMODULE hModule = GetModuleHandleA(szModule);
+	chr = tolower(chr);
 
-	if (hModule == nullptr)
-		return modinfo;
+	if ('a' <= chr and chr <= 'z')
+		return chr - 'a' + 10;
+	return chr - '0';
 
-	GetModuleInformation(GetCurrentProcess(), hModule, &modinfo, sizeof(MODULEINFO));
-	return modinfo;
 }
-
-UINT StrHexToByte(const std::string& str)
+std::vector<BYTE> GetSignatureBytes(const char* str)
 {
-	UINT iOutNumber;
-	std::stringstream ss;
-	ss << std::hex << str;
-	ss >> iOutNumber;
-
-
-	return iOutNumber;
-}
-
-std::vector<BYTE> GetSignatureBytes(const std::string& str)
-{
-	POLY_MARKER;
-
-	std::vector<std::string> strs;
 	std::vector<BYTE> bytes;
-	boost::split(strs, str, boost::is_any_of(" "));
+	const auto length = strlen(str);
 
-	for (auto& strHex : strs)
+	for (size_t i = 0; i < length;)
 	{
-		if (strHex == xorstr("??") or strHex == xorstr("?"))
+		if (str[i] == ' ')
 		{
-			bytes.push_back('\?');
+			i += 1;
 			continue;
 		}
-
-		bytes.push_back(StrHexToByte(strHex));
-
+		if (str[i] == '?')
+		{
+			bytes.push_back('\?');
+			i+1 < length and str[i+1] == '?' ? i += 2 : i++;
+			continue;
+		}
+		bytes.push_back(GetBit(str[i]) * 16 + GetBit(str[i + 1]));
+		i += 2;
 	}
 
 	return bytes;
@@ -56,16 +41,20 @@ uintptr_t Memory::FindPattern(const char* moduleName, const char* signature)
 {
 	POLY_MARKER;
 
-	auto [lpBaseOfDll, SizeOfImage, EntryPoint] = GetModuleInfo(moduleName);
-	const auto base = (uintptr_t)lpBaseOfDll;
+	const auto base = (uintptr_t)GetModuleHandleA(moduleName);
+
+	const auto imageNTHeaders = (PIMAGE_NT_HEADERS)(base + ((PIMAGE_DOS_HEADER)base)->e_lfanew);
+
 
 	POLY_MARKER;
 
-	const auto size = (uintptr_t)SizeOfImage;
 
 	const auto pattern = GetSignatureBytes(signature);
 
-	for (uintptr_t i = 0; i < size - pattern.size(); i++)
+	const auto start    = imageNTHeaders->OptionalHeader.BaseOfCode;
+	const auto scanSize = imageNTHeaders->OptionalHeader.SizeOfCode;
+
+	for (uintptr_t i = start; i < scanSize - pattern.size(); i++)
 	{
 		bool found = true;
 

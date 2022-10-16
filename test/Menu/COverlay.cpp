@@ -7,7 +7,6 @@
 #include "Windows/CTaskBarWindow.h"
 #include "Windows/CNetWorkWindow.h"
 #include "Windows/CRadarWindow.h"
-#include "Windows/CConsoleWindow.h"
 
 
 #include "../Hacks/Esp/CBarsEsp.h"
@@ -53,16 +52,12 @@ UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 	SetImGuiAVhookTheme();
 
 	POLY_MARKER;
+	m_vecWindows.push_back(std::make_shared<CNetWorkWindow>(m_pDevice, &m_MessageLineList));
+	m_vecWindows.push_back(std::make_shared<CSettingsWindow>(m_pDevice, &m_MessageLineList, &m_bShowKeyBindDialog));
+	m_vecWindows.push_back(std::make_shared<CAboutWindow>(m_pDevice));
 
-	m_vecWindows.push_back(std::make_shared<UI::CAboutWindow>(m_pDevice));
-	m_vecWindows.push_back(std::make_shared<UI::CSettingsWindow>(m_pDevice, &m_MessageLineList, &m_bShowKeyBindDialog));
-	m_vecWindows.push_back(std::make_shared<UI::CNetWorkWindow>(m_pDevice,  &m_MessageLineList));
-	m_vecWindows.push_back(std::make_shared<UI::CConsoleWindow>(m_pDevice));
-
-	const std::vector dockWindows= { m_vecWindows[0], m_vecWindows[1], m_vecWindows[2], m_vecWindows[3] };
-
-	m_vecWindows.push_back(std::make_shared<UI::CDockWindow>(m_pDevice, dockWindows));
-	m_vecWindows.push_back(std::make_shared<UI::CTaskBarWindow>(pDevice));
+	m_vecWindows.push_back(std::make_shared<CDockWindow>(m_pDevice, m_vecWindows));
+	m_vecWindows.push_back(std::make_shared<CTaskBarWindow>(pDevice));
 
 	POLY_MARKER;
 
@@ -147,12 +142,12 @@ void UI::COverlay::Render()
 	if (m_bShowUI or GlobalVars::g_pIEngineClient->IsInGame())
 	{
 		GlobalVars::g_AllSettings.m_RadarSettings.m_bDrawBorders = m_bShowUI;
-		UI::CRadarWindow(&GlobalVars::g_AllSettings.m_RadarSettings).Show();
+		CRadarWindow(&GlobalVars::g_AllSettings.m_RadarSettings).Show();
 	}
 
 	if (m_bShowKeyBindDialog)
 	{
-		UI::CBindListenerOverlay(m_pFontEsp.get()).Show();
+		CBindListenerOverlay(m_pFontEsp.get()).Show();
 	}
 
 	if (GlobalVars::g_AllSettings.m_CrosshairSettings.m_bActive and GlobalVars::g_pIEngineClient->IsInGame())

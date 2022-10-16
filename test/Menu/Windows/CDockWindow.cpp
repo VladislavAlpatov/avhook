@@ -2,9 +2,7 @@
 #include "../../Utils/xorstr.h"
 #include "../../Utils/Marker.h"
 
-#include <boost/algorithm/string.hpp>
-
-UI::CDockWindow::CDockWindow(LPDIRECT3DDEVICE9 pDevice, const std::vector<std::shared_ptr<CBaseWindow>>& windowList) : CBaseWindow(pDevice)
+UI::CDockWindow::CDockWindow(const LPDIRECT3DDEVICE9 pDevice, const std::vector<std::shared_ptr<CBaseWindow>>& windowList) : CBaseWindow(pDevice)
 {
 	POLY_MARKER;
 	m_WindowList = windowList;
@@ -21,7 +19,9 @@ void UI::CDockWindow::Render()
 		for (const auto& pWindow : m_WindowList)
 		{
 			auto windowAlias = pWindow->GetAlias();
-			boost::to_upper(windowAlias);
+
+			for (char& chr : windowAlias) 
+				chr = (char)toupper(chr);
 
 			if (ImGui::Button(windowAlias.c_str(), ImVec2(100, 25)))
 				pWindow->Toggle();

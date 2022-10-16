@@ -51,6 +51,7 @@ uintptr_t Memory::FindPattern(const char* moduleName, const char* signature)
 
 	const auto pattern = GetSignatureBytes(signature);
 
+	// Define .code segment as scan area
 	const auto start    = imageNTHeaders->OptionalHeader.BaseOfCode;
 	const auto scanSize = imageNTHeaders->OptionalHeader.SizeOfCode;
 

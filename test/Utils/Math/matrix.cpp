@@ -3,15 +3,18 @@
 #include <utility>
 
 
-matrix::matrix(const BYTE rows, const BYTE columns)
+matrix::matrix(const size_t rows, const size_t columns)
 {
+	if (rows == 0 and columns == 0)
+		throw std::runtime_error("Matrix cannot be 0x0");
+
 	m_iRows = rows;
 	m_iColumns = columns;
 
 	m_ppData = Allocate2DArray(m_iRows, m_iColumns);
 
-	for (BYTE i = 0; i < m_iRows; ++i)
-		for (BYTE j = 0; j < m_iColumns; ++j)
+	for (size_t i = 0; i < m_iRows; ++i)
+		for (size_t j = 0; j < m_iColumns; ++j)
 			m_ppData[i][j] = 0;
 }
 
@@ -23,8 +26,8 @@ matrix::matrix(const std::vector<std::vector<float>>& rows)
 
 	m_ppData = Allocate2DArray(m_iRows, m_iColumns);
 
-	for (BYTE i = 0; i < m_iRows; ++i)
-		for (BYTE j = 0; j < m_iColumns; ++j)
+	for (size_t i = 0; i < m_iRows; ++i)
+		for (size_t j = 0; j < m_iColumns; ++j)
 			m_ppData[i][j] = rows[i][j];
 }
 
@@ -36,12 +39,12 @@ matrix::matrix(const matrix& other)
 
 	m_ppData = Allocate2DArray(m_iRows, m_iColumns);
 
-	for (BYTE i = 0; i < m_iRows; ++i)
-		for (BYTE j = 0; j < m_iColumns; ++j)
-			At(i, j) = other.At(i, j);
+	for (size_t i = 0; i < m_iRows; ++i)
+		for (size_t j = 0; j < m_iColumns; ++j)
+			at(i, j) = other.at(i, j);
 }
 
-matrix::matrix(const BYTE rows, const BYTE columns,float* pRaw)
+matrix::matrix(const size_t rows, const size_t columns,float* pRaw)
 {
 	m_iRows    = rows;
 	m_iColumns = columns;
@@ -49,7 +52,7 @@ matrix::matrix(const BYTE rows, const BYTE columns,float* pRaw)
 
 	m_ppData = Allocate2DArray(m_iRows, m_iColumns);
 
-	for (BYTE i = 0; i < m_iRows; ++i)
+	for (size_t i = 0; i < m_iRows; ++i)
 	{
 		memcpy(*(m_ppData+i), pRaw, sizeof(float) * m_iColumns);
 		pRaw += m_iColumns;
@@ -57,7 +60,7 @@ matrix::matrix(const BYTE rows, const BYTE columns,float* pRaw)
 		
 }
 
-BYTE matrix::GetRowsCount() const
+size_t matrix::get_rows_count() const
 {
 	return m_iRows;
 }
@@ -69,40 +72,40 @@ matrix::matrix(const matrix&& other) noexcept
 
 	m_ppData = Allocate2DArray(m_iRows, m_iColumns);
 
-	for (BYTE i = 0; i < m_iRows; ++i)
-		for (BYTE j = 0; j < m_iColumns; ++j)
+	for (size_t i = 0; i < m_iRows; ++i)
+		for (size_t j = 0; j < m_iColumns; ++j)
 			m_ppData[i][j] = other.m_ppData[i][j];
 
 	m_ppData = nullptr;
 }
 
-BYTE matrix::GetColumnsCount() const
+size_t matrix::get_columns_count() const
 {
 	return m_iColumns;
 }
 
-std::pair<BYTE, BYTE> matrix::GetSize() const
+std::pair<size_t, size_t> matrix::get_size() const
 {
-	return { GetRowsCount(), GetColumnsCount() };
+	return { get_rows_count(), get_columns_count() };
 }
 
-float& matrix::At(const BYTE iRow, const BYTE iCol)
+float& matrix::at(const size_t iRow, const size_t iCol)
 {
 	return m_ppData[iRow][iCol];
 }
 
-float matrix::GetSumOfAllNumbers()
+float matrix::get_sum()
 {
 	float sum = 0;
 
-	for (BYTE i = 0; i < GetRowsCount(); i++)
-		for (BYTE j = 0; j < GetColumnsCount(); j++)
-			sum += At(i, j);
+	for (size_t i = 0; i < get_rows_count(); i++)
+		for (size_t j = 0; j < get_columns_count(); j++)
+			sum += at(i, j);
 
 	return  sum;
 }
 
-const float& matrix::At(const BYTE iRow, const BYTE iCol) const
+const float& matrix::at(const size_t iRow, const size_t iCol) const
 {
 	return m_ppData[iRow][iCol];
 }
@@ -114,10 +117,10 @@ matrix matrix::operator*(const matrix& other)
 
 	auto outMat = matrix(m_iRows, other.m_iColumns);
 
-	for (BYTE d = 0; d < m_iRows; ++d)
-		for (BYTE i = 0; i < other.m_iColumns; ++i)
-			for (BYTE j = 0; j < other.m_iRows; ++j)
-				outMat.At(d, i) += At(d, j) * other.At(j, i);
+	for (size_t d = 0; d < m_iRows; ++d)
+		for (size_t i = 0; i < other.m_iColumns; ++i)
+			for (size_t j = 0; j < other.m_iRows; ++j)
+				outMat.at(d, i) += at(d, j) * other.at(j, i);
 
 
 	return outMat;
@@ -126,9 +129,9 @@ matrix matrix::operator*(const matrix& other)
 matrix matrix::operator*(const float f) const
 {
 	auto out = *this;
-	for (BYTE i = 0; i < m_iRows; ++i)
-		for (BYTE j = 0; j < m_iColumns; ++j)
-			out.At(i, j) *= f;
+	for (size_t i = 0; i < m_iRows; ++i)
+		for (size_t j = 0; j < m_iColumns; ++j)
+			out.at(i, j) *= f;
 
 	return out;
 }
@@ -136,10 +139,10 @@ matrix matrix::operator*(const float f) const
 matrix matrix::operator*(const ImVec3& vec3)
 {
 	auto vecmatrix = matrix(4, 1);
-	vecmatrix.At(0, 0) = vec3.x;
-	vecmatrix.At(1, 0) = vec3.y;
-	vecmatrix.At(2, 0) = vec3.z;
-	vecmatrix.At(3, 0) = 1;
+	vecmatrix.at(0, 0) = vec3.x;
+	vecmatrix.at(1, 0) = vec3.y;
+	vecmatrix.at(2, 0) = vec3.z;
+	vecmatrix.at(3, 0) = 1;
 
 	return *this * vecmatrix;
 
@@ -147,27 +150,27 @@ matrix matrix::operator*(const ImVec3& vec3)
 
 matrix& matrix::operator*=(const float f)
 {
-	for (BYTE i = 0; i < GetRowsCount(); i++)
-		for (BYTE j = 0; j < GetColumnsCount(); j++)
-			At(i, j) *= f;
+	for (size_t i = 0; i < get_rows_count(); i++)
+		for (size_t j = 0; j < get_columns_count(); j++)
+			at(i, j) *= f;
 
 	return *this;
 }
 
-void matrix::Clear()
+void matrix::clear()
 {
-	for (BYTE i = 0; i < m_iRows; ++i)
-		for (BYTE j = 0; j < m_iColumns; ++j)
-			At(i, j) = 0.f;
+	for (size_t i = 0; i < m_iRows; ++i)
+		for (size_t j = 0; j < m_iColumns; ++j)
+			at(i, j) = 0.f;
 }
 
-void matrix::Print()
+void matrix::print()
 {
-	for (BYTE i = 0; i < GetRowsCount(); i++)
+	for (size_t i = 0; i < get_rows_count(); i++)
 	{
-		for (BYTE j = 0; j < GetColumnsCount(); j++)
+		for (size_t j = 0; j < get_columns_count(); j++)
 		{
-			printf("%.f ", At(i, j));
+			printf("%.f ", at(i, j));
 		}
 		printf("\n");
 
@@ -179,9 +182,9 @@ matrix& matrix::operator=(const matrix& other)
 	if (this == &other)
 		return *this;
 
-	for (BYTE i = 0; i < m_iRows; ++i)
-		for (BYTE j = 0; j < m_iColumns; ++j)
-			At(i, j) = other.At(i, j);
+	for (size_t i = 0; i < m_iRows; ++i)
+		for (size_t j = 0; j < m_iColumns; ++j)
+			at(i, j) = other.at(i, j);
 
 	return *this;
 
@@ -199,9 +202,9 @@ matrix& matrix::operator=(matrix&& other) noexcept
 
 matrix& matrix::operator/=(const float f)
 {
-	for (BYTE i = 0; i < m_iRows; ++i)
-		for (BYTE j = 0; j < m_iColumns; ++j)
-			At(i, j) /= f;
+	for (size_t i = 0; i < m_iRows; ++i)
+		for (size_t j = 0; j < m_iColumns; ++j)
+			at(i, j) /= f;
 
 	return *this;
 }
@@ -209,11 +212,22 @@ matrix& matrix::operator/=(const float f)
 matrix matrix::operator/(const float f) const
 {
 	auto out = *this;
-	for (BYTE i = 0; i < m_iRows; ++i)
-		for (BYTE j = 0; j < m_iColumns; ++j)
-			out.At(i, j) /= f;
+	for (size_t i = 0; i < m_iRows; ++i)
+		for (size_t j = 0; j < m_iColumns; ++j)
+			out.at(i, j) /= f;
 
 	return out;
+}
+
+matrix matrix::transpose()
+{
+	matrix transposed = { m_iColumns, m_iRows };
+
+	for (size_t i = 0; i < m_iRows; ++i)
+		for (size_t j = 0; j < m_iColumns; ++j)
+			transposed.at(j, i) = at(i, j);
+
+	return transposed;
 }
 
 matrix::~matrix()
@@ -222,16 +236,16 @@ matrix::~matrix()
 	// so we must NOT delete this memory
 	if (!m_ppData) return;
 
-	for (BYTE i = 0; i < m_iRows; i++)
+	for (size_t i = 0; i < m_iRows; i++)
 		delete[] m_ppData[i];
 	delete[] m_ppData;
 }
 
-float** matrix::Allocate2DArray(const BYTE i, const BYTE j)
+float** matrix::Allocate2DArray(const size_t i, const size_t j)
 {
 	const auto pArr = new float* [i];
 
-	for (BYTE x = 0; x < i; ++x)
+	for (size_t x = 0; x < i; ++x)
 		pArr[x] = new float[j];
 
 	return pArr;

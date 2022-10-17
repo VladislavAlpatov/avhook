@@ -7,6 +7,7 @@ using namespace Hacks;
 
 void CBunnyHop::Work()
 {
+	POLY_MARKER;
 	if (!IsShouldBeActivated())
 		return;
 	POLY_MARKER;

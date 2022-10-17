@@ -1,9 +1,9 @@
-#pragma once
 #include "CMessageLine.h"
 #include "../../imgui/imgui_internal.h"
 
 UI::CMessageLine::CMessageLine(const std::string& text, int showDuration, const ImColor& textColor)
 {
+	POLY_MARKER;
 	m_iShowDuration = showDuration;
 	m_sText = text;
 	m_Color = textColor;
@@ -11,7 +11,7 @@ UI::CMessageLine::CMessageLine(const std::string& text, int showDuration, const 
 
 void UI::CMessageLine::Render(const ImVec2& drawPosition)
 {
-	
+	POLY_MARKER;
 	const ImVec2 messageBackGroundSize = GetSize();
 
 	auto pDrawList    = ImGui::GetForegroundDrawList();
@@ -19,7 +19,7 @@ void UI::CMessageLine::Render(const ImVec2& drawPosition)
 	pDrawList->AddRectFilled(drawPosition, drawPosition + messageBackGroundSize, (ImColor)colorTheme[ImGuiCol_WindowBg]);
 	pDrawList->AddRect(drawPosition,       drawPosition + messageBackGroundSize, (ImColor)colorTheme[ImGuiCol_Border]);
 
-
+	POLY_MARKER;
 	// ImVec2(4, 4) <- padding for text;
 	pDrawList->AddText(drawPosition + ImVec2(4, 4), m_Color, m_sText.c_str());
 
@@ -47,10 +47,12 @@ void UI::CMessageLineList::Add(const std::string& text, const int showDuration, 
 
 void UI::CMessageLineList::Render(ImVec2 startPosition)
 {
+	POLY_MARKER;
 	for (int i = 0; i < m_Lines.size(); ++i)
 	{
 		auto messageLine = m_Lines[i];
 
+		POLY_MARKER;
 		if (!messageLine.isShoudShow())
 		{
 			m_Lines.erase(m_Lines.begin() + i);

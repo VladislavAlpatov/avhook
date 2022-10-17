@@ -7,6 +7,7 @@ namespace Esp { class CLabelEsp; }
 
 namespace CLabels
 {
+	
 	enum LabelTypeId : int 
 	{
 		Base = -1,

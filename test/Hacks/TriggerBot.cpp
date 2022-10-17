@@ -10,6 +10,7 @@ using namespace Hacks;
 
 TriggerBot::TriggerBot(Settings::TriggerBotSettings* settings, SSDK::CUserCmd* pUsrCmd) : CHackFeature(settings)
 {
+	POLY_MARKER;
 	m_pUserCmd = pUsrCmd;
 }
 
@@ -27,6 +28,7 @@ void TriggerBot::Work()
 
 bool TriggerBot::IsEnemyEntityInSight()
 {
+	POLY_MARKER;
 	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 	const auto vecRayStart = pLocalPlayer->m_vecOrigin + pLocalPlayer->m_vecViewOffset;
 

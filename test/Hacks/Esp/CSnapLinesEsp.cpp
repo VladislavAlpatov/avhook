@@ -1,8 +1,11 @@
 #include "CSnapLinesEsp.h"
+#include "../../Utils/Marker.h"
+
 using namespace Esp;
 
 void CSnapLinesEsp::InternalRenderAt(const SSDK::CBaseEntity* pEntity)
 {
+    POLY_MARKER;
     const auto pSettings = GetSettings<Settings::SnapLinesSettings>();
 
     ImVec3 pos;
@@ -23,12 +26,15 @@ void CSnapLinesEsp::InternalRenderAt(const SSDK::CBaseEntity* pEntity)
     }
 
     const ImVec3 entity_screen_pos = WorldToScreen(pos);
-
+    POLY_MARKER;
 
     const ImVec2 window_size = ImGui::GetMainViewport()->Size;
 
     const ImVec2 start = ImVec2(window_size.x / 2, window_size.y);
     const auto pDrawList = ImGui::GetBackgroundDrawList();
+
+    POLY_MARKER;
+
     if (!pSettings->m_iDrawMode)
         pDrawList->AddLine(start, entity_screen_pos, pSettings->m_Color, static_cast<float>(pSettings->m_iThickness));
     else

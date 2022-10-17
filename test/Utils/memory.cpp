@@ -5,6 +5,7 @@
 
 BYTE GetBit(char chr)
 {
+	POLY_MARKER;
 	chr = tolower(chr);
 
 	if ('a' <= chr and chr <= 'z')
@@ -14,11 +15,13 @@ BYTE GetBit(char chr)
 }
 std::vector<BYTE> GetSignatureBytes(const char* str)
 {
+	POLY_MARKER;
 	std::vector<BYTE> bytes;
 	const auto length = strlen(str);
 
 	for (size_t i = 0; i < length;)
 	{
+		POLY_MARKER;
 		if (str[i] == ' ')
 		{
 			i += 1;
@@ -30,10 +33,11 @@ std::vector<BYTE> GetSignatureBytes(const char* str)
 			i+1 < length and str[i+1] == '?' ? i += 2 : i++;
 			continue;
 		}
+		POLY_MARKER;
 		bytes.push_back(GetBit(str[i]) * 16 + GetBit(str[i + 1]));
 		i += 2;
 	}
-
+	POLY_MARKER;
 	return bytes;
 }
 

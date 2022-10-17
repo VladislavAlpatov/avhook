@@ -8,6 +8,7 @@ using namespace Esp;
 
 void CLabelEsp::InternalRenderAt(const SSDK::CBaseEntity* pEntity)
 {
+    POLY_MARKER;
 	const auto pSettings = GetSettings<Settings::CLabelEspSettings>();
 
     if (SSDK::ClientBase::GetLocalPlayer()->CalcDistanceToEntity(pEntity) > (float)pSettings->m_iMaxDrawDistance)
@@ -22,6 +23,7 @@ void CLabelEsp::InternalRenderAt(const SSDK::CBaseEntity* pEntity)
 
 void Esp::CLabelEsp::DrawLabelsAtLeftSide(const SSDK::CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels) const
 {
+    POLY_MARKER;
     // Using single char to calc text height for padding
     const float textPadding = ImGui::CalcTextSize(xorstr(" ")).y;
     auto textPos = CalcEspBox(pEntity).m_vecTopRight + ImVec2(GlobalVars::g_AllSettings.m_BoxEspSettings.m_iThickness + 2, 0);
@@ -39,6 +41,7 @@ void Esp::CLabelEsp::DrawLabelsAtLeftSide(const SSDK::CBaseEntity* pEntity, cons
 
 void Esp::CLabelEsp::DrawLabelsAtTop(const SSDK::CBaseEntity* pEntity, const std::vector<std::shared_ptr<CLabels::CBaseLabel>>& labels) const
 {
+    POLY_MARKER;
     // Using single char to calc text height for padding
     auto pSettings = GetSettings<Settings::CLabelEspSettings>();
     const float textPadding = ImGui::CalcTextSize(xorstr(" ")).y;

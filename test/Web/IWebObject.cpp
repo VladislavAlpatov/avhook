@@ -5,6 +5,7 @@
 
 nlohmann::json WebApi::IWebObject::ImColorToJsn(const ImColor& color)
 {
+
 	nlohmann::json jsn;
 	POLY_MARKER;
 	jsn[xorstr("R")] = color.Value.x;

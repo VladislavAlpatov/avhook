@@ -1,19 +1,17 @@
 #include "CAVhookServerApi.h"
+#include "../Utils/Marker.h"
 using namespace WebApi;
 
-#ifndef _DEBUG
-#define AVHOOK_SERVER_URL xorstr("http://server.avhook.ru")
-#else
-#define AVHOOK_SERVER_URL xorstr("http://server.avhook.ru")
-#endif // !_DEBUG
 
 
 CAVHookServerApi::CAVHookServerApi()
 {
-	m_pClient = std::make_unique<httplib::Client>(AVHOOK_SERVER_URL);
+	POLY_MARKER;
+	m_pClient = std::make_unique<httplib::Client>("http://server.avhook.ru");
 }
 CUserInfo CAVHookServerApi::GetUserInfo() const
 {
+	POLY_MARKER;
 	// Download user data from server
 	auto  jsonUserData = nlohmann::json::parse(m_pClient->Get(xorstr("/api/profile/get")).value().body);
 
@@ -21,6 +19,7 @@ CUserInfo CAVHookServerApi::GetUserInfo() const
 }
 void CAVHookServerApi::ChangeUserNameAndStatus(const char* name, const char* status) const 
 {
+	POLY_MARKER;
 	nlohmann::json payloadJson;
 
 	payloadJson[xorstr("name")]   = name;
@@ -30,6 +29,7 @@ void CAVHookServerApi::ChangeUserNameAndStatus(const char* name, const char* sta
 }
 std::vector<CConfig> WebApi::CAVHookServerApi::GetListOfConfigs() const
 {
+	POLY_MARKER;
 	auto jsn = nlohmann::json::parse(m_pClient->Get(xorstr("/api/profile/configs/get/list")).value().body);
 	auto cfgList = std::vector<CConfig>();
 	for (const auto& cfgJson : jsn[xorstr("configs")].get<std::list<nlohmann::json>>())
@@ -40,6 +40,7 @@ std::vector<CConfig> WebApi::CAVHookServerApi::GetListOfConfigs() const
 }
 bool WebApi::CAVHookServerApi::UpdateConfig(const int cfgIid, const json& data)
 {
+	POLY_MARKER;
 	json postJsn;
 
 	postJsn[xorstr("id")]   = cfgIid;
@@ -51,20 +52,24 @@ bool WebApi::CAVHookServerApi::UpdateConfig(const int cfgIid, const json& data)
 }
 std::string CAVHookServerApi::GetRawAvatarData() const
 {
+	POLY_MARKER;
 	return m_pClient->Get(xorstr("/api/profile/get_avatar")).value().body;
 }
 CLoaderTheme WebApi::CAVHookServerApi::GetLoaderTheme() const
 {
+	POLY_MARKER;
 	const auto jsn = nlohmann::json::parse(m_pClient->Get(xorstr("/api/loader/get/theme")).value().body);
 
 	return jsn;
 }
 void WebApi::CAVHookServerApi::UpdateLoaderTheme(const CLoaderTheme& theme) const
 {
+	POLY_MARKER;
 	m_pClient->Post(xorstr("/api/loader/update/theme"), theme.ToJson().dump(), xorstr("application/json"));
 }
 std::string CUserInfo::AccountTypeIdToString() const
 {
+	POLY_MARKER;
 	switch (m_iAccountType)
 	{
 	case AccountType::Standart:   return xorstr("Standard");
@@ -76,6 +81,7 @@ std::string CUserInfo::AccountTypeIdToString() const
 
 bool CAVHookServerApi::AuthByToken(const char* authToken) const
 {
+	POLY_MARKER;
 	auto payloadJsn = json();
 	payloadJsn[xorstr("Token")] = authToken;
 
@@ -86,6 +92,7 @@ bool CAVHookServerApi::AuthByToken(const char* authToken) const
 }
 AvatarUploadStatus CAVHookServerApi::SetUserAvatar(const std::string& rawData) const
 {
+	POLY_MARKER;
 	AvatarUploadStatus status;
 
 	auto inputJsn = json::parse(m_pClient->Post(xorstr("/api/profile/avatar_set"), rawData, xorstr("text/plain")).value().body);
@@ -93,7 +100,7 @@ AvatarUploadStatus CAVHookServerApi::SetUserAvatar(const std::string& rawData) c
 	
 	if (status.m_isSucced)
 		return status;
-
+	POLY_MARKER;
 	status.m_sErrorMessage = inputJsn[xorstr("Reason")].get<std::string>();
 
 	return status;
@@ -101,6 +108,7 @@ AvatarUploadStatus CAVHookServerApi::SetUserAvatar(const std::string& rawData) c
 }
 CUserInfo::CUserInfo(nlohmann::json jsn)
 {
+	POLY_MARKER;
 	const auto sUserName   = jsn[xorstr("name")].get<std::string>();
 	const auto sUserStatus = jsn[xorstr("status")].get<std::string>();
 	// Copy data
@@ -115,6 +123,7 @@ CUserInfo::CUserInfo(nlohmann::json jsn)
 
 WebApi::CLoaderTheme::CLoaderTheme(const json& jsn)
 {
+	POLY_MARKER;
 	m_IconColor       = ImportImColorFromJson(jsn[xorstr("icon_color")].get<json>());
 	m_ActiveIconColor = ImportImColorFromJson(jsn[xorstr("active_icon_color")].get<json>());
 	m_LoadingColor    = ImportImColorFromJson(jsn[xorstr("loading_color")].get<json>());
@@ -124,6 +133,7 @@ WebApi::CLoaderTheme::CLoaderTheme(const json& jsn)
 
 nlohmann::json WebApi::CLoaderTheme::ToJson() const
 {
+	POLY_MARKER;
 	json outJsn;
 	
 	outJsn[xorstr("icon_color")]        = ImColorToJsn(m_IconColor);
@@ -136,6 +146,8 @@ nlohmann::json WebApi::CLoaderTheme::ToJson() const
 
 WebApi::CConfig::CConfig(const json& jsn)
 {
+	POLY_MARKER;
+
 	m_iUid = jsn[xorstr("uid")].get<int>();
 	m_Settings = Settings::CAllSettings(jsn[xorstr("data")].get<json>());
 }

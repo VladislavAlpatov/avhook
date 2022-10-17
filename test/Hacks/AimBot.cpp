@@ -10,11 +10,13 @@ using namespace Hacks;
 
 CAimBot::CAimBot(Settings::CAimBotSettings* settings, SSDK::CUserCmd* pUsrCmd) : CHackFeature(settings)
 {
+	POLY_MARKER;
 	m_pCUsrCmd = pUsrCmd;
 }
 
 int CAimBot::GetBoneIDBySelectedTab(const int iTabIndex)
 {
+	POLY_MARKER;
 	switch (iTabIndex)
 	{
 	case 0:return SSDK::CBaseEntity::Bone::HEAD;
@@ -68,6 +70,7 @@ void CAimBot::Work()
 		pAimBotSettings->m_pCurrentTarget = nullptr;
 		return;
 	}
+
 	if (pAimBotSettings->m_iHitBoxFilterMode == Settings::CAimBotSettings::HitBoxFilterMode::Dynamic)
 		aimBone = GetBoneIdByEntityHealth(pEnt);
 
@@ -191,7 +194,7 @@ ImVec3 CAimBot::CalcAimViewAngles(const SSDK::CBaseEntity* pEntity, const int bo
 
 ImVec3 CAimBot::CalcAimViewAngles(const ImVec3& origin, const ImVec3& target)
 {
-
+	POLY_MARKER;
 	ImVec3 out;
 	const float distance = origin.DistTo(target);
 
@@ -204,6 +207,7 @@ ImVec3 CAimBot::CalcAimViewAngles(const ImVec3& origin, const ImVec3& target)
 
 std::vector<SSDK::CBaseEntity*> CAimBot::GetValidEntities(const int boneId) const
 {
+	POLY_MARKER;
 	std::vector<SSDK::CBaseEntity*> validEntities;
 	const auto localPlayer = SSDK::ClientBase::GetLocalPlayer();
 

@@ -8,6 +8,7 @@ using namespace Esp;
 
 ImVec3 CUIEsp::WorldToScreen(const ImVec3& vecPosition)
 {
+    POLY_MARKER;
     // Screen size 
     const ImVec2 viewPortSize = ImGui::GetMainViewport()->Size;
 

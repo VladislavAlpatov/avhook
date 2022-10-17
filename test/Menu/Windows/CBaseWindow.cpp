@@ -70,7 +70,7 @@ void UI::CBaseWindow::DrawIconAndTittle(const char* tittle) const
 
 	ImGui::Image(m_pTextureIcon, ImVec2(16, 16));
 	ImGui::SameLine();
-
+	POLY_MARKER;
 	ImGui::PushFont(m_pFontMediumBold.get());
 	ImGui::Text(tittle);
 	ImGui::PopFont();
@@ -96,7 +96,10 @@ void UI::CBaseWindow::Show()
 
 	if (m_bIsShow or m_bForceShow)
 	{
+
 		ImGui::PushFont(m_pFontMedium.get());
+
+		POLY_MARKER;
 		Render();
 		ImGui::PopFont();
 	}
@@ -115,6 +118,7 @@ void UI::CBaseWindow::DrawInputTextWithTextOnBackGroundEx(const char* label, con
 		ImGui::InputText(label, text, bufferSize);
 		return;
 	}
+	POLY_MARKER;
 	const auto textPos = ImGui::GetCursorPos();
 	ImGui::InputText(label, text, bufferSize, flags);
 	ImGui::GetWindowDrawList()->AddText(ImGui::GetWindowPos() + textPos + ImVec2(7, 2), bgLabelCol, backGroundLabel);
@@ -136,7 +140,7 @@ void UI::CBaseWindow::DrawImageWithBorder(ImTextureID textureID, const ImVec2& s
 	const auto cursorPos = ImGui::GetCursorPos();
 
 	const auto ImageBorderPos = windowPos + cursorPos - ImVec2(1, 1);
-
+	POLY_MARKER;
 	drawList->AddRect(ImageBorderPos, ImageBorderPos + size + ImVec2(2, 2), (ImColor)ImGui::GetStyle().Colors[ImGuiCol_Border]);
 
 	ImGui::Image(textureID, size);
@@ -159,7 +163,7 @@ void UI::CBaseWindow::DrawMultiLineInputTextWithTextOnBackGround(const char* lab
 	auto textPos = ImGui::GetCursorPos();
 	ImGui::InputTextMultiline(label, text, bufferSize);
 	const auto oldCursorPos = ImGui::GetCursorPos();
-
+	POLY_MARKER;
 	textPos += ImVec2(7, 2);
 
 	ImGui::SetCursorPos(textPos);

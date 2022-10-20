@@ -1,0 +1,1 @@
+target_sources(avhook PRIVATE GlobalVars.cpp GSettings.cpp)

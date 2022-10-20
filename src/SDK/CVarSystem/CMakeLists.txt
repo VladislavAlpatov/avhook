@@ -1,0 +1,1 @@
+target_sources(avhook PRIVATE ConVar.cpp ICvarSystem.cpp)

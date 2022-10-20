@@ -1,0 +1,1 @@
+target_sources(avhook PRIVATE AimbotSubMenu.cpp CfgSubMenu.cpp EspSubMenu.cpp MiscSubMenu.cpp TriggerBotSubMenu.cpp)

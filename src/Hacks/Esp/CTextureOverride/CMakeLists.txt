@@ -1,0 +1,1 @@
+target_sources(avhook PUBLIC CTextureOverride.cpp)

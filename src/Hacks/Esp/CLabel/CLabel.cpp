@@ -12,13 +12,9 @@
 #include "../../../Utils/Math/Math.h"
 #include "../../../SDK/ClientBase.h"
 #include "../../../Utils/Marker.h"
-#include <format>
-
-#include <fmt/format.h>
+#include <fmt/core.h>
 
 using namespace CLabels;
-
-
 
 bool CNameLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const
 {
@@ -39,6 +35,7 @@ bool CHealthLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pE
 bool CArmorLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const
 {
 	POLY_MARKER;
+
 	const auto pDrawList = ImGui::GetBackgroundDrawList();
     const auto text = fmt::format("Armor: {}/100", pEntity->m_ArmorValue);
 
@@ -52,8 +49,8 @@ bool CDistanceLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* 
 	POLY_MARKER;
 	static auto pDrawList = ImGui::GetBackgroundDrawList();
 	const auto distance = SSDK::ClientBase::GetLocalPlayer()->CalcDistanceToEntity(pEntity);
-
     const auto text = fmt::format("Distance: {}m", (int)Utils::HamToMet(distance));
+
 	pDrawList->AddText(vecPosition, m_Color, text.c_str());
 
 	return true;

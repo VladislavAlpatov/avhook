@@ -49,8 +49,6 @@ DWORD WINAPI InitCheat(const HMODULE hModule)
 		POLY_MARKER;
 	}
 
-
-
 	GlobalVars::Init();
 	hooks::Attach();
 

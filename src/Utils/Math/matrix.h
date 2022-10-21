@@ -7,11 +7,11 @@ class matrix
 public:
     matrix(size_t rows, size_t columns);
 
-    matrix(const std::vector<std::vector<float>>& rows);
+    explicit matrix(const std::vector<std::vector<float>>& rows);
     matrix(const matrix& other);
     matrix(size_t rows, size_t columns,float* pRaw);
     size_t get_rows_count() const;
-    matrix(const matrix&& other) noexcept;
+    matrix(matrix&& other) noexcept;
     size_t get_columns_count() const;
 
     std::pair<size_t, size_t> get_size() const;

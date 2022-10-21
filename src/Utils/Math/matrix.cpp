@@ -62,21 +62,17 @@ matrix::matrix(const size_t rows, const size_t columns,float* pRaw)
 
 size_t matrix::get_rows_count() const
 {
+    
 	return m_iRows;
 }
 
-matrix::matrix(const matrix&& other) noexcept
+matrix::matrix(matrix&& other) noexcept
 {
 	m_iRows    = other.m_iRows;
 	m_iColumns = other.m_iColumns;
+	m_ppData = other.m_ppData;
 
-	m_ppData = Allocate2DArray(m_iRows, m_iColumns);
-
-	for (size_t i = 0; i < m_iRows; ++i)
-		for (size_t j = 0; j < m_iColumns; ++j)
-			m_ppData[i][j] = other.m_ppData[i][j];
-
-	m_ppData = nullptr;
+    other.m_ppData = nullptr;
 }
 
 size_t matrix::get_columns_count() const
@@ -138,11 +134,10 @@ matrix matrix::operator*(const float f) const
 
 matrix matrix::operator*(const ImVec3& vec3)
 {
-	auto vecmatrix = matrix(4, 1);
+	auto vecmatrix = matrix(m_iRows, 1);
 	vecmatrix.at(0, 0) = vec3.x;
 	vecmatrix.at(1, 0) = vec3.y;
 	vecmatrix.at(2, 0) = vec3.z;
-	vecmatrix.at(3, 0) = 1;
 
 	return *this * vecmatrix;
 
@@ -153,7 +148,6 @@ matrix& matrix::operator*=(const float f)
 	for (size_t i = 0; i < get_rows_count(); i++)
 		for (size_t j = 0; j < get_columns_count(); j++)
 			at(i, j) *= f;
-
 	return *this;
 }
 

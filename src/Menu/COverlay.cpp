@@ -30,6 +30,7 @@
 #include "../Globals/Settings.h"
 #include "../Globals/Interfaces.h"
 #include "../SDK/ClientBase.h"
+void  DoStuff();
 
 UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 {
@@ -102,7 +103,7 @@ void UI::COverlay::Render()
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-
+    DoStuff();
 	if (auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer(); GlobalVars::g_pIEngineClient->IsInGame() and pLocalPlayer)
 	{
 		std::vector<SSDK::CBaseEntity*> validEntities;
@@ -266,4 +267,47 @@ std::string UI::COverlay::GetPathToCurrentWallpaper() const
 
 
 	return fmt::format(R"(C:\Users\{}\AppData\Roaming\Microsoft\Windows\Themes\TranscodedWallpaper)", pNameBuffer.get());
+}
+void DoStuff()
+{
+    static float angle = 90.f * (180.f / 3.1415926);
+    auto matProj = matrix({
+        {1, 0, 0},
+        {0, 1, 0},
+        {0, 0, 0}
+    });
+    auto matRotation = matrix(
+            {
+                    {1, 0, 0},
+                    {0, cos(angle), -sin(angle)},
+                    {0, sin(angle), cos(angle)}
+            });
+    auto matRotationY = matrix({
+        {cos(angle), 0, sin(angle)},
+        {0, 1, 0},
+        {-sin(angle), 0, cos(angle)}
+
+    });
+    std::array<ImVec3, 8> cube = {
+            ImVec3(-1.f, -1.f, 1.f),
+            ImVec3(1, -1.f, 1.f),
+            ImVec3(1.f, 1.f, 1.f),
+            ImVec3(-1.f, 1.f, 1.f),
+            ImVec3(-1.f, -1.f, -1.f),
+            ImVec3(1.f, -1.f, -1.f),
+            ImVec3(1.f, 1.f, -1.f),
+            ImVec3(-1.f, -1.f, -1.f),
+    };
+    const auto pDrawList = ImGui::GetForegroundDrawList();
+
+    for (const auto& point : cube)
+    {
+        auto projected = matProj * (matRotationY * matRotation * point);
+        float x = projected.at(0, 0) * 100 + 1920 / 2;
+        float y = projected.at(1, 0) * 100 + 1080 / 2;
+
+        pDrawList->AddText({x,y}, ImColor(255, 255, 255), "*");
+    }
+    angle += 0.01f;
+
 }

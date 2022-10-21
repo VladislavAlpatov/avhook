@@ -11,7 +11,7 @@ DWORD WINAPI InitCheat(const HMODULE hModule)
 {
 	POLY_MARKER;
 
-	while (!GetModuleHandleA("serverbrowser.dll"))
+	while (!GetModuleHandleA(xorstr("serverbrowser.dll")))
 		Sleep(50);
 
 #ifdef CLOUD_SUPPORT

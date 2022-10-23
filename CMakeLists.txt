@@ -3,6 +3,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_compile_definitions(WIN32_LEAN_AND_MEAN)
 add_compile_definitions(CLOUD_SUPPORT)
+
 link_directories("C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Lib/x86")
 include_directories("C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include")
 

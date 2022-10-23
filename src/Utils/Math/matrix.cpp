@@ -1,6 +1,6 @@
 #include "matrix.h"
-#include <iostream>
 #include <utility>
+#include <stdexcept>
 
 
 matrix::matrix(const size_t rows, const size_t columns)
@@ -35,7 +35,6 @@ matrix::matrix(const matrix& other)
 {
 	m_iRows    = other.m_iRows;
 	m_iColumns = other.m_iColumns;
-
 
 	m_ppData = Allocate2DArray(m_iRows, m_iColumns);
 

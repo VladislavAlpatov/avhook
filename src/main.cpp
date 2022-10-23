@@ -10,7 +10,7 @@
 DWORD WINAPI InitCheat(const HMODULE hModule)
 {
 	POLY_MARKER;
-
+	
 	while (!GetModuleHandleA(xorstr("serverbrowser.dll")))
 		Sleep(50);
 
@@ -25,7 +25,6 @@ DWORD WINAPI InitCheat(const HMODULE hModule)
 	if (auto razerApi = CRazer(); razerApi.isSupported())
 	{
 		APPINFOTYPE appInfo;
-
 		wcscpy_s(appInfo.Title, L"CSGO");
 		wcscpy_s(appInfo.Description, L"CSGO");
 
@@ -38,7 +37,6 @@ DWORD WINAPI InitCheat(const HMODULE hModule)
 		POLY_MARKER;
 		razerApi.Init();
 		razerApi.InitSDK(&appInfo);
-
 
 		GlobalVars::bChromaSupport = true;
 	}

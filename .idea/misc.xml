@@ -5,7 +5,11 @@
     <sourceRoots>
       <file path="$PROJECT_DIR$/src" />
     </sourceRoots>
+    <libraryRoots>
+      <file path="$PROJECT_DIR$/src/imgui" />
+    </libraryRoots>
     <excludeRoots>
+      <file path="$PROJECT_DIR$/cmake-build" />
       <file path="$PROJECT_DIR$/images" />
       <file path="$PROJECT_DIR$/out" />
     </excludeRoots>

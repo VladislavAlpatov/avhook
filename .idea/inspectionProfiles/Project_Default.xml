@@ -1,0 +1,89 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="ArgumentSelectionDefects" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="ArrayIndexOutOfBounds" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="ClangTidy" enabled="false" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="false" />
+    </inspection_tool>
+    <inspection_tool class="ClangdErrorsAndWarnings" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="Clazy" enabled="false" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="false" />
+    </inspection_tool>
+    <inspection_tool class="ConstantConditionsOC" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="ConstantFunctionResult" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="ConstantParameter" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="DanglingPointer" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="EmptyDeclOrStmt" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="EndlessLoop" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="HidingNonVirtualFunction" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="InfiniteRecursion" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="LocalValueEscapesScope" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="LoopDoesntUseConditionVariable" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="Misra" enabled="false" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="false" />
+    </inspection_tool>
+    <inspection_tool class="NotImplementedFunctions" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="NullDereference" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="OCInconsistentNaming" enabled="false" level="WEAK WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WEAK WARNING" enabled="false" />
+    </inspection_tool>
+    <inspection_tool class="PreprocessorComment" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="Simplify" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="UnconstrainedVariableType" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="UnreachableCallsOfFunction" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="UnreachableCode" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="UnusedLocalVariable" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="UnusedParameter" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="UnusedValue" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="VirtualCallInCtorOrDtor" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Open Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+  </profile>
+</component>

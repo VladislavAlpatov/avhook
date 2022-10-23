@@ -1,14 +1,13 @@
 #pragma once
 #include "httplib.h"
 #include <nlohmann/json.hpp>
-#include <Windows.h>
+#include <windows.h>
 #include <memory>
 #include "IWebObject.h"
 #include "../Menu/Settings.h"
 
 namespace WebApi
 {
-	using namespace nlohmann;
 	class CUserInfo
 	{
 	public:
@@ -37,13 +36,13 @@ namespace WebApi
 	{
 	public:
 		CLoaderTheme() = default;
-		CLoaderTheme(const json& jsn);
+		CLoaderTheme(const nlohmann::json& jsn);
 		ImColor m_IconColor       = { 112, 112, 112, 255 };
 		ImColor m_ActiveIconColor = { 255, 84, 84, 255 };
 		ImColor m_LoadingColor    = { 255, 84, 84, 255 };
 		ImColor m_InjectedColor   = { 108, 255, 94, 255 };
 
-		json ToJson() const override;
+        nlohmann::json ToJson() const override;
 	};
 
 	struct AvatarUploadStatus
@@ -54,7 +53,7 @@ namespace WebApi
 	class CConfig
 	{
 	public:
-		CConfig(const json& jsn);
+		CConfig(const nlohmann::json& jsn);
 		int         m_iUid;
 		Settings::CAllSettings m_Settings;
 	};
@@ -62,7 +61,7 @@ namespace WebApi
 	class CMenuThemeConfig
 	{
 	public:
-		CMenuThemeConfig([[maybe_unused]] const json jsn)
+		CMenuThemeConfig([[maybe_unused]] const nlohmann::json jsn)
 		{
 
 		}
@@ -76,7 +75,7 @@ namespace WebApi
 		CUserInfo GetUserInfo() const;
 		void ChangeUserNameAndStatus(const char* name, const char* status) const;
 		std::vector<CConfig> GetListOfConfigs() const;
-		bool UpdateConfig(const int cfgIid,const json& data);
+		bool UpdateConfig(const int cfgIid,const nlohmann::json& data);
 
 		bool AuthByToken(const char* authToken) const;
 		AvatarUploadStatus SetUserAvatar(const std::string& rawDatas) const;

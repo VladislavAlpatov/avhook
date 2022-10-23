@@ -1,4 +1,9 @@
-﻿#include "COverlay.h"
+﻿/*
+ * Copyright (c) 2022.
+ * Created by Alpatov Softworks with love in Russia.
+ */
+
+#include "COverlay.h"
 #include "../Utils/Marker.h"
 
 #include "Windows/CAboutWindow.h"
@@ -30,8 +35,11 @@
 #include "../Globals/Settings.h"
 #include "../Globals/Interfaces.h"
 #include "../SDK/ClientBase.h"
+
+
 UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 {
+
 	POLY_MARKER;
 	m_pDevice      = pDevice;
 	ImGui::CreateContext();
@@ -39,7 +47,7 @@ UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 	ImGui_ImplDX9_Init(m_pDevice);
 
 	const auto& io = ImGui::GetIO();
-	
+
 	ImFontConfig cfg;
 	cfg.FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_Monochrome | ImGuiFreeTypeBuilderFlags_MonoHinting;
 	static ImWchar ranges[] = { 0x1, 0xFFFD, 0 };

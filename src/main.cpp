@@ -1,4 +1,8 @@
-﻿#include <Windows.h>
+﻿/*
+ * Copyright (c) 2022.
+ */
+
+#include <Windows.h>
 
 #include "Globals/GlobalVars.h"
 #include "Hacks/Hooks/Hooks.h"

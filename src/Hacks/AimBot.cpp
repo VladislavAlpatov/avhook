@@ -1,4 +1,9 @@
 
+/*
+ * Copyright (c) 2022.
+ * Created by Alpatov Softworks with love in Russia.
+ */
+
 #include "AimBot.h"
 #include "../Globals/Interfaces.h"
 

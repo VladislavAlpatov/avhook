@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2022.
+ * Created by Alpatov Softworks with love in Russia.
+ */
+
 #include "memory.h"
 #include "xorstr.h"
 #include "Marker.h"
@@ -66,11 +71,9 @@ uintptr_t Memory::FindPattern(const char* moduleName, const char* signature)
 		for (uintptr_t j = 0; j < pattern.size(); j++)
 		{
 			found = pattern[j] == '\?' or pattern[j] == *(BYTE*)(base + i + j);
-			if (not found)
-				break;
+			if (not found) break;
 		}
-		if (found)
-			return base + i;
+		if (found) return base + i;
 	}
 
 	return NULL;

@@ -1,2 +1,6 @@
+# project non source file
 /out/
 /cmake-build/
+
+# for Visual Studio
+/.vs/

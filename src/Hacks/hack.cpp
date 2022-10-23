@@ -1,4 +1,9 @@
 
+/*
+ * Copyright (c) 2022.
+ * Created by Alpatov Softworks with love in Russia.
+ */
+
 #include "hack.h"
 
 using namespace Hacks;

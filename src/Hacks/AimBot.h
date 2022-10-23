@@ -1,8 +1,7 @@
-//========= Copyright Alpatov Softworks, All rights reserved. ============//
-//
-// Purpose: Provide automatic target aquesition system
-//
-//===============================================================================
+/*
+ * Copyright (c) 2022.
+ * Created by Alpatov Softworks with love in Russia.
+ */
 
 
 #pragma once

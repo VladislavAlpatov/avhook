@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2022.
+ * Created by Alpatov Softworks with love in Russia.
+ */
+
 #include "CBarsEsp.h"
 #include "../../imgui/imgui_internal.h"
 #include "../../Globals/Settings.h"

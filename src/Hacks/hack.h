@@ -1,8 +1,7 @@
-//========= Copyright Alpatov Softworks, All rights reserved. ============//
-//
-// Base class for all cheat features except esp
-//
-//===============================================================================
+/*
+ * Copyright (c) 2022.
+ * Created by Alpatov Softworks with love in Russia.
+ */
 
 
 #pragma once

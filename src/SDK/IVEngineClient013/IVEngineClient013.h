@@ -20,14 +20,6 @@ namespace SSDK
 	} player_info_t;
 
 
-	class ClientState
-	{
-	public:
-		union 
-		{
-			DEFINE_MEMBER_N(ImVec3, m_vecViewAngles, signatures::dwClientState_ViewAngles);
-		};
-	};
 
 
 	class IVEngineClient013 : public IBaseInterface
@@ -43,7 +35,6 @@ namespace SSDK
 		bool          IsInGame();
 		bool          IsConnected();
 		ImVec3		  GetViewAngles();
-		static ClientState* GetClientState();
 
 	};
 

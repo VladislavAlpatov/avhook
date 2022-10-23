@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2022.
+ * Created by Alpatov Softworks with love in Russia.
+ */
+
 #include "../../Globals/Interfaces.h"
 #include "../../imgui/imgui_internal.h"
 #include  "../../SDK/ClientBase.h"

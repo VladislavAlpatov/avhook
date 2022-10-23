@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2022.
+ * Created by Alpatov Softworks with love in Russia.
+ */
+
 #include "CGlowEsp.h"
 #include "../../Globals/Interfaces.h"
 #include "../../Globals/Settings.h"

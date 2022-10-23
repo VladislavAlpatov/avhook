@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2022.
+ * Created by Alpatov Softworks with love in Russia.
+ */
+
 #include "CBindListenerOverlay.h"
 #include "../../Utils/Marker.h"
 #include "../../Utils/xorstr.h"

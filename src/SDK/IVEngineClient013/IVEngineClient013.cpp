@@ -42,9 +42,3 @@ ImVec3 IVEngineClient013::GetViewAngles()
 	return out;
 }
 
-ClientState* IVEngineClient013::GetClientState()
-{
-	static auto pppClientState = (ClientState***)(Memory::FindPattern(xorstr("engine.dll"), xorstr("8B 04 85 ? ? ? ? 8B 80 ? ? ? ? 89 45 0C")) + 3);
-
-	return **pppClientState;
-}

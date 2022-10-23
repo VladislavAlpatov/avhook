@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2022.
+ * Created by Alpatov Softworks with love in Russia.
+ */
+
 #pragma once
 #include <nlohmann/json.hpp>
 #include "../Hacks/Esp/CLabel/CLabel.h"

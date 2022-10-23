@@ -68,14 +68,14 @@ struct CUSTOMVERTEX
 // It is STRONGLY preferred that you use docking branch with multi-viewports (== single Dear ImGui context + multiple windows) instead of multiple Dear ImGui contexts.
 static ImGui_ImplDX9_Data* ImGui_ImplDX9_GetBackendData()
 {
-    POLY_MARKER
+    POLY_MARKER;
     return ImGui::GetCurrentContext() ? (ImGui_ImplDX9_Data*)ImGui::GetIO().BackendRendererUserData : NULL;
 }
 
 // Functions
 static void ImGui_ImplDX9_SetupRenderState(ImDrawData* draw_data)
 {
-    POLY_MARKER
+    POLY_MARKER;
     ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
 
     // Setup viewport
@@ -146,7 +146,7 @@ static void ImGui_ImplDX9_SetupRenderState(ImDrawData* draw_data)
 // Render function.
 void ImGui_ImplDX9_RenderDrawData(ImDrawData* draw_data)
 {
-    POLY_MARKER
+    POLY_MARKER;
     // Avoid rendering when minimized
     if (draw_data->DisplaySize.x <= 0.0f || draw_data->DisplaySize.y <= 0.0f)
         return;
@@ -282,7 +282,7 @@ void ImGui_ImplDX9_RenderDrawData(ImDrawData* draw_data)
 
 bool ImGui_ImplDX9_Init(IDirect3DDevice9* device)
 {
-    POLY_MARKER
+    POLY_MARKER;
     ImGuiIO& io = ImGui::GetIO();
     IM_ASSERT(io.BackendRendererUserData == NULL && "Already initialized a renderer backend!");
 
@@ -300,7 +300,7 @@ bool ImGui_ImplDX9_Init(IDirect3DDevice9* device)
 
 void ImGui_ImplDX9_Shutdown()
 {
-    POLY_MARKER
+    POLY_MARKER;
     ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
     IM_ASSERT(bd != NULL && "No renderer backend to shutdown, or already shutdown?");
     ImGuiIO& io = ImGui::GetIO();
@@ -314,7 +314,7 @@ void ImGui_ImplDX9_Shutdown()
 
 static bool ImGui_ImplDX9_CreateFontsTexture()
 {
-    POLY_MARKER
+    POLY_MARKER;
     // Build texture atlas
     ImGuiIO& io = ImGui::GetIO();
     ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
@@ -357,7 +357,7 @@ static bool ImGui_ImplDX9_CreateFontsTexture()
 
 bool ImGui_ImplDX9_CreateDeviceObjects()
 {
-    POLY_MARKER
+    POLY_MARKER;
     ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
     if (!bd || !bd->pd3dDevice)
         return false;
@@ -368,7 +368,7 @@ bool ImGui_ImplDX9_CreateDeviceObjects()
 
 void ImGui_ImplDX9_InvalidateDeviceObjects()
 {
-    POLY_MARKER
+    POLY_MARKER;
     ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
     if (!bd || !bd->pd3dDevice)
         return;
@@ -379,7 +379,7 @@ void ImGui_ImplDX9_InvalidateDeviceObjects()
 
 void ImGui_ImplDX9_NewFrame()
 {
-    POLY_MARKER
+    POLY_MARKER;
     ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
     IM_ASSERT(bd != NULL && "Did you call ImGui_ImplDX9_Init()?");
 

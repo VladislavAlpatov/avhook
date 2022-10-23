@@ -48,5 +48,5 @@ namespace Marker
 #endif
     }
 }
-#define POLY_MARKER Marker::PolyMarker();
+#define POLY_MARKER Marker::PolyMarker()
 

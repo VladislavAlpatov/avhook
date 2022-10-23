@@ -49,7 +49,7 @@ void UI::CAboutWindow::Render()
 			xorstr(u8"Compilation date: %s\nCompilation time: %s\nCopyright © 2022 Alpatov Softworks."),
 			xorstr(__DATE__), xorstr(__TIME__));
 
-		POLY_MARKER
+		POLY_MARKER;
 
 		ImGui::SetCursorPos(ImVec2(115, 80));
 		if (ImGui::Button(xorstr("SITE"), ImVec2(100, 25)))

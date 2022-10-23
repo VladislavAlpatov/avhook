@@ -206,7 +206,7 @@ void hooks::Attach()
 		Sleep(50);
 
 	oWndProc = (uintptr_t)(SetWindowLongPtr(FindWindowA(nullptr, WINDOW_NAME), GWL_WNDPROC, reinterpret_cast<LONG_PTR>(WndProc)));
-	POLY_MARKER
+	POLY_MARKER;
 }
 
 

@@ -109,6 +109,9 @@ void UI::COverlay::Render()
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+
+	POLY_MARKER;
+
 	if (auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer(); GlobalVars::g_pIEngineClient->IsInGame() and pLocalPlayer)
 	{
 		std::vector<SSDK::CBaseEntity*> validEntities;

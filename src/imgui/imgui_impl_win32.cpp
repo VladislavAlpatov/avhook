@@ -94,15 +94,13 @@ struct ImGui_ImplWin32_Data
 // FIXME: some shared resources (mouse cursor shape, gamepad) are mishandled when using multi-context.
 static ImGui_ImplWin32_Data* ImGui_ImplWin32_GetBackendData()
 {
-    POLY_MARKER
-    return ImGui::GetCurrentContext() ? (ImGui_ImplWin32_Data*)ImGui::GetIO().BackendPlatformUserData : NULL;
+    POLY_MARKER;    return ImGui::GetCurrentContext() ? (ImGui_ImplWin32_Data*)ImGui::GetIO().BackendPlatformUserData : NULL;
 }
 
 // Functions
 bool    ImGui_ImplWin32_Init(void* hwnd)
 {
-    POLY_MARKER
-    ImGuiIO& io = ImGui::GetIO();
+    POLY_MARKER;    ImGuiIO& io = ImGui::GetIO();
     IM_ASSERT(io.BackendPlatformUserData == NULL && "Already initialized a platform backend!");
 
     INT64 perf_frequency, perf_counter;
@@ -175,8 +173,7 @@ bool    ImGui_ImplWin32_Init(void* hwnd)
 
 void    ImGui_ImplWin32_Shutdown()
 {
-    POLY_MARKER
-    ImGui_ImplWin32_Data* bd = ImGui_ImplWin32_GetBackendData();
+    POLY_MARKER;    ImGui_ImplWin32_Data* bd = ImGui_ImplWin32_GetBackendData();
     IM_ASSERT(bd != NULL && "No platform backend to shutdown, or already shutdown?");
     ImGuiIO& io = ImGui::GetIO();
 
@@ -193,8 +190,7 @@ void    ImGui_ImplWin32_Shutdown()
 
 static bool ImGui_ImplWin32_UpdateMouseCursor()
 {
-    POLY_MARKER
-    ImGuiIO& io = ImGui::GetIO();
+    POLY_MARKER;    ImGuiIO& io = ImGui::GetIO();
     if (io.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange)
         return false;
 
@@ -227,8 +223,8 @@ static bool ImGui_ImplWin32_UpdateMouseCursor()
 
 static void ImGui_ImplWin32_UpdateMousePos()
 {
-    POLY_MARKER
-    ImGui_ImplWin32_Data* bd = ImGui_ImplWin32_GetBackendData();
+    POLY_MARKER;
+	ImGui_ImplWin32_Data* bd = ImGui_ImplWin32_GetBackendData();
     ImGuiIO& io = ImGui::GetIO();
     IM_ASSERT(bd->hWnd != 0);
 
@@ -263,7 +259,7 @@ static void ImGui_ImplWin32_UpdateMousePos()
 // Gamepad navigation mapping
 static void ImGui_ImplWin32_UpdateGamepads()
 {
-    POLY_MARKER
+    POLY_MARKER;
 #ifndef IMGUI_IMPL_WIN32_DISABLE_GAMEPAD
     ImGuiIO& io = ImGui::GetIO();
     ImGui_ImplWin32_Data* bd = ImGui_ImplWin32_GetBackendData();
@@ -313,8 +309,8 @@ static void ImGui_ImplWin32_UpdateGamepads()
 
 void    ImGui_ImplWin32_NewFrame()
 {
-    POLY_MARKER
-    ImGuiIO& io = ImGui::GetIO();
+    POLY_MARKER;
+	ImGuiIO& io = ImGui::GetIO();
     ImGui_ImplWin32_Data* bd = ImGui_ImplWin32_GetBackendData();
     IM_ASSERT(bd != NULL && "Did you call ImGui_ImplWin32_Init()?");
 
@@ -366,8 +362,8 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 #endif
 IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    POLY_MARKER
-    if (ImGui::GetCurrentContext() == NULL)
+    POLY_MARKER;
+	if (ImGui::GetCurrentContext() == NULL)
         return 0;
 
     ImGuiIO& io = ImGui::GetIO();
@@ -494,8 +490,7 @@ IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARA
 // require a manifest to be functional for checks above 8.1. See https://github.com/ocornut/imgui/issues/4200
 static BOOL _IsWindowsVersionOrGreater(WORD major, WORD minor, WORD)
 {
-    POLY_MARKER
-    typedef LONG(WINAPI* PFN_RtlVerifyVersionInfo)(OSVERSIONINFOEXW*, ULONG, ULONGLONG);
+    POLY_MARKER;    typedef LONG(WINAPI* PFN_RtlVerifyVersionInfo)(OSVERSIONINFOEXW*, ULONG, ULONGLONG);
     static PFN_RtlVerifyVersionInfo RtlVerifyVersionInfoFn = NULL;
 	if (RtlVerifyVersionInfoFn == NULL)
 		if (HMODULE ntdllModule = ::GetModuleHandleA(xorstr("ntdll.dll")))
@@ -536,8 +531,7 @@ typedef DPI_AWARENESS_CONTEXT(WINAPI* PFN_SetThreadDpiAwarenessContext)(DPI_AWAR
 // Helper function to enable DPI awareness without setting up a manifest
 void ImGui_ImplWin32_EnableDpiAwareness()
 {
-    POLY_MARKER
-    if (_IsWindows10OrGreater())
+    POLY_MARKER;    if (_IsWindows10OrGreater())
     {
         static HINSTANCE user32_dll = ::LoadLibraryA(xorstr("user32.dll")); // Reference counted per-process
         if (PFN_SetThreadDpiAwarenessContext SetThreadDpiAwarenessContextFn = (PFN_SetThreadDpiAwarenessContext)::GetProcAddress(user32_dll, xorstr("SetThreadDpiAwarenessContext")))
@@ -566,8 +560,7 @@ void ImGui_ImplWin32_EnableDpiAwareness()
 
 float ImGui_ImplWin32_GetDpiScaleForMonitor(void* monitor)
 {
-    POLY_MARKER
-    UINT xdpi = 96, ydpi = 96;
+    POLY_MARKER;    UINT xdpi = 96, ydpi = 96;
     if (_IsWindows8Point1OrGreater())
     {
 		static HINSTANCE shcore_dll = ::LoadLibraryA(xorstr("shcore.dll")); // Reference counted per-process
@@ -593,8 +586,7 @@ float ImGui_ImplWin32_GetDpiScaleForMonitor(void* monitor)
 
 float ImGui_ImplWin32_GetDpiScaleForHwnd(void* hwnd)
 {
-    POLY_MARKER
-    HMONITOR monitor = ::MonitorFromWindow((HWND)hwnd, MONITOR_DEFAULTTONEAREST);
+    POLY_MARKER;    HMONITOR monitor = ::MonitorFromWindow((HWND)hwnd, MONITOR_DEFAULTTONEAREST);
     return ImGui_ImplWin32_GetDpiScaleForMonitor(monitor);
 }
 
@@ -611,8 +603,7 @@ float ImGui_ImplWin32_GetDpiScaleForHwnd(void* hwnd)
 // (the Dwm* functions are Vista era functions but we are borrowing logic from GLFW)
 void ImGui_ImplWin32_EnableAlphaCompositing(void* hwnd)
 {
-    POLY_MARKER
-    if (!_IsWindowsVistaOrGreater())
+    POLY_MARKER;    if (!_IsWindowsVistaOrGreater())
         return;
 
     BOOL composition;

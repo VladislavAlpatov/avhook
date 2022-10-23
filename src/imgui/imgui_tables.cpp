@@ -263,8 +263,7 @@ static const float TABLE_RESIZE_SEPARATOR_FEEDBACK_TIMER = 0.06f;   // Delay/tim
 // Helper
 inline ImGuiTableFlags TableFixFlags(ImGuiTableFlags flags, ImGuiWindow* outer_window)
 {
-    POLY_MARKER
-    // Adjust flags: set default sizing policy
+    POLY_MARKER;    // Adjust flags: set default sizing policy
     if ((flags & ImGuiTableFlags_SizingMask_) == 0)
         flags |= ((flags & ImGuiTableFlags_ScrollX) || (outer_window->Flags & ImGuiWindowFlags_AlwaysAutoResize)) ? ImGuiTableFlags_SizingFixedFit : ImGuiTableFlags_SizingStretchSame;
 
@@ -655,8 +654,7 @@ void ImGui::TableBeginApplyRequests(ImGuiTable* table)
 // Adjust flags: default width mode + stretch columns are not allowed when auto extending
 static void TableSetupColumnFlags(ImGuiTable* table, ImGuiTableColumn* column, ImGuiTableColumnFlags flags_in)
 {
-    POLY_MARKER
-    ImGuiTableColumnFlags flags = flags_in;
+    POLY_MARKER;    ImGuiTableColumnFlags flags = flags_in;
 
     // Sizing Policy
     if ((flags & ImGuiTableColumnFlags_WidthMask_) == 0)
@@ -2618,8 +2616,7 @@ ImGuiTableSortSpecs* ImGui::TableGetSortSpecs()
 
 static inline ImGuiSortDirection TableGetColumnAvailSortDirection(ImGuiTableColumn* column, int n)
 {
-    POLY_MARKER
-    IM_ASSERT(n < column->SortDirectionsAvailCount);
+    POLY_MARKER;    IM_ASSERT(n < column->SortDirectionsAvailCount);
     return (column->SortDirectionsAvailList >> (n << 1)) & 0x03;
 }
 
@@ -3140,8 +3137,7 @@ void ImGui::TableDrawContextMenu(ImGuiTable* table)
 // Clear and initialize empty settings instance
 static void TableSettingsInit(ImGuiTableSettings* settings, ImGuiID id, int columns_count, int columns_count_max)
 {
-    POLY_MARKER
-    IM_PLACEMENT_NEW(settings) ImGuiTableSettings();
+    POLY_MARKER;    IM_PLACEMENT_NEW(settings) ImGuiTableSettings();
     ImGuiTableColumnSettings* settings_column = settings->GetColumnSettings();
     for (int n = 0; n < columns_count_max; n++, settings_column++)
         IM_PLACEMENT_NEW(settings_column) ImGuiTableColumnSettings();
@@ -3321,8 +3317,7 @@ void ImGui::TableLoadSettings(ImGuiTable* table)
 
 static void TableSettingsHandler_ClearAll(ImGuiContext* ctx, ImGuiSettingsHandler*)
 {
-    POLY_MARKER
-    ImGuiContext& g = *ctx;
+    POLY_MARKER;    ImGuiContext& g = *ctx;
     for (int i = 0; i != g.Tables.GetMapSize(); i++)
         if (ImGuiTable* table = g.Tables.TryGetMapData(i))
             table->SettingsOffset = -1;
@@ -3332,8 +3327,7 @@ static void TableSettingsHandler_ClearAll(ImGuiContext* ctx, ImGuiSettingsHandle
 // Apply to existing windows (if any)
 static void TableSettingsHandler_ApplyAll(ImGuiContext* ctx, ImGuiSettingsHandler*)
 {
-    POLY_MARKER
-    ImGuiContext& g = *ctx;
+    POLY_MARKER;    ImGuiContext& g = *ctx;
     for (int i = 0; i != g.Tables.GetMapSize(); i++)
         if (ImGuiTable* table = g.Tables.TryGetMapData(i))
         {
@@ -3344,8 +3338,7 @@ static void TableSettingsHandler_ApplyAll(ImGuiContext* ctx, ImGuiSettingsHandle
 
 static void* TableSettingsHandler_ReadOpen(ImGuiContext*, ImGuiSettingsHandler*, const char* name)
 {
-    POLY_MARKER
-    ImGuiID id = 0;
+    POLY_MARKER;    ImGuiID id = 0;
     int columns_count = 0;
     if (sscanf(name, "0x%08X,%d", &id, &columns_count) < 2)
         return NULL;
@@ -3364,8 +3357,7 @@ static void* TableSettingsHandler_ReadOpen(ImGuiContext*, ImGuiSettingsHandler*,
 
 static void TableSettingsHandler_ReadLine(ImGuiContext*, ImGuiSettingsHandler*, void* entry, const char* line)
 {
-    POLY_MARKER
-    // "Column 0  UserID=0x42AD2D21 Width=100 Visible=1 Order=0 Sort=0v"
+    POLY_MARKER;    // "Column 0  UserID=0x42AD2D21 Width=100 Visible=1 Order=0 Sort=0v"
     ImGuiTableSettings* settings = (ImGuiTableSettings*)entry;
     float f = 0.0f;
     int column_n = 0, r = 0, n = 0;
@@ -3391,8 +3383,7 @@ static void TableSettingsHandler_ReadLine(ImGuiContext*, ImGuiSettingsHandler*, 
 
 static void TableSettingsHandler_WriteAll(ImGuiContext* ctx, ImGuiSettingsHandler* handler, ImGuiTextBuffer* buf)
 {
-    POLY_MARKER
-    ImGuiContext& g = *ctx;
+    POLY_MARKER;    ImGuiContext& g = *ctx;
     for (ImGuiTableSettings* settings = g.SettingsTables.begin(); settings != NULL; settings = g.SettingsTables.next_chunk(settings))
     {
         if (settings->ID == 0) // Skip ditched settings

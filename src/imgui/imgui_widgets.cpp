@@ -1507,7 +1507,7 @@ bool ImGui::SplitterBehavior(const ImRect& bb, ImGuiID id, ImGuiAxis axis, float
 
 static int IMGUI_CDECL ShrinkWidthItemComparer(const void* lhs, const void* rhs)
 {
-    POLY_MARKER
+    POLY_MARKER;
     const ImGuiShrinkWidthItem* a = (const ImGuiShrinkWidthItem*)lhs;
     const ImGuiShrinkWidthItem* b = (const ImGuiShrinkWidthItem*)rhs;
     if (int d = (int)(b->Width - a->Width))
@@ -1768,7 +1768,7 @@ void ImGui::EndComboPreview()
 // Getter for the old Combo() API: const char*[]
 static bool Items_ArrayGetter(void* data, int idx, const char** out_text)
 {
-    POLY_MARKER
+    POLY_MARKER;
     const char* const* items = (const char* const*)data;
     if (out_text)
         *out_text = items[idx];
@@ -1778,7 +1778,7 @@ static bool Items_ArrayGetter(void* data, int idx, const char** out_text)
 // Getter for the old Combo() API: "item1\0item2\0item3\0"
 static bool Items_SingleStringGetter(void* data, int idx, const char** out_text)
 {
-    POLY_MARKER
+    POLY_MARKER;
     // FIXME-OPT: we could pre-compute the indices to fasten this. But only 1 active combo means the waste is limited.
     const char* items_separated_by_zeros = (const char*)data;
     int items_count = 0;
@@ -1901,7 +1901,7 @@ IM_STATIC_ASSERT(IM_ARRAYSIZE(GDataTypeInfo) == ImGuiDataType_COUNT);
 // To honor backward compatibility we are rewriting the format string, unless IMGUI_DISABLE_OBSOLETE_FUNCTIONS is enabled. What could possibly go wrong?!
 static const char* PatchFormatStringFloatToInt(const char* fmt)
 {
-    POLY_MARKER
+    POLY_MARKER;
     if (fmt[0] == '%' && fmt[1] == '.' && fmt[2] == '0' && fmt[3] == 'f' && fmt[4] == 0) // Fast legacy path for "%.0f" which is expected to be the most common case.
         return "%d";
     const char* fmt_start = ImParseFormatFindStart(fmt);    // Find % (if any, and ignore %%)
@@ -2186,7 +2186,7 @@ static const char* ImAtoi(const char* src, TYPE* output)
 // - stb_sprintf.h supports several new modifiers which format numbers in a way that also makes them incompatible atof/atoi.
 static void SanitizeFormatString(const char* fmt, char* fmt_out, size_t fmt_out_size)
 {
-    POLY_MARKER
+    POLY_MARKER;
     IM_UNUSED(fmt_out_size);
     const char* fmt_end = ImParseFormatFindEnd(fmt);
     IM_ASSERT((size_t)(fmt_end - fmt + 1) < fmt_out_size); // Format is too long, let us know if this happens to you!
@@ -3302,7 +3302,7 @@ bool ImGui::SliderScalarN(const char* label, ImGuiDataType data_type, void* v, i
 // We don't use strchr() because our strings are usually very short and often start with '%'
 const char* ImParseFormatFindStart(const char* fmt)
 {
-    POLY_MARKER
+    POLY_MARKER;
     while (char c = fmt[0])
     {
         if (c == '%' && fmt[1] != '%')
@@ -3316,7 +3316,7 @@ const char* ImParseFormatFindStart(const char* fmt)
 
 const char* ImParseFormatFindEnd(const char* fmt)
 {
-    POLY_MARKER
+    POLY_MARKER;
     // Printf/scanf types modifiers: I/L/h/j/l/t/w/z. Other uppercase letters qualify as types aka end of the format.
     if (fmt[0] != '%')
         return fmt;
@@ -3339,7 +3339,7 @@ const char* ImParseFormatFindEnd(const char* fmt)
 //  fmt = "%.3f hello" -> return buf written with "%.3f"
 const char* ImParseFormatTrimDecorations(const char* fmt, char* buf, size_t buf_size)
 {
-    POLY_MARKER
+    POLY_MARKER;
     const char* fmt_start = ImParseFormatFindStart(fmt);
     if (fmt_start[0] != '%')
         return fmt;
@@ -3354,7 +3354,7 @@ const char* ImParseFormatTrimDecorations(const char* fmt, char* buf, size_t buf_
 // FIXME: This is still used by some navigation code path to infer a minimum tweak step, but we should aim to rework widgets so it isn't needed.
 int ImParseFormatPrecision(const char* fmt, int default_precision)
 {
-    POLY_MARKER
+    POLY_MARKER;
     fmt = ImParseFormatFindStart(fmt);
     if (fmt[0] != '%')
         return default_precision;
@@ -3625,7 +3625,7 @@ bool ImGui::InputTextWithHint(const char* label, const char* hint, char* buf, si
 
 static int InputTextCalcTextLenAndLineCount(const char* text_begin, const char** out_text_end)
 {
-    POLY_MARKER
+    POLY_MARKER;
     int line_count = 0;
     const char* s = text_begin;
     while (char c = *s++) // We are only matching for \n so we can ignore UTF-8 decoding
@@ -3640,7 +3640,7 @@ static int InputTextCalcTextLenAndLineCount(const char* text_begin, const char**
 
 static ImVec2 InputTextCalcTextSizeW(const ImWchar* text_begin, const ImWchar* text_end, const ImWchar** remaining, ImVec2* out_offset, bool stop_on_new_line)
 {
-    POLY_MARKER
+    POLY_MARKER;
     ImGuiContext& g = *GImGui;
     ImFont* font = g.Font;
     const float line_height = g.FontSize;
@@ -3877,7 +3877,7 @@ void ImGuiInputTextCallbackData::InsertChars(int pos, const char* new_text, cons
 // Return false to discard a character.
 static bool InputTextFilterCharacter(unsigned int* p_char, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, void* user_data, ImGuiInputSource input_source)
 {
-    POLY_MARKER
+    POLY_MARKER;
     IM_ASSERT(input_source == ImGuiInputSource_Keyboard || input_source == ImGuiInputSource_Clipboard);
     unsigned int c = *p_char;
 
@@ -5135,7 +5135,7 @@ bool ImGui::ColorPicker3(const char* label, float col[3], ImGuiColorEditFlags fl
 // Helper for ColorPicker4()
 static void RenderArrowsForVerticalBar(ImDrawList* draw_list, ImVec2 pos, ImVec2 half_sz, float bar_w, float alpha)
 {
-    POLY_MARKER
+    POLY_MARKER;
     ImU32 alpha8 = IM_F32_TO_INT8_SAT(alpha);
     ImGui::RenderArrowPointingAt(draw_list, ImVec2(pos.x + half_sz.x + 1,         pos.y), ImVec2(half_sz.x + 2, half_sz.y + 1), ImGuiDir_Right, IM_COL32(0,0,0,alpha8));
     ImGui::RenderArrowPointingAt(draw_list, ImVec2(pos.x + half_sz.x,             pos.y), half_sz,                              ImGuiDir_Right, IM_COL32(255,255,255,alpha8));
@@ -6889,7 +6889,7 @@ void ImGui::EndMainMenuBar()
 
 static bool IsRootOfOpenMenuSet()
 {
-    POLY_MARKER
+    POLY_MARKER;
     ImGuiContext& g = *GImGui;
     ImGuiWindow* window = g.CurrentWindow;
     if ((g.OpenPopupStack.Size <= g.BeginPopupStack.Size) || (window->Flags & ImGuiWindowFlags_ChildMenu))
@@ -7244,7 +7244,7 @@ static inline int TabItemGetSectionIdx(const ImGuiTabItem* tab)
 
 static int IMGUI_CDECL TabItemComparerBySection(const void* lhs, const void* rhs)
 {
-    POLY_MARKER
+    POLY_MARKER;
     const ImGuiTabItem* a = (const ImGuiTabItem*)lhs;
     const ImGuiTabItem* b = (const ImGuiTabItem*)rhs;
     const int a_section = TabItemGetSectionIdx(a);
@@ -7256,7 +7256,7 @@ static int IMGUI_CDECL TabItemComparerBySection(const void* lhs, const void* rhs
 
 static int IMGUI_CDECL TabItemComparerByBeginOrder(const void* lhs, const void* rhs)
 {
-    POLY_MARKER
+    POLY_MARKER;
     const ImGuiTabItem* a = (const ImGuiTabItem*)lhs;
     const ImGuiTabItem* b = (const ImGuiTabItem*)rhs;
     return (int)(a->BeginOrder - b->BeginOrder);

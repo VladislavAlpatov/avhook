@@ -20,6 +20,7 @@ public:
 
     float get_sum();
     matrix transpose();
+	void set(const float val);
     const float& at(size_t iRow, size_t iCol) const;
 
     matrix operator*(const matrix& other);

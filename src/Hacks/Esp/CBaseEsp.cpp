@@ -21,7 +21,6 @@ ImVec3 CUIEsp::WorldToScreen(const ImVec3& vecPosition)
     POLY_MARKER;
 
     auto out = matrix * vecPosition;
-
     const float _x = out.at(0, 0);
     const float _y = out.at(1, 0);
     const float w  = out.at(3, 0);

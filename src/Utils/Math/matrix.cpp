@@ -18,9 +18,7 @@ matrix::matrix(const size_t rows, const size_t columns)
 
 	m_ppData = Allocate2DArray(m_iRows, m_iColumns);
 
-	for (size_t i = 0; i < m_iRows; ++i)
-		for (size_t j = 0; j < m_iColumns; ++j)
-			m_ppData[i][j] = 0;
+	set(0.f);
 }
 
 matrix::matrix(const std::vector<std::vector<float>>& rows)
@@ -139,6 +137,7 @@ matrix matrix::operator*(const float f) const
 matrix matrix::operator*(const ImVec3& vec3)
 {
 	auto vecmatrix = matrix(m_iRows, 1);
+	vecmatrix.set(1.f);
 	vecmatrix.at(0, 0) = vec3.x;
 	vecmatrix.at(1, 0) = vec3.y;
 	vecmatrix.at(2, 0) = vec3.z;
@@ -157,9 +156,7 @@ matrix& matrix::operator*=(const float f)
 
 void matrix::clear()
 {
-	for (size_t i = 0; i < m_iRows; ++i)
-		for (size_t j = 0; j < m_iColumns; ++j)
-			at(i, j) = 0.f;
+	set(0.f);
 }
 
 void matrix::print()
@@ -247,4 +244,10 @@ float** matrix::Allocate2DArray(const size_t i, const size_t j)
 		pArr[x] = new float[j];
 
 	return pArr;
+}
+void matrix::set(const float val)
+{
+	for (size_t i = 0; i < m_iRows; ++i)
+		for (size_t j = 0; j < m_iColumns; ++j)
+			at(i, j) = val;
 }

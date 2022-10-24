@@ -27,6 +27,8 @@ bool CHealthLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pE
 {
 	POLY_MARKER;
 	const auto pDrawList = ImGui::GetBackgroundDrawList();
+
+	// BUG: xorstr macro DOES NOT works with std format!
     const auto text = fmt::format("Health: {}/100", pEntity->m_iHealth);
 
 	pDrawList->AddText(vecPosition, pEntity->GetColorBasedOnHealth(), text.c_str());
@@ -37,6 +39,7 @@ bool CArmorLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEn
 	POLY_MARKER;
 
 	const auto pDrawList = ImGui::GetBackgroundDrawList();
+	// BUG: xorstr macro DOES NOT works with std format!
     const auto text = fmt::format("Armor: {}/100", pEntity->m_ArmorValue);
 
 	pDrawList->AddText(vecPosition, m_Color, text.c_str());
@@ -49,6 +52,8 @@ bool CDistanceLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* 
 	POLY_MARKER;
 	static auto pDrawList = ImGui::GetBackgroundDrawList();
 	const auto distance = SSDK::ClientBase::GetLocalPlayer()->CalcDistanceToEntity(pEntity);
+	
+	// BUG: xorstr DOES NOT works with std format!
     const auto text = fmt::format("Distance: {}m", (int)Utils::HamToMet(distance));
 
 	pDrawList->AddText(vecPosition, m_Color, text.c_str());

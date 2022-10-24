@@ -23,6 +23,7 @@
 #include <array>
 #include "../../Menu/COverlay.h"
 #include "MinHook.h"
+#include "../../Utils/memory.h"
 
 static uintptr_t		  oPresent;
 static uintptr_t		  oDrawIndexedPrimitive;
@@ -31,20 +32,7 @@ static uintptr_t	      oCreateMove;
 static uintptr_t		  oRenderGlowEffects;
 
 static std::unique_ptr<UI::COverlay> pOverlay;
-
-void SetWorldColor(const ImColor& col)
-{
-	static auto mat_ambient_light_r = GlobalVars::g_pCvarManager->FindVar("mat_ambient_light_r");
-	static auto mat_ambient_light_g = GlobalVars::g_pCvarManager->FindVar("mat_ambient_light_g");
-	static auto mat_ambient_light_b = GlobalVars::g_pCvarManager->FindVar("mat_ambient_light_b");
-
-
-	mat_ambient_light_r->m_pParentCvar->SetValue(col.Value.x);
-	mat_ambient_light_g->m_pParentCvar->SetValue(col.Value.y);
-	mat_ambient_light_b->m_pParentCvar->SetValue(col.Value.z);
-
-}
-
+static std::map<PVOID, memory::CFunctionHook> mapWithHooks;
 
 int __stdcall hooks::hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE type, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
 {
@@ -145,20 +133,6 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 	return !GlobalVars::g_AllSettings.m_AimBotSettings.m_bSilent;
 }
 
-LRESULT WINAPI WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	POLY_MARKER;
-	if (pOverlay->IsShowUI())
-	{
-		POLY_MARKER;
-		extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-		ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
-		return TRUE;
-	}
-	typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);
-	return CallWindowProc((WNDPROC)oWndProc, hWnd, uMsg, wParam, lParam);
-}
-
 int __fastcall hooks::hRenderGlowEffects(SSDK::IGlowObjectManager* pThis, void* edx, int a2, int a3)
 {
 	typedef int(__fastcall* RenderGlowEffects_t)(void*, void*, int, int);
@@ -189,11 +163,26 @@ int __fastcall hooks::hRenderGlowEffects(SSDK::IGlowObjectManager* pThis, void* 
 	return reinterpret_cast<RenderGlowEffects_t>(oRenderGlowEffects)(pThis, edx, a2, a3);
 }
 
+LRESULT WINAPI WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	POLY_MARKER;
+	if (pOverlay->IsShowUI())
+	{
+		POLY_MARKER;
+		extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+		ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
+		return TRUE;
+	}
+	typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);
+	return CallWindowProc((WNDPROC)oWndProc, hWnd, uMsg, wParam, lParam);
+}
+
 void hooks::Attach()
 {
 	POLY_MARKER;
 	MH_Initialize();
-	
+	mapWithHooks[hCreateMove] = memory::CFunctionHook((LPVOID)SSDK::FindPresent(), hCreateMove, 7);
+
 	MH_CreateHook((LPVOID)SSDK::FindPresent(),               hkPresent,             (LPVOID*)&oPresent);
 	MH_CreateHook((LPVOID*)SSDK::FindCreatemove(),           hCreateMove,           (LPVOID*)&oCreateMove);
 	MH_CreateHook((LPVOID*)SSDK::FindDrawIndexedPrimitive(), hDrawIndexedPrimitive, (LPVOID*)&oDrawIndexedPrimitive);

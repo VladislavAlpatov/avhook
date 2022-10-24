@@ -6,6 +6,7 @@
       <file path="$PROJECT_DIR$/src" />
     </sourceRoots>
     <libraryRoots>
+      <file path="$PROJECT_DIR$/src/RazerSDK" />
       <file path="$PROJECT_DIR$/src/imgui" />
     </libraryRoots>
     <excludeRoots>

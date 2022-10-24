@@ -38,7 +38,7 @@ public:
     ~matrix();
 private:
     static float** Allocate2DArray(size_t i, size_t j);
-    size_t m_iRows;
-    size_t m_iColumns;
-    float** m_ppData;
+    size_t m_iRows = 0;
+    size_t m_iColumns = 0;
+    float** m_ppData = nullptr;
 };

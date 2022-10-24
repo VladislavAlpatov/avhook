@@ -7,7 +7,12 @@
 #include "xorstr.h"
 #include "Marker.h"
 #include <vector>
+#include <stdexcept>
+#include <algorithm>
 
+
+#define SIZE_OF_JMP 5
+#define JMP_INSTRUCTION_CODE 0xE9
 BYTE GetBit(char chr)
 {
 	POLY_MARKER;
@@ -46,7 +51,7 @@ std::vector<BYTE> GetSignatureBytes(const char* str)
 	return bytes;
 }
 
-uintptr_t Memory::FindPattern(const char* moduleName, const char* signature)
+uintptr_t memory::FindPattern(const char* moduleName, const char* signature)
 {
 	POLY_MARKER;
 
@@ -77,4 +82,110 @@ uintptr_t Memory::FindPattern(const char* moduleName, const char* signature)
 	}
 
 	return NULL;
+}
+
+class SHookData
+{
+	LPVOID m_pOrigin;
+	LPVOID m_pOriginal;
+	size_t m_iLength;
+};
+
+void memory::CFunctionHook::SetJump(PVOID pDestination, PVOID pSource)
+{
+	// Allcatec data for jmp 1 byte for JMP code
+	// and 5 bytes for offset
+	BYTE shell[SIZE_OF_JMP];
+	shell[0] = JMP_INSTRUCTION_CODE;
+	// Write jmp offset
+	*(int*)(shell+1) = (uintptr_t)pDestination - (uintptr_t)pSource - 5;
+	memory::Copy(pSource, shell, SIZE_OF_JMP);
+
+}
+void memory::Copy(PVOID dst, PVOID src, size_t len)
+{
+	DWORD oldProc;
+	VirtualProtect(dst, len, PAGE_EXECUTE_READWRITE, &oldProc);
+	memcpy_s(dst,len, src, len);
+	VirtualProtect(dst, len, oldProc, &oldProc);
+}
+memory::CFunctionHook::CFunctionHook(PVOID pTarget, PVOID pDetour, size_t len)
+{
+	m_iLength = len;
+	m_pTarget = pTarget;
+	m_pDetour = pDetour;
+
+	m_pNewOrigin = new BYTE[m_iLength+SIZE_OF_JMP];
+	// Copy bytes to new origin
+	memory::Copy(m_pNewOrigin, m_pTarget, m_iLength);
+
+	// Jump from new origin to hooked function
+	SetJump((BYTE*)m_pTarget + m_iLength, (BYTE*)m_pNewOrigin + m_iLength);
+
+	// Jump from function to detour
+	SetJump(m_pDetour,m_pTarget);
+
+}
+memory::CFunctionHook::~CFunctionHook()
+{
+	if (m_bEnabled)
+		Disable();
+	delete m_pNewOrigin;
+}
+void memory::CFunctionHook::Disable()
+{
+	if (!m_bEnabled) return;
+	memory::Copy(m_pTarget, m_pNewOrigin, m_iLength);
+
+	m_bEnabled = !m_bEnabled;
+}
+void memory::CFunctionHook::Enable()
+{
+	if (m_bEnabled) return;
+
+	SetJump(m_pDetour, m_pTarget);
+
+	m_bEnabled = !m_bEnabled;
+}
+memory::CFunctionHook::CFunctionHook(memory::CFunctionHook&& other)
+{
+	m_bEnabled   = other.m_bEnabled;
+	m_pTarget    = other.m_pTarget;
+	m_pDetour    = other.m_pDetour;
+	m_pNewOrigin = other.m_pNewOrigin;
+	m_iLength    = other.m_iLength;
+
+
+	// Mark other hook as "disabled"
+	// and remove pointer to origin
+	other.m_bEnabled = false;
+	other.m_pNewOrigin = nullptr;
+}
+const PVOID memory::CFunctionHook::GetPointerToNewOrigin() const
+{
+	return m_pNewOrigin;
+}
+bool memory::CFunctionHook::operator==(const memory::CFunctionHook& rhs) const
+{
+	return m_bEnabled == rhs.m_bEnabled &&
+		m_iLength == rhs.m_iLength &&
+		m_pNewOrigin == rhs.m_pNewOrigin &&
+		m_pTarget == rhs.m_pTarget &&
+		m_pDetour == rhs.m_pDetour;
+}
+bool memory::CFunctionHook::operator!=(const memory::CFunctionHook& rhs) const
+{
+	return !(rhs == *this);
+}
+memory::CFunctionHook& memory::CFunctionHook::operator=(memory::CFunctionHook&& other) noexcept
+{
+	m_iLength  = other.m_iLength;
+	m_bEnabled = other.m_bEnabled;
+	m_pDetour  = other.m_pDetour;
+	m_pTarget  = other.m_pTarget;
+
+	std::swap(m_pNewOrigin, other.m_pNewOrigin);
+
+	return *this;
+
 }

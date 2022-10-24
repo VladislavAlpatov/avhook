@@ -187,6 +187,9 @@ matrix& matrix::operator=(const matrix& other)
 
 matrix& matrix::operator=(matrix&& other) noexcept
 {
+	if (this == &other)
+		return *this;
+
 	m_iRows    = other.m_iRows;
 	m_iColumns = other.m_iColumns;
 	m_ppData   = other.m_ppData;

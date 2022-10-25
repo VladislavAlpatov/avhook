@@ -91,7 +91,7 @@ class SHookData
 	size_t m_iLength;
 };
 
-void memory::CFunctionHook::SetJump(PVOID pDestination, PVOID pSource)
+void memory::CFunctionHook::SetJump(PVOID pSource, PVOID pDestination)
 {
 	// Allcatec data for jmp 1 byte for JMP code
 	// and 5 bytes for offset
@@ -116,14 +116,14 @@ memory::CFunctionHook::CFunctionHook(PVOID pTarget, PVOID pDetour, size_t len)
 	m_pDetour = pDetour;
 
 	m_pNewOrigin = new BYTE[m_iLength+SIZE_OF_JMP];
+
+	DWORD  oldProc;
+	VirtualProtect(m_pNewOrigin,m_iLength+SIZE_OF_JMP,  PAGE_EXECUTE, &oldProc);
 	// Copy bytes to new origin
 	memory::Copy(m_pNewOrigin, m_pTarget, m_iLength);
 
 	// Jump from new origin to hooked function
-	SetJump((BYTE*)m_pTarget + m_iLength, (BYTE*)m_pNewOrigin + m_iLength);
-
-	// Jump from function to detour
-	SetJump(m_pDetour,m_pTarget);
+	SetJump((BYTE*)m_pNewOrigin + m_iLength, (BYTE*)m_pTarget + m_iLength);
 
 }
 memory::CFunctionHook::~CFunctionHook()
@@ -143,7 +143,7 @@ void memory::CFunctionHook::Enable()
 {
 	if (m_bEnabled) return;
 
-	SetJump(m_pDetour, m_pTarget);
+	SetJump(m_pTarget, m_pDetour);
 
 	m_bEnabled = !m_bEnabled;
 }
@@ -188,4 +188,10 @@ memory::CFunctionHook& memory::CFunctionHook::operator=(memory::CFunctionHook&& 
 
 	return *this;
 
+}
+memory::CFunctionHook& memory::CFunctionHook::operator=(memory::CFunctionHook& other)
+{
+	m_bEnabled = false;
+
+	return *this;
 }

@@ -32,7 +32,6 @@ static uintptr_t	      oCreateMove;
 static uintptr_t		  oRenderGlowEffects;
 
 static std::unique_ptr<UI::COverlay> pOverlay;
-static std::map<PVOID, memory::CFunctionHook> mapWithHooks;
 
 int __stdcall hooks::hDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE type, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
 {
@@ -66,9 +65,6 @@ int __stdcall  hooks::hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a
 		pOverlay = std::make_unique<UI::COverlay>(pDevice);
 		GlobalVars::pDevice = pDevice;
 	}
-
-	if (GetAsyncKeyState(VK_INSERT) & 1)
-		pOverlay->ToggleUI();
 	pOverlay->Render();		
 
 	typedef int(__stdcall* Present)(LPDIRECT3DDEVICE9, int, int, int, int);
@@ -166,6 +162,10 @@ int __fastcall hooks::hRenderGlowEffects(SSDK::IGlowObjectManager* pThis, void* 
 LRESULT WINAPI WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	POLY_MARKER;
+
+	if (uMsg == WM_KEYUP and wParam == VK_INSERT)
+		pOverlay->ToggleUI();
+
 	if (pOverlay->IsShowUI())
 	{
 		POLY_MARKER;
@@ -181,7 +181,6 @@ void hooks::Attach()
 {
 	POLY_MARKER;
 	MH_Initialize();
-	mapWithHooks[hCreateMove] = memory::CFunctionHook((LPVOID)SSDK::FindPresent(), hCreateMove, 7);
 
 	MH_CreateHook((LPVOID)SSDK::FindPresent(),               hkPresent,             (LPVOID*)&oPresent);
 	MH_CreateHook((LPVOID*)SSDK::FindCreatemove(),           hCreateMove,           (LPVOID*)&oCreateMove);

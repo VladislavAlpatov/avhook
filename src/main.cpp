@@ -1,8 +1,4 @@
-﻿/*
- * Copyright (c) 2022.
- */
-
-#include <Windows.h>
+﻿#include <Windows.h>
 
 #include "Globals/GlobalVars.h"
 #include "Hacks/Hooks/Hooks.h"
@@ -19,7 +15,7 @@ DWORD WINAPI InitCheat(const HMODULE hModule)
 		Sleep(50);
 
 #ifdef CLOUD_SUPPORT
-	if (!WebApi::CAVHookServerApi().AuthByToken(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"))
+	if (!WebApi::CAVHookServerApi().AuthByToken("bWevWkyjyNLFwn4f3tjXJGgSux4H8Jbe"))
 	{
 		POLY_MARKER;
 		MessageBoxA(nullptr, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);

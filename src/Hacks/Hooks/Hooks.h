@@ -11,8 +11,6 @@ namespace hooks
 	int __stdcall  hkPresent(LPDIRECT3DDEVICE9 pDevice, int a2, int a3, int a4, int a5);
 	bool __stdcall hCreateMove(int fSampleTime, SSDK::CUserCmd* pUserCmd);
 	int __fastcall hRenderGlowEffects(SSDK::IGlowObjectManager* pThis, void* edx, int a2, int a3);
-
-	void __cdecl ActivateGameOverlay(void* pThis, const char* sec);
 	void Attach();
 	void Detach();
 }

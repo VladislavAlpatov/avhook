@@ -15,6 +15,7 @@ namespace memory
 		CFunctionHook(CFunctionHook&& other);
 		CFunctionHook() = default;
 		CFunctionHook& operator=(CFunctionHook&& other) noexcept;
+		CFunctionHook& operator=(CFunctionHook& other);
 		bool operator==(const CFunctionHook& rhs) const;
 		bool operator!=(const CFunctionHook& rhs) const;
 		~CFunctionHook();
@@ -27,6 +28,6 @@ namespace memory
 		BYTE*  m_pNewOrigin = nullptr;
 		PVOID  m_pTarget = nullptr;
 		PVOID  m_pDetour = nullptr;
-		void SetJump(PVOID pDestination, PVOID pSource);
+		void SetJump(PVOID pSource, PVOID pDestination);
 	};
 }

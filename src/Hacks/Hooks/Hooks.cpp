@@ -162,9 +162,13 @@ int __fastcall hooks::hRenderGlowEffects(SSDK::IGlowObjectManager* pThis, void* 
 LRESULT WINAPI WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	POLY_MARKER;
-
-	if (uMsg == WM_KEYUP and wParam == VK_INSERT)
-		pOverlay->ToggleUI();
+	switch (uMsg)
+	{
+	case WM_KEYDOWN:
+		if (wParam == VK_INSERT and !(lParam & (1 << 30)))
+			pOverlay->ToggleUI();
+		break;
+	}
 
 	if (pOverlay->IsShowUI())
 	{

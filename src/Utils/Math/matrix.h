@@ -27,9 +27,15 @@ public:
     matrix operator*(float f) const;
     matrix operator*(const ImVec3& vec3);
     matrix& operator*=(float f);
-    void clear();
 
-    void print();
+
+    void clear();
+	matrix strip(size_t row, size_t column) const;
+	float  minor(const size_t i,const  size_t j) const;
+	float alg_complement(const size_t i, const size_t j) const;
+	float det() const;
+    void print() const;
+
     matrix& operator=(const matrix& other);
     matrix& operator=(matrix&& other) noexcept;
     matrix& operator/=(float f);

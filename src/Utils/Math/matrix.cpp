@@ -7,6 +7,10 @@
 #include <utility>
 #include <stdexcept>
 
+#include "matrix.h"
+#include <iostream>
+#include <utility>
+
 
 matrix::matrix(const size_t rows, const size_t columns)
 {
@@ -23,7 +27,7 @@ matrix::matrix(const size_t rows, const size_t columns)
 
 matrix::matrix(const std::vector<std::vector<float>>& rows)
 {
-	m_iRows    = rows.size();
+	m_iRows = rows.size();
 	m_iColumns = rows[0].size();
 
 
@@ -36,7 +40,7 @@ matrix::matrix(const std::vector<std::vector<float>>& rows)
 
 matrix::matrix(const matrix& other)
 {
-	m_iRows    = other.m_iRows;
+	m_iRows = other.m_iRows;
 	m_iColumns = other.m_iColumns;
 
 	m_ppData = Allocate2DArray(m_iRows, m_iColumns);
@@ -46,9 +50,9 @@ matrix::matrix(const matrix& other)
 			at(i, j) = other.at(i, j);
 }
 
-matrix::matrix(const size_t rows, const size_t columns,float* pRaw)
+matrix::matrix(const size_t rows, const size_t columns, float* pRaw)
 {
-	m_iRows    = rows;
+	m_iRows = rows;
 	m_iColumns = columns;
 
 
@@ -56,25 +60,25 @@ matrix::matrix(const size_t rows, const size_t columns,float* pRaw)
 
 	for (size_t i = 0; i < m_iRows; ++i)
 	{
-		memcpy(*(m_ppData+i), pRaw, sizeof(float) * m_iColumns);
+		memcpy(*(m_ppData + i), pRaw, sizeof(float) * m_iColumns);
 		pRaw += m_iColumns;
 	}
-		
+
 }
 
 size_t matrix::get_rows_count() const
 {
-    
+
 	return m_iRows;
 }
 
 matrix::matrix(matrix&& other) noexcept
 {
-	m_iRows    = other.m_iRows;
+	m_iRows = other.m_iRows;
 	m_iColumns = other.m_iColumns;
 	m_ppData = other.m_ppData;
 
-    other.m_ppData = nullptr;
+	other.m_ppData = nullptr;
 }
 
 size_t matrix::get_columns_count() const
@@ -134,18 +138,6 @@ matrix matrix::operator*(const float f) const
 	return out;
 }
 
-matrix matrix::operator*(const ImVec3& vec3)
-{
-	auto vecmatrix = matrix(m_iRows, 1);
-	vecmatrix.set(1.f);
-	vecmatrix.at(0, 0) = vec3.x;
-	vecmatrix.at(1, 0) = vec3.y;
-	vecmatrix.at(2, 0) = vec3.z;
-
-	return *this * vecmatrix;
-
-}
-
 matrix& matrix::operator*=(const float f)
 {
 	for (size_t i = 0; i < get_rows_count(); i++)
@@ -158,8 +150,18 @@ void matrix::clear()
 {
 	set(0.f);
 }
+matrix matrix::operator*(const ImVec3& vec3)
+{
+	auto vecmatrix = matrix(m_iRows, 1);
+	vecmatrix.set(1.f);
+	vecmatrix.at(0, 0) = vec3.x;
+	vecmatrix.at(1, 0) = vec3.y;
+	vecmatrix.at(2, 0) = vec3.z;
 
-void matrix::print()
+	return *this * vecmatrix;
+
+}
+void matrix::print() const
 {
 	for (size_t i = 0; i < get_rows_count(); i++)
 	{
@@ -190,9 +192,9 @@ matrix& matrix::operator=(matrix&& other) noexcept
 	if (this == &other)
 		return *this;
 
-	m_iRows    = other.m_iRows;
-	m_iColumns = other.m_iColumns;
-	m_ppData   = other.m_ppData;
+	std::swap(m_iRows, other.m_iRows);
+	std::swap(m_iColumns, other.m_iColumns);
+	std::swap(m_ppData, other.m_ppData);
 
 	return *this;
 
@@ -215,6 +217,27 @@ matrix matrix::operator/(const float f) const
 			out.at(i, j) /= f;
 
 	return out;
+}
+
+float matrix::det() const
+{
+	if (m_iRows + m_iColumns == 2)
+		return at(0, 0);
+
+	if (m_iRows == 2 and m_iColumns == 2)
+		return at(0, 0) * at(1, 1) - at(0, 1) * at(1, 0);
+
+	float fDet = 0;
+	for (size_t i = 0; i < m_iColumns; i++)
+		fDet += alg_complement(0, i) * at(0, i);
+
+	return fDet;
+}
+
+float matrix::alg_complement(const size_t i, const size_t j) const
+{
+	const auto tmp = minor(i, j);
+	return ( (i+j+2) % 2 == 0 ) ? tmp : -tmp;
 }
 
 matrix matrix::transpose()
@@ -253,4 +276,34 @@ void matrix::set(const float val)
 	for (size_t i = 0; i < m_iRows; ++i)
 		for (size_t j = 0; j < m_iColumns; ++j)
 			at(i, j) = val;
+}
+matrix matrix::strip(const size_t row, const size_t column) const
+{
+	matrix stripped = { m_iRows-1, m_iColumns-1};
+	size_t iStripRowIndex = 0;
+
+	for (size_t i = 0; i < m_iRows; i++)
+	{
+		if (i == row)
+			continue;
+
+		size_t iStripColumnIndex = 0;
+		for (size_t j = 0; j < m_iColumns; ++j)
+		{
+			if (j == column)
+				continue;
+
+			stripped.at(iStripRowIndex, iStripColumnIndex) = at(i,j);
+			iStripColumnIndex++;
+		}
+
+		iStripRowIndex++;
+	}
+
+	return stripped;
+}
+
+float matrix::minor(const size_t i, const size_t j) const
+{
+	return strip(i, j).det();
 }

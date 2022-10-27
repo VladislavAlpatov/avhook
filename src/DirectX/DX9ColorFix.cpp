@@ -1,4 +1,3 @@
-#pragma once
 #include "DX9ColorFix.h"
 
 #include "../Utils/Marker.h"

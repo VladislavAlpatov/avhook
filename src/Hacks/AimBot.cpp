@@ -6,6 +6,7 @@
 
 #include "AimBot.h"
 #include "../Globals/Interfaces.h"
+#include "TriggerBot.h"
 
 #include "../Utils/Math/Math.h"
 #include "../Utils/Marker.h"
@@ -17,18 +18,6 @@ CAimBot::CAimBot(Settings::CAimBotSettings* settings, SSDK::CUserCmd* pUsrCmd) :
 {
 	POLY_MARKER;
 	m_pCUsrCmd = pUsrCmd;
-}
-
-int CAimBot::GetBoneIDBySelectedTab(const int iTabIndex)
-{
-	POLY_MARKER;
-	switch (iTabIndex)
-	{
-	case 0:return SSDK::CBaseEntity::Bone::HEAD;
-	case 1:return SSDK::CBaseEntity::Bone::BODY;
-	case 2:return SSDK::CBaseEntity::Bone::LEGS;
-	default: return SSDK::CBaseEntity::Bone::HEAD;
-	}
 }
 void CAimBot::Work()
 {
@@ -47,7 +36,7 @@ void CAimBot::Work()
 	}
 	pAimBotSettings->m_bIsWorking = true;
 
-	int aimBone = GetBoneIDBySelectedTab(GetSettings<Settings::CAimBotSettings>()->m_iSelectedHitBox);
+	int iTargetBone = GetSettings<Settings::CAimBotSettings>()->m_iSelectedHitBox;
 
 	SSDK::CBaseEntity* pEnt = nullptr;
 
@@ -56,15 +45,15 @@ void CAimBot::Work()
 	switch (pAimBotSettings->m_iPriorityType)
 	{
 	case Settings::CAimBotSettings::PriorityType::FieldOfView:
-		pEnt = GetClosestTargetByFov(aimBone);
+		pEnt = GetClosestTargetByFov();
 		break;
 
 	case Settings::CAimBotSettings::PriorityType::Distance:
-		pEnt = GetClosestTargetByDistance(aimBone);
+		pEnt = GetClosestTargetByDistance();
 		break;
 
 	default:
-		pEnt = GetClosestTargetByFov(aimBone);
+		pEnt = GetClosestTargetByFov();
 		break;
 	}
 
@@ -77,37 +66,36 @@ void CAimBot::Work()
 	}
 
 	if (pAimBotSettings->m_iHitBoxFilterMode == Settings::CAimBotSettings::HitBoxFilterMode::Dynamic)
-		aimBone = GetBoneIdByEntityHealth(pEnt);
+		iTargetBone = GetBoneIdByEntityHealth(pEnt);
 
 	pAimBotSettings->m_pCurrentTarget = pEnt;
 
-	if (IfEntityInFov(pEnt, aimBone))
+	if (IfEntityInFov(pEnt))
 	{
 		if (pAimBotSettings->m_fSmooth > 0.f)
-			AimSmooth(pEnt, aimBone);
+			AimSmooth(pEnt);
 		else
 		{
-			AimPlain(pEnt, aimBone);
+			AimPlain(pEnt);
+
 			if (pAimBotSettings->m_bRcsControle)
 				m_pCUsrCmd->m_vecViewAngles = Utils::NormalizeViewAngles(m_pCUsrCmd->m_vecViewAngles - pLocalPlayer->m_vecAimPuchAngle * 2.f);
 		}
 	}
 	
-	if (pAimBotSettings->m_bAutoShot)
-		m_pCUsrCmd->m_iButtons &= 1;
+	if (pAimBotSettings->m_bAutoShot and  Hacks::TriggerBot::IsEnemyEntityInSight())
+		m_pCUsrCmd->m_iButtons |= SSDK::CUserCmd::IN_ATTACK;
 
 	POLY_MARKER;
 }
-void CAimBot::AimPlain(const SSDK::CBaseEntity* pEntity, const int iBoneId) const
+void CAimBot::AimPlain(const SSDK::CBaseEntity* pEntity) const
 {
 	POLY_MARKER;
-
-	if (const auto calculatedViewAngle = CalcAimViewAngles(pEntity, iBoneId); fabs(calculatedViewAngle.x) <= 89.f && fabs(calculatedViewAngle.y) <= 180.f)
-	{
+	const auto calculatedViewAngle = CalcAimViewAngles(pEntity, GetSettings<Settings::CAimBotSettings>()->m_iSelectedHitBox);
+	if (fabs(calculatedViewAngle.x) <= 89.f && fabs(calculatedViewAngle.y) <= 180.f)
 		m_pCUsrCmd->m_vecViewAngles = calculatedViewAngle;
-	}
 }
-void CAimBot::AimSmooth(const SSDK::CBaseEntity* pEntity, const int iBoneId) const
+void CAimBot::AimSmooth(const SSDK::CBaseEntity* pEntity) const
 {
 	using namespace GlobalVars;
 
@@ -115,7 +103,7 @@ void CAimBot::AimSmooth(const SSDK::CBaseEntity* pEntity, const int iBoneId) con
 
 	const auto pAimBotSettings = GetSettings<Settings::CAimBotSettings>();
 
-	const ImVec3 targetViewAngle = CalcAimViewAngles(pEntity, iBoneId);
+	const ImVec3 targetViewAngle = CalcAimViewAngles(pEntity, pAimBotSettings->m_iSelectedHitBox);
 
 	ImVec3 currentAngle = m_pCUsrCmd->m_vecViewAngles;
 
@@ -134,7 +122,7 @@ void CAimBot::AimSmooth(const SSDK::CBaseEntity* pEntity, const int iBoneId) con
 		m_pCUsrCmd->m_vecViewAngles = currentAngle;
 	}
 }
-bool CAimBot::IfEntityInFov(const SSDK::CBaseEntity* pEntity, const int iBoneId) const
+bool CAimBot::IfEntityInFov(const SSDK::CBaseEntity* pEntity) const
 {
 	using namespace GlobalVars;
 	const auto pAimBotSettings = GetSettings<Settings::CAimBotSettings>();
@@ -142,16 +130,16 @@ bool CAimBot::IfEntityInFov(const SSDK::CBaseEntity* pEntity, const int iBoneId)
 	POLY_MARKER;
 
 	const ImVec3  pLocalPlayerAngles = m_pCUsrCmd->m_vecViewAngles;
-	const ImVec3  targetAngles = CalcAimViewAngles(pEntity, iBoneId);
+	const ImVec3  targetAngles = CalcAimViewAngles(pEntity, pAimBotSettings->m_iSelectedHitBox);
 	ImVec3  deltaFov = (pLocalPlayerAngles - targetAngles);
 	POLY_MARKER;
 
-	return  deltaFov.Abs().Length2D() <= pAimBotSettings->m_fFov;
+	return  deltaFov.Length2D() <= pAimBotSettings->m_fFov;
 }
-SSDK::CBaseEntity* CAimBot::GetClosestTargetByDistance(const int bone) const
+SSDK::CBaseEntity* CAimBot::GetClosestTargetByDistance() const
 {
 	POLY_MARKER;
-	auto validEntities = GetValidEntities(bone);
+	auto validEntities = GetValidEntities();
 	
 	if (validEntities.empty())
 		return nullptr;
@@ -165,38 +153,36 @@ SSDK::CBaseEntity* CAimBot::GetClosestTargetByDistance(const int bone) const
 		});
 	return validEntities[0];
 }
-
-SSDK::CBaseEntity* CAimBot::GetClosestTargetByFov(int bone) const
+SSDK::CBaseEntity* CAimBot::GetClosestTargetByFov() const
 {
 
 	POLY_MARKER;
-	std::vector<SSDK::CBaseEntity*> validEntities = GetValidEntities(bone);
+	std::vector<SSDK::CBaseEntity*> validEntities = GetValidEntities();
 
 
 	if (validEntities.empty()) return nullptr;
 
 	POLY_MARKER;
+	int iBone = GetSettings<Settings::CAimBotSettings>()->m_iSelectedHitBox;
 
 	std::sort(validEntities.begin(), validEntities.end(),
 
-		[this, bone](const SSDK::CBaseEntity* pEntityFirst, const SSDK::CBaseEntity* pEntitySecond)
+		[this, iBone](const SSDK::CBaseEntity* pEntityFirst, const SSDK::CBaseEntity* pEntitySecond)
 		{
-			const ImVec3 diffFirstEntity = (CalcAimViewAngles(pEntityFirst,   bone) - m_pCUsrCmd->m_vecViewAngles).Abs();
-			const ImVec3 diffSecondEntity = (CalcAimViewAngles(pEntitySecond, bone) - m_pCUsrCmd->m_vecViewAngles).Abs();
+			const ImVec3 diffFirstEntity = (CalcAimViewAngles(pEntityFirst,   iBone) - m_pCUsrCmd->m_vecViewAngles).Abs();
+			const ImVec3 diffSecondEntity = (CalcAimViewAngles(pEntitySecond, iBone) - m_pCUsrCmd->m_vecViewAngles).Abs();
 
 			return diffFirstEntity.Length2D() < diffSecondEntity.Length2D();
 		});
 
 	return validEntities[0];
 }
-
 ImVec3 CAimBot::CalcAimViewAngles(const SSDK::CBaseEntity* pEntity, const int bone) 
 {
 	POLY_MARKER;
 	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
 	return CalcAimViewAngles(pLocalPlayer->GetCameraPosition(), pEntity->GetBonePosition(bone));
 }
-
 ImVec3 CAimBot::CalcAimViewAngles(const ImVec3& origin, const ImVec3& target)
 {
 	POLY_MARKER;
@@ -209,8 +195,7 @@ ImVec3 CAimBot::CalcAimViewAngles(const ImVec3& origin, const ImVec3& target)
 
 	return out;
 }
-
-std::vector<SSDK::CBaseEntity*> CAimBot::GetValidEntities(const int boneId) const
+std::vector<SSDK::CBaseEntity*> CAimBot::GetValidEntities() const
 {
 	POLY_MARKER;
 	std::vector<SSDK::CBaseEntity*> validEntities;
@@ -222,17 +207,16 @@ std::vector<SSDK::CBaseEntity*> CAimBot::GetValidEntities(const int boneId) cons
 	{
 		SSDK::CBaseEntity* pEntity =GlobalVars::g_pIEntityList->GetClientEntity(i);
 
-		if (!pEntity || !pEntity->m_IsVisible)
+		if (!pEntity)
 			continue;
 
-		if (pEntity->IsAlive() && !pEntity->m_bDormant && localPlayer->m_iTeamNum != pEntity->m_iTeamNum && IfEntityInFov(pEntity, boneId) && pEntity->m_IsVisible)
+		if (pEntity->IsAlive() && !pEntity->m_bDormant && localPlayer->m_iTeamNum != pEntity->m_iTeamNum && IfEntityInFov(pEntity) && IsEntityVisible(pEntity))
 			validEntities.push_back(pEntity);
 
 	}
 	return validEntities;
 
 }
-
 int Hacks::CAimBot::GetBoneIdByEntityHealth(const SSDK::CBaseEntity* pEntity) const
 {
 	const auto pSettings = GetSettings<Settings::CAimBotSettings>();
@@ -242,4 +226,24 @@ int Hacks::CAimBot::GetBoneIdByEntityHealth(const SSDK::CBaseEntity* pEntity) co
 		return SSDK::CBaseEntity::Bone::HEAD;
 	
 	return SSDK::CBaseEntity::Bone::BODY;
+}
+bool Hacks::CAimBot::IsEntityVisible(const SSDK::CBaseEntity* pEntity) const
+{
+	const auto pLocalPlayer = SSDK::ClientBase::GetLocalPlayer();
+
+
+	if (!pEntity->IsAlive())
+			return false;
+
+	SSDK::CGameTrace   trace;
+	SSDK::Ray_t        ray;
+	SSDK::CTraceFilter tracefilter;
+
+	tracefilter.m_pSkip = static_cast<void*>(pLocalPlayer);
+		
+	ray.Init(pLocalPlayer->m_vecOrigin + pLocalPlayer->m_vecViewOffset, pEntity->GetBonePosition(GetSettings<Settings::CAimBotSettings>()->m_iSelectedHitBox));
+		
+	GlobalVars::g_pIEngineTrace->TraceRay(ray, MASK_SHOT | CONTENTS_GRATE, &tracefilter, &trace);
+
+	return trace.m_pHitEntity == pEntity;
 }

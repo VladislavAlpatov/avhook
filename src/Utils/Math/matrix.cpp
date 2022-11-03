@@ -7,11 +7,6 @@
 #include <utility>
 #include <stdexcept>
 
-#include "matrix.h"
-#include <iostream>
-#include <utility>
-
-
 matrix::matrix(const size_t rows, const size_t columns)
 {
 	if (rows == 0 and columns == 0)

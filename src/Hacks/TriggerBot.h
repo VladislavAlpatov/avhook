@@ -15,10 +15,9 @@ namespace Hacks
 	public:
 		TriggerBot(Settings::TriggerBotSettings* settings, SSDK::CUserCmd* pUsrCmd);
 		void Work() override;
+		static bool IsEnemyEntityInSight();
 	private:
 		SSDK::CUserCmd* m_pUserCmd;
-
-		static bool IsEnemyEntityInSight();
 	};
 }
 

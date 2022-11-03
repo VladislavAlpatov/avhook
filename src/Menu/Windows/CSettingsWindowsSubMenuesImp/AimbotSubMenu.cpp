@@ -16,7 +16,15 @@ void UI::CSettingsWindow::DrawAimbotChild()
 	ImGui::BeginChild(xorstr("###General"), ImVec2(230, 265), true, m_iImGuiStyle);
 	{
 		ImGui::PushItemWidth(112.f);
-		ImGui::Combo(xorstr("Hit-Box"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_iSelectedHitBox, hitboxes, IM_ARRAYSIZE(hitboxes));
+		static auto iSelectedHitBox = 0;
+
+		if (ImGui::Combo(xorstr("Hit-Box"), &iSelectedHitBox, hitboxes, IM_ARRAYSIZE(hitboxes)))
+		{
+			static const int hitBoxList[] = {SSDK::CBaseEntity::HEAD, SSDK::CBaseEntity::BODY, SSDK::CBaseEntity::LEGS};
+			GlobalVars::g_AllSettings.m_AimBotSettings.m_iSelectedHitBox = hitBoxList[0];
+			
+		}
+
 		DrawToolTip(xorstr("Set target Hit-Box."));
 
 		ImGui::Combo(xorstr("Priority"), &GlobalVars::g_AllSettings.m_AimBotSettings.m_iPriorityType, priorities, IM_ARRAYSIZE(priorities));

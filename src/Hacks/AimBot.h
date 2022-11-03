@@ -9,7 +9,6 @@
 #include "../SDK/CUserCMD.h"
 
 
-
 namespace Hacks
 {
 	class CAimBot final : public CHackFeature
@@ -17,20 +16,22 @@ namespace Hacks
 	public:
 		CAimBot(Settings::CAimBotSettings* settings, SSDK::CUserCmd* pUsrCmd);
 		void Work() override;
-		static int         GetBoneIDBySelectedTab(const int iTabIndex);
 		static ImVec3                    CalcAimViewAngles(const SSDK::CBaseEntity* pEntity, const int bone);
 		
 		static ImVec3                    CalcAimViewAngles(const ImVec3& origin, const ImVec3& target);
+		bool						     IsEntityVisible(const SSDK::CBaseEntity* pEntity) const;
 	private:
 		SSDK::CUserCmd* m_pCUsrCmd = nullptr;
-		bool                      IfEntityInFov(const SSDK::CBaseEntity* pEntity, const int iBoneId) const;
-		void                      AimSmooth(const SSDK::CBaseEntity* pEntity, int iBoneId) const;
-		void                      AimPlain(const SSDK::CBaseEntity* pEntity, int iBoneId) const;
-		SSDK::CBaseEntity*              GetClosestTargetByDistance(int bone) const;
-		SSDK::CBaseEntity*              GetClosestTargetByFov(int bone) const;
+
+		bool                      		IfEntityInFov(const SSDK::CBaseEntity* pEntity) const;
+		void                      		AimSmooth(const SSDK::CBaseEntity* pEntity) const;
+		void                      		AimPlain(const SSDK::CBaseEntity* pEntity) const;
+
+		SSDK::CBaseEntity*              GetClosestTargetByDistance() const;
+		SSDK::CBaseEntity*              GetClosestTargetByFov() const;
 
 		// Get All enemy entites that are Alive, In fov range and can be seen 
-		std::vector<SSDK::CBaseEntity*> GetValidEntities(const int boneId) const;
+		std::vector<SSDK::CBaseEntity*> GetValidEntities() const;
 
 		int						  GetBoneIdByEntityHealth(const SSDK::CBaseEntity* pEntity) const;
 	};

@@ -89,25 +89,6 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 	static SSDK::ConVar* pCrosshair = GlobalVars::g_pCvarManager->FindVar(xorstr("crosshair"));
 	pCrosshair->m_pParentCvar->SetValue(GlobalVars::g_AllSettings.m_CrosshairSettings.m_Color.Value.w == 0.f || !GlobalVars::g_AllSettings.m_CrosshairSettings.m_bActive);
 
-	// Looking for "visible" players
-	for (const auto pEnt : GlobalVars::g_pIEntityList->GetEntityList())
-	{
-
-		if (pEnt->m_iTeamNum == pLocalPlayer->m_iTeamNum || !pEnt->IsAlive())
-			continue;
-
-		SSDK::CGameTrace   trace;
-		SSDK::Ray_t        ray;
-		SSDK::CTraceFilter tracefilter;
-		tracefilter.m_pSkip = static_cast<void*>(pLocalPlayer);
-
-		ray.Init(pLocalPlayer->m_vecOrigin + pLocalPlayer->m_vecViewOffset, pEnt->GetBonePosition(Hacks::CAimBot::GetBoneIDBySelectedTab(GlobalVars::g_AllSettings.m_AimBotSettings.m_iSelectedHitBox)));
-
-		GlobalVars::g_pIEngineTrace->TraceRay(ray, MASK_SHOT | CONTENTS_GRATE, &tracefilter, &trace);
-
-		pEnt->m_IsVisible = trace.m_pHitEntity == pEnt;
-	}
-
 	if (!pLocalPlayer->IsAlive())
 		return false;
 

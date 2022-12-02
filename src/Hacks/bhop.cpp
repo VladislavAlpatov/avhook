@@ -16,7 +16,7 @@ void CBunnyHop::Work()
 	if (!IsShouldBeActivated())
 		return;
 	POLY_MARKER;
-	if (!(SSDK::ClientBase::GetLocalPlayer()->m_fFlags & 1))
+	if (!(SSDK::ClientBase::GetLocalPlayer()->m_fFlags & FL_ONGROUND))
 		m_pUserCmd->m_iButtons &= ~SSDK::CUserCmd::IN_JUMP;
 	POLY_MARKER;
 }

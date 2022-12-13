@@ -101,7 +101,7 @@ bool __stdcall hooks::hCreateMove(const int fSampleTime, SSDK::CUserCmd* pUserCm
 
 
 	// ===Create Move Fix===
-	// BUG: If silent aimbot is active it cause wrong movement for local player
+	// BUG: If silent aimbot is active it causes wrong movement for local player
 	SSDK::fix_usercmd guard(pUserCmd);
 
 	for (const auto& pFeature : features)

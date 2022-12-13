@@ -47,7 +47,7 @@ namespace WebApi
 
 	struct AvatarUploadStatus
 	{
-		bool m_isSucced = false;
+		bool mIsSucced = false;
 		std::string m_sErrorMessage = "Not uploaded";
 	};
 	class CConfig

@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.23)
 set(CMAKE_CXX_STANDARD 20)
 
 add_compile_definitions(WIN32_LEAN_AND_MEAN)
-add_compile_definitions(CLOUD_SUPPORT)
 message(STATUS "Direct3D 9 SDK path: '$ENV{DXSDK_DIR}'")
 
 

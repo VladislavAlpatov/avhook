@@ -42,7 +42,7 @@ void UI::CSettingsWindow::DrawAimbotChild()
 		if (pLocalPlayer != nullptr and ImGui::IsItemHovered())
 		{
 			const auto screenSize = ImGui::GetMainViewport()->Size;
-			const float fovScreenRatio = std::hypotf(screenSize.x, screenSize.y) / (float)pLocalPlayer->m_iDefaultFOV / 2.f;
+			const float fovScreenRatio = (screenSize.x / 2.f) / (float)pLocalPlayer->m_iDefaultFOV;
 
 			ImGui::GetBackgroundDrawList()->AddCircle(screenSize / 2.f,
 				fovScreenRatio * GlobalVars::g_AllSettings.m_AimBotSettings.m_fFov,

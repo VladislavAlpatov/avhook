@@ -1,7 +1,5 @@
 #include "DX9ColorFix.h"
-
 #include "../Utils/Marker.h"
-#include <d3dx9.h>
 
 
 DX9ColorFix::DX9ColorFix(LPDIRECT3DDEVICE9 pDevice)
@@ -13,10 +11,7 @@ void DX9ColorFix::RemoveColorFilter()
     m_pDevice->CreateStateBlock(D3DSBT_ALL, &m_pStateBlock);
 
     for (byte i = 0; i < 7; i++)
-    {
         m_pDevice->GetRenderState(m_BackUp[i], &m_OldBlock[i]);
-
-    }
     m_pStateBlock->Capture();
 }
 
@@ -56,7 +51,5 @@ void DX9ColorFix::RestoreColorFilter()
     m_pStateBlock->Release();
 
     for (byte i = 0; i < 7; i++)
-    {
         m_pDevice->SetRenderState(m_BackUp[i], m_OldBlock[i]);
-    }
 }

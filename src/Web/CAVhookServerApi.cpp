@@ -96,9 +96,9 @@ AvatarUploadStatus CAVHookServerApi::SetUserAvatar(const std::string& rawData) c
 	AvatarUploadStatus status;
 
 	auto inputJsn = nlohmann::json::parse(m_pClient->Post(xorstr("/api/profile/avatar_set"), rawData, xorstr("text/plain")).value().body);
-	status.m_isSucced = inputJsn[xorstr("Status")].get<bool>();
+	status.mIsSucced = inputJsn[xorstr("Status")].get<bool>();
 	
-	if (status.m_isSucced)
+	if (status.mIsSucced)
 		return status;
 	POLY_MARKER;
 	status.m_sErrorMessage = inputJsn[xorstr("Reason")].get<std::string>();

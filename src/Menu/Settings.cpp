@@ -229,8 +229,7 @@ Settings::CLabelEspSettings::CLabelEspSettings()
 	m_Labels.push_back(std::make_shared<CLabels::CHealthLabel>(xorstr("Health"), false));
 	m_Labels.push_back(std::make_shared<CLabels::CArmorLabel>(xorstr("Armor"), false, ImColor(255, 255, 255)));
 	m_Labels.push_back(std::make_shared<CLabels::CDistanceLabel>(xorstr("Distance"), false, ImColor(255, 255, 255)));
-	m_Labels.push_back(
-		std::make_shared<CLabels::CVisibilityLabel>(xorstr("Visibility"), false, ImColor(255, 255, 255)));
+	m_Labels.push_back(std::make_shared<CLabels::CVisibilityLabel>(xorstr("Visibility"), false, ImColor(255, 255, 255)));
 	m_Labels.push_back(std::make_shared<CLabels::CAimBotTargetLabel>(xorstr("Locked"), false, ImColor(255, 255, 255)));
 }
 

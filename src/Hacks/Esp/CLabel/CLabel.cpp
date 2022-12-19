@@ -50,7 +50,7 @@ bool CArmorLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEn
 bool CDistanceLabel::Render(const ImVec2& vecPosition, const SSDK::CBaseEntity* pEntity) const
 {
 	POLY_MARKER;
-	static auto pDrawList = ImGui::GetBackgroundDrawList();
+    const auto pDrawList = ImGui::GetBackgroundDrawList();
 	const auto distance = SSDK::ClientBase::GetLocalPlayer()->CalcDistanceToEntity(pEntity);
 	
 	// BUG: xorstr DOES NOT works with std format!

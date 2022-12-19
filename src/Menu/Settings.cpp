@@ -405,7 +405,7 @@ Settings::CAllSettings::CAllSettings(const nlohmann::json& jsn)
 
 	POLY_MARKER;
 	const auto tmp = jsn[xorstr("CfgName")].get<std::string>();
-	m_Name = std::string(tmp.c_str(), 32);
+    memcpy(m_Name, tmp.c_str(), tmp.size());
 }
 
 nlohmann::json Settings::CAllSettings::ToJson() const
@@ -414,7 +414,7 @@ nlohmann::json Settings::CAllSettings::ToJson() const
 
 	POLY_MARKER;
 
-	jsn[xorstr("CfgName")] = m_Name.c_str();
+	jsn[xorstr("CfgName")] = m_Name;
 	jsn[xorstr("AimBot")] = m_AimBotSettings.ToJson();
 	jsn[xorstr("BarEsp")] = m_BarEspSettings.ToJson();
 	jsn[xorstr("BoxEsp")] = m_BoxEspSettings.ToJson();

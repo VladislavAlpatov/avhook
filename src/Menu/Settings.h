@@ -234,7 +234,7 @@ namespace Settings
 	public:
 		CAllSettings(const nlohmann::json& jsn);
 		CAllSettings() = default;
-		char m_Name[32] = {0};
+		std::string m_Name;
 
 		CAimBotSettings          m_AimBotSettings;
 		SnapLinesSettings        m_SnapLinesSettings;

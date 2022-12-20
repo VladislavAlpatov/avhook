@@ -15,10 +15,10 @@ void UI::CSettingsWindow::DrawCfgChild()
 	{
 		ImGui::Text(xorstr("Feature Config Section"));
 
-		DrawInputTextWithTextOnBackGround(xorstr("###Fname"), xorstr("<Config name>"), GlobalVars::g_AllSettings.m_Name, 32);
+		DrawInputTextWithTextOnBackGround(xorstr("###Fname"), xorstr("<Config name>"), GlobalVars::g_AllSettings.m_Name.data(), 32);
 		if (ImGui::Button(xorstr("Import###fi")))
 		{
-			if (CConfigLoader cfg(GlobalVars::g_AllSettings.m_Name, &GlobalVars::g_AllSettings); cfg.LoadConfigFile(GlobalVars::g_AllSettings.m_Name))
+			if (CConfigLoader cfg(GlobalVars::g_AllSettings.m_Name.data(), &GlobalVars::g_AllSettings); cfg.LoadConfigFile(GlobalVars::g_AllSettings.m_Name))
 				m_pMessageLineList->Add(fmt::format("Loaded settings config: \"{}\"", GlobalVars::g_AllSettings.m_Name), 2000);
 			else
 				m_pMessageLineList->Add(fmt::format("\"{}\" does not exist.", GlobalVars::g_AllSettings.m_Name), 2000);
@@ -27,9 +27,9 @@ void UI::CSettingsWindow::DrawCfgChild()
 		ImGui::SameLine();
 		if (ImGui::Button(xorstr("Export###fb")))
 		{
-			if (strlen(GlobalVars::g_AllSettings.m_Name))
+			if (!GlobalVars::g_AllSettings.m_Name.empty())
 			{
-				auto cfgOnSave = CConfigLoader(GlobalVars::g_AllSettings.m_Name, &GlobalVars::g_AllSettings);
+				auto cfgOnSave = CConfigLoader(GlobalVars::g_AllSettings.m_Name.c_str(), &GlobalVars::g_AllSettings);
 				cfgOnSave.DumpConfigFile(GlobalVars::g_AllSettings.m_Name);
 				m_pMessageLineList->Add(xorstr("Config successfully imported."), 2000);
 

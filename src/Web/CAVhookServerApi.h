@@ -1,6 +1,6 @@
 #pragma once
-#include "httplib.h"
 #include <nlohmann/json.hpp>
+#include <WinSock2.h>
 #include <windows.h>
 #include <memory>
 #include "IWebObject.h"
@@ -71,20 +71,24 @@ namespace WebApi
 	class CAVHookServerApi
 	{
 	public:
-		CAVHookServerApi();
+        virtual ~CAVHookServerApi();
+        static CAVHookServerApi* Get();
 		CUserInfo GetUserInfo() const;
 		void ChangeUserNameAndStatus(const char* name, const char* status) const;
 		std::vector<CConfig> GetListOfConfigs() const;
 		bool UpdateConfig(const int cfgIid,const nlohmann::json& data);
-
-		bool AuthByToken(const char* authToken) const;
 		AvatarUploadStatus SetUserAvatar(const std::string& rawDatas) const;
 		std::string GetRawAvatarData() const;
 		CLoaderTheme GetLoaderTheme() const;
 		void UpdateLoaderTheme(const CLoaderTheme& theme) const;
 
 	private:
-		std::unique_ptr<httplib::Client> m_pClient;
+        CAVHookServerApi();
+		SOCKET m_sConnection;
+        std::string m_sIp;
+        int m_iPort;
+        bool Reconnect();
+        void send_json(const nlohmann::json& jsn) const;
 	};
 
 }

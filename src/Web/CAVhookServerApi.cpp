@@ -1,5 +1,7 @@
 #include "CAVhookServerApi.h"
 #include "../Utils/Marker.h"
+#include <ws2tcpip.h>
+
 using namespace WebApi;
 
 
@@ -7,15 +9,35 @@ using namespace WebApi;
 CAVHookServerApi::CAVHookServerApi()
 {
 	POLY_MARKER;
-	m_pClient = std::make_unique<httplib::Client>("http://server.avhook.ru");
+    m_sIp   = "127.0.0.1";
+    m_iPort = 7777;
+    WSADATA data;
+
+    WSAStartup(MAKEWORD(2, 2), &data);
+
+    m_sConnection = socket(AF_INET, SOCK_STREAM, NULL);
+
+    while (!Reconnect())
+        Sleep(500);
+    nlohmann::json jsn;
+    jsn["type"] = 1;
+    jsn["email"] = "1@mail.ru";
+    jsn["password"] = "1234";
+    send_json(jsn);
+
 }
 CUserInfo CAVHookServerApi::GetUserInfo() const
 {
 	POLY_MARKER;
 	// Download user data from server
-	auto  jsonUserData = nlohmann::json::parse(m_pClient->Get(xorstr("/api/profile/get")).value().body);
+    nlohmann::json jsn;
+    jsn["type"] = 3;
+    send_json(jsn);
+    char buff[1024] = {0};
 
-	return jsonUserData;
+    recv(m_sConnection, buff, 1024, 0);
+
+	return nlohmann::json::parse(buff);
 }
 void CAVHookServerApi::ChangeUserNameAndStatus(const char* name, const char* status) const 
 {
@@ -25,17 +47,17 @@ void CAVHookServerApi::ChangeUserNameAndStatus(const char* name, const char* sta
 	payloadJson[xorstr("name")]   = name;
 	payloadJson[xorstr("status")] = status;
 
-	m_pClient->Post(xorstr("/api/profile/set"), payloadJson.dump(), xorstr("application/json"));
+	//m_pClient->Post(xorstr("/api/profile/set"), payloadJson.dump(), xorstr("application/json"));
 }
 std::vector<CConfig> WebApi::CAVHookServerApi::GetListOfConfigs() const
 {
 	POLY_MARKER;
-	auto jsn = nlohmann::json::parse(m_pClient->Get(xorstr("/api/profile/configs/get/list")).value().body);
+	//auto jsn = nlohmann::json::parse(m_pClient->Get(xorstr("/api/profile/configs/get/list")).value().body);
 	auto cfgList = std::vector<CConfig>();
-	for (const auto& cfgJson : jsn[xorstr("configs")].get<std::list<nlohmann::json>>())
-	{
-		cfgList.emplace_back(cfgJson);
-	}
+	//for (const auto& cfgJson : jsn[xorstr("configs")].get<std::list<nlohmann::json>>())
+	//{
+	//	cfgList.emplace_back(cfgJson);
+	//}
 	return cfgList;
 }
 bool WebApi::CAVHookServerApi::UpdateConfig(const int cfgIid, const nlohmann::json& data)
@@ -46,26 +68,30 @@ bool WebApi::CAVHookServerApi::UpdateConfig(const int cfgIid, const nlohmann::js
 	postJsn[xorstr("id")]   = cfgIid;
 	postJsn[xorstr("data")] = data;
 
-	auto respJsn = nlohmann::json::parse(m_pClient->Post(xorstr("/api/profile/configs/update"), postJsn.dump(), xorstr("application/json")).value().body);
+	// auto respJsn = nlohmann::json::parse(m_pClient->Post(xorstr("/api/profile/configs/update"), postJsn.dump(), xorstr("application/json")).value().body);
 
-	return respJsn[xorstr("Status")].get<bool>();
+	//return respJsn[xorstr("Status")].get<bool>();
+
+    return false;
 }
 std::string CAVHookServerApi::GetRawAvatarData() const
 {
 	POLY_MARKER;
-	return m_pClient->Get(xorstr("/api/profile/get_avatar")).value().body;
+	//return m_pClient->Get(xorstr("/api/profile/get_avatar")).value().body;
+
+    return {};
 }
 CLoaderTheme WebApi::CAVHookServerApi::GetLoaderTheme() const
 {
 	POLY_MARKER;
-	const auto jsn = nlohmann::json::parse(m_pClient->Get(xorstr("/api/loader/get/theme")).value().body);
+	//const auto jsn = nlohmann::json::parse(m_pClient->Get(xorstr("/api/loader/get/theme")).value().body);
 
-	return jsn;
+	return {};
 }
 void WebApi::CAVHookServerApi::UpdateLoaderTheme(const CLoaderTheme& theme) const
 {
 	POLY_MARKER;
-	m_pClient->Post(xorstr("/api/loader/update/theme"), theme.ToJson().dump(), xorstr("application/json"));
+	//m_pClient->Post(xorstr("/api/loader/update/theme"), theme.ToJson().dump(), xorstr("application/json"));
 }
 std::string CUserInfo::AccountTypeIdToString() const
 {
@@ -78,34 +104,55 @@ std::string CUserInfo::AccountTypeIdToString() const
 	default:                      return xorstr("Unknown");
 	}
 }
-
-bool CAVHookServerApi::AuthByToken(const char* authToken) const
-{
-	POLY_MARKER;
-	auto payloadJsn = nlohmann::json();
-	payloadJsn[xorstr("Token")] = authToken;
-
-	auto authStatus = nlohmann::json::parse(m_pClient->Post(xorstr("/api/oauth/token"), payloadJsn.dump(), xorstr("application/json")).value().body);
-	
-	return authStatus[xorstr("Authorized")].get<bool>();
-
-}
 AvatarUploadStatus CAVHookServerApi::SetUserAvatar(const std::string& rawData) const
 {
-	POLY_MARKER;
-	AvatarUploadStatus status;
+	//POLY_MARKER;
+	//AvatarUploadStatus status;
 
-	auto inputJsn = nlohmann::json::parse(m_pClient->Post(xorstr("/api/profile/avatar_set"), rawData, xorstr("text/plain")).value().body);
-	status.mIsSucced = inputJsn[xorstr("Status")].get<bool>();
-	
-	if (status.mIsSucced)
-		return status;
-	POLY_MARKER;
-	status.m_sErrorMessage = inputJsn[xorstr("Reason")].get<std::string>();
+	//auto inputJsn = nlohmann::json::parse(m_pClient->Post(xorstr("/api/profile/avatar_set"), rawData, xorstr("text/plain")).value().body);
+	//status.mIsSucced = inputJsn[xorstr("Status")].get<bool>();
+	//if (status.mIsSucced)
+	//	return status;
+	//POLY_MARKER;
+	//status.m_sErrorMessage = inputJsn[xorstr("Reason")].get<std::string>();
 
-	return status;
+	return {};
 
 }
+
+bool CAVHookServerApi::Reconnect()
+{
+    SOCKADDR_IN addr;
+    inet_pton(AF_INET,m_sIp.c_str() , &addr.sin_addr.S_un.S_addr);
+    addr.sin_port = htons(m_iPort);
+    addr.sin_family = AF_INET;
+
+    return !connect(m_sConnection, (sockaddr*)&addr, sizeof(addr));
+}
+
+void CAVHookServerApi::send_json(const nlohmann::json &jsn) const
+{
+    std::string str = jsn.dump();
+    int size = str.size();
+    send(m_sConnection, (const char*)&size, 4, 0);
+    for (int sentBytes = 0; sentBytes < str.length(); )
+    {
+        sentBytes += send(m_sConnection, str.c_str()+sentBytes, str.size(), 0);
+    }
+}
+
+CAVHookServerApi::~CAVHookServerApi()
+{
+    closesocket(m_sConnection);
+}
+
+CAVHookServerApi *CAVHookServerApi::Get()
+{
+    static auto pApi = std::unique_ptr<CAVHookServerApi>(new CAVHookServerApi());
+
+    return pApi.get();
+}
+
 CUserInfo::CUserInfo(nlohmann::json jsn)
 {
 	POLY_MARKER;
@@ -116,8 +163,8 @@ CUserInfo::CUserInfo(nlohmann::json jsn)
 	strcpy_s(m_sStatus, sUserStatus.c_str());
 
 	m_iAccountType = jsn[xorstr("type")].get<int>();
-	m_bIsPremium   = jsn[xorstr("premium")].get<bool>();
-	m_iUid         = jsn[xorstr("uid")].get<int>();
+	m_bIsPremium   = false;
+	m_iUid         = jsn[xorstr("id")].get<int>();
 
 }
 

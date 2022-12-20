@@ -13,15 +13,7 @@ DWORD WINAPI InitCheat(const HMODULE hModule)
 	
 	while (!GetModuleHandleA(xorstr("serverbrowser.dll")))
 		Sleep(50);
-
-#ifdef CLOUD_SUPPORT
-	if (!WebApi::CAVHookServerApi().AuthByToken("bWevWkyjyNLFwn4f3tjXJGgSux4H8Jbe"))
-	{
-		POLY_MARKER;
-		MessageBoxA(nullptr, xorstr("Incorrect token to access the account, please inform the administrator about this error."), xorstr("Auth error"), MB_ICONERROR | MB_OK);
-		exit(-1);
-	}
-#endif
+    
 	if (auto razerApi = CRazer(); razerApi.isSupported())
 	{
 		APPINFOTYPE appInfo;

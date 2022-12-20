@@ -85,7 +85,7 @@ UI::COverlay::COverlay(LPDIRECT3DDEVICE9 pDevice)
 	POLY_MARKER;
 
 #ifdef CLOUD_SUPPORT
-	m_MessageLineList.Add(fmt::format("{}, the systems are yours. \nWe are stronger united.", WebApi::CAVHookServerApi().GetUserInfo().m_sName ), 3000);
+	m_MessageLineList.Add(fmt::format("{}, the systems are yours. \nWe are stronger united.", WebApi::CAVHookServerApi::Get()->GetUserInfo().m_sName ), 3000);
 #else
 	m_MessageLineList.Add(xorstr("nullifiedvlad, the systems are yours. \nWe are stronger united."), 3000);
 #endif

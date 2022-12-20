@@ -403,8 +403,7 @@ Settings::CAllSettings::CAllSettings(const nlohmann::json& jsn)
 		m_GlowEspSettings = CGlowEspSettings(jsn[xorstr("GlowEsp")].get<nlohmann::json>());
 
 	POLY_MARKER;
-	const auto tmp = jsn[xorstr("CfgName")].get<std::string>();
-    memcpy(m_Name, tmp.c_str(), tmp.size());
+	m_Name = jsn[xorstr("CfgName")].get<std::string>();
 }
 
 nlohmann::json Settings::CAllSettings::ToJson() const

@@ -23,7 +23,7 @@ namespace UI
 		WebApi::CUserInfo          m_UserData;
 		WebApi::CLoaderTheme	   m_LoaderTheme;
 #ifdef CLOUD_SUPPORT
-		WebApi::CAVHookServerApi   m_ApiClient;
+		WebApi::CAVHookServerApi*   m_pApiClient;
 #endif
 
 		std::vector<WebApi::CConfig> m_ConfigsList;

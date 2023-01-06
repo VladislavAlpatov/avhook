@@ -86,7 +86,7 @@ void UI::CBaseWindow::DrawCloseWindowButton()
 	const ImVec2 windowSize = ImGui::GetWindowSize();
 
 	// Setting position of button
-	ImGui::SetCursorPos(ImVec2(windowSize.x - 25, 5));
+	ImGui::SetCursorPos(ImVec2(windowSize.x - 28, 5));
 
 	if (ImGui::Button(xorstr("X"), ImVec2(20, 20)))
 		Toggle();

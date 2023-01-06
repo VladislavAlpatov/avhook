@@ -7,8 +7,13 @@
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/cmake-build/build/${presetName}",
       "installDir": "${sourceDir}/cmake-build/install/${presetName}",
+      "vendor": {
+        "jetbrains.com/clion": {
+          "toolchain": "Visual Studio x86"
+        }
+      },
       "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "C:/Users/Vlad/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "CMAKE_TOOLCHAIN_FILE": "C:/Users/Vlad/Documents/vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x86-windows-static",
         "CMAKE_CXX_COMPILER": "cl.exe",
         "CMAKE_C_COMPILER": "cl.exe"

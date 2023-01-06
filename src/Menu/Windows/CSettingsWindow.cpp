@@ -99,7 +99,7 @@ void UI::CSettingsWindow::Render()
 		style.ItemSpacing = spacingOld;
 		style.FramePadding = paddingOld;
 
-		ImGui::GetWindowDrawList()->AddRect(rectStart+ImVec2(3,0), rectStart + ImVec2(546, 19), (ImColor)style.Colors[ImGuiCol_Border]);
+		ImGui::GetWindowDrawList()->AddRect(rectStart+ImVec2(3,0), rectStart + ImVec2(542, 19), (ImColor)style.Colors[ImGuiCol_Border]);
 		ImGui::PopFont();
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 

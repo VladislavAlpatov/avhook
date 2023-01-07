@@ -1,10 +1,10 @@
 #pragma once
 #include <nlohmann/json.hpp>
-#include <WinSock2.h>
 #include <windows.h>
 #include <memory>
 #include "IWebObject.h"
 #include "../Menu/Settings.h"
+#include "Socket.h"
 
 namespace WebApi
 {
@@ -84,12 +84,11 @@ namespace WebApi
 
 	private:
         CAVHookServerApi();
-		SOCKET m_sConnection;
+		Web::Network::Socket m_sConnection;
         std::string m_sIp;
         int m_iPort;
-        bool Reconnect();
-        void send_json(const nlohmann::json& jsn) const;
-	};
+
+    };
 
 }
 

@@ -1,30 +1,20 @@
 #include "CAVhookServerApi.h"
 #include "../Utils/Marker.h"
-#include <ws2tcpip.h>
 
 using namespace WebApi;
-
 
 
 CAVHookServerApi::CAVHookServerApi()
 {
 	POLY_MARKER;
-    m_sIp   = "127.0.0.1";
-    m_iPort = 7777;
-    WSADATA data;
-
-    WSAStartup(MAKEWORD(2, 2), &data);
-
-    m_sConnection = socket(AF_INET, SOCK_STREAM, NULL);
-
-    while (!Reconnect())
-        Sleep(500);
+    m_sConnection.Connect("89.111.137.169", 7777);
     nlohmann::json jsn;
     jsn["type"] = 1;
     jsn["email"] = "1@mail.ru";
-    jsn["password"] = "1234";
-    send_json(jsn);
+    jsn["password"] = "1235";
 
+    m_sConnection.SendJson(jsn);
+    m_sConnection.RecvString();
 }
 CUserInfo CAVHookServerApi::GetUserInfo() const
 {
@@ -32,12 +22,10 @@ CUserInfo CAVHookServerApi::GetUserInfo() const
 	// Download user data from server
     nlohmann::json jsn;
     jsn["type"] = 3;
-    send_json(jsn);
-    char buff[1024] = {0};
 
-    recv(m_sConnection, buff, 1024, 0);
+    m_sConnection.SendJson(jsn);
 
-	return nlohmann::json::parse(buff);
+	return m_sConnection.RecvJson();
 }
 void CAVHookServerApi::ChangeUserNameAndStatus(const char* name, const char* status) const 
 {
@@ -120,30 +108,9 @@ AvatarUploadStatus CAVHookServerApi::SetUserAvatar(const std::string& rawData) c
 
 }
 
-bool CAVHookServerApi::Reconnect()
-{
-    SOCKADDR_IN addr;
-    inet_pton(AF_INET,m_sIp.c_str() , &addr.sin_addr.S_un.S_addr);
-    addr.sin_port = htons(m_iPort);
-    addr.sin_family = AF_INET;
-
-    return !connect(m_sConnection, (sockaddr*)&addr, sizeof(addr));
-}
-
-void CAVHookServerApi::send_json(const nlohmann::json &jsn) const
-{
-    std::string str = jsn.dump();
-    int size = str.size();
-    send(m_sConnection, (const char*)&size, 4, 0);
-    for (int sentBytes = 0; sentBytes < str.length(); )
-    {
-        sentBytes += send(m_sConnection, str.c_str()+sentBytes, str.size(), 0);
-    }
-}
-
 CAVHookServerApi::~CAVHookServerApi()
 {
-    closesocket(m_sConnection);
+
 }
 
 CAVHookServerApi *CAVHookServerApi::Get()

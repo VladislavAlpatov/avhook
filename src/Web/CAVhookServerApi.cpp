@@ -40,12 +40,14 @@ void CAVHookServerApi::ChangeUserNameAndStatus(const char* name, const char* sta
 std::vector<CConfig> WebApi::CAVHookServerApi::GetListOfConfigs() const
 {
 	POLY_MARKER;
-	//auto jsn = nlohmann::json::parse(m_pClient->Get(xorstr("/api/profile/configs/get/list")).value().body);
+    nlohmann::json jsn;
+    jsn["type"] = 6;
+    m_sConnection.SendJson(jsn);
 	auto cfgList = std::vector<CConfig>();
-	//for (const auto& cfgJson : jsn[xorstr("configs")].get<std::list<nlohmann::json>>())
-	//{
-	//	cfgList.emplace_back(cfgJson);
-	//}
+	for (const auto& cfgJson : m_sConnection.RecvJson()[xorstr("configs")].get<std::list<nlohmann::json>>())
+	{
+		cfgList.emplace_back(cfgJson);
+	}
 	return cfgList;
 }
 bool WebApi::CAVHookServerApi::UpdateConfig(const int cfgIid, const nlohmann::json& data)
@@ -162,6 +164,6 @@ WebApi::CConfig::CConfig(const nlohmann::json& jsn)
 {
 	POLY_MARKER;
 
-	m_iUid = jsn[xorstr("uid")].get<int>();
+	m_iUid = jsn[xorstr("id")].get<int>();
 	m_Settings = Settings::CAllSettings(jsn[xorstr("data")].get<nlohmann::json>());
 }

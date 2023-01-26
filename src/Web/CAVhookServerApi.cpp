@@ -7,7 +7,7 @@ using namespace WebApi;
 CAVHookServerApi::CAVHookServerApi()
 {
 	POLY_MARKER;
-    m_sConnection.Connect("89.111.137.169", 7777);
+    m_sConnection.Connect("127.0.0.1", 7777);
     nlohmann::json jsn;
     jsn["type"] = 1;
     jsn["email"] = "1@mail.ru";

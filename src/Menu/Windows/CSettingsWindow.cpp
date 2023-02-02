@@ -3,17 +3,12 @@
 #include <fstream>
 #include <d3dx9.h>
 #include <memory>
-#include <fmt/format.h>
-
 
 #include "../../Globals/Settings.h"
 #include "../../Globals/Interfaces.h"
 
 #include "../../imgui/misc/freetype/imgui_freetype.h"
 #include "../../imgui/imgui_internal.h"
-
-
-#include "../../Utils/CFGloader/CFGloader.h"
 #include "../../RawData/Images.h"
 
 

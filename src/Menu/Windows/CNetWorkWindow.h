@@ -36,6 +36,8 @@ namespace UI
 		void SetUserAvatar(const std::string& pathToFile);
 
 		void DrawConfigCombo(const char* label, int* CurrentItem, const std::vector<WebApi::CConfig>& list) const;
+		void DrawProfileSection();
+		void DrawCloudSection();
 #endif
 	};
 }

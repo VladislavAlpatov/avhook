@@ -43,7 +43,7 @@ std::vector<CConfig> WebApi::CAVHookServerApi::GetListOfConfigs() const
     nlohmann::json jsn;
     jsn["type"] = 6;
     m_sConnection.SendJson(jsn);
-	auto cfgList = std::vector<CConfig>();
+	std::vector<CConfig> cfgList;
 	for (const auto& cfgJson : m_sConnection.RecvJson()[xorstr("configs")].get<std::list<nlohmann::json>>())
 	{
 		cfgList.emplace_back(cfgJson);
@@ -57,12 +57,11 @@ bool WebApi::CAVHookServerApi::UpdateConfig(const int cfgIid, const nlohmann::js
 
 	postJsn[xorstr("id")]   = cfgIid;
 	postJsn[xorstr("data")] = data;
+    postJsn[xorstr("type")] = 5;
+    m_sConnection.SendJson(postJsn);
 
-	// auto respJsn = nlohmann::json::parse(m_pClient->Post(xorstr("/api/profile/configs/update"), postJsn.dump(), xorstr("application/json")).value().body);
+    return m_sConnection.RecvJson()["success"].get<bool>();
 
-	//return respJsn[xorstr("Status")].get<bool>();
-
-    return false;
 }
 std::string CAVHookServerApi::GetRawAvatarData() const
 {
@@ -120,6 +119,19 @@ CAVHookServerApi *CAVHookServerApi::Get()
     static auto pApi = std::unique_ptr<CAVHookServerApi>(new CAVHookServerApi());
 
     return pApi.get();
+}
+
+std::vector<Chat> CAVHookServerApi::GetChatList() const
+{
+    m_sConnection.SendJson({{"type", 11}});
+    std::vector<Chat> lst;
+    for (const auto& jsn : m_sConnection.RecvJson()["chats"].get<std::vector<nlohmann::json>>())
+    {
+        Chat chat;
+        chat.m_sName = jsn["name"].get<std::string>();
+        lst.push_back(chat);
+    }
+    return lst;
 }
 
 CUserInfo::CUserInfo(nlohmann::json jsn)

@@ -38,6 +38,7 @@ namespace UI
 		void DrawConfigCombo(const char* label, int* CurrentItem, const std::vector<WebApi::CConfig>& list) const;
 		void DrawProfileSection();
 		void DrawCloudSection();
+        void DrawCommunitySection();
 #endif
 	};
 }

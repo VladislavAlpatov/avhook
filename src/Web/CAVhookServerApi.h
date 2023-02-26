@@ -57,17 +57,11 @@ namespace WebApi
 		int         m_iUid;
 		Settings::CAllSettings m_Settings;
 	};
-
-	class CMenuThemeConfig
-	{
-	public:
-		CMenuThemeConfig([[maybe_unused]] const nlohmann::json jsn)
-		{
-
-		}
-		int m_iUID;
-
-	};
+    struct Chat
+    {
+        std::string m_sName;
+        int         m_iId;
+    };
 	class CAVHookServerApi
 	{
 	public:
@@ -81,7 +75,7 @@ namespace WebApi
 		std::string GetRawAvatarData() const;
 		CLoaderTheme GetLoaderTheme() const;
 		void UpdateLoaderTheme(const CLoaderTheme& theme) const;
-
+        std::vector<Chat> GetChatList() const;
 	private:
         CAVHookServerApi();
 		Web::Network::Socket m_sConnection;

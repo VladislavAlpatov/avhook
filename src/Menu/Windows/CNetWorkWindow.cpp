@@ -42,7 +42,7 @@ void UI::CNetWorkWindow::Render()
 			iTab = 0;
 
         ImGui::SameLine();
-		if (ImGui::Button("Chat"))
+		if (ImGui::Button("Community"))
 			iTab = 1;
         ImGui::SameLine();
         ImGui::PopStyleVar();
@@ -55,7 +55,7 @@ void UI::CNetWorkWindow::Render()
 		case 0:
 			DrawProfileSection(); break;
 		case 1:
-			break;
+			 DrawCommunitySection(); break;
 		case 2:
 			DrawCloudSection();   break;
 		}
@@ -190,7 +190,7 @@ void UI::CNetWorkWindow::DrawCloudSection()
 	static int selectedCfgId = 0;
 	ImGui::BeginChild(xorstr("###CheatConfigs"), {240, 110}, true);
 	{
-		ImGui::Text(xorstr("Settings Cloud"));
+		ImGui::Text(xorstr("Feature Settings"));
 		if (m_ConfigsList.empty())
 		{
 			ImGui::EndChild();
@@ -262,8 +262,29 @@ void UI::CNetWorkWindow::DrawCloudSection()
 		ImGui::EndChild();
 	}
 
-	ImGui::ColorEdit3(xorstr("Loader Icon (Not Active)"), (float*)&m_LoaderTheme.m_IconColor, ImGuiColorEditFlags_NoInputs);
-	ImGui::ColorEdit3(xorstr("Loader Icon (Activated)"), (float*)&m_LoaderTheme.m_ActiveIconColor, ImGuiColorEditFlags_NoInputs);
-	ImGui::ColorEdit3(xorstr("Loader Icon (Injected)"), (float*)&m_LoaderTheme.m_InjectedColor, ImGuiColorEditFlags_NoInputs);
-	ImGui::ColorEdit3(xorstr("Loading Bar"), (float*)&m_LoaderTheme.m_LoadingColor, ImGuiColorEditFlags_NoInputs);
+    ImGui::SameLine();
+
+
+    ImGui::BeginChild(xorstr("###LoaderTheme"), {240, 110}, true);
+    {
+        ImGui::ColorEdit3(xorstr("Loader Icon (Not Active)"), (float*)&m_LoaderTheme.m_IconColor, ImGuiColorEditFlags_NoInputs);
+        ImGui::ColorEdit3(xorstr("Loader Icon (Activated)"), (float*)&m_LoaderTheme.m_ActiveIconColor, ImGuiColorEditFlags_NoInputs);
+        ImGui::ColorEdit3(xorstr("Loader Icon (Injected)"), (float*)&m_LoaderTheme.m_InjectedColor, ImGuiColorEditFlags_NoInputs);
+        ImGui::ColorEdit3(xorstr("Loading Bar"), (float*)&m_LoaderTheme.m_LoadingColor, ImGuiColorEditFlags_NoInputs);
+
+        ImGui::EndChild();
+    }
+
+}
+
+void UI::CNetWorkWindow::DrawCommunitySection()
+{
+    static auto lst = WebApi::CAVHookServerApi::Get()->GetChatList();
+    ImGui::BeginChild("###chatList", {128, 195}, true);
+    {
+        for (auto cht : lst)
+            ImGui::Button(cht.m_sName.c_str(), {110, 23});
+
+        ImGui::EndChild();
+    }
 }

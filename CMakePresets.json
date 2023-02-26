@@ -9,7 +9,7 @@
       "installDir": "${sourceDir}/cmake-build/install/${presetName}",
       "vendor": {
         "jetbrains.com/clion": {
-          "toolchain": "Visual Studio"
+          "toolchain": "Visual Studio x86"
         }
       },
       "cacheVariables": {

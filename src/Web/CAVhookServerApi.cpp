@@ -6,26 +6,11 @@ using namespace WebApi;
 
 CAVHookServerApi::CAVHookServerApi()
 {
-	POLY_MARKER;
-    m_sConnection.Connect("127.0.0.1", 7777);
-    nlohmann::json jsn;
-    jsn["type"] = 1;
-    jsn["email"] = "1@mail.ru";
-    jsn["password"] = "1235";
 
-    m_sConnection.SendJson(jsn);
-    m_sConnection.RecvString();
 }
 CUserInfo CAVHookServerApi::GetUserInfo() const
 {
-	POLY_MARKER;
-	// Download user data from server
-    nlohmann::json jsn;
-    jsn["type"] = 3;
-
-    m_sConnection.SendJson(jsn);
-
-	return m_sConnection.RecvJson();
+	return {};
 }
 void CAVHookServerApi::ChangeUserNameAndStatus(const char* name, const char* status) const 
 {
@@ -39,29 +24,13 @@ void CAVHookServerApi::ChangeUserNameAndStatus(const char* name, const char* sta
 }
 std::vector<CConfig> WebApi::CAVHookServerApi::GetListOfConfigs() const
 {
-	POLY_MARKER;
-    nlohmann::json jsn;
-    jsn["type"] = 6;
-    m_sConnection.SendJson(jsn);
 	std::vector<CConfig> cfgList;
-	for (const auto& cfgJson : m_sConnection.RecvJson()[xorstr("configs")].get<std::list<nlohmann::json>>())
-	{
-		cfgList.emplace_back(cfgJson);
-	}
+
 	return cfgList;
 }
 bool WebApi::CAVHookServerApi::UpdateConfig(const int cfgIid, const nlohmann::json& data)
 {
-	POLY_MARKER;
-	nlohmann::json postJsn;
-
-	postJsn[xorstr("id")]   = cfgIid;
-	postJsn[xorstr("data")] = data;
-    postJsn[xorstr("type")] = 5;
-    m_sConnection.SendJson(postJsn);
-
-    return m_sConnection.RecvJson()["success"].get<bool>();
-
+    return true;
 }
 std::string CAVHookServerApi::GetRawAvatarData() const
 {
@@ -123,15 +92,7 @@ CAVHookServerApi *CAVHookServerApi::Get()
 
 std::vector<Chat> CAVHookServerApi::GetChatList() const
 {
-    m_sConnection.SendJson({{"type", 11}});
-    std::vector<Chat> lst;
-    for (const auto& jsn : m_sConnection.RecvJson()["chats"].get<std::vector<nlohmann::json>>())
-    {
-        Chat chat;
-        chat.m_sName = jsn["name"].get<std::string>();
-        lst.push_back(chat);
-    }
-    return lst;
+    return {};
 }
 
 CUserInfo::CUserInfo(nlohmann::json jsn)

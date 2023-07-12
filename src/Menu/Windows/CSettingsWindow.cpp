@@ -33,7 +33,7 @@ UI::CSettingsWindow::CSettingsWindow(const LPDIRECT3DDEVICE9 pDevice, CMessageLi
 	const auto& io = ImGui::GetIO();
 	
 	static ImWchar ranges[] = { 0x1, 0xFFFD, 0 };
-	m_pFontHeaderButtons = std::unique_ptr<ImFont>(io.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 12.5f, &fontConfig, ranges));
+	m_pFontHeaderButtons = std::unique_ptr<ImFont>(io.Fonts->AddFontFromFileTTF(xorstr("C:\\Windows\\Fonts\\verdanab.ttf"), 13.f, &fontConfig, ranges));
 }
 std::string UI::CSettingsWindow::VirtualKeyNumberToString(int keyNumber)
 {
